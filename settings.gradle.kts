@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -21,4 +22,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Recordy"
 include(":app")
- 

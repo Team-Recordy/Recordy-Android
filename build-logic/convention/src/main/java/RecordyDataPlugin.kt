@@ -3,17 +3,16 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-class RecordyFeaturePlugin : Plugin<Project> {
+class RecordyDataPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            with(pluginManager){
-                apply("recordy.android.compose.library")
+            with(pluginManager) {
+                apply("recordy.android.library")
                 apply("recordy.android.hilt")
             }
 
             dependencies {
-                implementation(project(":core:ui"))
-                implementation(project(":core:designsystem"))
+                implementation(project(":core:network"))
             }
         }
     }

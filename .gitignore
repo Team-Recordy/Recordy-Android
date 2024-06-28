@@ -13,7 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
-
+.kotlin/
 # Created by https://www.toptal.com/developers/gitignore/api/git,androidstudio,android,kotlin,firebase
 # Edit at https://www.toptal.com/developers/gitignore?templates=git,androidstudio,android,kotlin,firebase
 

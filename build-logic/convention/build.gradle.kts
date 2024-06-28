@@ -13,6 +13,7 @@ dependencies {
     compileOnly(libs.android.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.ksp.gradle.plugin)
+    compileOnly(libs.compose.compiler.extension)
 }
 
 gradlePlugin {
@@ -27,6 +28,11 @@ gradlePlugin {
             implementationClass = "AndroidLibraryPlugin"
         }
 
+        register("androidComposeLibrary") {
+            id = "recordy.android.compose.library"
+            implementationClass = "AndroidComposeLibraryPlugin"
+        }
+
         register("androidHilt") {
             id = "recordy.android.hilt"
             implementationClass = "HiltPlugin"
@@ -37,14 +43,29 @@ gradlePlugin {
             implementationClass = "JavaLibraryPlugin"
         }
 
-        register("AndroidTest") {
+        register("buildConfig") {
+            id = "recordy.plugin.build.config"
+            implementationClass = "BuildConfigPlugin"
+        }
+
+        register("androidTest") {
             id = "recordy.plugin.android.test"
             implementationClass = "AndroidTestPlugin"
         }
 
-        register("UnitTest") {
+        register("unitTest") {
             id = "recordy.plugin.test"
             implementationClass = "UnitTestPlugin"
+        }
+
+        register("recordyFeature") {
+            id = "recordy.feature"
+            implementationClass = "RecordyFeaturePlugin"
+        }
+
+        register("recordyData") {
+            id = "recordy.data"
+            implementationClass = "RecordyDataPlugin"
         }
     }
 }

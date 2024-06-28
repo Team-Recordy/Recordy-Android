@@ -4,7 +4,7 @@ minSdk = "28"
 targetSdk = "34"
 jdkVersion = "17"
 versionName = "1.0.0"
-versionCode = "0"
+versionCode = "1"
 
 android-gradle-plugin = "8.5.0"
 core-ktx = "1.13.1"
@@ -41,7 +41,7 @@ androidx-datastore = "1.1.1"
 androidx-paging = "3.3.0"
 androidx-paging-compose = "3.3.0"
 
-kotlin = "1.9.0"
+kotlin = "2.0.0"
 kotlinx-coroutines = "1.7.3"
 kotlinx-serialization-json = "1.5.1"
 kotlinx-datetime = "0.4.0"
@@ -89,6 +89,7 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 google-service = { id = "com.google.gms.google-services", version.ref = "google-service" }
 navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
 android-test = { id = "com.android.test", version.ref = "android-gradle-plugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 recordy-android-application = { id = "recordy.android.application", version = "unspecified" }
 recordy-android-application-compose = { id = "recordy.android.application.compose", version = "unspecified"}
@@ -97,10 +98,11 @@ recordy-android-compose-library = { id = "recordy.android.compose.library", vers
 recordy-android-hilt = { id = "recordy.android.hilt", version = "unspecified"}
 recordy-java-library = { id = "recordy.java.library", version = "unspecified" }
 recordy-plugin-android-test = { id = "recordy.plugin.android.test", version = "unspecified" }
-recordy-plugin-feature = { id = "recordy.plugin.feature", version = "unspecified" }
+recordy-feature = { id = "recordy.plugin.feature", version = "unspecified" }
 recordy-plugin-room = { id = "recordy.plugin.room", version = "unspecified" }
-recordy-plugin-data = { id = "recordy.plugin.data", version = "unspecified" }
+recordy-data = { id = "recordy.plugin.data", version = "unspecified" }
 recordy-plugin-test = { id = "recordy.plugin.test", version = "unspecified" }
+recordy-plugin-build-config = { id = "recordy.plugin.build.config", version = "unspecified" }
 
 [libraries]
 # Dependencies of the included build-logic
@@ -134,7 +136,7 @@ activity-compose = { group = "androidx.activity", name = "activity-compose", ver
 lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigation" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidx-hilt-navigation-compose" }
-
+compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }

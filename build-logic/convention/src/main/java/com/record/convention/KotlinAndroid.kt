@@ -5,7 +5,13 @@ import com.record.convention.extension.getVersion
 import com.record.convention.extension.libs
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.support.kotlinCompilerOptions
+import org.gradle.process.internal.JvmOptions
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+import org.jetbrains.kotlin.gradle.tasks.CompilerPluginOptions
 
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
@@ -26,9 +32,7 @@ internal fun Project.configureKotlinAndroid(
             targetCompatibility = Const.JAVA_VERSION
         }
 
-        kotlinOptions {
-            jvmTarget = libs.getVersion("jvmVersion").requiredVersion
-        }
+        extensions.getByType<KotlinAndroidProjectExtension>().configureCompilerOptions()
 
         buildTypes {
             getByName("debug") {
@@ -46,15 +50,11 @@ internal fun Project.configureKotlinAndroid(
                 )
             }
         }
-
-        buildFeatures {
-            buildConfig = true
-        }
     }
 }
 
-internal fun CommonExtension<*, *, *, *, *, *>.kotlinOptions(
-    block: KotlinJvmOptions.() -> Unit,
-) {
-    (this as ExtensionAware).extensions.configure("kotlinOptions", block)
+fun KotlinAndroidProjectExtension.configureCompilerOptions() {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }

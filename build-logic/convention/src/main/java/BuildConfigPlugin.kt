@@ -1,18 +1,14 @@
 import com.android.build.gradle.LibraryExtension
-import com.record.convention.configureAndroidCompose
+import com.record.convention.configureBuildConfig
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
-class AndroidComposeLibraryPlugin : Plugin<Project> {
+class BuildConfigPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        with(target) {
-            with(pluginManager) {
-                apply("recordy.android.library")
-            }
-
+        with(target){
             extensions.configure<LibraryExtension> {
-                configureAndroidCompose(this)
+                configureBuildConfig(this)
             }
         }
     }

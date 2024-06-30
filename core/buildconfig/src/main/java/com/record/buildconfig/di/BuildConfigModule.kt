@@ -1,6 +1,6 @@
-package com.record.build_config.di
+package com.record.buildconfig.di
 
-import com.record.build_config.impl.BuildConfigFieldsProviderImpl
+import com.record.buildconfig.impl.BuildConfigFieldsProviderImpl
 import com.record.common.buildconfig.BuildConfigFieldProvider
 import dagger.Module
 import dagger.Provides

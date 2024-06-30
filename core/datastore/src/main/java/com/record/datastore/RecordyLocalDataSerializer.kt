@@ -8,14 +8,14 @@ import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
-class UserDataSerializer @Inject constructor(
-    private val securityManager: SecurityInterface,
-) : Serializer<UserData> {
+class RecordyLocalDataSerializer @Inject constructor(
+    private val securityManager: SecurityInterface
+) : Serializer<RecordyLocalData> {
     private val securityKeyAlias = "data-store"
-    override val defaultValue: UserData
-        get() = UserData()
+    override val defaultValue: RecordyLocalData
+        get() = RecordyLocalData()
 
-    override suspend fun readFrom(input: InputStream): UserData {
+    override suspend fun readFrom(input: InputStream): RecordyLocalData {
         val encryptedDataWithIv = input.readBytes()
         if (encryptedDataWithIv.size < 12) {
             return defaultValue
@@ -25,7 +25,7 @@ class UserDataSerializer @Inject constructor(
         val decryptedBytes = securityManager.decryptData(securityKeyAlias, encryptedData, iv)
         return try {
             Json.decodeFromString(
-                deserializer = UserData.serializer(),
+                deserializer = RecordyLocalData.serializer(),
                 string = decryptedBytes.decodeToString()
             )
         } catch (e: SerializationException) {
@@ -34,11 +34,11 @@ class UserDataSerializer @Inject constructor(
         }
     }
 
-    override suspend fun writeTo(t: UserData, output: OutputStream) {
+    override suspend fun writeTo(t: RecordyLocalData, output: OutputStream) {
         securityManager.encryptData(
             securityKeyAlias,
             Json.encodeToString(
-                serializer = UserData.serializer(),
+                serializer = RecordyLocalData.serializer(),
                 value = t
             )
         ).let {

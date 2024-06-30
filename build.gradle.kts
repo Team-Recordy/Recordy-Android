@@ -14,8 +14,8 @@ apply {
     from("gradle/projectDependencyGraph.gradle")
 }
 
-allprojects{
-    apply{
+allprojects {
+    apply {
         plugin(rootProject.libs.plugins.ktlint.get().pluginId)
     }
 }

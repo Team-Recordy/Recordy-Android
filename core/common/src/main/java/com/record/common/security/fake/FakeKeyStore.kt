@@ -53,7 +53,7 @@ class FakeKeyStore : KeyStoreSpi() {
         alias: String?,
         key: Key?,
         password: CharArray?,
-        chain: Array<out Certificate>?,
+        chain: Array<out Certificate>?
     ) {
         alias ?: throw NullPointerException("alias == null")
         key ?: throw NullPointerException("key == null")
@@ -63,7 +63,7 @@ class FakeKeyStore : KeyStoreSpi() {
 
     override fun engineGetEntry(
         alias: String?,
-        protParam: KeyStore.ProtectionParameter?,
+        protParam: KeyStore.ProtectionParameter?
     ): KeyStore.Entry {
         alias ?: throw NullPointerException("alias == null")
 
@@ -85,7 +85,7 @@ class FakeKeyStore : KeyStoreSpi() {
     override fun engineSetKeyEntry(
         alias: String?,
         key: ByteArray?,
-        chain: Array<out Certificate>?,
+        chain: Array<out Certificate>?
     ) {
         throw UnsupportedOperationException(
             "Operation not supported because key encoding is unknown"
@@ -125,7 +125,6 @@ class FakeKeyStore : KeyStoreSpi() {
         if (password != null) {
             throw IllegalArgumentException("password not supported")
         }
-
     }
 
     override fun engineGetCertificateChain(alias: String?): Array<Certificate> {

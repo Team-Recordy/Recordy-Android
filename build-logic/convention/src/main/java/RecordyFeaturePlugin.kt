@@ -6,7 +6,7 @@ import org.gradle.kotlin.dsl.dependencies
 class RecordyFeaturePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            with(pluginManager){
+            with(pluginManager) {
                 apply("recordy.android.compose.library")
                 apply("recordy.android.hilt")
             }
@@ -14,6 +14,7 @@ class RecordyFeaturePlugin : Plugin<Project> {
             dependencies {
                 implementation(project(":core:ui"))
                 implementation(project(":core:designsystem"))
+                implementation(project(":core:model"))
             }
         }
     }

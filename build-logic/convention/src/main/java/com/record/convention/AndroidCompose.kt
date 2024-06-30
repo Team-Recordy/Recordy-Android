@@ -4,7 +4,6 @@ import com.android.build.api.dsl.CommonExtension
 import com.record.convention.extension.debugImplementation
 import com.record.convention.extension.getBundle
 import com.record.convention.extension.getLibrary
-import com.record.convention.extension.getVersion
 import com.record.convention.extension.implementation
 import com.record.convention.extension.libs
 import org.gradle.api.Project

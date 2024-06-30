@@ -13,4 +13,5 @@ dependencies {
     implementation(projects.core.buildconfig)
     implementation(projects.core.datastore)
     implementation(projects.core.network)
+    implementation(projects.feature.navigator)
 }

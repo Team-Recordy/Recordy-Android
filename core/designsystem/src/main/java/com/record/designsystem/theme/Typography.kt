@@ -9,6 +9,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import com.record.designsystem.R
 
@@ -19,139 +20,176 @@ val PretendardRegular = FontFamily(Font(R.font.pretendard_regular, FontWeight.No
 
 @Stable
 class RecordyTypography internal constructor(
-    headlineB26: TextStyle,
-    title1B20: TextStyle,
-    title2B18: TextStyle,
-    subtitleB16: TextStyle,
-    body1M16: TextStyle,
-    body1R16: TextStyle,
-    body2M14: TextStyle,
-    body2LM14: TextStyle,
-    captionM12: TextStyle,
-    button1S16: TextStyle,
-    button2M14: TextStyle,
+    headline: TextStyle,
+    title1: TextStyle,
+    title2: TextStyle,
+    title3: TextStyle,
+    subtitle: TextStyle,
+    body1M: TextStyle,
+    body1R: TextStyle,
+    body2M: TextStyle,
+    body2L: TextStyle,
+    caption1: TextStyle,
+    caption1U: TextStyle,
+    caption2: TextStyle,
+    button1: TextStyle,
+    button2: TextStyle
 ) {
-    var headlineB26: TextStyle by mutableStateOf(headlineB26)
+    var headline: TextStyle by mutableStateOf(headline)
         private set
-    var title1B20: TextStyle by mutableStateOf(title1B20)
+    var title1: TextStyle by mutableStateOf(title1)
         private set
-    var title2B18: TextStyle by mutableStateOf(title2B18)
+    var title2: TextStyle by mutableStateOf(title2)
         private set
-    var subtitleB16: TextStyle by mutableStateOf(subtitleB16)
+    var title3: TextStyle by mutableStateOf(title3)
         private set
-    var body1M16: TextStyle by mutableStateOf(body1M16)
+    var subtitle: TextStyle by mutableStateOf(subtitle)
         private set
-    var body1R16: TextStyle by mutableStateOf(body1R16)
+    var body1M: TextStyle by mutableStateOf(body1M)
         private set
-    var body2M14: TextStyle by mutableStateOf(body2M14)
+    var body1R: TextStyle by mutableStateOf(body1R)
         private set
-    var body2LM14: TextStyle by mutableStateOf(body2LM14)
+    var body2M: TextStyle by mutableStateOf(body2M)
         private set
-    var captionM12: TextStyle by mutableStateOf(captionM12)
+    var body2L: TextStyle by mutableStateOf(body2L)
         private set
-    var button1S16: TextStyle by mutableStateOf(button1S16)
+    var caption1: TextStyle by mutableStateOf(caption1)
         private set
-    var button2M14: TextStyle by mutableStateOf(button2M14)
+    var caption1U: TextStyle by mutableStateOf(caption1U)
+        private set
+    var caption2: TextStyle by mutableStateOf(caption2)
+        private set
+    var button1: TextStyle by mutableStateOf(button1)
+        private set
+    var button2: TextStyle by mutableStateOf(button2)
         private set
 
     fun copy(
-        headlineB26: TextStyle = this.headlineB26,
-        title1B20: TextStyle = this.title1B20,
-        title2B18: TextStyle = this.title2B18,
-        subtitleB16: TextStyle = this.subtitleB16,
-        body1M16: TextStyle = this.body1M16,
-        body1R16: TextStyle = this. body1R16,
-        body2M14: TextStyle = this.body2M14,
-        body2LM14: TextStyle = this.body2LM14,
-        captionM12: TextStyle = this.captionM12,
-        button1S16: TextStyle = this.button1S16,
-        button2M14: TextStyle = this.button2M14,
+        headline: TextStyle = this.headline,
+        title1: TextStyle = this.title1,
+        title2: TextStyle = this.title2,
+        title3: TextStyle = this.title3,
+        subtitle: TextStyle = this.subtitle,
+        body1M: TextStyle = this.body1M,
+        body1R: TextStyle = this.body1R,
+        body2M: TextStyle = this.body2M,
+        body2L: TextStyle = this.body2L,
+        caption1: TextStyle = this.caption1,
+        caption1U: TextStyle = this.caption1U,
+        caption2: TextStyle = this.caption2,
+        button1: TextStyle = this.button1,
+        button2: TextStyle = this.button2
     ): RecordyTypography = RecordyTypography(
-        headlineB26,
-        title1B20,
-        title2B18,
-        subtitleB16,
-        body1M16,
-        body1R16,
-        body2M14,
-        body2LM14,
-        captionM12,
-        button1S16,
-        button2M14,
+        headline,
+        title1,
+        title2,
+        title3,
+        subtitle,
+        body1M,
+        body1R,
+        body2M,
+        body2L,
+        caption1,
+        caption1U,
+        caption2,
+        button1,
+        button2
     )
 
     fun update(other: RecordyTypography) {
-        headlineB26 = other.headlineB26
-        title1B20 = other.title1B20
-        title2B18 = other.title2B18
-        subtitleB16 = other.subtitleB16
-        body1M16 = other.body1M16
-        body1R16 = other.body1R16
-        body2M14 = other.body2M14
-        body2LM14 = other.body2LM14
-        captionM12 = other.captionM12
-        button1S16 = other.button1S16
-        button2M14 = other.button2M14
+        headline = other.headline
+        title1 = other.title1
+        title2 = other.title2
+        title3 = other.title3
+        subtitle = other.subtitle
+        body1M = other.body1M
+        body1R = other.body1R
+        body2M = other.body2M
+        body2L = other.body2L
+        caption1 = other.caption1
+        caption1U = other.caption1U
+        caption2 = other.caption2
+        button1 = other.button1
+        button2 = other.button2
     }
 }
 
 @Composable
 fun RecordyTypography(): RecordyTypography {
     return RecordyTypography(
-        headlineB26 = TextStyle(
+        headline = TextStyle(
             fontFamily = PretendardBold,
             fontSize = 26.sp,
             lineHeight = 38.sp,
+            letterSpacing = (-0.5).sp
         ),
-        title1B20 = TextStyle(
+        title1 = TextStyle(
+            fontFamily = PretendardBold,
+            fontSize = 22.sp,
+            lineHeight = 32.sp,
+            letterSpacing = (-0.5).sp
+        ),
+        title2 = TextStyle(
             fontFamily = PretendardBold,
             fontSize = 20.sp,
-            lineHeight = 24.sp,
+            lineHeight = 30.sp
         ),
-        title2B18 = TextStyle(
+        title3 = TextStyle(
             fontFamily = PretendardBold,
             fontSize = 18.sp,
             lineHeight = 24.sp
         ),
-        subtitleB16 = TextStyle(
+        subtitle = TextStyle(
             fontFamily = PretendardBold,
             fontSize = 16.sp,
-            lineHeight = 28.sp,
+            lineHeight = 28.sp
         ),
-        body1M16 = TextStyle(
+        body1M = TextStyle(
             fontFamily = PretendardMedium,
             fontSize = 16.sp,
             lineHeight = 24.sp
         ),
-        body1R16 = TextStyle(
+        body1R = TextStyle(
             fontFamily = PretendardRegular,
             fontSize = 16.sp,
-            lineHeight = 24.sp,
+            lineHeight = 24.sp
         ),
-        body2M14 = TextStyle(
+        body2M = TextStyle(
             fontFamily = PretendardMedium,
             fontSize = 14.sp,
-            lineHeight = 20.sp
+            lineHeight = 20.sp,
+            letterSpacing = (-0.5).sp
         ),
-        body2LM14 = TextStyle(
+        body2L = TextStyle(
             fontFamily = PretendardMedium,
             fontSize = 14.sp,
-            lineHeight = 24.sp,
+            lineHeight = 24.sp
         ),
-        captionM12 = TextStyle(
+        caption1 = TextStyle(
             fontFamily = PretendardMedium,
             fontSize = 12.sp,
             lineHeight = 18.sp
         ),
-        button1S16 = TextStyle(
+        caption1U = TextStyle(
+            fontFamily = PretendardMedium,
+            fontSize = 12.sp,
+            lineHeight = 18.sp,
+            textDecoration = TextDecoration.Underline
+        ),
+        caption2 = TextStyle(
+            fontFamily = PretendardMedium,
+            fontSize = 10.sp,
+            lineHeight = 18.sp
+        ),
+        button1 = TextStyle(
             fontFamily = PretendardSemiBold,
             fontSize = 16.sp,
-            lineHeight = 24.sp,
+            lineHeight = 24.sp
         ),
-        button2M14 = TextStyle(
-            fontFamily = PretendardMedium,
+        button2 = TextStyle(
+            fontFamily = PretendardSemiBold,
             fontSize = 14.sp,
             lineHeight = 20.sp
-        ),
+        )
     )
 }

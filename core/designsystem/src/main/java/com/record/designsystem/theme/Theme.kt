@@ -27,7 +27,7 @@ class RecordyColors(
     gray09: Color,
     white: Color,
     black: Color,
-    background: Color
+    background: Color,
 ) {
     var main by mutableStateOf(main)
         private set
@@ -72,7 +72,7 @@ class RecordyColors(
         gray09,
         white,
         black,
-        background
+        background,
     )
 
     fun update(other: RecordyColors) {
@@ -107,7 +107,7 @@ fun RecordyDarkColor(
     gray09: Color = Gray09,
     white: Color = White,
     black: Color = Black,
-    background: Color = Background
+    background: Color = Background,
 ) = RecordyColors(
     main,
     sub01,
@@ -122,7 +122,7 @@ fun RecordyDarkColor(
     gray09,
     white,
     black,
-    background
+    background,
 )
 
 private val LocalRecordyColors =
@@ -147,7 +147,7 @@ object RecordyTheme {
 fun provideRecordyColorsAndTypography(
     colors: RecordyColors,
     typography: RecordyTypography,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val provideColors = remember { colors.copy() }
     provideColors.update(colors)
@@ -157,7 +157,7 @@ fun provideRecordyColorsAndTypography(
     CompositionLocalProvider(
         LocalRecordyColors provides provideColors,
         LocalRecordyTypography provides provideTypography,
-        content = content
+        content = content,
     )
 }
 

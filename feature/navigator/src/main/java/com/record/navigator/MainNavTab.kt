@@ -16,22 +16,22 @@ enum class MainNavTab(
     HOME(
         iconId = R.drawable.ic_launcher_background,
         titleId = R.string.app_name,
-        route = HomeRoute.route
+        route = HomeRoute.route,
     ),
     UPLOAD(
         iconId = R.drawable.ic_launcher_background,
         titleId = R.string.app_name,
-        route = UploadRoute.route
+        route = UploadRoute.route,
     ),
     VIDEO(
         iconId = R.drawable.ic_launcher_background,
         titleId = R.string.app_name,
-        route = VideoRoute.route
+        route = VideoRoute.route,
     ),
     MYPAGE(
         iconId = R.drawable.ic_launcher_background,
         titleId = R.string.app_name,
-        route = MypageRoute.route
+        route = MypageRoute.route,
     ),
     ;
 

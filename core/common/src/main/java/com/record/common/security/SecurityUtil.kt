@@ -53,7 +53,7 @@ class SecurityUtil @Inject constructor() : SecurityInterface {
     private fun generateSecretKey(keyAlias: String): SecretKey {
         val parameterSpec = KeyGenParameterSpec.Builder(
             keyAlias,
-            PURPOSE_ENCRYPT or PURPOSE_DECRYPT
+            PURPOSE_ENCRYPT or PURPOSE_DECRYPT,
         ).run {
             setBlockModes(BLOCK_MODE_GCM)
             setEncryptionPaddings(ENCRYPTION_PADDING_NONE)

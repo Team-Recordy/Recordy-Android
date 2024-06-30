@@ -6,17 +6,17 @@ import java.security.Security
 class FakeAndroidKeyStoreProvider : Provider(
     "AndroidKeyStore",
     1.0,
-    "Fake AndroidKeyStore provider"
+    "Fake AndroidKeyStore provider",
 ) {
 
     init {
         put(
             "KeyStore.AndroidKeyStore",
-            FakeKeyStore::class.java.name
+            FakeKeyStore::class.java.name,
         )
         put(
             "KeyGenerator.AES",
-            FakeAESKeyGenerator::class.java.name
+            FakeAESKeyGenerator::class.java.name,
         )
     }
 

@@ -4,10 +4,10 @@ import com.record.model.CoreData
 
 data class RecordyData(
     val a: Int,
-    val b: String
+    val b: String,
 )
 
 fun RecordyData.toCore() = CoreData(
     a = this.a,
-    b = this.b
+    b = this.b,
 )

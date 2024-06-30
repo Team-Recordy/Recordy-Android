@@ -27,7 +27,7 @@ object NetworkModule {
     @Singleton
     @Auth
     fun provideAuthOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient =
         OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
@@ -38,7 +38,7 @@ object NetworkModule {
     @Singleton
     @NoneAuth
     fun provideNoneAuthOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient =
         OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
@@ -57,9 +57,10 @@ object NetworkModule {
     @Provides
     @Singleton
     @NoneAuth
-    fun provideNoneAuthRetrofit(@NoneAuth okHttpClient: OkHttpClient, buildConfigFieldProvider: BuildConfigFieldProvider): Retrofit = Retrofit.Builder()
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-        .baseUrl(buildConfigFieldProvider.get().baseUrl)
-        .client(okHttpClient)
-        .build()
+    fun provideNoneAuthRetrofit(@NoneAuth okHttpClient: OkHttpClient, buildConfigFieldProvider: BuildConfigFieldProvider): Retrofit =
+        Retrofit.Builder()
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .baseUrl(buildConfigFieldProvider.get().baseUrl)
+            .client(okHttpClient)
+            .build()
 }

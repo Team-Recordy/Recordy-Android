@@ -20,10 +20,10 @@ object DataStoreModule {
     @Singleton
     fun providesUserDataStore(
         @ApplicationContext context: Context,
-        recordyLocalDataSerializer: RecordyLocalDataSerializer
+        recordyLocalDataSerializer: RecordyLocalDataSerializer,
     ): DataStore<RecordyLocalData> =
         DataStoreFactory.create(
-            serializer = recordyLocalDataSerializer
+            serializer = recordyLocalDataSerializer,
         ) {
             context.dataStoreFile("recordydata.json")
         }

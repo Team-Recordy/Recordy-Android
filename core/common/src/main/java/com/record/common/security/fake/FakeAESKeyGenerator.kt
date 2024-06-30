@@ -17,14 +17,14 @@ class FakeAESKeyGenerator : KeyGeneratorSpi() {
 
     override fun engineInit(random: SecureRandom) {
         throw UnsupportedOperationException(
-            "Cannot initialize without a ${KeyGenParameterSpec::class.java.name} parameter"
+            "Cannot initialize without a ${KeyGenParameterSpec::class.java.name} parameter",
         )
     }
 
     override fun engineInit(params: AlgorithmParameterSpec?, random: SecureRandom) {
         if (params == null || params !is KeyGenParameterSpec) {
             throw InvalidAlgorithmParameterException(
-                "Cannot initialize without a ${KeyGenParameterSpec::class.java.name} parameter"
+                "Cannot initialize without a ${KeyGenParameterSpec::class.java.name} parameter",
             )
         }
         spec = params
@@ -32,7 +32,7 @@ class FakeAESKeyGenerator : KeyGeneratorSpi() {
 
     override fun engineInit(keysize: Int, random: SecureRandom?) {
         throw UnsupportedOperationException(
-            "Cannot initialize without a ${KeyGenParameterSpec::class.java.name} parameter"
+            "Cannot initialize without a ${KeyGenParameterSpec::class.java.name} parameter",
         )
     }
 
@@ -44,7 +44,7 @@ class FakeAESKeyGenerator : KeyGeneratorSpi() {
             spec.keystoreAlias,
             secretKey,
             null,
-            null
+            null,
         )
         return secretKey
     }

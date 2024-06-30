@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.build_config"
+    namespace = "com.record.buildconfig"
 }
 
 dependencies {

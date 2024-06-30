@@ -20,7 +20,7 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
             extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(this)
                 configureAndroidCompose(this)
-                with(defaultConfig){
+                with(defaultConfig) {
                     targetSdk = libs.getVersion("targetSdk").requiredVersion.toInt()
                     versionCode = libs.getVersion("versionCode").requiredVersion.toInt()
                     versionName = libs.getVersion("versionName").requiredVersion

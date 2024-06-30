@@ -4,14 +4,9 @@ import com.android.build.api.dsl.CommonExtension
 import com.record.convention.extension.getVersion
 import com.record.convention.extension.libs
 import org.gradle.api.Project
-import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.support.kotlinCompilerOptions
-import org.gradle.process.internal.JvmOptions
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.jetbrains.kotlin.gradle.tasks.CompilerPluginOptions
 
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,

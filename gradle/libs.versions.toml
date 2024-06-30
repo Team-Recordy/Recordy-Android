@@ -98,9 +98,9 @@ recordy-android-compose-library = { id = "recordy.android.compose.library", vers
 recordy-android-hilt = { id = "recordy.android.hilt", version = "unspecified"}
 recordy-java-library = { id = "recordy.java.library", version = "unspecified" }
 recordy-plugin-android-test = { id = "recordy.plugin.android.test", version = "unspecified" }
-recordy-feature = { id = "recordy.plugin.feature", version = "unspecified" }
+recordy-feature = { id = "recordy.feature", version = "unspecified" }
 recordy-plugin-room = { id = "recordy.plugin.room", version = "unspecified" }
-recordy-data = { id = "recordy.plugin.data", version = "unspecified" }
+recordy-data = { id = "recordy.data", version = "unspecified" }
 recordy-plugin-test = { id = "recordy.plugin.test", version = "unspecified" }
 recordy-plugin-build-config = { id = "recordy.plugin.build.config", version = "unspecified" }
 

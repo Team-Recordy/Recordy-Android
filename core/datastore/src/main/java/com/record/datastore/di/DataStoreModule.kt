@@ -9,8 +9,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import org.sopt.datastore.UserData
-import org.sopt.datastore.UserDataSerializer
+import org.sopt.datastore.RecordyLocalData
+import org.sopt.datastore.RecordyLocalDataSerializer
 import javax.inject.Singleton
 
 @Module
@@ -20,11 +20,11 @@ object DataStoreModule {
     @Singleton
     fun providesUserDataStore(
         @ApplicationContext context: Context,
-        userDataSerializer: UserDataSerializer,
-    ): DataStore<UserData> =
+        recordyLocalDataSerializer: RecordyLocalDataSerializer
+    ): DataStore<RecordyLocalData> =
         DataStoreFactory.create(
-            serializer = userDataSerializer,
+            serializer = recordyLocalDataSerializer
         ) {
-            context.dataStoreFile("userdata.json")
+            context.dataStoreFile("recordydata.json")
         }
 }

@@ -33,7 +33,7 @@ class RecordyTypography internal constructor(
     caption1U: TextStyle,
     caption2: TextStyle,
     button1: TextStyle,
-    button2: TextStyle
+    button2: TextStyle,
 ) {
     var headline: TextStyle by mutableStateOf(headline)
         private set
@@ -78,7 +78,7 @@ class RecordyTypography internal constructor(
         caption1U: TextStyle = this.caption1U,
         caption2: TextStyle = this.caption2,
         button1: TextStyle = this.button1,
-        button2: TextStyle = this.button2
+        button2: TextStyle = this.button2,
     ): RecordyTypography = RecordyTypography(
         headline,
         title1,
@@ -93,7 +93,7 @@ class RecordyTypography internal constructor(
         caption1U,
         caption2,
         button1,
-        button2
+        button2,
     )
 
     fun update(other: RecordyTypography) {
@@ -121,75 +121,75 @@ fun RecordyTypography(): RecordyTypography {
             fontFamily = PretendardBold,
             fontSize = 26.sp,
             lineHeight = 38.sp,
-            letterSpacing = (-0.5).sp
+            letterSpacing = (-0.5).sp,
         ),
         title1 = TextStyle(
             fontFamily = PretendardBold,
             fontSize = 22.sp,
             lineHeight = 32.sp,
-            letterSpacing = (-0.5).sp
+            letterSpacing = (-0.5).sp,
         ),
         title2 = TextStyle(
             fontFamily = PretendardBold,
             fontSize = 20.sp,
-            lineHeight = 30.sp
+            lineHeight = 30.sp,
         ),
         title3 = TextStyle(
             fontFamily = PretendardBold,
             fontSize = 18.sp,
-            lineHeight = 24.sp
+            lineHeight = 24.sp,
         ),
         subtitle = TextStyle(
             fontFamily = PretendardBold,
             fontSize = 16.sp,
-            lineHeight = 28.sp
+            lineHeight = 28.sp,
         ),
         body1M = TextStyle(
             fontFamily = PretendardMedium,
             fontSize = 16.sp,
-            lineHeight = 24.sp
+            lineHeight = 24.sp,
         ),
         body1R = TextStyle(
             fontFamily = PretendardRegular,
             fontSize = 16.sp,
-            lineHeight = 24.sp
+            lineHeight = 24.sp,
         ),
         body2M = TextStyle(
             fontFamily = PretendardMedium,
             fontSize = 14.sp,
             lineHeight = 20.sp,
-            letterSpacing = (-0.5).sp
+            letterSpacing = (-0.5).sp,
         ),
         body2L = TextStyle(
             fontFamily = PretendardMedium,
             fontSize = 14.sp,
-            lineHeight = 24.sp
+            lineHeight = 24.sp,
         ),
         caption1 = TextStyle(
             fontFamily = PretendardMedium,
             fontSize = 12.sp,
-            lineHeight = 18.sp
+            lineHeight = 18.sp,
         ),
         caption1U = TextStyle(
             fontFamily = PretendardMedium,
             fontSize = 12.sp,
             lineHeight = 18.sp,
-            textDecoration = TextDecoration.Underline
+            textDecoration = TextDecoration.Underline,
         ),
         caption2 = TextStyle(
             fontFamily = PretendardMedium,
             fontSize = 10.sp,
-            lineHeight = 18.sp
+            lineHeight = 18.sp,
         ),
         button1 = TextStyle(
             fontFamily = PretendardSemiBold,
             fontSize = 16.sp,
-            lineHeight = 24.sp
+            lineHeight = 24.sp,
         ),
         button2 = TextStyle(
             fontFamily = PretendardSemiBold,
             fontSize = 14.sp,
-            lineHeight = 20.sp
-        )
+            lineHeight = 20.sp,
+        ),
     )
 }

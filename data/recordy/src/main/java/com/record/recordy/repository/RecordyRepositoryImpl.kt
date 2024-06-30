@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class RecordyRepositoryImpl @Inject constructor(
     private val recordyLocalDataSource: RecordyLocalDataSource,
-    private val recordyRemoteDataSource: RecordyRemoteDataSource
+    private val recordyRemoteDataSource: RecordyRemoteDataSource,
 ) : RecordyRepository {
     override suspend fun getRecordy(): Result<Recordy> =
         runCatching { recordyRemoteDataSource.getRecordy().data!! }

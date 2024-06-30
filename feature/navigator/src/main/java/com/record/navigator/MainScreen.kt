@@ -75,11 +75,11 @@ internal fun MainScreen(
                 )
 
                 videoNavGraph(
-                    padding = innerPadding
+                    padding = innerPadding,
                 )
 
                 mypageNavGraph(
-                    padding = innerPadding
+                    padding = innerPadding,
                 )
             }
         },
@@ -88,9 +88,9 @@ internal fun MainScreen(
                 visible = navigator.shouldShowBottomBar(),
                 currentTab = navigator.currentTab,
                 entries = MainNavTab.entries.toImmutableList(),
-                onClickItem = navigator::navigate
+                onClickItem = navigator::navigate,
             )
-        }
+        },
     )
 }
 
@@ -107,7 +107,7 @@ private fun MainBottomNavigationBar(
         Column {
             HorizontalDivider(
                 thickness = 1.dp,
-                color = RecordyTheme.colors.black
+                color = RecordyTheme.colors.black,
             )
             Row(
                 modifier = Modifier.height(56.dp)
@@ -119,7 +119,7 @@ private fun MainBottomNavigationBar(
                             selected = tab == currentTab,
                             label = stringResource(id = titleId),
                             iconId = iconId,
-                            onClick = { onClickItem(tab) }
+                            onClick = { onClickItem(tab) },
                         )
                     }
                 }
@@ -151,7 +151,7 @@ fun RowScope.NavItem(
         )
         Text(
             text = label,
-            color = RecordyTheme.colors.black
+            color = RecordyTheme.colors.black,
         )
     }
 }

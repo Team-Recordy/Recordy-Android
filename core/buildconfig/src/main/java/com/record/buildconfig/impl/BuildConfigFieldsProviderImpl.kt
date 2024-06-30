@@ -9,6 +9,6 @@ class BuildConfigFieldsProviderImpl : BuildConfigFieldProvider {
     override fun get(): BuildConfigFields =
         BuildConfigFields(
             baseUrl = BASE_URL,
-            isDebug = DEBUG
+            isDebug = DEBUG,
         )
 }

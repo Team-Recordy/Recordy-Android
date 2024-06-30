@@ -8,7 +8,7 @@ import com.record.recordy.source.remote.RecordyRemoteDataSource
 import javax.inject.Inject
 
 class RecordyRemoteDataSourceImpl @Inject constructor(
-    private val recordyApi: RecordyApi
+    private val recordyApi: RecordyApi,
 ) : RecordyRemoteDataSource {
     override suspend fun getRecordy(): BaseResponse<ResponseGetRecordyDto> = recordyApi.getRecordy()
 

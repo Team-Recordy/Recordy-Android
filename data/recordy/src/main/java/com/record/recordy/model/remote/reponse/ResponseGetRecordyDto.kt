@@ -9,10 +9,10 @@ data class ResponseGetRecordyDto(
     @SerialName("a")
     val a: Int,
     @SerialName("b")
-    val b: String
+    val b: String,
 )
 
 fun ResponseGetRecordyDto.toDomain() = Recordy(
     a = this.a,
-    b = this.b
+    b = this.b,
 )

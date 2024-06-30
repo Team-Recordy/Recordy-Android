@@ -9,7 +9,7 @@ import java.io.OutputStream
 import javax.inject.Inject
 
 class RecordyLocalDataSerializer @Inject constructor(
-    private val securityManager: SecurityInterface
+    private val securityManager: SecurityInterface,
 ) : Serializer<RecordyLocalData> {
     private val securityKeyAlias = "data-store"
     override val defaultValue: RecordyLocalData
@@ -26,7 +26,7 @@ class RecordyLocalDataSerializer @Inject constructor(
         return try {
             Json.decodeFromString(
                 deserializer = RecordyLocalData.serializer(),
-                string = decryptedBytes.decodeToString()
+                string = decryptedBytes.decodeToString(),
             )
         } catch (e: SerializationException) {
             e.printStackTrace()
@@ -39,8 +39,8 @@ class RecordyLocalDataSerializer @Inject constructor(
             securityKeyAlias,
             Json.encodeToString(
                 serializer = RecordyLocalData.serializer(),
-                value = t
-            )
+                value = t,
+            ),
         ).let {
             output.write(it.second + it.first)
         }

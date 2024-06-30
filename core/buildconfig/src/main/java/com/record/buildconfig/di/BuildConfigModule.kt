@@ -14,6 +14,6 @@ object BuildConfigModule {
     @Provides
     @Singleton
     fun provideBuildConfigFieldsProvider(
-        buildConfigFieldProvider: BuildConfigFieldsProviderImpl
+        buildConfigFieldProvider: BuildConfigFieldsProviderImpl,
     ): BuildConfigFieldProvider = buildConfigFieldProvider
 }

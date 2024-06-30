@@ -8,7 +8,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class RecordyLocalDataSourceImpl @Inject constructor(
-    private val userPreferences: DataStore<RecordyLocalData>
+    private val userPreferences: DataStore<RecordyLocalData>,
 ) : RecordyLocalDataSource {
     override val recordyLocalData = userPreferences.data
 

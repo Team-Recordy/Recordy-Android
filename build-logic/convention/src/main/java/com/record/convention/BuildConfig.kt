@@ -14,6 +14,11 @@ internal fun Project.configureBuildConfig(
                 "BASE_URL",
                 gradleLocalProperties(rootDir, providers).getProperty("base.url")
             )
+            buildConfigField(
+                "String",
+                "KAKAO_NATIVE_KEY",
+                gradleLocalProperties(rootDir, providers).getProperty("kakao.native.key")
+            )
         }
 
         buildFeatures {

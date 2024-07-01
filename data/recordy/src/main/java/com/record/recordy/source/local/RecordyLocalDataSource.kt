@@ -1,7 +1,7 @@
 package com.record.recordy.source.local
 
+import com.record.datastore.RecordyLocalData
 import kotlinx.coroutines.flow.Flow
-import org.sopt.datastore.RecordyLocalData
 
 interface RecordyLocalDataSource {
     val recordyLocalData: Flow<RecordyLocalData>

@@ -1,4 +1,4 @@
-package org.sopt.common.security.fake
+package com.record.common.security.fake
 
 import java.io.InputStream
 import java.io.OutputStream

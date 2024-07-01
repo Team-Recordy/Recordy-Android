@@ -1,4 +1,4 @@
-package org.sopt.common.security
+package com.record.common.security
 
 interface SecurityInterface {
     fun encryptData(keyAlias: String, text: String): Pair<ByteArray, ByteArray>

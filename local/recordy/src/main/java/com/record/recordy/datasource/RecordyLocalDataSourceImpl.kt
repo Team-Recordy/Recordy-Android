@@ -2,8 +2,8 @@ package com.record.recordy.datasource
 
 import android.util.Log
 import androidx.datastore.core.DataStore
+import com.record.datastore.RecordyLocalData
 import com.record.recordy.source.local.RecordyLocalDataSource
-import org.sopt.datastore.RecordyLocalData
 import java.io.IOException
 import javax.inject.Inject
 

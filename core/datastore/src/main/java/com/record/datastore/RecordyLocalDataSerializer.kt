@@ -1,9 +1,9 @@
-package org.sopt.datastore
+package com.record.datastore
 
 import androidx.datastore.core.Serializer
+import com.record.common.security.SecurityInterface
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
-import org.sopt.common.security.SecurityInterface
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject

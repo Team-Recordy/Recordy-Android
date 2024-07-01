@@ -1,4 +1,4 @@
-package org.sopt.common.security
+package com.record.common.security
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties.BLOCK_MODE_GCM

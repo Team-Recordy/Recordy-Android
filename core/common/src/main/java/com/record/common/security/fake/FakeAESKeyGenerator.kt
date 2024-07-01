@@ -1,4 +1,4 @@
-package org.sopt.common.security.fake
+package com.record.common.security.fake
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties

@@ -1,4 +1,3 @@
 package com.record.designsystem.component.button
 
-class dummy {
-}
+class dummy

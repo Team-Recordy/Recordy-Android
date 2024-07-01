@@ -15,14 +15,15 @@ fun LoginRoute(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        Button(onClick = {}) {
+        Button(onClick = {}){
             Text("test")
         }
     }
 }
 
+
 @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
-fun LoginView() {
-    LoginRoute(PaddingValues(10.dp), Modifier)
+fun LoginView(){
+    LoginRoute(PaddingValues(10.dp),Modifier)
 }

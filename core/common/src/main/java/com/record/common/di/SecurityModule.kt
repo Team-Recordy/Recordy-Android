@@ -1,11 +1,11 @@
 package com.record.common.di
 
+import com.record.common.security.SecurityInterface
+import com.record.common.security.SecurityUtil
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import org.sopt.common.security.SecurityInterface
-import org.sopt.common.security.SecurityUtil
 import javax.inject.Singleton
 
 @Module

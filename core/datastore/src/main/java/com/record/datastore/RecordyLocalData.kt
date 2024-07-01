@@ -1,4 +1,4 @@
-package org.sopt.datastore
+package com.record.datastore
 
 import kotlinx.serialization.Serializable
 

@@ -1,4 +1,4 @@
-package org.sopt.common.security.fake
+package com.record.common.security.fake
 
 import java.security.Provider
 import java.security.Security

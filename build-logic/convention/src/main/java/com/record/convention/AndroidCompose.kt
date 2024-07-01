@@ -17,6 +17,9 @@ internal fun Project.configureAndroidCompose(
     pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
 
     commonExtension.apply {
+        buildFeatures {
+            compose = true
+        }
         extensions.getByType<ComposeCompilerGradlePluginExtension>().apply {
             enableStrongSkippingMode.set(true)
             includeSourceInformation.set(true)

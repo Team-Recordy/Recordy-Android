@@ -18,7 +18,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven(url = "https://devrepo.kakao.com/nexus/content/groups/public/")
+        maven (url = "https://devrepo.kakao.com/nexus/content/groups/public/")
     }
 }
 
@@ -32,13 +32,9 @@ include(":core:network")
 include(":core:datastore")
 include(":core:model")
 include(":data:recordy")
-include(":data:auth")
-include(":data:oauth")
 include(":local:recordy")
 include(":remote:recordy")
 include(":domain:recordy")
-include(":domain:auth")
-include(":domain:oauth")
 include(":feature:navigator")
 include(":feature:home")
 include(":feature:video")

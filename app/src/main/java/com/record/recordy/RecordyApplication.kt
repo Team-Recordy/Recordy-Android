@@ -8,7 +8,7 @@ import com.record.buildconfig.BuildConfig.KAKAO_NATIVE_KEY
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class RecordyApplication : Application(){
+class RecordyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         setKakaoSdk()

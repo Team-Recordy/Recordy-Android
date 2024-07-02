@@ -20,7 +20,7 @@ detekt = "1.23.6"
 # Kotlin Versions
 kotlin = "2.0.0"
 kotlinx-coroutines = "1.7.3"
-kotlinx-serialization-json = "1.5.1"
+kotlinx-serialization-json = "1.7.1"
 kotlinx-datetime = "0.6.0"
 kotlinx-collections = "0.3.7"
 

@@ -14,7 +14,7 @@ android-gradle-plugin = "8.5.0"
 ksp = "2.0.0-1.0.22"
 
 # Formatting Plugin Versions
-ktlint = "11.5.1"
+ktlint = "11.6.1"
 detekt = "1.23.6"
 
 # Kotlin Versions

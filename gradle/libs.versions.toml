@@ -78,7 +78,7 @@ coil = "2.6.0"
 lottie = "6.4.1"
 jsoup = "1.13.1"
 kakao-login = "2.19.0"
-process-pheonix = "2.1.2"
+process-pheonix = "2.2.0"
 preference = "1.2.1"
 
 [plugins]

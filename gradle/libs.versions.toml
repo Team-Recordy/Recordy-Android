@@ -29,7 +29,7 @@ junit = "4.13.2"
 mockito = "3.3.3"
 robolectric = "4.9"
 androidx-test-ext-junit = "1.2.1"
-androidx-test-runner = "1.6.0"
+androidx-test-runner = "1.6.1"
 androidx-test = "1.6.0"
 espresso-core = "3.6.1"
 

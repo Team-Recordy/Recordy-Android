@@ -6,7 +6,7 @@ import com.kakao.sdk.common.util.Utility
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class RecordyApplication : Application(){
+class RecordyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         val keyHash = Utility.getKeyHash(this)

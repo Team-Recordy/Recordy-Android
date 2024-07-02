@@ -69,7 +69,7 @@ hilt = "2.48"
 
 # Other Libraries Versions
 javax = "1"
-retrofit = "2.9.0"
+retrofit = "2.11.0"
 retrofit-kotlinx-serialization-json = "1.0.0"
 okhttp = "4.12.0"
 orbit = "6.1.1"

@@ -31,7 +31,7 @@ robolectric = "4.9"
 androidx-test-ext-junit = "1.2.0"
 androidx-test-runner = "1.6.0"
 androidx-test = "1.6.0"
-espresso-core = "3.6.0"
+espresso-core = "3.6.1"
 
 # AndroidX Libraries Versions
 androidx-app-compat = "1.7.0"

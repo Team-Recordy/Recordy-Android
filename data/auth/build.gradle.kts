@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.recordy"
+    namespace = "com.record.auth"
 }
 
 dependencies {

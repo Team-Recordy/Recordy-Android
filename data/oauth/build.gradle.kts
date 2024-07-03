@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    namespace = "com.record.recordy"
+    namespace = "com.record.oauth"
 }
 
 dependencies {
     implementation(projects.core.network)
     implementation(projects.core.model)
     implementation(projects.core.datastore)
-    implementation(projects.domain.auth)
+    implementation(projects.domain.oauth)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.core)

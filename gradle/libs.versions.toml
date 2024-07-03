@@ -27,7 +27,7 @@ kotlinx-collections = "0.3.7"
 # Test Libraries Versions
 junit = "4.13.2"
 mockito = "3.12.4"
-robolectric = "4.9"
+robolectric = "4.12.2"
 androidx-test-ext-junit = "1.2.1"
 androidx-test-runner = "1.6.1"
 androidx-test = "1.6.1"

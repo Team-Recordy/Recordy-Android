@@ -24,7 +24,7 @@ import com.record.designsystem.theme.RecordyTheme
 
 @Composable
 fun RecordyProgressBar(
-    completionRatio: Int
+    completionRatio: Int,
 ) {
     var progress by remember { mutableFloatStateOf(0f) }
 
@@ -48,7 +48,7 @@ fun RecordyProgressBar(
             .height(6.dp)
             .padding(horizontal = 16.dp)
             .clip(RoundedCornerShape(20.dp))
-            .background(RecordyTheme.colors.sub01)
+            .background(RecordyTheme.colors.sub01),
     ) {
         Box(
             modifier = Modifier
@@ -56,15 +56,15 @@ fun RecordyProgressBar(
                 .height(6.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(RecordyTheme.colors.main)
-                .animateContentSize()
+                .animateContentSize(),
         )
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-private fun Test(){
+private fun Test() {
     RecordyProgressBar(
-        completionRatio = 50
+        completionRatio = 50,
     )
 }

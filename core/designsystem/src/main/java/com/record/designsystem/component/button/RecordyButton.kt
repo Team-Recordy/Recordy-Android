@@ -16,22 +16,23 @@ fun RecordyButton(
     text: String,
     enabled: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = if (enabled) RecordyTheme.colors.main else RecordyTheme.colors.gray08,
-            contentColor = if (enabled) RecordyTheme.colors.gray09 else RecordyTheme.colors.gray04
+            contentColor = if (enabled) RecordyTheme.colors.gray09 else RecordyTheme.colors.gray04,
         ),
         shape = RoundedCornerShape(12.dp),
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
     ) {
         Text(
             text = text,
-            style = RecordyTheme.typography.button1)
+            style = RecordyTheme.typography.button1,
+        )
     }
 }

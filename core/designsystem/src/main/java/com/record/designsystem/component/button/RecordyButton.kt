@@ -30,6 +30,8 @@ fun RecordyButton(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
-        Text(text = text)
+        Text(
+            text = text,
+            style = RecordyTheme.typography.button1)
     }
 }

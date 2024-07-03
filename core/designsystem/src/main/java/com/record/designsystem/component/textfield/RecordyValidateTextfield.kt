@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,7 +51,7 @@ fun RecordyValidateTextfield(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
-            .clip(MaterialTheme.shapes.medium)
+            .clip(MaterialTheme.shapes.medium),
     ) {
         Row(
             modifier = Modifier
@@ -62,13 +61,15 @@ fun RecordyValidateTextfield(
                 .border(
                     width = 1.dp,
                     color = if (isFocused) {
-                        if (errorState == ValidateResult.OverlapError || errorState == ValidateResult.ValidationError){
+                        if (errorState == ValidateResult.OverlapError || errorState == ValidateResult.ValidationError) {
                             RecordyTheme.colors.alert
+                        } else {
+                            RecordyTheme.colors.main
                         }
-                        else RecordyTheme.colors.main
-                    }
-                    else Color.Transparent,
-                    shape = MaterialTheme.shapes.medium
+                    } else {
+                        Color.Transparent
+                    },
+                    shape = MaterialTheme.shapes.medium,
                 ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -88,46 +89,46 @@ fun RecordyValidateTextfield(
                 textStyle = RecordyTheme.typography.body2M.copy(color = RecordyTheme.colors.gray01),
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions,
-                singleLine = maxLines == 1
+                singleLine = maxLines == 1,
             ) { innerTextField ->
                 if (value.isEmpty() && !isFocused) {
                     Text(
                         text = placeholder,
-                        style = RecordyTheme.typography.body2M.copy(color = RecordyTheme.colors.gray04)
+                        style = RecordyTheme.typography.body2M.copy(color = RecordyTheme.colors.gray04),
                     )
                 }
                 innerTextField()
             }
         }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = when (errorState) {
-                        ValidateResult.OverlapError -> "이미 사용중인 닉네임이에요"
-                        ValidateResult.ValidationError -> "한글, 숫자, 밑줄 및 마침표만 사용할 수 있어요"
-                        ValidateResult.Success -> "사용 가능한 닉네임이에요"
-                        ValidateResult.Inputting -> ""
-                    },
-                    color = when (errorState) {
-                        ValidateResult.OverlapError, ValidateResult.ValidationError -> RecordyTheme.colors.alert
-                        ValidateResult.Success -> RecordyTheme.colors.gray03
-                        ValidateResult.Inputting -> RecordyTheme.colors.gray03
-                    },
-                    style = RecordyTheme.typography.caption2
-                )
-                Text(
-                    text = "${value.length} / $maxLength",
-                    style = RecordyTheme.typography.caption2,
-                    color = RecordyTheme.colors.gray04
-                )
-            }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = when (errorState) {
+                    ValidateResult.OverlapError -> "이미 사용중인 닉네임이에요"
+                    ValidateResult.ValidationError -> "한글, 숫자, 밑줄 및 마침표만 사용할 수 있어요"
+                    ValidateResult.Success -> "사용 가능한 닉네임이에요"
+                    ValidateResult.Inputting -> ""
+                },
+                color = when (errorState) {
+                    ValidateResult.OverlapError, ValidateResult.ValidationError -> RecordyTheme.colors.alert
+                    ValidateResult.Success -> RecordyTheme.colors.gray03
+                    ValidateResult.Inputting -> RecordyTheme.colors.gray03
+                },
+                style = RecordyTheme.typography.caption2,
+            )
+            Text(
+                text = "${value.length} / $maxLength",
+                style = RecordyTheme.typography.caption2,
+                color = RecordyTheme.colors.gray04,
+            )
         }
     }
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -153,7 +154,7 @@ fun RecordyValidateTextfieldPreview() {
                 onValueChange = {
                     text = it
                     validateNickname(it)
-                }
+                },
             )
         }
     }

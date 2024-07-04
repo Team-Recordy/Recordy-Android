@@ -53,7 +53,7 @@ fun RecordyProgressBar(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(RoundedCornerShape(20.dp))
-            .height(6.dp)
+            .height(6.dp),
     ) {
         Box(
             modifier = Modifier

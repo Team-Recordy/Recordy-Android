@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,18 +47,23 @@ fun RecordyProgressBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(6.dp)
             .padding(horizontal = 16.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .background(RecordyTheme.colors.sub01),
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(4.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(RecordyTheme.colors.sub01)
+                .align(Alignment.Center)
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth(size)
                 .height(6.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(RecordyTheme.colors.main)
-                .animateContentSize(),
+                .animateContentSize()
         )
     }
 }

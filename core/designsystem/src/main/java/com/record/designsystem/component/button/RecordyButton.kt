@@ -21,10 +21,14 @@ fun RecordyButton(
     Button(
         onClick = onClick,
         enabled = enabled,
+
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (enabled) RecordyTheme.colors.main else RecordyTheme.colors.gray08,
-            contentColor = if (enabled) RecordyTheme.colors.gray09 else RecordyTheme.colors.gray04,
+            containerColor = RecordyTheme.colors.main,
+            contentColor = RecordyTheme.colors.gray09,
+            disabledContainerColor = RecordyTheme.colors.gray08,
+            disabledContentColor = RecordyTheme.colors.gray04,
         ),
+
         shape = RoundedCornerShape(12.dp),
         modifier = modifier
             .fillMaxWidth()

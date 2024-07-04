@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,7 +25,8 @@ import com.record.designsystem.theme.RecordyTheme
 
 @Composable
 fun RecordyProgressBar(
-    completionRatio: Int,
+    completionRatioNumerator: Int,
+    completionRatioDenominator: Int,
 ) {
     var progress by remember { mutableFloatStateOf(0f) }
 
@@ -40,30 +40,34 @@ fun RecordyProgressBar(
         label = "animation",
     )
 
-    LaunchedEffect(key1 = completionRatio) {
-        progress = completionRatio / 100f
+    LaunchedEffect(key1 = completionRatioNumerator, key2 = completionRatioDenominator) {
+        progress = if (completionRatioDenominator != 0) {
+            completionRatioNumerator / completionRatioDenominator.toFloat()
+        } else {
+            0f
+        }
     }
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .height(6.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(4.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(RecordyTheme.colors.sub01)
                 .align(Alignment.Center)
+                .background(RecordyTheme.colors.sub01),
         )
         Box(
             modifier = Modifier
                 .fillMaxWidth(size)
                 .height(6.dp)
-                .clip(RoundedCornerShape(20.dp))
                 .background(RecordyTheme.colors.main)
-                .animateContentSize()
+                .animateContentSize(),
         )
     }
 }
@@ -72,6 +76,7 @@ fun RecordyProgressBar(
 @Preview(showBackground = true)
 private fun Test() {
     RecordyProgressBar(
-        completionRatio = 50,
+        completionRatioNumerator = 3,
+        completionRatioDenominator = 4,
     )
 }

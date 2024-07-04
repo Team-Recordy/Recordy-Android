@@ -36,7 +36,7 @@ import com.record.model.ValidateResult
 @Composable
 fun RecordyValidateTextfield(
     modifier: Modifier = Modifier,
-    errorState: ValidateResult = ValidateResult.Inputting,
+    errorState: ValidateResult = ValidateResult.ValidationError,
     placeholder: String = "EX) 레코디둥이들",
     maxLines: Int = 1,
     maxLength: Int = 10,
@@ -45,6 +45,10 @@ fun RecordyValidateTextfield(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Default),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     padding: PaddingValues = PaddingValues(horizontal = 16.dp),
+    overlapErrorMessage: String = "이미 사용중인 닉네임이에요",
+    validationErrorMessage: String = "한글, 숫자, 밑줄 및 마침표만 사용할 수 있어요",
+    successMessage: String = "사용 가능한 닉네임이에요",
+    inputtingMessage: String = ""
 ) {
     var value by remember { mutableStateOf("") }
     var isFocused by remember { mutableStateOf(false) }
@@ -112,10 +116,10 @@ fun RecordyValidateTextfield(
         ) {
             Text(
                 text = when (errorState) {
-                    ValidateResult.OverlapError -> "이미 사용중인 닉네임이에요"
-                    ValidateResult.ValidationError -> "한글, 숫자, 밑줄 및 마침표만 사용할 수 있어요"
-                    ValidateResult.Success -> "사용 가능한 닉네임이에요"
-                    ValidateResult.Inputting -> ""
+                    ValidateResult.OverlapError -> overlapErrorMessage
+                    ValidateResult.ValidationError -> validationErrorMessage
+                    ValidateResult.Success -> successMessage
+                    ValidateResult.Inputting -> inputtingMessage
                 },
                 color = when (errorState) {
                     ValidateResult.OverlapError, ValidateResult.ValidationError -> RecordyTheme.colors.alert
@@ -158,6 +162,10 @@ fun RecordyValidateTextfieldPreview() {
                     text = it
                     validateNickname(it)
                 },
+                overlapErrorMessage = "이미 사용중인 닉네임이에요",
+                validationErrorMessage = "한글, 숫자, 밑줄 및 마침표만 사용할 수 있어요",
+                successMessage = "사용 가능한 닉네임이에요",
+                inputtingMessage = ""
             )
         }
     }

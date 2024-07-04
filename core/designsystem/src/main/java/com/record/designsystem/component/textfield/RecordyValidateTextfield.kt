@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -29,7 +30,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.shape.RoundedCornerShape
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.ValidateResult
 
@@ -48,7 +48,7 @@ fun RecordyValidateTextfield(
     overlapErrorMessage: String = "이미 사용중인 닉네임이에요",
     validationErrorMessage: String = "한글, 숫자, 밑줄 및 마침표만 사용할 수 있어요",
     successMessage: String = "사용 가능한 닉네임이에요",
-    inputtingMessage: String = ""
+    inputtingMessage: String = "",
 ) {
     var value by remember { mutableStateOf("") }
     var isFocused by remember { mutableStateOf(false) }
@@ -165,7 +165,7 @@ fun RecordyValidateTextfieldPreview() {
                 overlapErrorMessage = "이미 사용중인 닉네임이에요",
                 validationErrorMessage = "한글, 숫자, 밑줄 및 마침표만 사용할 수 있어요",
                 successMessage = "사용 가능한 닉네임이에요",
-                inputtingMessage = ""
+                inputtingMessage = "",
             )
         }
     }

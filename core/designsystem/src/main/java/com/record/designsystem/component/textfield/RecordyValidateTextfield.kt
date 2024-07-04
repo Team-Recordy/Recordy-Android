@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,13 +28,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.ValidateResult
 
 @Composable
 fun RecordyValidateTextfield(
     modifier: Modifier = Modifier,
-    errorState: ValidateResult = ValidateResult.ValidationError,
+    errorState: ValidateResult = ValidateResult.Inputting,
     placeholder: String = "EX) 레코디둥이들",
     maxLines: Int = 1,
     maxLength: Int = 10,
@@ -46,18 +46,19 @@ fun RecordyValidateTextfield(
 ) {
     var value by remember { mutableStateOf("") }
     var isFocused by remember { mutableStateOf(false) }
+    val shape = RoundedCornerShape(8.dp)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
-            .clip(MaterialTheme.shapes.medium),
+            .clip(shape),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
-                .background(color = RecordyTheme.colors.gray08, shape = MaterialTheme.shapes.medium)
+                .background(color = RecordyTheme.colors.gray08, shape = shape)
                 .border(
                     width = 1.dp,
                     color = if (isFocused) {
@@ -69,7 +70,7 @@ fun RecordyValidateTextfield(
                     } else {
                         Color.Transparent
                     },
-                    shape = MaterialTheme.shapes.medium,
+                    shape = shape,
                 ),
             verticalAlignment = Alignment.CenterVertically,
         ) {

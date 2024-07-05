@@ -56,7 +56,7 @@ fun VideoPlayer(videoUrl: String, pagerState: PagerState, page: Int) {
 
     LaunchedEffect(pagerState.currentPage) {
         exoPlayer.playWhenReady = pagerState.currentPage == page
-        if(pagerState.currentPage != page) {
+        if (pagerState.currentPage != page) {
             exoPlayer.seekTo(0)
         }
     }

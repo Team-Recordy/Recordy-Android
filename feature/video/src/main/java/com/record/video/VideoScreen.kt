@@ -24,7 +24,7 @@ fun VideoRoute(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(padding),
+            .padding(bottom = padding.calculateBottomPadding()),
     ) {
         VideoScreen(
             state = uiState,

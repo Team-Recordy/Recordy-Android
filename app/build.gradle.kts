@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.recordy.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.recordy.android.hilt)
 }
 
 android {

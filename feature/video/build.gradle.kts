@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.record.video"
 }
+
+dependencies {
+    implementation(libs.bundles.media3)
+}

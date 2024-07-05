@@ -1,5 +1,7 @@
 package com.record.video
 
+import com.record.model.VideoData
+
 object SampleData {
     private val video1 = VideoData(
         id = "1",

@@ -11,5 +11,4 @@ data class VideoState(
     val isPlaying: Boolean = false,
 ) : UiState
 
-sealed interface VideoSideEffect : SideEffect {
-}
+sealed interface VideoSideEffect : SideEffect

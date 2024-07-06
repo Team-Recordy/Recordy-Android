@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,34 +38,39 @@ fun LoginRoute(
             .padding(padding),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.weight(22f))
+        Spacer(modifier = Modifier.weight(1f))
 
-        Image(
-            kakaoLogo(),
-            null,
-            modifier = Modifier
-                .weight(12f)
-                .aspectRatio(1f),
-        )
+        Column(
+            modifier = Modifier.wrapContentSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Image(
+                kakaoLogo(),
+                null,
+                modifier = Modifier
+                    .height(120.dp)
+                    .aspectRatio(1f),
+            )
 
-        Spacer(modifier = Modifier.weight(1.6f))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = "내 취향의 공간 발견하는 곳",
-            modifier = Modifier.weight(2.4f),
-            textAlign = TextAlign.Center,
-            style = RecordyTheme.typography.body1M.copy(color = RecordyTheme.colors.main),
-        )
+            Text(
+                text = "내 취향의 공간 발견하는 곳",
+                modifier = Modifier.height(24.dp),
+                textAlign = TextAlign.Center,
+                style = RecordyTheme.typography.body1M.copy(color = RecordyTheme.colors.main),
+            )
+        }
 
-        Spacer(modifier = Modifier.weight(22.3f))
+        Spacer(modifier = Modifier.weight(1f))
 
         Button(
             onClick = {
-//                    viewModel.loginWithKakao() // 로그인 함수 호출
+//                    viewModel.loginWithKakao() // 로그인 함수 호출`
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(4.8f),
+                .height(48.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Kakao),
             shape = RoundedCornerShape(10.dp),
         ) {
@@ -71,7 +78,7 @@ fun LoginRoute(
             Text("카카오로 시작하기", style = RecordyTheme.typography.button2.copy(color = RecordyTheme.colors.black))
         }
 
-        Spacer(modifier = Modifier.weight(9.5f))
+        Spacer(modifier = Modifier.weight(0.3f))
     }
 }
 

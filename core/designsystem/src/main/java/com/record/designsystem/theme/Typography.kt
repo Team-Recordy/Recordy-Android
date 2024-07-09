@@ -260,6 +260,6 @@ fun RecordyTypography(): RecordyTypography {
             fontSize = 12.sp,
             lineHeight = 24.sp,
             letterSpacing = (-1).sp,
-        )
+        ),
     )
 }

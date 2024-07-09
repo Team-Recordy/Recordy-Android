@@ -41,7 +41,7 @@ import com.record.designsystem.theme.Main
 import com.record.designsystem.theme.RecordyTheme
 
 @Composable
-fun BasicTextField(
+fun RecordyBasicTextField(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(8.dp),
     placeholder: String = "",
@@ -51,7 +51,7 @@ fun BasicTextField(
     isError: Boolean = false,
     maxLines: Int = 1,
     minLines: Int = 1,
-    maxLength:Int = 10,
+    maxLength: Int = 10,
     textStyle: TextStyle = RecordyTheme.typography.body2M,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -76,9 +76,7 @@ fun BasicTextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
         onValueChange = { newValue ->
-            if (newValue.length <= maxLength) {
-                onValueChange(newValue)
-            }
+            if (newValue.length <= maxLength) onValueChange(newValue)
         },
         singleLine = maxLines == 1,
         textStyle = textStyle.copy(Gray01),
@@ -94,34 +92,33 @@ fun BasicTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(
-                        min = 21.dp,
+                        min = 52.dp,
                     ),
-                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(shape = shape)
-                        .background(Gray08)
+                        .background(color = Gray08)
                         .border(
                             width = 1.dp,
                             color = borderLineColor,
-                            shape = shape
+                            shape = shape,
                         )
                         .padding(vertical = 16.dp, horizontal = 18.dp),
                     contentAlignment = Alignment.CenterStart,
                 ) {
-                    innerText()
                     if (value.isEmpty()) {
                         Text(
-                            overflow = TextOverflow.Clip,
-                            maxLines = 1,
                             text = placeholder,
                             color = Gray04,
                             style = RecordyTheme.typography.body2M,
+                            maxLines = 1,
+                            overflow = TextOverflow.Clip,
                         )
                     }
+                    innerText()
                 }
                 Box(
                     modifier = Modifier
@@ -129,27 +126,28 @@ fun BasicTextField(
                         .padding(top = 8.dp),
                 ) {
                     Text(
-                        modifier = Modifier.align(Alignment.CenterStart),
-                        maxLines = 1,
                         text = labelText,
+                        modifier = Modifier.align(Alignment.CenterStart),
                         color = labelTextColor,
                         style = RecordyTheme.typography.caption2,
+                        maxLines = 1,
                     )
                     Text(
-                        modifier = Modifier.align(Alignment.CenterEnd),
-                        maxLines = 1,
                         text = "${value.length} / $maxLength",
+                        modifier = Modifier.align(Alignment.CenterEnd),
                         color = Gray04,
                         style = RecordyTheme.typography.caption2,
+                        maxLines = 1,
                     )
                 }
             }
-        })
+        },
+    )
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
-fun BasicSmallTextFieldPreview() {
+fun TextFieldPreview() {
     RecordyTheme {
         var normalValue by remember {
             mutableStateOf("")
@@ -160,18 +158,18 @@ fun BasicSmallTextFieldPreview() {
                 .padding(vertical = 10.dp, horizontal = 10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            BasicTextField(
+            RecordyBasicTextField(
                 placeholder = "레코디",
                 value = normalValue,
                 onValueChange = { normalValue = it },
             )
-            BasicTextField(
+            RecordyBasicTextField(
                 placeholder = "레코디",
                 value = normalValue,
                 labelText = "사용 가능한 닉네임이에요",
                 onValueChange = { normalValue = it },
             )
-            BasicTextField(
+            RecordyBasicTextField(
                 placeholder = "레코디",
                 isError = true,
                 value = normalValue,
@@ -179,8 +177,8 @@ fun BasicSmallTextFieldPreview() {
                 onValueChange = { normalValue = it },
             )
 
-            BasicTextField(
-                placeholder ="레코디",
+            RecordyBasicTextField(
+                placeholder = "레코디",
                 maxLines = 20,
                 maxLength = 300,
                 value = normalValue,

@@ -28,11 +28,9 @@ fun rememberExoPlayer(context: Context, videoUrl: String): ExoPlayer {
             prepare()
         }
     }
-
     DisposableEffect(key1 = exoPlayer) {
         onDispose { exoPlayer.release() }
     }
-
     return exoPlayer
 }
 

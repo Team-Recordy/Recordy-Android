@@ -39,7 +39,9 @@ import com.record.designsystem.theme.Gray04
 import com.record.designsystem.theme.Gray08
 import com.record.designsystem.theme.Main
 import com.record.designsystem.theme.RecordyTheme
-
+/**
+ * design system small text field / Large text field 2가지 타입 구현 가능
+ * */
 @Composable
 fun RecordyBasicTextField(
     modifier: Modifier = Modifier,
@@ -76,7 +78,7 @@ fun RecordyBasicTextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
         onValueChange = { newValue ->
-            if (newValue.length <= maxLength) onValueChange(newValue)
+            if (newValue.replace(" ", "").length <= maxLength) onValueChange(newValue)
         },
         singleLine = maxLines == 1,
         textStyle = textStyle.copy(Gray01),

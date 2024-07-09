@@ -8,6 +8,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.theme.RecordyTheme
 
@@ -16,7 +17,7 @@ fun RecordyButton(
     text: String,
     enabled: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
@@ -29,7 +30,7 @@ fun RecordyButton(
             disabledContentColor = RecordyTheme.colors.gray04,
         ),
 
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(8.dp),
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
@@ -37,6 +38,18 @@ fun RecordyButton(
         Text(
             text = text,
             style = RecordyTheme.typography.button1,
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun RecordyButtonPreview() {
+    RecordyTheme {
+        RecordyButton(
+            text = "Click Me",
+            enabled = true,
+            onClick = {}
         )
     }
 }

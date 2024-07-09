@@ -1,29 +1,34 @@
 package com.record.login
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.record.ui.base.BaseViewModel
 import com.recordy.oauth.model.KakaoToken
-import com.recordy.oauth.repository.OAuthInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
-    private val kakaoAuthManager: OAuthInteractor,
-) : ViewModel() {
+class LoginViewModel @Inject constructor() : BaseViewModel<LoginState, LoginSideEffect>(LoginState()) {
 
-    private val _loginState = MutableStateFlow<Result<KakaoToken>?>(null)
-    val loginState: StateFlow<Result<KakaoToken>?> get() = _loginState
+    fun startKakaoLogin() {
+        postSideEffect(LoginSideEffect.StartLogin)
+    }
 
-    fun loginWithKakao() {
+    fun handleLoginSuccess(KakaoToken: KakaoToken) { // 로그인 성공시 작업
+        intent {
+            copy(autoLogin = true)
+        }
         viewModelScope.launch {
-            val result = kakaoAuthManager.loginByKakao()
-            Timber.tag("로그인").d("loginWithKakao: " + result)
-            _loginState.value = result
+            postSideEffect(LoginSideEffect.LoginSuccess(KakaoToken.accessToken))
+        }
+    }
+
+    fun handleLoginError(KakaoToken: String) { // 로그인 실패시 작업
+        intent {
+            copy(autoLogin = false)
+        }
+        viewModelScope.launch {
+            postSideEffect(LoginSideEffect.LoginError(KakaoToken))
         }
     }
 }

@@ -28,6 +28,7 @@ import com.record.designsystem.theme.Gray09
 import com.record.designsystem.theme.Main
 import com.record.designsystem.theme.RecordyTheme
 import com.record.designsystem.theme.Sub01
+import com.record.ui.extension.customClickable
 import timber.log.Timber
 
 /**
@@ -62,7 +63,8 @@ fun RecordyChipButton(
             .background(color = backGroundColor)
             .border(width = 1.dp, color = borderLineColor, shape = shape)
             .padding(vertical = 8.dp)
-            .padding(start = 10.dp, end = if (isActive && isCheckSmall) 6.dp else 10.dp),
+            .padding(start = 10.dp, end = if (isActive && isCheckSmall) 6.dp else 10.dp)
+            .customClickable(onClick = onClick),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

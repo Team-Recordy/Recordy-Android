@@ -17,6 +17,7 @@ val PretendardBold = FontFamily(Font(R.font.pretendard_bold, FontWeight.Bold))
 val PretendardSemiBold = FontFamily(Font(R.font.pretendard_semibold, FontWeight.SemiBold))
 val PretendardMedium = FontFamily(Font(R.font.pretendard_medium, FontWeight.Medium))
 val PretendardRegular = FontFamily(Font(R.font.pretendard_regular, FontWeight.Normal))
+val CocogooseproThin = FontFamily(Font(R.font.cocogoosepro_thin, FontWeight.Thin))
 
 @Stable
 class RecordyTypography internal constructor(
@@ -34,6 +35,12 @@ class RecordyTypography internal constructor(
     caption2: TextStyle,
     button1: TextStyle,
     button2: TextStyle,
+    number1: TextStyle,
+    number2: TextStyle,
+    number3: TextStyle,
+    keyword1: TextStyle,
+    keyword2: TextStyle,
+    keyword3: TextStyle,
 ) {
     var headline: TextStyle by mutableStateOf(headline)
         private set
@@ -63,6 +70,18 @@ class RecordyTypography internal constructor(
         private set
     var button2: TextStyle by mutableStateOf(button2)
         private set
+    var number1: TextStyle by mutableStateOf(number1)
+        private set
+    var number2: TextStyle by mutableStateOf(number2)
+        private set
+    var number3: TextStyle by mutableStateOf(number3)
+        private set
+    var keyword1: TextStyle by mutableStateOf(keyword1)
+        private set
+    var keyword2: TextStyle by mutableStateOf(keyword2)
+        private set
+    var keyword3: TextStyle by mutableStateOf(keyword3)
+        private set
 
     fun copy(
         headline: TextStyle = this.headline,
@@ -79,6 +98,12 @@ class RecordyTypography internal constructor(
         caption2: TextStyle = this.caption2,
         button1: TextStyle = this.button1,
         button2: TextStyle = this.button2,
+        number1: TextStyle = this.number1,
+        number2: TextStyle = this.number2,
+        number3: TextStyle = this.number3,
+        keyword1: TextStyle = this.keyword1,
+        keyword2: TextStyle = this.keyword2,
+        keyword3: TextStyle = this.keyword3,
     ): RecordyTypography = RecordyTypography(
         headline,
         title1,
@@ -94,6 +119,12 @@ class RecordyTypography internal constructor(
         caption2,
         button1,
         button2,
+        number1,
+        number2,
+        number3,
+        keyword1,
+        keyword2,
+        keyword3,
     )
 
     fun update(other: RecordyTypography) {
@@ -111,6 +142,12 @@ class RecordyTypography internal constructor(
         caption2 = other.caption2
         button1 = other.button1
         button2 = other.button2
+        number1 = other.number1
+        number2 = other.number2
+        number3 = other.number3
+        keyword1 = other.keyword1
+        keyword2 = other.keyword2
+        keyword3 = other.keyword3
     }
 }
 
@@ -191,5 +228,38 @@ fun RecordyTypography(): RecordyTypography {
             fontSize = 14.sp,
             lineHeight = 20.sp,
         ),
+        number1 = TextStyle(
+            fontFamily = CocogooseproThin,
+            fontSize = 42.sp,
+            lineHeight = 40.sp,
+        ),
+        number2 = TextStyle(
+            fontFamily = CocogooseproThin,
+            fontSize = 32.sp,
+            lineHeight = 40.sp,
+        ),
+        number3 = TextStyle(
+            fontFamily = CocogooseproThin,
+            fontSize = 20.sp,
+            lineHeight = 40.sp,
+        ),
+        keyword1 = TextStyle(
+            fontFamily = PretendardMedium,
+            fontSize = 17.sp,
+            lineHeight = 24.sp,
+            letterSpacing = (-1).sp,
+        ),
+        keyword2 = TextStyle(
+            fontFamily = PretendardRegular,
+            fontSize = 14.sp,
+            lineHeight = 24.sp,
+            letterSpacing = (-1).sp,
+        ),
+        keyword3 = TextStyle(
+            fontFamily = PretendardRegular,
+            fontSize = 12.sp,
+            lineHeight = 24.sp,
+            letterSpacing = (-1).sp,
+        )
     )
 }

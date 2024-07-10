@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.record.upload.UploadRoute
+import com.record.upload.VideoPickerScreen
 
 fun NavController.navigateUpload(navOptions: NavOptions) {
     navigate(UploadRoute.route, navOptions)
@@ -17,9 +17,7 @@ fun NavGraphBuilder.uploadNavGraph(
     modifier: Modifier = Modifier,
 ) {
     composable(route = UploadRoute.route) {
-        UploadRoute(
-            padding = padding,
-            modifier = modifier,
+        VideoPickerScreen(
         )
     }
 }

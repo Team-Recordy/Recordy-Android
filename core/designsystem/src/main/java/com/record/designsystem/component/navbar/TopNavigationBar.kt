@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
+import com.record.designsystem.theme.White
 
 @Composable
 fun TopNavigationBar(
@@ -41,7 +42,7 @@ fun TopNavigationBar(
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = title,
-            color = Color.White,
+            color = White,
             style = RecordyTheme.typography.title3,
         )
     }
@@ -54,7 +55,7 @@ fun RecordyTopNavigationBarPreview() {
         RecordyTheme {
             Column(
                 modifier = Modifier
-                    .background(Color.White)
+                    .background(Background)
                     .padding(vertical = 10.dp, horizontal = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {

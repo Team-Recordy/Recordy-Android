@@ -2,6 +2,7 @@ package com.record.login
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -18,11 +19,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -34,7 +42,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginRoute(
-    padding: PaddingValues = PaddingValues(vertical = 16.dp),
+    padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
@@ -68,21 +76,32 @@ fun LoginRoute(
     LoginScreen(
         padding = padding,
         modifier = modifier,
-        uiState = uiState,
         onLogInClick = { viewModel.startKakaoLogin() },
     )
 }
 
 @Composable
 fun LoginScreen(
-    padding: PaddingValues,
+    padding: PaddingValues = PaddingValues(horizontal = 16.dp),
     modifier: Modifier = Modifier,
-    uiState: LoginState,
     onLogInClick: () -> Unit,
 ) {
+    var columnSize by remember {
+        mutableStateOf(IntSize.Zero)
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
+            .onGloballyPositioned { layoutCoordinates ->
+                columnSize = layoutCoordinates.size
+            }
+            .background(
+                brush = Brush.verticalGradient(
+                    listOf(Color(0x339babfb), Color(0x00000000)),
+                    startY = columnSize.height.toFloat() * 0.1f,
+                    endY = columnSize.height.toFloat() * 0.6f,
+                ),
+            )
             .padding(padding),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -116,7 +135,8 @@ fun LoginScreen(
             onClick = onLogInClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp),
+                .height(48.dp)
+                .padding(horizontal = 16.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Kakao),
             shape = RoundedCornerShape(10.dp),
         ) {

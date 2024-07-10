@@ -32,7 +32,7 @@ fun TopNavigationBar(
     )
     Box(
         modifier = modifier
-            .background(brush = gradient)
+            .background(brush = Brush.verticalGradient(listOf(Color(0x339babfb), Color(0x00000000))))
             .fillMaxWidth()
             .padding(
                 top = 45.dp,

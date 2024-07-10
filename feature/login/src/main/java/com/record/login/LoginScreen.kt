@@ -1,5 +1,6 @@
 package com.record.login
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,23 +16,70 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.theme.Kakao
 import com.record.designsystem.theme.RecordyTheme
+import dagger.hilt.android.EntryPointAccessors
 import kakaoLogo
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginRoute(
+    padding: PaddingValues = PaddingValues(vertical = 16.dp),
+    modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current as ComponentActivity
+    val entryPoint = EntryPointAccessors.fromActivity<OAuthEntryPoint>(context)
+    val oAuthInteractor = entryPoint.getOAuthInteractor()
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                is LoginSideEffect.StartLogin -> {
+                    var result = oAuthInteractor.loginByKakao()
+                    result.onSuccess {
+                        viewModel.handleLoginSuccess(it)
+                    }.onFailure {
+                        viewModel.handleLoginError(it.message.toString())
+                    }
+                }
+
+                is LoginSideEffect.LoginSuccess -> {
+                    // 필요 시 LoginSuccess 추가 처리
+                }
+
+                is LoginSideEffect.LoginError -> {
+                    // 필요 시 LoginError 추가 처리
+                }
+            }
+        }
+    }
+    LoginScreen(
+        padding = padding,
+        modifier = modifier,
+        uiState = uiState,
+        onLogInClick = { viewModel.startKakaoLogin() },
+    )
+}
+
+@Composable
+fun LoginScreen(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
-//    viewModel: LoginViewModel = hiltViewModel(),
+    uiState: LoginState,
+    onLogInClick: () -> Unit,
 ) {
-//    val loginState by viewModel.loginState.collectAsState() // 추후 상태에 따라 이동
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -48,7 +96,7 @@ fun LoginRoute(
                 kakaoLogo(),
                 null,
                 modifier = Modifier
-                    .height(120.dp)
+                    .fillMaxWidth(0.3f)
                     .aspectRatio(1f),
             )
 
@@ -65,9 +113,7 @@ fun LoginRoute(
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
-            onClick = {
-//                    viewModel.loginWithKakao() // 로그인 함수 호출`
-            },
+            onClick = onLogInClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),

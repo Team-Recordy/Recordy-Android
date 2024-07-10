@@ -16,16 +16,14 @@ import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.Gray03
 import com.record.designsystem.theme.RecordyTheme
-
 @Composable
-fun VideoPickerRoute(
+fun CompletedUploadRoute(
     paddingValues: PaddingValues,
-    navigateSelectedKeyword: () -> Unit,
 ){
-    VideoPickerScreen()
+    CompletedUploadScreen()
 }
 @Composable
-fun VideoPickerScreen() {
+fun CompletedUploadScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -37,7 +35,7 @@ fun VideoPickerScreen() {
         ) {
             TopNavigationBar(title = "영상 선택", enableGradation = true)
             Text(
-                text = "ⓘ 최대 1분의 1080p 영상을 올려주세요.",
+                text = "ⓘ 최대 1분의 1080p 영상을 올려주세요.4",
                 color = Gray03,
                 style = RecordyTheme.typography.caption2,
                 maxLines = 1,

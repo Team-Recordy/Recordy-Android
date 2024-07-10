@@ -55,7 +55,7 @@ class SignUpViewModel @Inject constructor() : BaseViewModel<SignUpState, SignUpE
                 checkValidateNickName()
                 intent {
                     copy(title = TITLE_NAMING_NAME)
-                } 
+                }
             }
             2 -> { // todo 화면이동
                 intent {

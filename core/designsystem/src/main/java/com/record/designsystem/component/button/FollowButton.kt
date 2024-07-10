@@ -1,17 +1,11 @@
 package com.record.designsystem.component.button
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,15 +13,13 @@ import com.record.designsystem.theme.RecordyTheme
 
 @Composable
 fun FollowButton(
-    initialText: String
+    isFollowing: Boolean,
+    onClick: () -> Unit
 ) {
-    var buttonText by remember { mutableStateOf(initialText) }
-    val colors = getButtonAndTextColor(buttonText)
+    val colors = getButtonAndTextColor(isFollowing)
 
     Button(
-        onClick = {
-            buttonText = if (buttonText == "팔로우") "팔로잉" else "팔로우"
-        },
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = colors.first
         ),
@@ -35,7 +27,7 @@ fun FollowButton(
         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp),
     ) {
         Text(
-            text = buttonText,
+            text = if (isFollowing) "팔로잉" else "팔로우",
             color = colors.second,
             style = RecordyTheme.typography.button2,
         )
@@ -43,8 +35,8 @@ fun FollowButton(
 }
 
 @Composable
-fun getButtonAndTextColor(buttonText: String): Pair<Color, Color> {
-    return if (buttonText == "팔로잉") {
+fun getButtonAndTextColor(isFollowed: Boolean): Pair<Color, Color> {
+    return if (isFollowed) {
         Pair(RecordyTheme.colors.gray08, RecordyTheme.colors.white)
     } else {
         Pair(RecordyTheme.colors.white, RecordyTheme.colors.gray08)
@@ -55,6 +47,9 @@ fun getButtonAndTextColor(buttonText: String): Pair<Color, Color> {
 @Composable
 fun FollowButtonPreview() {
     RecordyTheme {
-        FollowButton(initialText = "팔로잉")
+        FollowButton(
+            isFollowing = false,
+            onClick = {}
+        )
     }
 }

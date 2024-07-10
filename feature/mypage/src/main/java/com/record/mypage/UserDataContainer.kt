@@ -15,55 +15,52 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import coil.compose.rememberAsyncImagePainter
 import com.record.designsystem.component.button.FollowButton
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.UserData
 
 @Composable
-fun CustomItem(user: UserData) {
+fun UserDataContainer(user: UserData, onClick: (UserData) -> Unit) {
     Row(
         modifier = Modifier
             .background(RecordyTheme.colors.background)
-            .fillMaxWidth()
-            .padding(vertical = 19.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = rememberAsyncImagePainter(model = user.profileImage),
+            painter = rememberAsyncImagePainter(user.profileImage),
             contentDescription = null,
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(vertical = 10.dp, horizontal = 16.dp)
                 .size(54.dp)
-                .clip(CircleShape)
-                .background(RecordyTheme.colors.gray08)
+                .clip(CircleShape),
         )
         Text(
             text = user.name,
-            color = RecordyTheme.colors.gray01
+            style = RecordyTheme.typography.body1M,
+            color = RecordyTheme.colors.white,
         )
-        Spacer(
-            modifier = Modifier
-                .weight(1f)
-                .padding(vertical = 19.dp)
-        )
+        Spacer(modifier = Modifier.weight(1f))
         FollowButton(
-            initialText = "팔로잉"
+            isFollowing = user.isFollowing,
+            onClick = { onClick(user) },
         )
-        Spacer(modifier = Modifier.padding(end = 16.dp))
+        Spacer(modifier = Modifier.size(16.dp))
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun CustomItemPreview() {
+fun UserDataContainerPreview() {
+    val sampleUser = UserData(
+        id = 1,
+        profileImage = "https://via.placeholder.com/150",
+        name = "John Doe",
+        isFollowing = false,
+    )
     RecordyTheme {
-        CustomItem(
-            user = UserData(
-                id = 0,
-                profileImage = "https://via.placeholder.com/150",
-                name = "test"
-            )
-        )
+        UserDataContainer(user = sampleUser, onClick = {})
     }
 }

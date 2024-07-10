@@ -17,8 +17,7 @@ fun NavGraphBuilder.uploadNavGraph(
     modifier: Modifier = Modifier,
 ) {
     composable(route = UploadRoute.route) {
-        VideoPickerScreen(
-        )
+        VideoPickerScreen()
     }
 }
 

@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,9 +12,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,9 +52,11 @@ internal fun MainScreen(
     }
 
     Scaffold(
-        modifier = modifier,
         content = { innerPadding ->
             NavHost(
+                modifier = modifier
+                    .background(color = RecordyTheme.colors.background)
+                    .fillMaxSize(),
                 navController = navigator.navController,
                 startDestination = navigator.startDestination,
                 enterTransition = { EnterTransition.None },
@@ -107,11 +111,11 @@ private fun MainBottomNavigationBar(
         Column {
             HorizontalDivider(
                 thickness = 1.dp,
-                color = RecordyTheme.colors.black,
+                color = RecordyTheme.colors.gray05,
             )
             Row(
-                modifier = Modifier.height(56.dp)
-                    .background(color = RecordyTheme.colors.white),
+                modifier = Modifier.height(72.dp)
+                    .background(color = RecordyTheme.colors.gray08),
             ) {
                 entries.forEach { tab ->
                     tab.run {
@@ -119,6 +123,7 @@ private fun MainBottomNavigationBar(
                             selected = tab == currentTab,
                             label = stringResource(id = titleId),
                             iconId = iconId,
+                            selectedIconId = selectedIconId,
                             onClick = { onClickItem(tab) },
                         )
                     }
@@ -134,6 +139,7 @@ fun RowScope.NavItem(
     selected: Boolean,
     label: String,
     @DrawableRes iconId: Int,
+    @DrawableRes selectedIconId: Int,
     onClick: () -> Unit,
 ) {
     Column(
@@ -144,14 +150,16 @@ fun RowScope.NavItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        val icon = if (selected) iconId else iconId
-        Icon(
+        val icon = if (selected) selectedIconId else iconId
+        Image(
+            modifier = modifier.padding(bottom = 2.dp),
             painter = painterResource(id = icon),
             contentDescription = label,
         )
         Text(
             text = label,
-            color = RecordyTheme.colors.black,
+            color = if (selected) RecordyTheme.colors.main else RecordyTheme.colors.gray04,
+            style = RecordyTheme.typography.caption1,
         )
     }
 }

@@ -21,11 +21,16 @@ import com.record.designsystem.theme.RecordyTheme
 fun VideoPickerRoute(
     paddingValues: PaddingValues,
     navigateSelectedKeyword: () -> Unit,
-){
-    VideoPickerScreen()
+) {
+    VideoPickerScreen(
+        navigateSelectedKeyword = navigateSelectedKeyword,
+    )
 }
+
 @Composable
-fun VideoPickerScreen() {
+fun VideoPickerScreen(
+    navigateSelectedKeyword: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -46,10 +51,10 @@ fun VideoPickerScreen() {
             )
         }
         RecordyButton(
-            modifier = Modifier.align(Alignment.BottomCenter),
+            modifier = Modifier.align(Alignment.Center),
             text = "다음",
             enabled = true,
-            onClick = { /*TODO*/ },
+            onClick = navigateSelectedKeyword,
         )
     }
 }

@@ -19,9 +19,10 @@ import com.record.designsystem.theme.RecordyTheme
 @Composable
 fun CompletedUploadRoute(
     paddingValues: PaddingValues,
-){
+) {
     CompletedUploadScreen()
 }
+
 @Composable
 fun CompletedUploadScreen() {
     Box(

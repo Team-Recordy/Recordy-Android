@@ -16,15 +16,19 @@ import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.Gray03
 import com.record.designsystem.theme.RecordyTheme
+
 @Composable
 fun SelectedKeywordRoute(
     paddingValues: PaddingValues,
     navigateDefinedContent: () -> Unit,
-){
-    SelectedKeywordScreen()
+) {
+    SelectedKeywordScreen(navigateDefinedContent = navigateDefinedContent)
 }
+
 @Composable
-fun SelectedKeywordScreen() {
+fun SelectedKeywordScreen(
+    navigateDefinedContent: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -48,7 +52,7 @@ fun SelectedKeywordScreen() {
             modifier = Modifier.align(Alignment.BottomCenter),
             text = "다음",
             enabled = true,
-            onClick = { /*TODO*/ },
+            onClick = navigateDefinedContent,
         )
     }
 }

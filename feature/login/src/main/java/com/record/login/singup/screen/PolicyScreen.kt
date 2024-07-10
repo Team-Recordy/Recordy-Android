@@ -44,7 +44,7 @@ fun PolicyScreen(
     onCheckPolicyClick: () -> Unit,
     onCheckAgeClick: () -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize(),verticalArrangement = Arrangement.Top) {
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
         Spacer(modifier = Modifier.height(33.dp))
         Image(
             painter = painterResource(id = ic_signup),

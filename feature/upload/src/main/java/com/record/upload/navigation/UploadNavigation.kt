@@ -14,6 +14,15 @@ import com.record.upload.VideoPickerRoute
 fun NavController.navigateUpload(navOptions: NavOptions) {
     navigate(UploadRoute.ROUTE, navOptions)
 }
+fun NavController.navigateSelectedKeyword() {
+    navigate(UploadRoute.SELECTED_KEYWORD)
+}
+fun NavController.navigateDefinedContent() {
+    navigate(UploadRoute.DEFINED_CONTENT)
+}
+fun NavController.navigateCompletedUpload() {
+    navigate(UploadRoute.COMPLETED_UPLOAD)
+}
 
 fun NavGraphBuilder.uploadNavGraph(
     padding: PaddingValues,
@@ -25,24 +34,24 @@ fun NavGraphBuilder.uploadNavGraph(
     composable(route = UploadRoute.ROUTE) {
         VideoPickerRoute(
             paddingValues = padding,
-            navigateSelectedKeyword = navigateSelectedKeyword
+            navigateSelectedKeyword = navigateSelectedKeyword,
         )
     }
     composable(route = UploadRoute.SELECTED_KEYWORD) {
         SelectedKeywordRoute(
             paddingValues = padding,
-            navigateDefinedContent = navigateDefinedContent
+            navigateDefinedContent = navigateDefinedContent,
         )
     }
     composable(route = UploadRoute.DEFINED_CONTENT) {
         DefinedContentRoute(
             paddingValues = padding,
-            navigateCompletedUpload=navigateCompletedUpload
+            navigateCompletedUpload = navigateCompletedUpload,
         )
     }
     composable(route = UploadRoute.COMPLETED_UPLOAD) {
         CompletedUploadRoute(
-            paddingValues = padding
+            paddingValues = padding,
         )
     }
 }

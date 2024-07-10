@@ -20,11 +20,16 @@ import com.record.designsystem.theme.RecordyTheme
 fun DefinedContentRoute(
     paddingValues: PaddingValues,
     navigateCompletedUpload: () -> Unit,
-){
-    DefinedContentScreen()
+) {
+    DefinedContentScreen(
+        navigateCompletedUpload = navigateCompletedUpload,
+    )
 }
+
 @Composable
-fun DefinedContentScreen() {
+fun DefinedContentScreen(
+    navigateCompletedUpload: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -48,7 +53,7 @@ fun DefinedContentScreen() {
             modifier = Modifier.align(Alignment.BottomCenter),
             text = "다음",
             enabled = true,
-            onClick = { /*TODO*/ },
+            onClick = navigateCompletedUpload,
         )
     }
 }

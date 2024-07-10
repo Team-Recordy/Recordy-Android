@@ -21,3 +21,8 @@ val Sub02 = Color(0xFF21263C)
 // System
 val Alert = Color(0xFFF56A6F)
 val Kakao = Color(0xFFFEE500)
+
+val Black20 = Color(0x33000000)
+val Black30 = Color(0x77000000)
+val Black50 = Color(0x80000000)
+val Black70 = Color(0xB3000000)

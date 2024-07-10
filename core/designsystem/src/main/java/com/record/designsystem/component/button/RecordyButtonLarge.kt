@@ -17,7 +17,7 @@ fun RecordyButtonLarge(
     text: String,
     enabled: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onClick,
@@ -49,7 +49,7 @@ private fun RecordyButtonPreview() {
         RecordyButtonLarge(
             text = "Click Me",
             enabled = true,
-            onClick = {}
+            onClick = {},
         )
     }
 }

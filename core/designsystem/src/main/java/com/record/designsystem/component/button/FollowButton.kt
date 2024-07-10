@@ -14,14 +14,14 @@ import com.record.designsystem.theme.RecordyTheme
 @Composable
 fun FollowButton(
     isFollowing: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val colors = getButtonAndTextColor(isFollowing)
 
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = colors.first
+            containerColor = colors.first,
         ),
         shape = RoundedCornerShape(8.dp),
         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp),
@@ -49,7 +49,7 @@ fun FollowButtonPreview() {
     RecordyTheme {
         FollowButton(
             isFollowing = false,
-            onClick = {}
+            onClick = {},
         )
     }
 }

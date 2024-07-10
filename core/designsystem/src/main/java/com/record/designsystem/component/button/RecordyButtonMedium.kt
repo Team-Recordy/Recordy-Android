@@ -17,7 +17,7 @@ fun RecordyButtonMedium(
     text: String,
     enabled: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onClick,
@@ -49,7 +49,7 @@ private fun RecordyButtonPreview() {
         RecordyButtonMedium(
             text = "Click Me",
             enabled = true,
-            onClick = {}
+            onClick = {},
         )
     }
 }

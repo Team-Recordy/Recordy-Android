@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,7 +31,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import com.record.designsystem.theme.Alert
 import com.record.designsystem.theme.Black
 import com.record.designsystem.theme.Gray01
@@ -54,6 +57,7 @@ fun RecordyBasicTextField(
     maxLines: Int = 1,
     minLines: Int = 1,
     maxLength: Int = 10,
+    minHeight: Dp = 52.dp,
     textStyle: TextStyle = RecordyTheme.typography.body2M,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -75,7 +79,7 @@ fun RecordyBasicTextField(
     }
 
     BasicTextField(
-        modifier = modifier.fillMaxWidth(),
+        modifier =if (minHeight==null) modifier.fillMaxWidth() else modifier.height(148.dp).fillMaxWidth(),
         value = value,
         onValueChange = { newValue ->
             if (newValue.replace(" ", "").length <= maxLength) onValueChange(newValue)
@@ -92,10 +96,7 @@ fun RecordyBasicTextField(
         decorationBox = { innerText ->
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(
-                        min = 52.dp,
-                    ),
+                    .fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Box(

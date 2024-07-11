@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
+import com.record.ui.extension.customClickable
 
 @Composable
 fun RecordyVideoText(
@@ -79,6 +80,8 @@ fun RecordyVideoText(
             ) {
                 Spacer(modifier = Modifier.height(40.dp))
                 Text(
+                    modifier = Modifier
+                        .customClickable { onNicknameClick() },
                     text = nickname,
                     style = RecordyTheme.typography.subtitle,
                     color = RecordyTheme.colors.white,
@@ -111,6 +114,8 @@ fun RecordyVideoText(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Icon(
+                modifier = Modifier
+                    .customClickable(rippleEnabled = false) { onBookmarkClick() },
                 painter = painterResource(
                     id = if (isBookmark) R.drawable.ic_bookmark_variant_40 else R.drawable.ic_bookmark_40,
                 ),
@@ -125,6 +130,8 @@ fun RecordyVideoText(
             Spacer(modifier = Modifier.height(if (isMyVideo) 16.dp else 20.dp))
             if (isMyVideo) {
                 Icon(
+                    modifier = Modifier
+                        .customClickable(rippleEnabled = false) { onDeleteClick() },
                     painter = painterResource(
                         id = R.drawable.ic_cursor_delete_40,
                     ),

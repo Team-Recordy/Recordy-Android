@@ -2,6 +2,7 @@ package com.record.mypage
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,11 +15,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,7 +31,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
@@ -42,6 +47,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.rememberImagePainter
 import com.record.designsystem.theme.RecordyTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -84,11 +90,51 @@ fun MypageScreen(
         // 프로필 , 환경 설정 icon (바로 상위 res/drawable에 위치한 24)
         // "프로필" 부분 삭오빠가 만든 컴포넌트 여기서 활용
 
-        Spacer(modifier = Modifier.height(68.dp))
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(68.dp)) // 고정 헤더용 임시 spacer
+        Spacer(modifier = Modifier.height(16.dp)) // 고정 헤더로부터 16
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
         ) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    contentAlignment = Alignment.CenterStart,
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Image(
+                            painter = rememberImagePainter(data = state.profileImg),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(52.dp)
+                                .clip(CircleShape)
+                                .background(Color.Gray)
+                        )
+                        Column {
+                            Text(
+                                text = state.nickname,
+                                style = RecordyTheme.typography.subtitle,
+                                color = RecordyTheme.colors.white,
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = buildFollowerFollowingText(state),
+                                style = RecordyTheme.typography.body2M,
+                            )
+                        }
+                    }
+                }
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             item {
                 CustomTabRow(
                     selectedTabIndex = state.mypageTab.ordinal,
@@ -137,7 +183,7 @@ fun MypageScreen(
 fun MypageScreenPreview() {
     val exampleState = MypageState(
         profileImg = "",
-        nickname = "레둥이들잉",
+        nickname = "공간수집가열글자아아",
         followerNum = 100,
         followingNum = 50,
         mypageTab = MypageTab.TASTE,
@@ -226,7 +272,7 @@ fun CustomTabRow(
                         color = textColor,
                         style = textStyle
                     )
-                    Spacer(modifier = Modifier.height(6.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }

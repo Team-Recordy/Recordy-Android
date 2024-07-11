@@ -45,7 +45,7 @@ fun RecordyLocationBadge(
             contentDescription = "cursor",
             tint = RecordyTheme.colors.gray01,
         )
-        if (location != null)
+        if (location != null) {
             Text(
                 modifier = Modifier
                     .padding(end = 12.dp),
@@ -54,6 +54,7 @@ fun RecordyLocationBadge(
                 color = RecordyTheme.colors.gray01,
                 textAlign = TextAlign.Center,
             )
+        }
     }
 }
 

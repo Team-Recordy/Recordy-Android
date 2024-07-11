@@ -12,7 +12,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.media3.common.MediaItem
-import androidx.media3.common.PlaybackException
 import androidx.media3.common.PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_FAILED
 import androidx.media3.common.PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT
 import androidx.media3.common.Player
@@ -63,10 +62,10 @@ fun VideoPlayer(videoId: Int, videoUrl: String, pagerState: PagerState, page: In
     }
 
     PlayerListener(player = exoPlayer) { event ->
-        when(event) {
+        when (event) {
             Player.EVENT_RENDERED_FIRST_FRAME -> { onPlayVideo(videoId) }
             Player.EVENT_PLAYER_ERROR -> {
-                when(exoPlayer.playerError?.errorCode){
+                when (exoPlayer.playerError?.errorCode) {
                     ERROR_CODE_IO_NETWORK_CONNECTION_FAILED -> {
                         onError("네트워크 연결 실패")
                     }

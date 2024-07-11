@@ -8,7 +8,7 @@ import androidx.media3.common.Player
 @Composable
 fun PlayerListener(
     player: Player,
-    onEvent: (Int) -> Unit
+    onEvent: (Int) -> Unit,
 ) {
     DisposableEffect(key1 = player) {
         val listener = object : Player.Listener {

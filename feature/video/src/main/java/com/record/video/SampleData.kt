@@ -17,7 +17,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video2 = VideoData(
@@ -34,7 +34,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video3 = VideoData(
@@ -51,7 +51,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video4 = VideoData(
@@ -68,7 +68,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video5 = VideoData(
@@ -85,7 +85,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video6 = VideoData(
@@ -102,7 +102,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video7 = VideoData(
@@ -119,7 +119,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video8 = VideoData(
@@ -136,7 +136,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video9 = VideoData(
@@ -153,7 +153,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video10 = VideoData(
@@ -170,7 +170,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video11 = VideoData(
@@ -187,7 +187,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     private val video12 = VideoData(
@@ -204,7 +204,7 @@ object SampleData {
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 ",
         bookmarkCount = 232,
-        isBookmark = true
+        isBookmark = true,
     )
 
     val sampleVideos = listOf(video1, video2, video3, video4, video5, video6, video7, video8, video9, video10, video11, video12)

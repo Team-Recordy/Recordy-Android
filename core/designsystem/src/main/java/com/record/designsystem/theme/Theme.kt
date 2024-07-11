@@ -28,6 +28,10 @@ class RecordyColors(
     white: Color,
     black: Color,
     background: Color,
+    black20: Color,
+    black30: Color,
+    black50: Color,
+    black70: Color,
 ) {
     var main by mutableStateOf(main)
         private set
@@ -57,6 +61,14 @@ class RecordyColors(
         private set
     var background by mutableStateOf(background)
         private set
+    var black20 by mutableStateOf(black20)
+        private set
+    var black30 by mutableStateOf(black30)
+        private set
+    var black50 by mutableStateOf(black50)
+        private set
+    var black70 by mutableStateOf(black70)
+        private set
 
     fun copy(): RecordyColors = RecordyColors(
         main,
@@ -73,6 +85,10 @@ class RecordyColors(
         white,
         black,
         background,
+        black20,
+        black30,
+        black50,
+        black70,
     )
 
     fun update(other: RecordyColors) {
@@ -90,6 +106,10 @@ class RecordyColors(
         white = other.white
         black = other.black
         background = other.background
+        black20 = other.black20
+        black30 = other.black30
+        black50 = other.black50
+        black70 = other.black70
     }
 }
 
@@ -108,6 +128,10 @@ fun RecordyDarkColor(
     white: Color = White,
     black: Color = Black,
     background: Color = Background,
+    black20: Color = Black20,
+    black30: Color = Black30,
+    black50: Color = Black50,
+    black70: Color = Black70,
 ) = RecordyColors(
     main,
     sub01,
@@ -123,6 +147,10 @@ fun RecordyDarkColor(
     white,
     black,
     background,
+    black20,
+    black30,
+    black50,
+    black70,
 )
 
 private val LocalRecordyColors =

@@ -1,6 +1,5 @@
 package com.record.mypage
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -57,13 +56,13 @@ fun PreviewFollowerScreen() {
     val sampleState = FollowState(
         followerList = listOf(
             UserData(id = 3, profileImage = "https://via.placeholder.com/150", name = "Alice Johnson", isFollowing = false),
-            UserData(id = 4, profileImage = "https://via.placeholder.com/150", name = "Bob Brown", isFollowing = false)
-        ).toPersistentList()
+            UserData(id = 4, profileImage = "https://via.placeholder.com/150", name = "Bob Brown", isFollowing = false),
+        ).toPersistentList(),
     )
     RecordyTheme {
         FollowScreen(
             followerList = sampleState.followerList,
-            onClick = {}
+            onClick = {},
         )
     }
 }

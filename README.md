@@ -51,10 +51,41 @@
 
 ## ❗ 컨벤션 규칙 및 브랜치 전략
 
-**깃 컨벤션:**  [Git Convention](https://www.notion.so/bohyunnkim/Git-Convention-d384b7b4b6c149009a88ec5409a9c694?pvs=4) </br>
-**코드 컨벤션:**  [Code Convention](https://www.notion.so/bohyunnkim/Code-Convention-bc2e0e1601554f2792131c3942984dec?pvs=4) </br>
-**브랜치 전략:**  [Branch Strategy](https://www.notion.so/bohyunnkim/Branch-Strategy-9d989f5c36ca44ffaae40e436056f966?pvs=4) </br>
+**깃 컨벤션:**  [Git Convention](https://bohyunnkim.notion.site/Git-Convention-d384b7b4b6c149009a88ec5409a9c694?pvs=74) </br>
+**코드 컨벤션:**  [Code Convention](https://bohyunnkim.notion.site/Code-Convention-bc2e0e1601554f2792131c3942984dec) </br>
+**브랜치 전략:**  [Branch Strategy](https://bohyunnkim.notion.site/Branch-Strategy-9d989f5c36ca44ffaae40e436056f966) </br>
 
 ## 🗂️ 폴더링
 
-</br>
+```bash
+├── Recordy
+├── 📁 app
+├── 📁 build-logic
+│   ├── 📁 convention
+├── 📁 core
+│   ├── 🗂️ buildconfig
+│   ├── 🗂️ common
+│   ├── 🗂️ datastore
+│   ├── 🗂️ model
+│   ├── 🗂️ network
+│   ├── 🗂️ ui
+│   ├── 🗂️ designsystem
+├── 📁 data
+│   ├── 🗂️ recordy
+├── 📁 local
+│   ├── 🗂️ recordy
+├── 📁 remote
+│   ├── 🗂️ recordy
+├── 📁 domain
+│   ├── 🗂️ recordy
+├── 📁 feature
+│   ├── 🗂️ navigator
+│   ├── 🗂️ home
+│   ├── 🗂️ login
+│   ├── 🗂️ mypage
+│   ├── 🗂️ profile
+│   ├── 🗂️ upload
+│   ├── 🗂️ video
+├── 📁 gradle
+│   ├──  libs.versions.toml
+```

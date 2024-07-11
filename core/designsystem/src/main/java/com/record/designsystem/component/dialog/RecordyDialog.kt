@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,7 @@ import com.record.designsystem.theme.RecordyTheme
 @Composable
 fun RecordyDialog(
     graphicAsset: Int? = null,
+    shape: Shape = RoundedCornerShape(8.dp),
     title: String? = null,
     subTitle: String? = null,
     positiveButtonLabel: String = "",
@@ -36,7 +38,7 @@ fun RecordyDialog(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = RecordyTheme.colors.gray08, shape = RoundedCornerShape(8.dp))
+                .background(color = RecordyTheme.colors.gray08, shape = shape)
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 24.dp, top = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -57,27 +59,24 @@ fun RecordyDialog(
                     color = RecordyTheme.colors.gray01,
                     textAlign = TextAlign.Center,
                 )
-                Spacer(modifier = Modifier.height(4.dp))
             }
-            subTitle?.let {
+            if (subTitle != null) {
                 Text(
+                    modifier = Modifier.padding(top = 4.dp, bottom = 20.dp),
                     text = subTitle,
                     style = RecordyTheme.typography.caption1,
                     color = RecordyTheme.colors.gray01,
                     textAlign = TextAlign.Center,
                 )
             }
-            Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 RecordyButton(
                     text = negativeButtonLabel,
-                    cornerShape = 8.dp,
-                    enabled = true,
+                    shape = shape,
+                    enabled = false,
                     textStyle = RecordyTheme.typography.button2,
-                    containerColor = RecordyTheme.colors.gray05,
-                    contentColor = RecordyTheme.colors.gray01,
                     onClick = { onDismissRequest() },
                     modifier = Modifier
                         .weight(1f)
@@ -85,7 +84,7 @@ fun RecordyDialog(
                 )
                 RecordyButton(
                     text = positiveButtonLabel,
-                    cornerShape = 8.dp,
+                    shape = shape,
                     enabled = true,
                     textStyle = RecordyTheme.typography.button2,
                     onClick = { onPositiveButtonClick() },

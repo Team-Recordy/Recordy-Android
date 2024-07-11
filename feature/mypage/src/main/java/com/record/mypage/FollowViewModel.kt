@@ -19,7 +19,7 @@ class FollowViewModel @Inject constructor() : BaseViewModel<FollowState, FollowS
 
             copy(
                 followingList = updatedFollowingList,
-                followerList = updatedFollowerList
+                followerList = updatedFollowerList,
             )
         }
 

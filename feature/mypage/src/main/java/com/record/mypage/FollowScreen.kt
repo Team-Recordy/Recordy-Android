@@ -41,7 +41,7 @@ fun PreviewFollowScreen() {
     RecordyTheme {
         FollowScreen(
             followingList = sampleUserList,
-            onClick = {}
+            onClick = {},
         )
     }
 }

@@ -56,13 +56,13 @@ fun PreviewFollowingScreen() {
     val sampleState = FollowState(
         followingList = listOf(
             UserData(id = 1, profileImage = "https://via.placeholder.com/150", name = "John Doe", isFollowing = true),
-            UserData(id = 2, profileImage = "https://via.placeholder.com/150", name = "Jane Smith", isFollowing = true)
-        ).toPersistentList()
+            UserData(id = 2, profileImage = "https://via.placeholder.com/150", name = "Jane Smith", isFollowing = true),
+        ).toPersistentList(),
     )
     RecordyTheme {
         FollowScreen(
             followingList = sampleState.followingList,
-            onClick = {}
+            onClick = {},
         )
     }
 }

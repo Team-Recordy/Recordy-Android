@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,9 +23,13 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,8 +40,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -83,7 +90,17 @@ fun MypageScreen(
         pageCount = { 3 },
     )
     val coroutineScope = rememberCoroutineScope()
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 15.dp, end = 16.dp), contentAlignment = Alignment.TopEnd) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_setting_24),
+            contentDescription = null,
+            modifier = Modifier.clickable {},
+            tint = RecordyTheme.colors.white,
+        )
 
+    }
     Column(
 
     ) {
@@ -104,7 +121,7 @@ fun MypageScreen(
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
                         Image(
                             painter = rememberImagePainter(data = state.profileImg),
@@ -113,7 +130,7 @@ fun MypageScreen(
                             modifier = Modifier
                                 .size(52.dp)
                                 .clip(CircleShape)
-                                .background(Color.Gray)
+                                .background(Color.Gray),
                         )
                         Column {
                             Text(
@@ -188,7 +205,7 @@ fun MypageScreenPreview() {
         followingNum = 50,
         mypageTab = MypageTab.TASTE,
     )
-    RecordyTheme{
+    RecordyTheme {
         MypageScreen(
             state = exampleState,
             onTabSelected = {},
@@ -202,13 +219,25 @@ fun CustomTabRow(
     selectedTabIndex: Int,
     onTabSelected: (MypageTab) -> Unit,
     pagerState: PagerState,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
 ) {
-    var t by remember { mutableStateOf(IntSize.Zero) }
+    val tabWidths = remember { mutableStateListOf(0f, 0f, 0f) }
+    val tabOffsets = remember { mutableStateListOf(0f, 0f, 0f) }
+
     var indicatorWidth by remember { mutableStateOf(0.dp) }
     var indicatorOffset by remember { mutableStateOf(0.dp) }
-    val configuration = LocalConfiguration.current
-    val s = configuration.screenWidthDp.dp
+
+    val animatedIndicatorWidth by animateDpAsState(targetValue = indicatorWidth)
+    val animatedIndicatorOffset by animateDpAsState(targetValue = indicatorOffset)
+
+    val density = LocalDensity.current
+
+    LaunchedEffect(selectedTabIndex) {
+        if (selectedTabIndex in tabWidths.indices) {
+            indicatorWidth = with(density) { tabWidths[selectedTabIndex].toDp() }
+            indicatorOffset = with(density) { tabOffsets[selectedTabIndex].toDp() }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -227,32 +256,6 @@ fun CustomTabRow(
                 val textColor = if (selected) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray04
                 val textStyle = if (selected) RecordyTheme.typography.body2L else RecordyTheme.typography.body2M
 
-                val textMeasurer = rememberTextMeasurer()
-                val textLayoutResult = textMeasurer.measure(
-                    text = AnnotatedString(tab.displayName),
-                    style = textStyle
-                )
-
-                val textWidth = with(LocalDensity.current) { textLayoutResult.size.width.toDp() }
-
-                if (selected) {
-                    val offset = with(LocalDensity.current) {
-                        var totalWidth = 0.dp
-                        for (i in 0 until index) {
-                            val previousTab = MypageTab.entries[i]
-                            val previousTextLayoutResult = textMeasurer.measure(
-                                text = AnnotatedString(previousTab.displayName),
-                                style = RecordyTheme.typography.body2M
-                            )
-                            totalWidth += with(LocalDensity.current) { previousTextLayoutResult.size.width.toDp() } + 50.dp // 25.dp padding on each side
-                        }
-                        totalWidth
-                    }
-
-                    indicatorWidth = textWidth
-                    indicatorOffset = offset
-                }
-
                 Column(
                     modifier = Modifier
                         .clickable {
@@ -262,7 +265,11 @@ fun CustomTabRow(
                             }
                         }
                         .onGloballyPositioned { layoutCoordinates ->
-                            t = layoutCoordinates.size/5*2
+                            val width = layoutCoordinates.size.width.toFloat()
+                            val offset = layoutCoordinates.positionInParent().x
+
+                            tabWidths[index] = width
+                            tabOffsets[index] = offset
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
@@ -279,29 +286,18 @@ fun CustomTabRow(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-        ){
-            val indicatorIndex by animateDpAsState(
-                when(pagerState.currentPage){
-                    0 -> {(s - (t.width.dp * 3) - 16.dp)/4}
-                    1 -> {(s - (t.width.dp * 3) - 16.dp)/4*2 + t.width.dp}
-                    2 -> {(s - (t.width.dp * 3) - 16.dp)/4*3 + t.width.dp * 2}
-                    else -> {s - t.width.dp}
-                })
+                .padding(horizontal = 8.dp),
+        ) {
             Box(
                 modifier = Modifier
-                    .width(t.width.dp + indicatorIndex)
+                    .width(animatedIndicatorWidth)
                     .height(2.dp)
-                    .align(Alignment.TopStart)
-                    .padding(start = indicatorIndex)
+                    .offset(x = animatedIndicatorOffset)
                     .background(color = RecordyTheme.colors.gray01)
-            ){
-
-            }
+            )
         }
     }
 }
-
 
 @Composable
 private fun buildFollowerFollowingText(state: MypageState): AnnotatedString {

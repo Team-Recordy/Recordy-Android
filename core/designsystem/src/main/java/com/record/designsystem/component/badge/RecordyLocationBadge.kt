@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,6 +21,7 @@ import com.record.designsystem.theme.RecordyTheme
 @Composable
 fun RecordyLocationBadge(
     modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(8.dp),
     location: String? = null,
     isTransparent: Boolean = false,
 ) {
@@ -27,7 +29,7 @@ fun RecordyLocationBadge(
         modifier = modifier
             .background(
                 color = if (isTransparent) Color.Transparent else RecordyTheme.colors.black50,
-                shape = RoundedCornerShape(8.dp),
+                shape = shape,
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -43,7 +45,7 @@ fun RecordyLocationBadge(
             contentDescription = "cursor",
             tint = RecordyTheme.colors.gray01,
         )
-        location?.let {
+        if (location != null)
             Text(
                 modifier = Modifier
                     .padding(end = 12.dp),
@@ -52,7 +54,6 @@ fun RecordyLocationBadge(
                 color = RecordyTheme.colors.gray01,
                 textAlign = TextAlign.Center,
             )
-        }
     }
 }
 

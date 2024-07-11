@@ -106,8 +106,9 @@ fun SignUpRoute(
             modifier = Modifier
                 .fillMaxSize(),
         ) { page ->
-            when (page) {
-                0 -> PolicyScreen(
+
+            when (SignUpScreen.fromScreenNumber(page)) {
+                SignUpScreen.Policy -> PolicyScreen(
                     padding = padding,
                     uiState = uiState,
                     onCheckAllClick = viewModel::allCheckEvent,
@@ -116,8 +117,8 @@ fun SignUpRoute(
                     onCheckAgeClick = viewModel::checkAgeEvent,
                 )
 
-                1 -> NamingScreen(uiState = uiState, onTextChangeEvent = viewModel::updateNickName)
-                2 -> SignUpSucessScreen()
+                SignUpScreen.Naming -> NamingScreen(uiState = uiState, onTextChangeEvent = viewModel::updateNickName)
+                SignUpScreen.Success -> SignUpSucessScreen()
             }
         }
     }
@@ -157,6 +158,19 @@ fun PreviewSignUp(
     RecordyTheme {
         Box(modifier = Modifier.background(color = RecordyTheme.colors.background)) {
             SignUpRoute(padding = padding, viewModel = viewModel)
+        }
+    }
+}
+
+enum class SignUpScreen(val screenNumber: Int) {
+    Policy(0),
+    Naming(1),
+    Success(2),
+    ;
+
+    companion object {
+        fun fromScreenNumber(screenNumber: Int): SignUpScreen {
+            return entries.firstOrNull { it.screenNumber == screenNumber } ?: Success
         }
     }
 }

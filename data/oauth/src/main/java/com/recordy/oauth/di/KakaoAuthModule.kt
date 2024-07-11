@@ -1,5 +1,6 @@
 package com.recordy.oauth.di
 
+import com.recordy.oauth.repository.KakaoAuthManager
 import com.recordy.oauth.repository.OAuthInteractor
 import dagger.Binds
 import dagger.Module
@@ -13,6 +14,6 @@ abstract class KakaoAuthModule {
     @Binds
     @ActivityScoped
     abstract fun provideKakaoAuthRepository(
-        kakaoAuthInteractor: com.recordy.oauth.repository.KakaoAuthManager,
+        kakaoAuthInteractor: KakaoAuthManager,
     ): OAuthInteractor
 }

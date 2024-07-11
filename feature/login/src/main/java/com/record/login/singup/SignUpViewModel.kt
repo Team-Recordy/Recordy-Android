@@ -91,7 +91,7 @@ class SignUpViewModel @Inject constructor() : BaseViewModel<SignUpState, SignUpE
             }
         }
 
-    fun nickNameRegex(nickname: String): Boolean = Regex(NICKNAME_PATTERN).matches(nickname)
+    fun nickNameRegex(nickname: String): Boolean = NICKNAME_PATTERN.matches(nickname)
     fun nickNameDuplication(nickname: String): Boolean = true
 
     private fun allChecked() {
@@ -105,7 +105,7 @@ class SignUpViewModel @Inject constructor() : BaseViewModel<SignUpState, SignUpE
     }
 
     companion object {
-        const val NICKNAME_PATTERN = "^[가-힣ㄱ-ㅎㅏ-ㅣ0-9_]+$"
+        val NICKNAME_PATTERN = Regex("^[가-힣ㄱ-ㅎㅏ-ㅣ0-9_]+$")
         const val TITLE_POLICY_NAME = "이용약관"
         const val TITLE_NAMING_NAME = "닉네임 설명"
         const val TITLE_SIGNUP_NAME = "회원가입 완료"

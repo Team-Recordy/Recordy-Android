@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(): BaseViewModel<MainState,MainSideEffect>(MainState()) {
+class MainViewModel @Inject constructor() : BaseViewModel<MainState, MainSideEffect>(MainState()) {
     fun onShowSnackbar(msg: String, type: SnackBarType) = viewModelScope.launch {
         intent { copy(snackBarMessage = msg, snackBarType = type, snackBarVisible = true) }
         delay(3000L)

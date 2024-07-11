@@ -11,7 +11,7 @@ data class VideoState(
     val isAll: Boolean = true,
     val isPlaying: Boolean = false,
     val showDeleteDialog: Boolean = false,
-    val deleteVideoId: Int = 0
+    val deleteVideoId: Int = 0,
 ) : UiState
 
 sealed interface VideoSideEffect : SideEffect {

@@ -22,7 +22,7 @@ fun NavGraphBuilder.videoNavGraph(
         VideoRoute(
             padding = padding,
             modifier = modifier,
-            onShowSnackbar = onShowSnackBar
+            onShowSnackbar = onShowSnackBar,
         )
     }
 }

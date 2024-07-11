@@ -9,6 +9,6 @@ data class MainState(
     val snackBarType: SnackBarType = SnackBarType.CHECK,
     val snackBarMessage: String = "",
     val snackBarBottomPadding: Int = 40,
-): UiState
+) : UiState
 
-sealed interface MainSideEffect: SideEffect
+sealed interface MainSideEffect : SideEffect

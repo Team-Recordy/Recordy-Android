@@ -85,7 +85,7 @@ internal fun MainScreen(
 
                 videoNavGraph(
                     padding = innerPadding,
-                    onShowSnackBar = viewModel::onShowSnackbar
+                    onShowSnackBar = viewModel::onShowSnackbar,
                 )
 
                 mypageNavGraph(

@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.record.model.UserData
 import com.record.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -12,21 +13,22 @@ class FollowViewModel @Inject constructor() : BaseViewModel<FollowState, FollowS
 
     fun toggleFollow(user: UserData) {
         intent {
-            val newList = uiState.value.userList.toMutableList()
+            val currentList = uiState.value.userList
+            val newList = currentList.toMutableList()
             val index = newList.indexOfFirst { it.id == user.id }
             if (index >= 0) {
                 val updatedUser = newList[index].copy(isFollowing = !newList[index].isFollowing)
                 newList[index] = updatedUser
             }
 
-            copy(userList = newList)
+            copy(userList = newList.toPersistentList())
         }
 
         viewModelScope.launch {
             if (user.isFollowing) {
-                postSideEffect(FollowSideEffect.Following)
-            } else {
                 postSideEffect(FollowSideEffect.UnFollowing)
+            } else {
+                postSideEffect(FollowSideEffect.Following)
             }
         }
     }

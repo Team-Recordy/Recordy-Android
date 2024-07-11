@@ -36,7 +36,7 @@ import com.record.model.ValidateResult
 @Composable
 fun RecordyValidateTextfield(
     modifier: Modifier = Modifier,
-    errorState: ValidateResult = ValidateResult.ValidationError,
+    errorState: ValidateResult = ValidateResult.Inputting,
     placeholder: String = "EX) 레코디둥이들",
     maxLines: Int = 1,
     maxLength: Int = 10,
@@ -46,8 +46,8 @@ fun RecordyValidateTextfield(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     padding: PaddingValues = PaddingValues(horizontal = 16.dp),
     overlapErrorMessage: String = "이미 사용중인 닉네임이에요",
-    validationErrorMessage: String = "한글, 숫자, 밑줄 및 마침표만 사용할 수 있어요",
-    successMessage: String = "사용 가능한 닉네임이에요",
+    validationErrorMessage: String = "ⓘ 한글, 숫자, 밑줄 및 마침표만 사용할 수 있어요",
+    successMessage: String = "ⓘ 사용 가능한 닉네임이에요",
     inputtingMessage: String = "",
 ) {
     var value by remember { mutableStateOf("") }
@@ -56,7 +56,8 @@ fun RecordyValidateTextfield(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .wrapContentHeight()
+            .fillMaxWidth()
             .padding(padding)
             .clip(shape),
     ) {

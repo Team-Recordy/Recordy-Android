@@ -14,5 +14,8 @@ dependencies {
     implementation(projects.core.buildconfig)
     implementation(projects.core.datastore)
     implementation(projects.core.network)
+    implementation(projects.data.oauth)
+    implementation(projects.domain.oauth)
     implementation(projects.feature.navigator)
+    implementation(libs.kakao.login)
 }

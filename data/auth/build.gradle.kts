@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.recordy.data)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.recordy.android.hilt)
 }
 
 android {
-    namespace = "com.record.recordy"
+    namespace = "com.record.auth"
 }
 
 dependencies {

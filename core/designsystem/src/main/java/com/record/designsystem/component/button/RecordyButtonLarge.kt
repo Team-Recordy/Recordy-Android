@@ -41,15 +41,3 @@ fun RecordyButtonLarge(
         )
     }
 }
-
-@Composable
-@Preview(showBackground = true)
-private fun RecordyButtonPreview() {
-    RecordyTheme {
-        RecordyButtonLarge(
-            text = "Click Me",
-            enabled = true,
-            onClick = {},
-        )
-    }
-}

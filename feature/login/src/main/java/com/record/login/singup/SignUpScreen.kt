@@ -39,7 +39,7 @@ import com.record.designsystem.component.progressbar.RecordyProgressBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.login.singup.screen.NamingScreen
 import com.record.login.singup.screen.PolicyScreen
-import com.record.login.singup.screen.SignUpSucessScreen
+import com.record.login.singup.screen.SignUpSuccessScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -79,8 +79,8 @@ fun SignUpRoute(
             .background(
                 brush = Brush.verticalGradient(
                     listOf(Color(0x339babfb), Color(0x00000000)),
-                    startY = columnSize.height.toFloat() * 0.1f,
-                    endY = columnSize.height.toFloat() * 0.6f,
+                    startY = columnSize.height.toFloat() * 0f,
+                    endY = columnSize.height.toFloat() * 0.3f,
                 ),
             ),
     ) {
@@ -118,7 +118,7 @@ fun SignUpRoute(
                 )
 
                 SignUpScreen.Naming -> NamingScreen(uiState = uiState, onTextChangeEvent = viewModel::updateNickName)
-                SignUpScreen.Success -> SignUpSucessScreen()
+                SignUpScreen.Success -> SignUpSuccessScreen()
             }
         }
     }

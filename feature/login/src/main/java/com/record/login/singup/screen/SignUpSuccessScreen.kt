@@ -11,22 +11,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.R.drawable.ic_signup
+import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 
 @Composable
-fun SignUpSucessScreen() {
+fun SignUpSuccessScreen() {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(174.dp))
         Image(
-            painter = painterResource(id = ic_signup),
+            painter = painterResource(id = R.drawable.img_bubble_checked),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth(0.3f)
                 .aspectRatio(1f),
+            contentScale = ContentScale.Crop,
         )
         Spacer(modifier = Modifier.height(36.dp))
         Text(
@@ -45,8 +47,8 @@ fun SignUpSucessScreen() {
 
 @Preview
 @Composable
-fun PreviewSignUpSucessScreen() {
+fun PreviewSignUpSuccessScreen() {
     RecordyTheme {
-        SignUpSucessScreen()
+        SignUpSuccessScreen()
     }
 }

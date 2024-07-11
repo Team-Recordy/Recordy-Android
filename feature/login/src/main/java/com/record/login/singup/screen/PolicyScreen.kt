@@ -25,13 +25,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.R.drawable.ic_check_16
-import com.record.designsystem.R.drawable.ic_check_24
-import com.record.designsystem.R.drawable.ic_signup
+import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 import com.record.login.singup.SignUpState
 
@@ -47,12 +46,13 @@ fun PolicyScreen(
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
         Spacer(modifier = Modifier.height(33.dp))
         Image(
-            painter = painterResource(id = ic_signup),
+            painter = painterResource(id = R.drawable.img_onboarding),
             null,
             modifier = Modifier
                 .width(84.dp)
                 .padding(start = 12.dp)
                 .aspectRatio(1f),
+            contentScale = ContentScale.Crop,
         )
         Spacer(modifier = Modifier.height(9.dp))
         Text(
@@ -110,7 +110,7 @@ fun RecordyCheckAllBox(contentText: String = "", padding: PaddingValues, checked
             modifier = Modifier.fillMaxWidth(),
         ) {
             Icon(
-                ImageVector.vectorResource(id = ic_check_24),
+                ImageVector.vectorResource(id = R.drawable.ic_check_24),
                 contentDescription = null,
                 modifier = Modifier
                     .height(24.dp)
@@ -146,7 +146,7 @@ fun RecordyCheckBox(contentText: String = "", padding: PaddingValues, checked: B
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Icon(
-                    ImageVector.vectorResource(id = ic_check_16),
+                    ImageVector.vectorResource(id = R.drawable.ic_check_16),
                     contentDescription = null,
                     modifier = Modifier
                         .animateContentSize { initialValue, targetValue -> }

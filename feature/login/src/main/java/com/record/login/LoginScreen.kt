@@ -28,16 +28,18 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.record.designsystem.R
 import com.record.designsystem.theme.Kakao
 import com.record.designsystem.theme.RecordyTheme
+import com.record.login.singup.SignUpRoute
 import dagger.hilt.android.EntryPointAccessors
-import kakaoLogo
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -73,11 +75,12 @@ fun LoginRoute(
             }
         }
     }
-    LoginScreen(
-        padding = padding,
-        modifier = modifier,
-        onLogInClick = { viewModel.startKakaoLogin() },
-    )
+    SignUpRoute()
+//    LoginScreen(
+//        padding = padding,
+//        modifier = modifier,
+//        onLogInClick = { viewModel.startKakaoLogin() },
+//    )
 }
 
 @Composable
@@ -112,7 +115,7 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                kakaoLogo(),
+                painterResource(id = R.drawable.ic_kakao_16),
                 null,
                 modifier = Modifier
                     .fillMaxWidth(0.3f)
@@ -140,7 +143,7 @@ fun LoginScreen(
             colors = ButtonDefaults.buttonColors(containerColor = Kakao),
             shape = RoundedCornerShape(10.dp),
         ) {
-            Image(kakaoLogo(), null, modifier = Modifier.padding(end = 8.dp))
+            Image(painterResource(id = com.record.designsystem.R.drawable.ic_kakao_16), null, modifier = Modifier.padding(end = 8.dp))
             Text("카카오로 시작하기", style = RecordyTheme.typography.button2.copy(color = RecordyTheme.colors.black))
         }
 

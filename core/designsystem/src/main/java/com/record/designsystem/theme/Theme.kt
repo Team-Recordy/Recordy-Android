@@ -23,6 +23,7 @@ class RecordyColors(
     gray03: Color,
     gray04: Color,
     gray05: Color,
+    gray06: Color,
     gray08: Color,
     gray09: Color,
     white: Color,
@@ -50,6 +51,8 @@ class RecordyColors(
     var gray04 by mutableStateOf(gray04)
         private set
     var gray05 by mutableStateOf(gray05)
+        private set
+    var gray06 by mutableStateOf(gray06)
         private set
     var gray08 by mutableStateOf(gray08)
         private set
@@ -80,6 +83,7 @@ class RecordyColors(
         gray03,
         gray04,
         gray05,
+        gray06,
         gray08,
         gray09,
         white,
@@ -101,6 +105,7 @@ class RecordyColors(
         gray03 = other.gray03
         gray04 = other.gray04
         gray05 = other.gray05
+        gray06 = other.gray06
         gray08 = other.gray08
         gray09 = other.gray09
         white = other.white
@@ -123,6 +128,7 @@ fun RecordyDarkColor(
     gray03: Color = Gray03,
     gray04: Color = Gray04,
     gray05: Color = Gray05,
+    gray06: Color = Gray06,
     gray08: Color = Gray08,
     gray09: Color = Gray09,
     white: Color = White,
@@ -142,6 +148,7 @@ fun RecordyDarkColor(
     gray03,
     gray04,
     gray05,
+    gray06,
     gray08,
     gray09,
     white,

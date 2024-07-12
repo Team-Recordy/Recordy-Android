@@ -15,14 +15,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.record.designsystem.theme.RecordyTheme
-import com.record.model.UserData
-import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -51,7 +48,7 @@ fun FollowerRoute(
             .background(RecordyTheme.colors.background)
             .padding(padding),
     ) {
-        if(uiState.followerList.isEmpty()) {
+        if (uiState.followerList.isEmpty()) {
             EmptyFollowerScreen()
         } else {
             FollowScreen(
@@ -72,7 +69,7 @@ fun EmptyFollowerScreen() {
         contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
                 painter = rememberAsyncImagePainter("https://picsum.photos/id/200/200"),
@@ -88,4 +85,3 @@ fun EmptyFollowerScreen() {
         }
     }
 }
-

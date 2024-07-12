@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.record.designsystem.component.container.UserDataContainer
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.UserData
 import kotlinx.collections.immutable.ImmutableList

@@ -95,7 +95,16 @@ fun VideoPickerScreen(
     if (hasPermission) {
         Log.d("galley","hasPermission")
     } else {
-       Log.d("galley not permission","hasPermission")
+        scope.launch {
+            permissionLauncher.launch(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    arrayOf(Manifest.permission.READ_MEDIA_VIDEO)
+                } else {
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            )
+        }
+       Log.d("galleynotPermissio ","hasPermission")
     }
     Box(
         modifier = Modifier

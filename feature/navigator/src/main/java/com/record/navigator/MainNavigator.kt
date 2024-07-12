@@ -11,6 +11,7 @@ import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.home.navigation.HomeRoute
 import com.record.home.navigation.navigateHome
 import com.record.login.navigation.LoginRoute
+import com.record.login.navigation.SignupRoute
 import com.record.mypage.navigation.navigateMypage
 import com.record.profile.navigation.navigateProfile
 import com.record.video.navigation.navigateVideo
@@ -55,6 +56,14 @@ internal class MainNavigator(
 
     fun navigateLogin() {
         navController.navigate(LoginRoute.route) {
+            popUpTo(navController.graph.id) {
+                inclusive = true
+            }
+        }
+    }
+
+    fun navigateSignUp() {
+        navController.navigate(SignupRoute.route) {
             popUpTo(navController.graph.id) {
                 inclusive = true
             }

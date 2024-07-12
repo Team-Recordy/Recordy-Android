@@ -18,4 +18,6 @@ data class SignUpState(
     val title: String = "이용약관",
 ) : UiState
 
-sealed interface SignUpEffect : SideEffect
+sealed interface SignUpEffect : SideEffect {
+    data object NavigateToHome : SignUpEffect
+}

@@ -69,6 +69,8 @@ internal fun MainScreen(
             ) {
                 loginNavGraph(
                     padding = innerPadding,
+                    navigateToHome = navigator::navigateHome,
+                    navigateToSignUp = navigator::navigateSignUp,
                 )
 
                 homeNavGraph(

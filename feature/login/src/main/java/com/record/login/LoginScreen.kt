@@ -38,7 +38,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.R
 import com.record.designsystem.theme.Kakao
 import com.record.designsystem.theme.RecordyTheme
-import com.record.login.singup.SignUpRoute
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.flow.collectLatest
 
@@ -47,6 +46,8 @@ fun LoginRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
+    navigateToHome: () -> Unit,
+    navigateToSignUp: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current as ComponentActivity
@@ -57,7 +58,7 @@ fun LoginRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is LoginSideEffect.StartLogin -> {
-                    var result = oAuthInteractor.loginByKakao()
+                    val result = oAuthInteractor.loginByKakao()
                     result.onSuccess {
                         viewModel.handleLoginSuccess(it)
                     }.onFailure {
@@ -66,7 +67,7 @@ fun LoginRoute(
                 }
 
                 is LoginSideEffect.LoginSuccess -> {
-                    // 필요 시 LoginSuccess 추가 처리
+                    navigateToSignUp()
                 }
 
                 is LoginSideEffect.LoginError -> {
@@ -75,12 +76,12 @@ fun LoginRoute(
             }
         }
     }
-    SignUpRoute()
-//    LoginScreen(
-//        padding = padding,
-//        modifier = modifier,
-//        onLogInClick = { viewModel.startKakaoLogin() },
-//    )
+
+    LoginScreen(
+        padding = padding,
+        modifier = modifier,
+        onLogInClick = { viewModel.startKakaoLogin() },
+    )
 }
 
 @Composable
@@ -155,6 +156,6 @@ fun LoginScreen(
 @Composable
 fun LoginView() {
     RecordyTheme {
-        LoginRoute(padding = PaddingValues(horizontal = 16.dp), modifier = Modifier.fillMaxSize())
+        LoginRoute(padding = PaddingValues(horizontal = 16.dp), modifier = Modifier.fillMaxSize(), navigateToHome = {}, navigateToSignUp = {})
     }
 }

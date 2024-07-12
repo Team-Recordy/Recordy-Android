@@ -57,10 +57,13 @@ class SignUpViewModel @Inject constructor() : BaseViewModel<SignUpState, SignUpE
                     copy(title = TITLE_NAMING_NAME)
                 }
             }
-            2 -> { // todo 화면이동
+            2 -> {
                 intent {
                     copy(title = TITLE_SIGNUP_NAME)
                 }
+            }
+            3 -> {
+                postSideEffect(SignUpEffect.NavigateToHome)
             }
         }
     }

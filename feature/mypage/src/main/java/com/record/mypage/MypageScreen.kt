@@ -175,15 +175,15 @@ fun MypageScreen(
             ) { page ->
                 when (page) {
                     MypageTab.TASTE.ordinal -> {
-                        TasteScreen(tasteData)
+                        TasteScreen(tasteData, 3)
                     }
 
                     MypageTab.RECORD.ordinal -> {
-                        RecordScreen(emptyList())
+                        RecordScreen(emptyList(), 0)
                     }
 
                     MypageTab.BOOKMARK.ordinal -> {
-                        BookmarkScreen(emptyList())
+                        BookmarkScreen(emptyList(), 0)
                     }
                 }
             }

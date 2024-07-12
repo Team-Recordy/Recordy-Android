@@ -1,7 +1,7 @@
 ![리드미용 유영](https://github.com/Team-Recordy/Recordy-Android/assets/109855280/6eb852d9-2a07-4426-bc09-1b8c6dc982b2) </br>
 
 ## 🌊 유영
-<span style="color:#ADD8E6">**유저가 ‘공간’을 ‘영상’으로 디깅하고, 나만의 ‘공간 취향’을 발견하는 서비스**</span>
+**유저가 ‘공간’을 ‘영상’으로 디깅하고, 나만의 ‘공간 취향’을 발견하는 서비스**
 
 ## 🔢 목차
 [프로젝트 설명](#프로젝트-설명) </br>
@@ -45,7 +45,7 @@
 |<img src="https://avatars.githubusercontent.com/u/113014331?v=4" width="128" />|<img src="https://avatars.githubusercontent.com/u/75840431?v=4" width="128" />|<img src="https://avatars.githubusercontent.com/u/93514333?v=4" width="128" />|<img src="https://avatars.githubusercontent.com/u/109855280?v=4" width="128" />|<img src="https://avatars.githubusercontent.com/u/102652293?v=4" width="128"/>|
 |:---------:|:---------:|:---------:|:---------:|:---------:|
 |[👑우상욱](https://github.com/Sangwook123)|[김명석](https://github.com/cacaocoffee)|[이삭](https://github.com/lsakee)|[이나경](https://github.com/nagaeng)|[윤서희](https://github.com/seohee0925)|
-| `상욱오빠거` | `명석오빠거` | `삭오빠거` | `나경이거` | `서희언니거` |
+| `홈, 영상` | `로그인` | `기록` | `프로필` | `팔로잉/팔로워, 상대` |
 
 
 

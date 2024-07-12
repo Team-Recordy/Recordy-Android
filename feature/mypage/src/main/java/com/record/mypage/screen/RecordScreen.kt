@@ -29,7 +29,12 @@ fun RecordScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCou
         EmptyDataScreen(
             imageRes = R.drawable.img_for_empty,
             message = "내 첫 번째 공간 기록을 작성해 보세요",
-            recordCount = recordCount
+            recordCount = recordCount,
+            showButton = true,
+            showRecordCount = true,
+            onButtonClick = {
+                // 기록 모달로 넘어가는 부분
+            }
         )
     } else {
         Box(
@@ -44,7 +49,7 @@ fun RecordScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCou
                     contentAlignment = Alignment.TopEnd,
                 ) {
                     Text(
-                        text = "● $recordCount 개의 기록",
+                        text = "• $recordCount 개의 기록",
                         style = RecordyTheme.typography.body2M,
                         color = RecordyTheme.colors.gray01,
                     )
@@ -82,6 +87,8 @@ fun RecordScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCou
         }
     }
 }
+
+
 @Preview
 @Composable
 fun PreviewRecordScreenWithSampleList() {

@@ -25,7 +25,7 @@ import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.theme.RecordyTheme
 
 @Composable
-fun EmptyDataScreen(imageRes: Int, message: String, recordCount: Int) {
+fun EmptyDataScreen(imageRes: Int, message: String, recordCount: Int, showButton: Boolean, showRecordCount: Boolean, onButtonClick: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,17 +33,19 @@ fun EmptyDataScreen(imageRes: Int, message: String, recordCount: Int) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.TopEnd,
-        ) {
-            Text(
-                text = "• $recordCount 개의 기록",
-                style = RecordyTheme.typography.body2M,
-                color = RecordyTheme.colors.gray01,
-            )
+        if (showRecordCount) {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.TopEnd,
+            ) {
+                Text(
+                    text = "• $recordCount 개의 기록",
+                    style = RecordyTheme.typography.body2M,
+                    color = RecordyTheme.colors.gray01,
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
-        Spacer(modifier = Modifier.height(16.dp))
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -62,18 +64,20 @@ fun EmptyDataScreen(imageRes: Int, message: String, recordCount: Int) {
                 textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.height(42.dp))
-            BasicButton(
-                modifier = Modifier.height(44.dp).fillMaxWidth(0.3f),
-                text = "기록하기",
-                textStyle = RecordyTheme.typography.button2,
-                textColor = RecordyTheme.colors.gray09,
-                backgroundColor = RecordyTheme.colors.main,
-                padding = PaddingValues(16.dp),
-                shape = RoundedCornerShape(8.dp),
-                onClick = {
-
-                }
-            )
+            if (showButton) {
+                BasicButton(
+                    modifier = Modifier
+                        .height(44.dp)
+                        .fillMaxWidth(0.33f),
+                    text = "기록하러 가기",
+                    textStyle = RecordyTheme.typography.button2,
+                    textColor = RecordyTheme.colors.gray06,
+                    backgroundColor = RecordyTheme.colors.gray01,
+                    padding = PaddingValues(horizontal = 20.dp, vertical = 12.dp,),
+                    shape = RoundedCornerShape(30.dp),
+                    onClick = onButtonClick
+                )
+            }
         }
     }
 }

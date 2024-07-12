@@ -95,7 +95,7 @@ internal fun MainScreen(
 
                 uploadNavGraph(
                     padding = innerPadding,
-                    navigateSelectedKeyword = navigator::navigateSelectedKeyword,
+                    navigateSelectedVideo = navigator::navigateSelectedVideo,
                     navigateDefinedContent = navigator::navigateDefinedContent,
                     navigateCompletedUpload = navigator::navigateCompletedUpload,
                 )

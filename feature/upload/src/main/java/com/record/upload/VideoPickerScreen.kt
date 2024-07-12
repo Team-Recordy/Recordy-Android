@@ -1,5 +1,8 @@
 package com.record.upload
 
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,9 +21,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,26 +37,29 @@ import com.record.designsystem.component.textfield.RecordyBasicTextField
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Composable
 fun VideoPickerRoute(
     paddingValues: PaddingValues,
-    navigateSelectedKeyword: () -> Unit,
+    navigateSelectedVideo: () -> Unit,
 ) {
     VideoPickerScreen(
-        navigateSelectedKeyword = navigateSelectedKeyword,
-        onClickPickVideo = {},
+        navigateSelectedVideo = navigateSelectedVideo,
         onClickKeyword = {}
     )
 }
 
 @Composable
 fun VideoPickerScreen(
-    navigateSelectedKeyword: () -> Unit,
-    onClickPickVideo: () -> Unit = {},
+    navigateSelectedVideo: () -> Unit,
     onClickKeyword: () -> Unit = {},
 ) {
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     var normalValue by remember {
         mutableStateOf("")
     }
@@ -65,7 +73,7 @@ fun VideoPickerScreen(
                 .align(Alignment.TopCenter)
                 .verticalScroll(rememberScrollState()),
         ) {
-            TopNavigationBar(title = "영상 선택", enableGradation = true)
+            TopNavigationBar(title = "내용 작성", enableGradation = true)
             Text(
                 text = "ⓘ 주제와 무관한 기록은 무통보로 삭제될 수 있습니다",
                 color = RecordyTheme.colors.gray03,
@@ -83,7 +91,7 @@ fun VideoPickerScreen(
             Box(
                 modifier = Modifier
                     .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(16.dp))
-                    .customClickable(onClick = onClickPickVideo),
+                    .customClickable(onClick = navigateSelectedVideo),
             ) {
                 Column(
                     modifier = Modifier
@@ -98,7 +106,7 @@ fun VideoPickerScreen(
                         modifier = Modifier.padding(bottom = 12.dp)
                     )
                     Text(
-                        text = "내용 작성",
+                        text = "영상 선택",
                         color = RecordyTheme.colors.white,
                         style = RecordyTheme.typography.subtitle,
                     )
@@ -170,6 +178,6 @@ fun VideoPickerScreen(
 @Composable
 fun VideoPickerScreenPreview() {
     RecordyTheme {
-        VideoPickerScreen(navigateSelectedKeyword = { /*TODO*/ })
+        VideoPickerScreen(navigateSelectedVideo = { /*TODO*/ })
     }
 }

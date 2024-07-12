@@ -8,14 +8,14 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.record.upload.CompletedUploadRoute
 import com.record.upload.DefinedContentRoute
-import com.record.upload.SelectedKeywordRoute
+import com.record.upload.SelectedVideoRoute
 import com.record.upload.VideoPickerRoute
 
 fun NavController.navigateUpload(navOptions: NavOptions) {
     navigate(UploadRoute.ROUTE, navOptions)
 }
-fun NavController.navigateSelectedKeyword() {
-    navigate(UploadRoute.SELECTED_KEYWORD)
+fun NavController.navigateSelectedVideo() {
+    navigate(UploadRoute.SELECTED_VIDEO)
 }
 fun NavController.navigateDefinedContent() {
     navigate(UploadRoute.DEFINED_CONTENT)
@@ -27,18 +27,18 @@ fun NavController.navigateCompletedUpload() {
 fun NavGraphBuilder.uploadNavGraph(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
-    navigateSelectedKeyword: () -> Unit,
+    navigateSelectedVideo: () -> Unit,
     navigateDefinedContent: () -> Unit,
     navigateCompletedUpload: () -> Unit,
 ) {
     composable(route = UploadRoute.ROUTE) {
         VideoPickerRoute(
             paddingValues = padding,
-            navigateSelectedKeyword = navigateSelectedKeyword,
+            navigateSelectedVideo = navigateSelectedVideo,
         )
     }
-    composable(route = UploadRoute.SELECTED_KEYWORD) {
-        SelectedKeywordRoute(
+    composable(route = UploadRoute.SELECTED_VIDEO) {
+        SelectedVideoRoute(
             paddingValues = padding,
             navigateDefinedContent = navigateDefinedContent,
         )
@@ -58,7 +58,7 @@ fun NavGraphBuilder.uploadNavGraph(
 
 object UploadRoute {
     const val ROUTE = "upload"
-    const val SELECTED_KEYWORD = "selected-keyword"
+    const val SELECTED_VIDEO = "selected-video"
     const val DEFINED_CONTENT = "defined-content"
     const val COMPLETED_UPLOAD = "completed-upload"
 }

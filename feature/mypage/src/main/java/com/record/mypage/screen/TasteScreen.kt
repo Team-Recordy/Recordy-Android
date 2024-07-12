@@ -79,6 +79,7 @@ fun TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCoun
                     // TasteScreen의 버튼 클릭 처리
                 }
             )
+
         } else {
             Box(
                 modifier = Modifier
@@ -97,6 +98,7 @@ fun TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCoun
                         },
                     contentScale = ContentScale.FillWidth,
                 )
+
             }
         }
     }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,10 +23,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -56,6 +64,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberImagePainter
 import com.record.designsystem.theme.RecordyTheme
+import com.record.mypage.screen.BookmarkScreen
+import com.record.mypage.screen.RecordScreen
+import com.record.mypage.screen.TasteScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -90,107 +101,93 @@ fun MypageScreen(
         pageCount = { 3 },
     )
     val coroutineScope = rememberCoroutineScope()
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(top = 15.dp, end = 16.dp), contentAlignment = Alignment.TopEnd) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 15.dp, end = 16.dp),
+        contentAlignment = Alignment.TopEnd,
+    ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_setting_24),
             contentDescription = null,
             modifier = Modifier.clickable {},
             tint = RecordyTheme.colors.white,
         )
-
     }
     Column(
-
+        modifier = Modifier.fillMaxSize(),
     ) {
-        // 프로필 , 환경 설정 icon (바로 상위 res/drawable에 위치한 24)
-        // "프로필" 부분 삭오빠가 만든 컴포넌트 여기서 활용
-
         Spacer(modifier = Modifier.height(68.dp)) // 고정 헤더용 임시 spacer
         Spacer(modifier = Modifier.height(16.dp)) // 고정 헤더로부터 16
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+
+        Column(
+            modifier = Modifier.fillMaxHeight(),
         ) {
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    contentAlignment = Alignment.CenterStart,
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                contentAlignment = Alignment.CenterStart,
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    ) {
-                        Image(
-                            painter = rememberImagePainter(data = state.profileImg),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(52.dp)
-                                .clip(CircleShape)
-                                .background(Color.Gray),
+                    Image(
+                        painter = rememberImagePainter(data = state.profileImg),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(52.dp)
+                            .clip(CircleShape)
+                            .background(Color.Gray),
+                    )
+                    Column {
+                        Text(
+                            text = state.nickname,
+                            style = RecordyTheme.typography.subtitle,
+                            color = RecordyTheme.colors.white,
                         )
-                        Column {
-                            Text(
-                                text = state.nickname,
-                                style = RecordyTheme.typography.subtitle,
-                                color = RecordyTheme.colors.white,
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                text = buildFollowerFollowingText(state),
-                                style = RecordyTheme.typography.body2M,
-                            )
-                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = buildFollowerFollowingText(state),
+                            style = RecordyTheme.typography.body2M,
+                        )
                     }
                 }
             }
 
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+            Spacer(modifier = Modifier.height(16.dp))
 
-            item {
-                CustomTabRow(
-                    selectedTabIndex = state.mypageTab.ordinal,
-                    onTabSelected = onTabSelected,
-                    pagerState = pagerState,
-                    coroutineScope = coroutineScope,
-                )
-            }
+            CustomTabRow(
+                selectedTabIndex = state.mypageTab.ordinal,
+                onTabSelected = onTabSelected,
+                pagerState = pagerState,
+                coroutineScope = coroutineScope,
+            )
+            Spacer(modifier = Modifier.height(18.dp))
 
-            item {
-                HorizontalPager(
-                    state = pagerState,
-                    modifier = Modifier.fillMaxSize(),
-                    userScrollEnabled = false,
-                ) { page ->
-                    when (page) {
-                        MypageTab.TASTE.ordinal -> {
-                            Text(
-                                text = "내 취향",
-                                color = RecordyTheme.colors.white,
-                            )
-                        }
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxWidth(),
+                userScrollEnabled = false,
+            ) { page ->
+                when (page) {
+                    MypageTab.TASTE.ordinal -> {
+                        TasteScreen(tasteData)
+                    }
 
-                        MypageTab.RECORD.ordinal -> {
-                            Text(
-                                text = "내 기록",
-                                color = RecordyTheme.colors.white,
-                            )
-                        }
+                    MypageTab.RECORD.ordinal -> {
+                        RecordScreen(emptyList())
+                    }
 
-                        MypageTab.BOOKMARK.ordinal -> {
-                            Text(
-                                text = "북마크",
-                                color = RecordyTheme.colors.white,
-                            )
-                        }
+                    MypageTab.BOOKMARK.ordinal -> {
+                        BookmarkScreen(emptyList())
                     }
                 }
             }
+
         }
     }
 }
@@ -212,6 +209,12 @@ fun MypageScreenPreview() {
         )
     }
 }
+
+val tasteData = listOf(
+    "집중하기 좋은" to 66,
+    "조용한" to 23,
+    "신나는" to 8,
+)
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -241,7 +244,7 @@ fun CustomTabRow(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         Row(
             modifier = Modifier
@@ -249,7 +252,7 @@ fun CustomTabRow(
                 .height(38.dp)
                 .padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.Bottom
+            verticalAlignment = Alignment.Bottom,
         ) {
             MypageTab.entries.forEachIndexed { index, tab ->
                 val selected = index == selectedTabIndex
@@ -272,12 +275,12 @@ fun CustomTabRow(
                             tabOffsets[index] = offset
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
                         text = tab.displayName,
                         color = textColor,
-                        style = textStyle
+                        style = textStyle,
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -293,7 +296,7 @@ fun CustomTabRow(
                     .width(animatedIndicatorWidth)
                     .height(2.dp)
                     .offset(x = animatedIndicatorOffset)
-                    .background(color = RecordyTheme.colors.gray01)
+                    .background(color = RecordyTheme.colors.gray01),
             )
         }
     }

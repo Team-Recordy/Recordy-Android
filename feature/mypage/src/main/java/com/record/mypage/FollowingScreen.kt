@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.record.designsystem.component.container.UserDataContainer
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.UserData
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
@@ -46,7 +47,9 @@ fun FollowingRoute(
         } else {
             FollowScreen(
                 followingList = uiState.followingList,
-                onClick = { user -> viewModel.toggleFollow(user) },
+                onClick = { user ->
+                    viewModel.toggleFollow(user)
+                },
             )
         }
     }

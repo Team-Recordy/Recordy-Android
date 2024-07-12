@@ -28,7 +28,7 @@ fun BookmarkScreen(bookmarks: List<Pair<String, Int>> = emptyList(), recordCount
     if (bookmarks.isEmpty()) {
         EmptyDataScreen(
             imageRes = R.drawable.img_for_empty,
-            message = "자유롭게 취향을 북마크해 보세요",
+            message = "자유롭게 취향을\n북마크해 보세요",
             recordCount = recordCount,
             showButton = false,
             showRecordCount = true,

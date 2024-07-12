@@ -175,7 +175,7 @@ fun MypageScreen(
             ) { page ->
                 when (page) {
                     MypageTab.TASTE.ordinal -> {
-                        TasteScreen(emptyList(),0)
+                        TasteScreen(tasteData,3)
                     }
 
                     MypageTab.RECORD.ordinal -> {

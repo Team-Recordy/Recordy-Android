@@ -28,7 +28,7 @@ fun RecordScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCou
     if (dataAvailable.isEmpty()) {
         EmptyDataScreen(
             imageRes = R.drawable.img_for_empty,
-            message = "내 첫 번째 공간 기록을 작성해 보세요",
+            message = "내 첫 번째 공간 기록을\n작성해 보세요",
             recordCount = recordCount,
             showButton = true,
             showRecordCount = true,

@@ -1,17 +1,25 @@
 package com.record.mypage
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.rememberAsyncImagePainter
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.UserData
 import kotlinx.collections.immutable.toPersistentList
@@ -43,26 +51,41 @@ fun FollowerRoute(
             .background(RecordyTheme.colors.background)
             .padding(padding),
     ) {
-        FollowScreen(
-            followerList = uiState.followerList,
-            onClick = { user -> viewModel.toggleFollow(user) },
-        )
+        if(uiState.followerList.isEmpty()) {
+            EmptyFollowerScreen()
+        } else {
+            FollowScreen(
+                followerList = uiState.followerList,
+                onClick = { user -> viewModel.toggleFollow(user) },
+            )
+        }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun PreviewFollowerScreen() {
-    val sampleState = FollowState(
-        followerList = listOf(
-            UserData(id = 3, profileImage = "https://via.placeholder.com/150", name = "Alice Johnson", isFollowing = false),
-            UserData(id = 4, profileImage = "https://via.placeholder.com/150", name = "Bob Brown", isFollowing = false),
-        ).toPersistentList(),
-    )
-    RecordyTheme {
-        FollowScreen(
-            followerList = sampleState.followerList,
-            onClick = {},
-        )
+fun EmptyFollowerScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(RecordyTheme.colors.background)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = rememberAsyncImagePainter("https://picsum.photos/id/200/200"),
+                contentDescription = null,
+                modifier = Modifier.size(120.dp),
+            )
+            Spacer(modifier = Modifier.size(32.dp))
+            Text(
+                text = "아직 팔로우하는 사람이 없어요",
+                style = RecordyTheme.typography.body2M,
+                color = RecordyTheme.colors.white,
+            )
+        }
     }
 }
+

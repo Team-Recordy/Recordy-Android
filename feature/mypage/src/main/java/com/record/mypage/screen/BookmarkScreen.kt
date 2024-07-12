@@ -29,7 +29,9 @@ fun BookmarkScreen(bookmarks: List<Pair<String, Int>> = emptyList(), recordCount
         EmptyDataScreen(
             imageRes = R.drawable.img_for_empty,
             message = "자유롭게 취향을 북마크해 보세요",
-            recordCount = recordCount
+            recordCount = recordCount,
+            showButton = false,
+            showRecordCount = true,
         )
     } else {
         Box(
@@ -44,7 +46,7 @@ fun BookmarkScreen(bookmarks: List<Pair<String, Int>> = emptyList(), recordCount
                     contentAlignment = Alignment.TopEnd,
                 ) {
                     Text(
-                        text = "● $recordCount 개의 기록",
+                        text = "• $recordCount 개의 기록",
                         style = RecordyTheme.typography.body2M,
                         color = RecordyTheme.colors.gray01,
                     )

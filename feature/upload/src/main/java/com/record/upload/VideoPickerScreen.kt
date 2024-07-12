@@ -23,13 +23,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.R
+import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.component.textfield.RecordyBasicTextField
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
+import timber.log.Timber
 
 @Composable
 fun VideoPickerRoute(
@@ -64,7 +67,7 @@ fun VideoPickerScreen(
         ) {
             TopNavigationBar(title = "영상 선택", enableGradation = true)
             Text(
-                text = "ⓘ 최대 1분의 1080p 영상을 올려주세요.",
+                text = "ⓘ 주제와 무관한 기록은 무통보로 삭제될 수 있습니다",
                 color = RecordyTheme.colors.gray03,
                 style = RecordyTheme.typography.caption2,
                 maxLines = 1,
@@ -95,7 +98,7 @@ fun VideoPickerScreen(
                         modifier = Modifier.padding(bottom = 12.dp)
                     )
                     Text(
-                        text = "영상 선택",
+                        text = "내용 작성",
                         color = RecordyTheme.colors.white,
                         style = RecordyTheme.typography.subtitle,
                     )
@@ -107,23 +110,23 @@ fun VideoPickerScreen(
                 style = RecordyTheme.typography.subtitle,
                 modifier = Modifier.padding(top = 22.dp, bottom = 12.dp)
             )
-
-            Row(
-                modifier = Modifier
+                Row(modifier = Modifier
                     .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(30.dp))
+                    .padding(vertical = 8.dp)
+                    .padding(start = 8.dp, end = 12.dp)
                     .customClickable(onClick = onClickKeyword),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_plus_25),
-                    contentDescription = null,
-                )
-                Text(
-                    text = "키워드",
-                    color = RecordyTheme.colors.gray03,
-                    style = RecordyTheme.typography.body2M,
-                )
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_plus_16),
+                        contentDescription = null,
+                    )
+                    Text(
+                        text = "키워드",
+                        color = RecordyTheme.colors.gray03,
+                        style = RecordyTheme.typography.body2M,
+                    )
             }
             Text(
                 text = "위치",
@@ -148,9 +151,25 @@ fun VideoPickerScreen(
                 placeholder = "공간에 대한 나의 생각을 자유롭게 적어주세요!",
                 maxLines = 20,
                 maxLength = 300,
+                minHeight = 148.dp,
                 value = normalValue,
+                modifier = Modifier.padding(bottom = 10.dp),
                 onValueChange = { normalValue = it },
             )
+            RecordyButton(
+//                modifier = Modifier.padding(16.dp),
+                text = "키워드",
+                enabled = false,
+                onClick = { Timber.d("basic key word") },
+            )
         }
+    }
+}
+
+@Preview
+@Composable
+fun VideoPickerScreenPreview() {
+    RecordyTheme {
+        VideoPickerScreen(navigateSelectedKeyword = { /*TODO*/ })
     }
 }

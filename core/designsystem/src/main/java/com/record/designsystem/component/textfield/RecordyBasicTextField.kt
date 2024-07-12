@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -79,7 +80,7 @@ fun RecordyBasicTextField(
     }
 
     BasicTextField(
-        modifier =if (minHeight==null) modifier.fillMaxWidth() else modifier.height(148.dp).fillMaxWidth(),
+        modifier =modifier.fillMaxWidth(),
         value = value,
         onValueChange = { newValue ->
             if (newValue.replace(" ", "").length <= maxLength) onValueChange(newValue)
@@ -101,6 +102,7 @@ fun RecordyBasicTextField(
             ) {
                 Box(
                     modifier = Modifier
+                        .heightIn(minHeight)
                         .fillMaxWidth()
                         .clip(shape = shape)
                         .background(color = Gray08)
@@ -110,7 +112,6 @@ fun RecordyBasicTextField(
                             shape = shape,
                         )
                         .padding(vertical = 16.dp, horizontal = 18.dp),
-                    contentAlignment = Alignment.CenterStart,
                 ) {
                     if (value.isEmpty()) {
                         Text(
@@ -184,6 +185,7 @@ fun TextFieldPreview() {
                 placeholder = "레코디",
                 maxLines = 20,
                 maxLength = 300,
+                minHeight = 148.dp,
                 value = normalValue,
                 onValueChange = { normalValue = it },
             )

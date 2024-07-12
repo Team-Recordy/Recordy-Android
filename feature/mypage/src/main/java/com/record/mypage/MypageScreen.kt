@@ -179,7 +179,7 @@ fun MypageScreen(
                     }
 
                     MypageTab.RECORD.ordinal -> {
-                        RecordScreen(emptyList(), 0)
+                        RecordScreen(tasteData, 10)
                     }
 
                     MypageTab.BOOKMARK.ordinal -> {

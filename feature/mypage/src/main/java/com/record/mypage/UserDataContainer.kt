@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -21,7 +22,20 @@ import com.record.designsystem.theme.RecordyTheme
 import com.record.model.UserData
 
 @Composable
-fun UserDataContainer(user: UserData, onClick: (UserData) -> Unit) {
+fun UserDataContainer(
+    user: UserData,
+    onClick: (UserData) -> Unit,
+    showFollowButton: Boolean = true,
+) {
+    val profileImage = user.profileImage
+    val profileImageResId = user.profileImageResId
+
+    val painter = when {
+        profileImage != null -> rememberAsyncImagePainter(profileImage)
+        profileImageResId != null -> painterResource(id = profileImageResId)
+        else -> painterResource(id = com.record.designsystem.R.drawable.img_profile)
+    }
+
     Row(
         modifier = Modifier
             .background(RecordyTheme.colors.background)
@@ -29,7 +43,7 @@ fun UserDataContainer(user: UserData, onClick: (UserData) -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = rememberAsyncImagePainter(user.profileImage),
+            painter = painter,
             contentDescription = null,
             modifier = Modifier
                 .padding(vertical = 10.dp, horizontal = 16.dp)
@@ -38,15 +52,18 @@ fun UserDataContainer(user: UserData, onClick: (UserData) -> Unit) {
         )
         Text(
             text = user.name,
-            style = RecordyTheme.typography.body1M,
+            style = RecordyTheme.typography.body2M,
             color = RecordyTheme.colors.white,
         )
         Spacer(modifier = Modifier.weight(1f))
-        FollowButton(
-            isFollowing = user.isFollowing,
-            onClick = { onClick(user) },
-        )
-        Spacer(modifier = Modifier.size(16.dp))
+
+        if (showFollowButton) {
+            FollowButton(
+                isFollowing = user.isFollowing,
+                onClick = { onClick(user) },
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+        }
     }
 }
 
@@ -55,7 +72,7 @@ fun UserDataContainer(user: UserData, onClick: (UserData) -> Unit) {
 fun UserDataContainerPreview() {
     val sampleUser = UserData(
         id = 1,
-        profileImage = "https://via.placeholder.com/150",
+        profileImage = "https://picsum.photos/id/200/60",
         name = "John Doe",
         isFollowing = false,
     )

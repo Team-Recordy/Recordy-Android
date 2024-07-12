@@ -24,11 +24,13 @@ import com.record.designsystem.theme.RecordyTheme
 import com.record.mypage.R
 
 @Composable
-fun TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
+fun TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCount: Int) {
     if (dataAvailable.isEmpty()) {
         EmptyDataScreen(
             imageRes = R.drawable.img_pre_bubble,
             message = "내 취향 데이터가 없습니다.",
+            recordCount = recordCount,
+
         )
     } else {
         Box(
@@ -73,7 +75,8 @@ fun TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
 @Composable
 fun PreviewTasteScreenWithEmptyList() {
     RecordyTheme {
-        TasteScreen()
+        TasteScreen(emptyList(),
+            recordCount = 0,)
     }
 }
 
@@ -87,6 +90,7 @@ fun PreviewTasteScreenWithSampleList() {
                 Pair("조용한", 22),
                 Pair("신나는", 8),
             ),
+            recordCount = 3,
         )
     }
 }

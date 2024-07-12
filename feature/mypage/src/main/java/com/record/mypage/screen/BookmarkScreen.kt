@@ -24,47 +24,61 @@ import com.record.designsystem.theme.RecordyTheme
 import com.record.mypage.R
 
 @Composable
-fun BookmarkScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
-    if (dataAvailable.isEmpty()) {
+fun BookmarkScreen(bookmarks: List<Pair<String, Int>> = emptyList(), recordCount: Int) {
+    if (bookmarks.isEmpty()) {
         EmptyDataScreen(
-            imageRes = com.record.designsystem.R.drawable.ic_bookmark_variant_40,
-            message = "내 취향 데이터가 없습니다.",
+            imageRes = R.drawable.img_for_empty,
+            message = "자유롭게 취향을 북마크해 보세요",
+            recordCount = recordCount
         )
     } else {
         Box(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 43.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                item {
-                    Image(
-                        painter = painterResource(id = R.drawable.img_aft_bubble),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth(),
+            Column {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.TopEnd,
+                ) {
+                    Text(
+                        text = "● $recordCount 개의 기록",
+                        style = RecordyTheme.typography.body2M,
+                        color = RecordyTheme.colors.gray01,
                     )
                 }
-                item {
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-                items(dataAvailable) { item ->
-                    Column(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                    ) {
-                        Text(
-                            text = "${item.first}: ${item.second}",
-                            style = RecordyTheme.typography.body2M,
-                            color = RecordyTheme.colors.white,
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 43.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    item {
+                        Image(
+                            painter = painterResource(id = R.drawable.img_aft_bubble),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth(),
                         )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                    items(bookmarks) { item ->
+                        Column(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                        ) {
+                            Text(
+                                text = "${item.first}: ${item.second}",
+                                style = RecordyTheme.typography.body2M,
+                                color = RecordyTheme.colors.white,
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
-

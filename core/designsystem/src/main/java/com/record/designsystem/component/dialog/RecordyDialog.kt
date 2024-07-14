@@ -26,7 +26,7 @@ import com.record.designsystem.theme.RecordyTheme
 @Composable
 fun RecordyDialog(
     graphicAsset: Int? = null,
-    shape: Shape = RoundedCornerShape(8.dp),
+    shape: Shape = RoundedCornerShape(20.dp),
     title: String? = null,
     subTitle: String? = null,
     positiveButtonLabel: String = "",
@@ -74,8 +74,10 @@ fun RecordyDialog(
             ) {
                 RecordyButton(
                     text = negativeButtonLabel,
-                    shape = shape,
-                    enabled = false,
+                    shape = RoundedCornerShape(8.dp),
+                    enabled = true,
+                    backgroundColor = RecordyTheme.colors.gray06,
+                    textColor = RecordyTheme.colors.gray01,
                     textStyle = RecordyTheme.typography.button2,
                     onClick = { onDismissRequest() },
                     modifier = Modifier
@@ -84,7 +86,7 @@ fun RecordyDialog(
                 )
                 RecordyButton(
                     text = positiveButtonLabel,
-                    shape = shape,
+                    shape = RoundedCornerShape(8.dp),
                     enabled = true,
                     textStyle = RecordyTheme.typography.button2,
                     onClick = { onPositiveButtonClick() },

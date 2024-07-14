@@ -25,7 +25,7 @@ import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.theme.RecordyTheme
 
 @Composable
-fun EmptyDataScreen(imageRes: Int, message: String, recordCount: Int, showButton: Boolean, showRecordCount: Boolean, onButtonClick: () -> Unit = {}) {
+fun EmptyDataScreen(imageRes: Int, message: String, recordCount: Int, showButton: Boolean, onButtonClick: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,19 +33,6 @@ fun EmptyDataScreen(imageRes: Int, message: String, recordCount: Int, showButton
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        if (showRecordCount) {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.TopEnd,
-            ) {
-                Text(
-                    text = "• $recordCount 개의 기록",
-                    style = RecordyTheme.typography.body2M,
-                    color = RecordyTheme.colors.gray01,
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,

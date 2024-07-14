@@ -42,7 +42,6 @@ fun RecordScreen(videoItems: List<VideoData>, recordCount: Int) {
         EmptyDataScreen(
             imageRes = com.record.designsystem.R.drawable.img_camera,
             message = "내 첫 번째 공간 기록을\n작성해 보세요",
-            recordCount = recordCount,
             showButton = true,
             onButtonClick = {
                 // 기록 모달로 넘어가는 부분
@@ -57,7 +56,7 @@ fun RecordScreen(videoItems: List<VideoData>, recordCount: Int) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(vertical = 16.dp),
                 contentAlignment = Alignment.TopEnd,
             ) {
                 Text(

@@ -28,8 +28,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.record.designsystem.component.snackbar.RecordySnackBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.home.navigation.homeNavGraph
 import com.record.login.navigation.loginNavGraph
@@ -44,7 +47,9 @@ import kotlinx.collections.immutable.toImmutableList
 internal fun MainScreen(
     modifier: Modifier = Modifier,
     navigator: MainNavigator = rememberMainNavigator(),
+    viewModel: MainViewModel = hiltViewModel(),
 ) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val navBackStackEntry by navigator.navController.currentBackStackEntryAsState()
     val currentDestination by remember(navBackStackEntry) {
@@ -80,12 +85,19 @@ internal fun MainScreen(
 
                 videoNavGraph(
                     padding = innerPadding,
+                    onShowSnackBar = viewModel::onShowSnackbar,
                 )
 
                 mypageNavGraph(
                     padding = innerPadding,
                 )
             }
+            RecordySnackBar(
+                visible = state.snackBarVisible,
+                message = state.snackBarMessage,
+                snackBarType = state.snackBarType,
+                bottomPadding = state.snackBarBottomPadding.dp,
+            )
         },
         bottomBar = {
             MainBottomNavigationBar(
@@ -114,7 +126,8 @@ private fun MainBottomNavigationBar(
                 color = RecordyTheme.colors.gray05,
             )
             Row(
-                modifier = Modifier.height(72.dp)
+                modifier = Modifier
+                    .height(72.dp)
                     .background(color = RecordyTheme.colors.gray08),
             ) {
                 entries.forEach { tab ->

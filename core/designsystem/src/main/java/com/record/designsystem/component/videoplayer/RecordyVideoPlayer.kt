@@ -12,6 +12,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_FAILED
+import androidx.media3.common.PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -37,7 +39,7 @@ fun rememberExoPlayer(context: Context, videoUrl: String): ExoPlayer {
 @androidx.annotation.OptIn(UnstableApi::class)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun VideoPlayer(videoUrl: String, pagerState: PagerState, page: Int) {
+fun VideoPlayer(videoId: Int, videoUrl: String, pagerState: PagerState, page: Int, onError: (String) -> Unit, onPlayVideo: (Int) -> Unit) {
     val context = LocalContext.current
     val exoPlayer = rememberExoPlayer(context, videoUrl)
     ComposableLifecycle { _, event ->
@@ -56,6 +58,25 @@ fun VideoPlayer(videoUrl: String, pagerState: PagerState, page: Int) {
         exoPlayer.playWhenReady = pagerState.currentPage == page
         if (pagerState.currentPage != page) {
             exoPlayer.seekTo(0)
+        }
+    }
+
+    PlayerListener(player = exoPlayer) { event ->
+        when (event) {
+            Player.EVENT_RENDERED_FIRST_FRAME -> { onPlayVideo(videoId) }
+            Player.EVENT_PLAYER_ERROR -> {
+                when (exoPlayer.playerError?.errorCode) {
+                    ERROR_CODE_IO_NETWORK_CONNECTION_FAILED -> {
+                        onError("네트워크 연결 실패")
+                    }
+                    ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT -> {
+                        onError("네트워크 타임아웃")
+                    }
+                    else -> {
+                        onError("알 수 없는 오류")
+                    }
+                }
+            }
         }
     }
     AndroidView(

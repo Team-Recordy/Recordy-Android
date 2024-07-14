@@ -189,7 +189,9 @@ fun MypageScreen(
                         Box(
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            TasteScreen()
+                            TasteScreen(
+                                listOf(Pair("신나는", 72), Pair("활동적인", 20), Pair("북적북적한",5))
+                            )
                         }
                     }
 

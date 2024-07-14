@@ -27,6 +27,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
@@ -56,8 +57,6 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
         modifier = Modifier
             .fillMaxWidth()
             .align(Alignment.Center)
-
-
     ) {
         LaunchedEffect(Unit) {
             snapshotFlow { Pair(imageWidth, imageHeight) }
@@ -77,7 +76,14 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .align(Alignment.Center),
+                    .align(Alignment.Center)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Color(0x00000000),  Color(0x339BABFB)),
+
+                        )
+                    ),
+
             ) {
                 Image(
                     painter = painterResource(id = com.record.designsystem.R.drawable.img_bg_bubble),
@@ -140,7 +146,7 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
 fun PreviewTasteScreenWithEmptyList() {
     RecordyTheme {
         Box(modifier = Modifier.fillMaxSize()) {
-            TasteScreen()
+            TasteScreen(listOf(Pair("신나는", 72), Pair("활동적인", 20), Pair("북적북적한",5)))
         }
     }
 }

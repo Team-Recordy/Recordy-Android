@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberImagePainter
+import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.mypage.screen.BookmarkScreen
 import com.record.mypage.screen.RecordScreen
@@ -107,25 +108,30 @@ fun MypageScreen(
         pageCount = { 3 },
     )
     val coroutineScope = rememberCoroutineScope()
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 15.dp, end = 16.dp),
-        contentAlignment = Alignment.TopEnd,
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_setting_24),
-            contentDescription = null,
-            modifier = Modifier.clickable {},
-            tint = RecordyTheme.colors.white,
-        )
-    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
-        Spacer(modifier = Modifier.height(68.dp)) // 고정 헤더용 임시 spacer
-        Spacer(modifier = Modifier.height(16.dp)) // 고정 헤더로부터 16
-
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ){
+            TopNavigationBar(
+                title = "프로필",
+                modifier = Modifier.align(Alignment.TopCenter),
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_setting_24),
+                contentDescription = null,
+                tint = RecordyTheme.colors.white,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 45.dp, end = 16.dp)
+                    .size(24.dp)
+                    .clickable { }
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
         Column(
             modifier = Modifier.fillMaxHeight(),
         ) {
@@ -220,12 +226,6 @@ fun MypageScreenPreview() {
         )
     }
 }
-
-val tasteData = listOf(
-    "집중하기 좋은" to 66,
-    "조용한" to 23,
-    "신나는" to 8,
-)
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

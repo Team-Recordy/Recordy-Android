@@ -9,12 +9,10 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
@@ -56,7 +53,7 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .align(Alignment.Center)
+            .align(Alignment.Center),
     ) {
         LaunchedEffect(Unit) {
             snapshotFlow { Pair(imageWidth, imageHeight) }
@@ -79,9 +76,9 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
                     .align(Alignment.Center)
                     .background(
                         brush = Brush.verticalGradient(
-                            colors = listOf(Color(0x00000000),  Color(0x339BABFB)),
+                            colors = listOf(Color(0x00000000), Color(0x339BABFB)),
 
-                        )
+                        ),
                     ),
 
             ) {
@@ -98,7 +95,7 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
                     contentScale = ContentScale.FillWidth,
                 )
                 dataAvailable.forEachIndexed { index, pair ->
-                    var columnSize by remember {mutableStateOf(IntSize.Zero)}
+                    var columnSize by remember { mutableStateOf(IntSize.Zero) }
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -111,7 +108,7 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
                                 y = (circleCoords[index].second * screenWidth / 655 - (screenWidth / 2)).dp,
                             ),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+                        verticalArrangement = Arrangement.Center,
                     ) {
                         Text(
                             text = pair.first,
@@ -135,7 +132,6 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
                         )
                     }
                 }
-
             }
         }
     }
@@ -146,7 +142,17 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
 fun PreviewTasteScreenWithEmptyList() {
     RecordyTheme {
         Box(modifier = Modifier.fillMaxSize()) {
-            TasteScreen(listOf(Pair("신나는", 72), Pair("활동적인", 20), Pair("북적북적한",5)))
+            TasteScreen(listOf(Pair("신나는", 72), Pair("활동적인", 20), Pair("북적북적한", 5)))
+        }
+    }
+}
+
+@Preview
+@Composable
+fun random() {
+    RecordyTheme {
+        Box(modifier = Modifier.fillMaxSize()) {
+            TasteScreen()
         }
     }
 }

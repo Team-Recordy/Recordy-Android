@@ -1,7 +1,6 @@
 package com.record.mypage.screen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.button.BasicButton
-import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.theme.RecordyTheme
 import com.record.mypage.R
 
@@ -70,23 +66,23 @@ fun EmptyDataScreen(imageRes: Int, message: String, showButton: Boolean, onButto
                         backgroundColor = RecordyTheme.colors.gray01,
                         padding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
                         shape = RoundedCornerShape(30.dp),
-                        onClick = onButtonClick
+                        onClick = onButtonClick,
                     )
                 }
             }
         }
 
-        if (imageRes == R.drawable.img_for_empty) {
+        if (imageRes == com.record.designsystem.R.drawable.img_question) {
             Box(
                 modifier = Modifier
                     .fillMaxSize(),
-                contentAlignment = Alignment.BottomCenter
+                contentAlignment = Alignment.BottomCenter,
             ) {
                 Text(
                     text = "서로 다른 키워드 3개를 입력하면 그래프가 보여요",
                     color = RecordyTheme.colors.gray03,
                     style = RecordyTheme.typography.caption1,
-                    modifier = Modifier.padding(bottom = 22.dp)
+                    modifier = Modifier.padding(bottom = 22.dp),
                 )
             }
         }

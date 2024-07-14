@@ -19,21 +19,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -49,16 +40,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -71,11 +59,6 @@ import com.record.mypage.screen.SampleData
 import com.record.mypage.screen.TasteScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
-data class VideoItem(
-    val previewUri: String,
-    val isBookmarked: Boolean
-)
 
 @Composable
 fun MypageRoute(
@@ -114,8 +97,8 @@ fun MypageScreen(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-        ){
+                .fillMaxWidth(),
+        ) {
             TopNavigationBar(
                 title = "프로필",
                 modifier = Modifier.align(Alignment.TopCenter),
@@ -128,14 +111,13 @@ fun MypageScreen(
                     .align(Alignment.TopEnd)
                     .padding(top = 45.dp, end = 16.dp)
                     .size(24.dp)
-                    .clickable { }
+                    .clickable { },
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(
             modifier = Modifier.fillMaxHeight(),
         ) {
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -187,26 +169,25 @@ fun MypageScreen(
                 when (page) {
                     MypageTab.TASTE.ordinal -> {
                         Box(
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier.fillMaxSize(),
                         ) {
                             TasteScreen(
-                                listOf(Pair("신나는", 72), Pair("활동적인", 20), Pair("북적북적한",5))
+                                listOf(Pair("신나는", 72), Pair("활동적인", 20), Pair("북적북적한", 5)),
                             )
                         }
                     }
 
                     MypageTab.RECORD.ordinal -> {
-                        // RecordScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
-                        RecordScreen(emptyList(), 0)
+                        RecordScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
+                        // RecordScreen(emptyList(), 0)
                     }
 
                     MypageTab.BOOKMARK.ordinal -> {
-                        // BookmarkScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
-                        BookmarkScreen(emptyList(), 0)
+                        BookmarkScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
+                        // BookmarkScreen(emptyList(), 0)
                     }
                 }
             }
-
         }
     }
 }

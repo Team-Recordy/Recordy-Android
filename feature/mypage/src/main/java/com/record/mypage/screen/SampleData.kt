@@ -6,7 +6,7 @@ object SampleData {
         id = "1",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-tree-with-yellow-flowers-1173-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "강동구 천호대로",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
@@ -40,7 +40,7 @@ object SampleData {
         id = "3",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-red-frog-on-a-log-1487-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-red-frog-on-a-log-1487-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "잠실",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
@@ -57,7 +57,7 @@ object SampleData {
         id = "4",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-tree-with-yellow-flowers-1173-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "해방촌 속 어딘가",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
@@ -74,7 +74,7 @@ object SampleData {
         id = "5",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-palm-tree-in-front-of-the-sun-1191-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-palm-tree-in-front-of-the-sun-1191-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "을왕리 해수욕장",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
@@ -91,7 +91,7 @@ object SampleData {
         id = "6",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-red-frog-on-a-log-1487-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-red-frog-on-a-log-1487-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "대한민국",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
@@ -108,7 +108,7 @@ object SampleData {
         id = "7",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-tree-with-yellow-flowers-1173-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "용산구 문배동 16-1",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
@@ -125,7 +125,7 @@ object SampleData {
         id = "8",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-palm-tree-in-front-of-the-sun-1191-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-palm-tree-in-front-of-the-sun-1191-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "아 자고싶다 졸려요",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
@@ -142,7 +142,7 @@ object SampleData {
         id = "9",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-red-frog-on-a-log-1487-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-red-frog-on-a-log-1487-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "학교 가야 하는데 밤새는",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
@@ -159,7 +159,7 @@ object SampleData {
         id = "10",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-tree-with-yellow-flowers-1173-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "부산",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
@@ -176,7 +176,7 @@ object SampleData {
         id = "11",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-palm-tree-in-front-of-the-sun-1191-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-palm-tree-in-front-of-the-sun-1191-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "혜화",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
@@ -193,7 +193,7 @@ object SampleData {
         id = "12",
         videoUri = "https://assets.mixkit.co/videos/preview/mixkit-red-frog-on-a-log-1487-large.mp4",
         previewUri = "https://mixkit.imgix.net/videos/preview/mixkit-red-frog-on-a-log-1487-0.jpg",
-        location = "서울특별시 강남구 테헤란로 33",
+        location = "숭실대학교 조만식 기념관",
         userName = "우상욱",
         content = "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +
             "아주아주아주아주 긴 글 아주아주아주 긴 글 아주아주아주아주 긴 글 아주아주아주 긴 글 " +

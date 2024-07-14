@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -23,7 +22,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,12 +53,12 @@ import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.record.upload.component.bottomsheet.SelectedVideoBottomSheet
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun VideoPickerRoute(
     paddingValues: PaddingValues,
@@ -72,26 +73,28 @@ fun VideoPickerRoute(
 
     VideoPickerScreen(
         state = state,
-        navigateSelectedVideo = navigateSelectedVideo,
         onClickKeyword = {},
         showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
         hideShouldShowRationaleDialog = viewModel::hideShouldShowRationaleDialog,
+        showIsSelectedVideoSheetOpen = viewModel::showIsSelectedVideoSheetOpen,
+        hideIsSelectedVideoSheetOpen = viewModel::hideIsSelectedVideoSheetOpen,
     )
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun VideoPickerScreen(
     state: UploadState = UploadState(),
-    navigateSelectedVideo: () -> Unit,
     onClickKeyword: () -> Unit = {},
     showShouldShowRationaleDialog: () -> Unit = {},
     hideShouldShowRationaleDialog: () -> Unit = {},
+    showIsSelectedVideoSheetOpen: () -> Unit = {},
+    hideIsSelectedVideoSheetOpen: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val cameraPermissionState = rememberPermissionState(Manifest.permission.READ_MEDIA_VIDEO)
-
+    val exampleVideoList = getAllVideos(10, null, context)
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
@@ -136,7 +139,7 @@ fun VideoPickerScreen(
                     .customClickable(
                         onClick = {
                             if (cameraPermissionState.status.isGranted) {
-                                navigateSelectedVideo()
+                                showIsSelectedVideoSheetOpen()
                                 return@customClickable
                             }
                             if (cameraPermissionState.status.shouldShowRationale) {
@@ -240,6 +243,12 @@ fun VideoPickerScreen(
                 },
             )
         }
+        SelectedVideoBottomSheet(
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+            isSheetOpen = state.isSelectedVideoSheetOpen,
+            onDismissRequest = hideIsSelectedVideoSheetOpen,
+            galleyVideos = exampleVideoList,
+        )
     }
 }
 
@@ -248,7 +257,7 @@ fun VideoPickerScreen(
 @Composable
 fun VideoPickerScreenPreview() {
     RecordyTheme {
-        VideoPickerScreen(navigateSelectedVideo = { /*TODO*/ })
+        VideoPickerScreen()
     }
 }
 

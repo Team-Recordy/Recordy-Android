@@ -1,4 +1,4 @@
-package com.record.mypage
+package com.record.mypage.follow
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

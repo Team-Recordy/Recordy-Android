@@ -2,6 +2,7 @@ package com.record.mypage.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -25,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
@@ -53,7 +55,9 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .align(Alignment.Center),
+            .align(Alignment.Center)
+
+
     ) {
         LaunchedEffect(Unit) {
             snapshotFlow { Pair(imageWidth, imageHeight) }
@@ -62,11 +66,11 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
 
         if (dataAvailable.size < 3) {
             EmptyDataScreen(
-                imageRes = R.drawable.img_for_empty,
+                imageRes = com.record.designsystem.R.drawable.img_question,
                 message = "다양한 영상을 기록하면\n취향을 분석해 드려요",
                 showButton = true,
                 onButtonClick = {
-                    // TasteScreen의 버튼 클릭 처리
+                    // 기록 모달창 띄우기
                 },
             )
         } else {

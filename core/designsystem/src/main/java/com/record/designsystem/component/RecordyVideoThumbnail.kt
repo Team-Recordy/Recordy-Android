@@ -27,7 +27,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.record.designsystem.R
 import com.record.designsystem.component.badge.RecordyLocationBadge
+import com.record.designsystem.theme.Black
 import com.record.designsystem.theme.RecordyTheme
+import com.record.ui.extension.customClickable
 import com.record.ui.icon.ShadowIcon
 
 @Composable
@@ -54,7 +56,7 @@ fun RecordyVideoThumbnail(
             .fillMaxSize()
             .aspectRatio(9f / 16f)
             .clip(shape = RoundedCornerShape(16.dp))
-            .clickable {
+            .customClickable(rippleColor = Black) {
                 onClick()
             },
     ) {
@@ -84,7 +86,7 @@ fun RecordyVideoThumbnail(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(4.dp)
-                    .clickable {
+                    .customClickable(rippleEnabled = false) {
                         onBookmarkClick()
                     },
                 resourceId = if (isBookmark) R.drawable.ic_bookmark_variant_24 else R.drawable.ic_bookmark_24,
@@ -94,7 +96,7 @@ fun RecordyVideoThumbnail(
         }
         RecordyLocationBadge(
             modifier = Modifier
-                .padding(start = 8.dp, bottom = 12.dp)
+                .padding(start = 6.dp, bottom = 10.dp)
                 .align(Alignment.BottomStart),
             location = location,
             isTransparent = true,

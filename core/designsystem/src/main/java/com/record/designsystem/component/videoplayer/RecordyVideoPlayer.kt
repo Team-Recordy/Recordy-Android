@@ -54,8 +54,8 @@ fun VideoPlayer(videoId: Int, videoUrl: String, pagerState: PagerState, page: In
         }
     }
 
-    LaunchedEffect(pagerState.currentPage) {
-        exoPlayer.playWhenReady = pagerState.currentPage == page
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        exoPlayer.playWhenReady = pagerState.currentPage == page && !pagerState.isScrollInProgress
         if (pagerState.currentPage != page) {
             exoPlayer.seekTo(0)
         }

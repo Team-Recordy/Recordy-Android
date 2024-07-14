@@ -25,14 +25,12 @@ import coil.decode.VideoFrameDecoder
 @Composable
 fun SelectedVideoRoute(
     paddingValues: PaddingValues,
-    navigateDefinedContent: () -> Unit,
 ) {
-    SelectedVideoScreen(navigateDefinedContent = navigateDefinedContent)
+    SelectedVideoScreen()
 }
 
 @Composable
 fun SelectedVideoScreen(
-    navigateDefinedContent: () -> Unit,
 ) {
     Log.d("images", "${getAllVideos(10, null, LocalContext.current)}")
     val a = getAllVideos(10, null, LocalContext.current)

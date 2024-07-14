@@ -1,6 +1,8 @@
 package com.record.navigator
 
+import android.os.Build
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -46,6 +48,7 @@ import com.record.video.navigation.videoNavGraph
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 internal fun MainScreen(
     modifier: Modifier = Modifier,
@@ -96,9 +99,7 @@ internal fun MainScreen(
                 uploadNavGraph(
                     padding = innerPadding,
                     navigateSelectedVideo = navigator::navigateSelectedVideo,
-                    navigateDefinedContent = navigator::navigateDefinedContent,
-                    navigateCompletedUpload = navigator::navigateCompletedUpload,
-                )
+              )
 
                 videoNavGraph(
                     padding = innerPadding,

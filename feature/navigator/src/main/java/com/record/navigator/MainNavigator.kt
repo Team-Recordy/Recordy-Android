@@ -13,11 +13,8 @@ import com.record.login.navigation.LoginRoute
 import com.record.login.navigation.SignupRoute
 import com.record.model.VideoType
 import com.record.mypage.navigation.navigateMypage
-import com.record.mypage.navigation.navigateToFollower
-import com.record.mypage.navigation.navigateToFollowing
 import com.record.profile.navigation.ProfileRoute
 import com.record.profile.navigation.navigateProfile
-import com.record.setting.navigate.navigateSetting
 import com.record.video.navigation.navigateVideo
 import com.record.video.navigation.navigateVideoDetail
 
@@ -123,15 +120,6 @@ internal class MainNavigator(
         } else {
             navController.popBackStack(homeRoute, inclusive = false)
         }
-    }
-    fun navigateSelectedKeyword() {
-        navController.navigateSelectedKeyword()
-    }
-    fun navigateDefinedContent() {
-        navController.navigateDefinedContent()
-    }
-    fun navigateCompletedUpload() {
-        navController.navigateCompletedUpload()
     }
 
     private fun isSameCurrentDestination(route: String) =

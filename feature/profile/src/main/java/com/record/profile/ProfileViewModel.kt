@@ -17,8 +17,11 @@ class ProfileViewModel @Inject constructor() : BaseViewModel<ProfileState, Profi
                 copy(user = updatedUser)
             }
             postSideEffect(
-                if (updatedUser.isFollowing) ProfileSideEffect.Following
-                else ProfileSideEffect.Unfollowing
+                if (updatedUser.isFollowing) {
+                    ProfileSideEffect.Following
+                } else {
+                    ProfileSideEffect.Unfollowing
+                },
             )
         }
     }

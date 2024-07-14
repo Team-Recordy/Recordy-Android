@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FollowViewModel @Inject constructor() : BaseViewModel<FollowState, FollowSideEffect>(
-    FollowState()
+    FollowState(),
 ) {
 
     fun toggleFollow(user: UserData) {

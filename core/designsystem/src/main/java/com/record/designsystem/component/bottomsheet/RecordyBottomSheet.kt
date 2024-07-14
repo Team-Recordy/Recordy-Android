@@ -1,6 +1,7 @@
 package com.record.designsystem.component.bottomsheet
 
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
@@ -40,6 +41,7 @@ fun RecordyBottomSheet(
             },
             containerColor = Color(0xFFE8E8E8),
             dragHandle = null,
+            windowInsets = WindowInsets(0, 0, 0, 0),
         ) {
             content()
         }

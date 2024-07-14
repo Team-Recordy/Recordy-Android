@@ -5,7 +5,7 @@ import com.record.ui.base.UiState
 
 data class UploadState(
     val showShouldShowRationaleDialog: Boolean = false,
+    val isSelectedVideoSheetOpen: Boolean = false,
 ) : UiState
 
-sealed interface UploadSideEffect : SideEffect {
-}
+sealed interface UploadSideEffect : SideEffect

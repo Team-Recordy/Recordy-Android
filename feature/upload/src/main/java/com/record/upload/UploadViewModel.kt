@@ -14,4 +14,12 @@ class UploadViewModel @Inject constructor() :
     fun hideShouldShowRationaleDialog() = intent {
         copy(showShouldShowRationaleDialog = false)
     }
+
+    fun showIsSelectedVideoSheetOpen() = intent {
+        copy(isSelectedVideoSheetOpen = true)
+    }
+
+    fun hideIsSelectedVideoSheetOpen() = intent {
+        copy(isSelectedVideoSheetOpen = false)
+    }
 }

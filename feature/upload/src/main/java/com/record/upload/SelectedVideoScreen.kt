@@ -6,36 +6,21 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.VideoFrameDecoder
-import com.record.designsystem.component.button.RecordyButton
-import com.record.designsystem.component.navbar.TopNavigationBar
-import com.record.designsystem.theme.Background
-import com.record.designsystem.theme.Gray03
-import com.record.designsystem.theme.RecordyTheme
 
 @Composable
 fun SelectedVideoRoute(
@@ -51,40 +36,6 @@ fun SelectedVideoScreen(
 ) {
     Log.d("images", "${getAllVideos(10, null, LocalContext.current)}")
     val a = getAllVideos(10, null, LocalContext.current)
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Background),
-    ) {
-        Column(
-            modifier = Modifier
-                .align(Alignment.TopCenter),
-        ) {
-            TopNavigationBar(title = "영상 선택", enableGradation = true)
-            Text(
-                text = "ⓘ 1080p 이하의 최대 15초 영상을 올려주세요.",
-                color = Gray03,
-                style = RecordyTheme.typography.caption2,
-                maxLines = 1,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(4),
-                modifier = Modifier.padding(8.dp),
-            ) {
-                items(a) { video ->
-                    VideoThumbnail(video = video)
-                }
-            }
-        }
-        RecordyButton(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            text = "다음",
-            enabled = true,
-            onClick = {},
-        )
-    }
 }
 
 @Composable
@@ -117,15 +68,6 @@ fun VideoThumbnail(video: GalleryVideo) {
         )
     }
 }
-
-@Preview
-@Composable
-fun SelectedVideoScreenPreview() {
-    RecordyTheme {
-        VideoPickerScreen(navigateSelectedVideo = { /*TODO*/ })
-    }
-}
-
 fun getAllVideos(
     loadSize: Int,
     currentLocation: String?,

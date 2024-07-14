@@ -158,7 +158,7 @@ class RecordyTypography internal constructor(
         keyword1 = other.keyword1
         keyword2 = other.keyword2
         keyword3 = other.keyword3
-        emptybody= other.emptybody
+        emptybody = other.emptybody
     }
 }
 
@@ -240,7 +240,7 @@ fun RecordyTypography(): RecordyTypography {
             lineHeight = 20.sp,
         ),
         button2B = TextStyle(
-          fontFamily = PretendardBold,
+            fontFamily = PretendardBold,
             fontSize = 14.sp,
             lineHeight = 18.sp,
         ),
@@ -277,7 +277,7 @@ fun RecordyTypography(): RecordyTypography {
             lineHeight = 24.sp,
             letterSpacing = (-1).sp,
         ),
-        emptybody =TextStyle(
+        emptybody = TextStyle(
             fontFamily = PretendardBold,
             fontSize = 20.sp,
             lineHeight = 30.sp,

@@ -108,7 +108,7 @@ fun HomeScreen(
                     listOf(Color(0x339babfb), Color(0x00000000)),
                     startY = boxSize.height.toFloat() * 0.0f,
                     endY = boxSize.height.toFloat() * 0.3f,
-                )
+                ),
             ),
     ) {
         BackgroundAnimation()
@@ -124,7 +124,7 @@ fun HomeScreen(
                 .padding(bottom = 15.dp, end = 16.dp),
             onClick = onUploadButtonClick,
         )
-        if(state.isLoading){
+        if (state.isLoading) {
             LoadingLottie()
         }
     }
@@ -136,7 +136,7 @@ fun BoxScope.BackgroundAnimation() {
     val progress by animateLottieCompositionAsState(
         composition,
         iterations = LottieConstants.IterateForever,
-        speed = 1.0f
+        speed = 1.0f,
     )
     LottieAnimation(
         composition,
@@ -153,19 +153,19 @@ fun LoadingLottie() {
     val progress by animateLottieCompositionAsState(
         composition,
         iterations = LottieConstants.IterateForever,
-        speed = 4.0f
+        speed = 4.0f,
     )
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .customClickable(rippleEnabled = false){}
-            .background(color = RecordyTheme.colors.black50)
-    ){
+            .customClickable(rippleEnabled = false) {}
+            .background(color = RecordyTheme.colors.black50),
+    ) {
         LottieAnimation(
             composition,
             { progress },
             modifier = Modifier
-                .align(Alignment.Center)
+                .align(Alignment.Center),
         )
     }
 }
@@ -242,7 +242,7 @@ fun ChipRow(
             RecordyChipButton(
                 text = index,
                 isActive = selectedChip == index,
-                onClick = { onChipButtonClick(index) }
+                onClick = { onChipButtonClick(index) },
             )
         }
         item { Spacer(modifier = Modifier.width(8.dp)) }

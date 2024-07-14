@@ -1,6 +1,5 @@
 package com.record.designsystem.component.button
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,10 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.R
 import com.record.designsystem.theme.Black
 import com.record.designsystem.theme.Gray01
 import com.record.designsystem.theme.Gray04
@@ -28,7 +24,6 @@ import com.record.designsystem.theme.Gray08
 import com.record.designsystem.theme.Gray09
 import com.record.designsystem.theme.Main
 import com.record.designsystem.theme.RecordyTheme
-import com.record.designsystem.theme.Sub01
 import com.record.ui.extension.customClickable
 import timber.log.Timber
 
@@ -47,7 +42,7 @@ fun RecordyChipButton(
     onClick: () -> Unit = {},
 ) {
     val (borderLineColor, contentColor, backGroundColor) = if (isActive) {
-        if(isCheckSmall) Triple(Gray01, Gray09, Gray01) else Triple(Main, Main, Gray08)
+        if (isCheckSmall) Triple(Gray01, Gray09, Gray01) else Triple(Main, Main, Gray08)
     } else {
         Triple(Color.Transparent, Gray04, if (isCheckSmall) Gray09 else Gray08)
     }

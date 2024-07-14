@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor() : BaseViewModel<HomeState, HomeSideEffect>(HomeState()) {
-    fun navigateToUpload(){
+    fun navigateToUpload() {
         postSideEffect(HomeSideEffect.navigateToUpload)
     }
 
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel<HomeState, HomeSideEff
         Log.e("반환값", updatedPopularList.toString())
         copy(
             recentList = updatedRecentList,
-            popularList = updatedPopularList
+            popularList = updatedPopularList,
         )
     }
 }

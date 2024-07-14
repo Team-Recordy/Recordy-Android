@@ -37,8 +37,7 @@ fun BookmarkScreen(videoItems: List<VideoData>, recordCount: Int) {
     if (videoItems.isEmpty()) {
         EmptyDataScreen(
             imageRes = com.record.designsystem.R.drawable.img_bookmark,
-            message = "자유롭게 취향을\n북마크해 보세요",
-            recordCount = recordCount,
+            message = "자유롭게 취향을 북마크해 보세요",
             showButton = false,
         )
     } else {
@@ -89,6 +88,16 @@ fun PreviewBookmarkScreenWithSampleList() {
     RecordyTheme {
         BookmarkScreen(
             SampleData.sampleVideos, SampleData.sampleVideos.size
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewBookmarkScreeEmptyList() {
+    RecordyTheme {
+        BookmarkScreen(
+            emptyList(), 0
         )
     }
 }

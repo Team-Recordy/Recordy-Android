@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +39,7 @@ import kotlinx.coroutines.flow.filter
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCount: Int) {
+fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
     val circleCoords = listOf(
         Pair(258, 327),
         Pair(456, 170),
@@ -52,7 +53,6 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), r
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(1f)
             .align(Alignment.Center),
     ) {
         LaunchedEffect(Unit) {
@@ -63,14 +63,12 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), r
         if (dataAvailable.size < 3) {
             EmptyDataScreen(
                 imageRes = R.drawable.img_for_empty,
-                message = "키워드를 3개 이상 기록하면\n취향을 분석해 드려요",
-                recordCount = recordCount,
+                message = "다양한 영상을 기록하면\n취향을 분석해 드려요",
                 showButton = true,
                 onButtonClick = {
                     // TasteScreen의 버튼 클릭 처리
                 },
             )
-
         } else {
             Box(
                 modifier = Modifier
@@ -99,8 +97,8 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), r
                                 columnSize = layoutCoordinates.size
                             }
                             .offset(
-                                x = (circleCoords[index].first * screenWidth / 655 - (screenWidth/2)).dp,
-                                y = (circleCoords[index].second * screenWidth / 655 - (screenWidth/2)).dp,
+                                x = (circleCoords[index].first * screenWidth / 655 - (screenWidth / 2)).dp,
+                                y = (circleCoords[index].second * screenWidth / 655 - (screenWidth / 2)).dp,
                             ),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
@@ -137,15 +135,8 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), r
 @Composable
 fun PreviewTasteScreenWithEmptyList() {
     RecordyTheme {
-    }
-}
-
-@Preview
-@Composable
-fun PreviewTasteScreenWithSampleList() {
-    RecordyTheme {
-        Box{
-            TasteScreen(recordCount = 3)
+        Box(modifier = Modifier.fillMaxSize()) {
+            TasteScreen()
         }
     }
 }

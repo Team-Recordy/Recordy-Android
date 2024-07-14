@@ -172,8 +172,7 @@ fun MypageScreen(
                 pagerState = pagerState,
                 coroutineScope = coroutineScope,
             )
-            Spacer(modifier = Modifier.height(18.dp))
-
+            Spacer(modifier = Modifier.height(10.dp))
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.fillMaxWidth(),
@@ -181,15 +180,21 @@ fun MypageScreen(
             ) { page ->
                 when (page) {
                     MypageTab.TASTE.ordinal -> {
-                        TasteScreen(tasteData,3)
+                        Box(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            TasteScreen()
+                        }
                     }
 
                     MypageTab.RECORD.ordinal -> {
-                        RecordScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
+                        // RecordScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
+                        RecordScreen(emptyList(), 0)
                     }
 
                     MypageTab.BOOKMARK.ordinal -> {
-                        BookmarkScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
+                        // BookmarkScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
+                        BookmarkScreen(emptyList(), 0)
                     }
                 }
             }

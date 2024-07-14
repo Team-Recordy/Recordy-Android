@@ -79,7 +79,8 @@ fun EmptyFollowerScreen() {
                 Image(
                     painter = painterResource(com.record.designsystem.R.drawable.img_no_follower),
                     contentDescription = null,
-                    modifier = Modifier.weight(10f)
+                    modifier = Modifier
+                        .weight(10f)
                         .aspectRatio(1f),
                 )
                 Spacer(modifier = Modifier.weight(13f))
@@ -87,7 +88,7 @@ fun EmptyFollowerScreen() {
 
             Spacer(modifier = Modifier.size(32.dp))
             Text(
-                text = "아직 팔로우하는 사람이 없어요",
+                text = "아직 팔로워가 없어요",
                 style = RecordyTheme.typography.emptybody,
                 color = RecordyTheme.colors.white,
             )

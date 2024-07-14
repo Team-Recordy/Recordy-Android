@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.R
@@ -24,21 +23,21 @@ import com.record.ui.extension.customClickable
 fun UploadFloatingButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-){
+) {
     Box(
         modifier = modifier
             .customClickable { onClick() }
             .background(color = Color(0xFF9BABFB), shape = RoundedCornerShape(40.dp)),
-    ){
+    ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 modifier = Modifier
                     .padding(vertical = 4.dp)
                     .padding(start = 10.dp),
                 painter = painterResource(id = R.drawable.ic_upload_floating),
-                contentDescription = "floating button"
+                contentDescription = "floating button",
             )
             Text(
                 modifier = Modifier

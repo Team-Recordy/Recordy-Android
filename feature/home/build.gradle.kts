@@ -6,3 +6,8 @@ plugins {
 android {
     namespace = "com.record.home"
 }
+
+dependencies {
+    implementation(libs.lottie.compose)
+    implementation(libs.collapsing.toolbar)
+}

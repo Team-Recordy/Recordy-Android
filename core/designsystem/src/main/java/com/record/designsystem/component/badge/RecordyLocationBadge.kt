@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.R
@@ -50,6 +51,8 @@ fun RecordyLocationBadge(
                 modifier = Modifier
                     .padding(end = 12.dp),
                 text = location,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 style = RecordyTheme.typography.caption1,
                 color = RecordyTheme.colors.gray01,
                 textAlign = TextAlign.Center,

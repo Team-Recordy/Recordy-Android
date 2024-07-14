@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import com.record.designsystem.R
 import com.record.home.navigation.HomeRoute
 import com.record.mypage.navigation.MypageRoute
-import com.record.upload.navigation.UploadRoute
 import com.record.video.navigation.VideoRoute
 
 enum class MainNavTab(

@@ -35,12 +35,14 @@ class RecordyTypography internal constructor(
     caption2: TextStyle,
     button1: TextStyle,
     button2: TextStyle,
+    button2B: TextStyle,
     number1: TextStyle,
     number2: TextStyle,
     number3: TextStyle,
     keyword1: TextStyle,
     keyword2: TextStyle,
     keyword3: TextStyle,
+    emptybody: TextStyle,
 ) {
     var headline: TextStyle by mutableStateOf(headline)
         private set
@@ -70,6 +72,8 @@ class RecordyTypography internal constructor(
         private set
     var button2: TextStyle by mutableStateOf(button2)
         private set
+    var button2B: TextStyle by mutableStateOf(button2B)
+        private set
     var number1: TextStyle by mutableStateOf(number1)
         private set
     var number2: TextStyle by mutableStateOf(number2)
@@ -82,7 +86,8 @@ class RecordyTypography internal constructor(
         private set
     var keyword3: TextStyle by mutableStateOf(keyword3)
         private set
-
+    var emptybody: TextStyle by mutableStateOf(emptybody)
+        private set
     fun copy(
         headline: TextStyle = this.headline,
         title1: TextStyle = this.title1,
@@ -98,12 +103,14 @@ class RecordyTypography internal constructor(
         caption2: TextStyle = this.caption2,
         button1: TextStyle = this.button1,
         button2: TextStyle = this.button2,
+        button2B: TextStyle = this.button2B,
         number1: TextStyle = this.number1,
         number2: TextStyle = this.number2,
         number3: TextStyle = this.number3,
         keyword1: TextStyle = this.keyword1,
         keyword2: TextStyle = this.keyword2,
         keyword3: TextStyle = this.keyword3,
+        emptybody: TextStyle = this.emptybody,
     ): RecordyTypography = RecordyTypography(
         headline,
         title1,
@@ -119,12 +126,14 @@ class RecordyTypography internal constructor(
         caption2,
         button1,
         button2,
+        button2B,
         number1,
         number2,
         number3,
         keyword1,
         keyword2,
         keyword3,
+        emptybody,
     )
 
     fun update(other: RecordyTypography) {
@@ -142,12 +151,14 @@ class RecordyTypography internal constructor(
         caption2 = other.caption2
         button1 = other.button1
         button2 = other.button2
+        button2B = other.button2B
         number1 = other.number1
         number2 = other.number2
         number3 = other.number3
         keyword1 = other.keyword1
         keyword2 = other.keyword2
         keyword3 = other.keyword3
+        emptybody= other.emptybody
     }
 }
 
@@ -228,6 +239,11 @@ fun RecordyTypography(): RecordyTypography {
             fontSize = 14.sp,
             lineHeight = 20.sp,
         ),
+        button2B = TextStyle(
+          fontFamily = PretendardBold,
+            fontSize = 14.sp,
+            lineHeight = 18.sp,
+        ),
         number1 = TextStyle(
             fontFamily = CocogooseproThin,
             fontSize = 42.sp,
@@ -260,6 +276,11 @@ fun RecordyTypography(): RecordyTypography {
             fontSize = 12.sp,
             lineHeight = 24.sp,
             letterSpacing = (-1).sp,
+        ),
+        emptybody =TextStyle(
+            fontFamily = PretendardBold,
+            fontSize = 20.sp,
+            lineHeight = 30.sp,
         ),
     )
 }

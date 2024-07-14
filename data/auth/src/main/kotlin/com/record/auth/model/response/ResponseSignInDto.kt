@@ -1,6 +1,6 @@
 package com.record.auth.model.response
 
-import com.recordy.auth.model.AuthToken
+import com.recordy.auth.model.AuthEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,5 +13,5 @@ data class ResponseSignInDto(
     @SerialName("isSignedUp")
     val isSignedUp: Boolean,
 ) {
-    fun toDomain() = AuthToken(accessToken = accessToken, refreshToken = refreshToken, isSignedUp = isSignedUp )
+    fun toDomain() = AuthEntity(accessToken = accessToken, refreshToken = refreshToken, isSignedUp = isSignedUp )
 }

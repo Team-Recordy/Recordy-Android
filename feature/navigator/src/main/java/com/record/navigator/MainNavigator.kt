@@ -38,7 +38,6 @@ internal class MainNavigator(
 
         when (tab) {
             MainNavTab.HOME -> navController.navigateHome(navOptions)
-            MainNavTab.UPLOAD -> navController.navigateUpload(navOptions)
             MainNavTab.VIDEO -> navController.navigateVideo(navOptions)
             MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
         }

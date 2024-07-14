@@ -22,4 +22,11 @@ class UploadViewModel @Inject constructor() :
     fun hideIsSelectedVideoSheetOpen() = intent {
         copy(isSelectedVideoSheetOpen = false)
     }
+    fun showIsSelectedDefinedContentSheetOpen() = intent {
+        copy(isSelectedDefinedContentSheetOpen = true)
+    }
+
+    fun hideIsSelectedDefinedContentSheetOpen() = intent {
+        copy(isSelectedDefinedContentSheetOpen = false)
+    }
 }

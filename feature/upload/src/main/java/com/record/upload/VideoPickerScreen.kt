@@ -53,6 +53,7 @@ import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.record.upload.component.bottomsheet.DefinedContentBottomSheet
 import com.record.upload.component.bottomsheet.SelectedVideoBottomSheet
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -73,11 +74,12 @@ fun VideoPickerRoute(
 
     VideoPickerScreen(
         state = state,
-        onClickKeyword = {},
         showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
         hideShouldShowRationaleDialog = viewModel::hideShouldShowRationaleDialog,
         showIsSelectedVideoSheetOpen = viewModel::showIsSelectedVideoSheetOpen,
         hideIsSelectedVideoSheetOpen = viewModel::hideIsSelectedVideoSheetOpen,
+        showIsSelectedDefinedContentSheetOpen = viewModel::showIsSelectedDefinedContentSheetOpen,
+        hideIsSelectedDefinedContentSheetOpen = viewModel::hideIsSelectedDefinedContentSheetOpen,
     )
 }
 
@@ -86,11 +88,12 @@ fun VideoPickerRoute(
 @Composable
 fun VideoPickerScreen(
     state: UploadState = UploadState(),
-    onClickKeyword: () -> Unit = {},
     showShouldShowRationaleDialog: () -> Unit = {},
     hideShouldShowRationaleDialog: () -> Unit = {},
     showIsSelectedVideoSheetOpen: () -> Unit = {},
     hideIsSelectedVideoSheetOpen: () -> Unit = {},
+    showIsSelectedDefinedContentSheetOpen: () -> Unit = {},
+    hideIsSelectedDefinedContentSheetOpen: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val cameraPermissionState = rememberPermissionState(Manifest.permission.READ_MEDIA_VIDEO)
@@ -182,7 +185,7 @@ fun VideoPickerScreen(
                     .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(30.dp))
                     .padding(vertical = 8.dp)
                     .padding(start = 8.dp, end = 12.dp)
-                    .customClickable(onClick = onClickKeyword),
+                    .customClickable(onClick = showIsSelectedDefinedContentSheetOpen),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
             ) {
@@ -248,6 +251,11 @@ fun VideoPickerScreen(
             isSheetOpen = state.isSelectedVideoSheetOpen,
             onDismissRequest = hideIsSelectedVideoSheetOpen,
             galleyVideos = exampleVideoList,
+        )
+        DefinedContentBottomSheet(
+            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+            isSheetOpen = state.isSelectedDefinedContentSheetOpen,
+            onDismissRequest = hideIsSelectedDefinedContentSheetOpen,
         )
     }
 }

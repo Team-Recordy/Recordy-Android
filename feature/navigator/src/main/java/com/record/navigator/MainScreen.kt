@@ -99,7 +99,7 @@ internal fun MainScreen(
                 uploadNavGraph(
                     padding = innerPadding,
                     navigateSelectedVideo = navigator::navigateSelectedVideo,
-              )
+                )
 
                 videoNavGraph(
                     padding = innerPadding,

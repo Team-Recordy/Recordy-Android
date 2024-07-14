@@ -20,7 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.RecordyVideoThumbnail
@@ -36,7 +40,6 @@ fun BookmarkScreen(videoItems: List<VideoData>, recordCount: Int) {
             message = "자유롭게 취향을\n북마크해 보세요",
             recordCount = recordCount,
             showButton = false,
-            showRecordCount = true,
         )
     } else {
         Box(
@@ -51,7 +54,7 @@ fun BookmarkScreen(videoItems: List<VideoData>, recordCount: Int) {
                 contentAlignment = Alignment.TopEnd,
             ) {
                 Text(
-                    text = "• $recordCount 개의 기록",
+                    text = buildRecordCountText(recordCount),
                     style = RecordyTheme.typography.body2M,
                     color = RecordyTheme.colors.gray01,
                 )
@@ -71,6 +74,7 @@ fun BookmarkScreen(videoItems: List<VideoData>, recordCount: Int) {
                         imageUri = item.previewUri,
                         isBookmarkable = false,
                         isBookmark = false,
+                        location = item.location,
                     )
                 }
             }

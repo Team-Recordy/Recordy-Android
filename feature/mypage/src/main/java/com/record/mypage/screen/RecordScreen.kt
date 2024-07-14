@@ -22,12 +22,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.VideoData
+import com.record.mypage.MypageState
 import com.record.mypage.R
 import com.record.mypage.VideoItem
 
@@ -39,16 +44,15 @@ fun RecordScreen(videoItems: List<VideoData>, recordCount: Int) {
             message = "내 첫 번째 공간 기록을\n작성해 보세요",
             recordCount = recordCount,
             showButton = true,
-            showRecordCount = true,
             onButtonClick = {
                 // 기록 모달로 넘어가는 부분
-            }
+            },
         )
     } else {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
         ) {
             Box(
                 modifier = Modifier
@@ -57,7 +61,7 @@ fun RecordScreen(videoItems: List<VideoData>, recordCount: Int) {
                 contentAlignment = Alignment.TopEnd,
             ) {
                 Text(
-                    text = "• $recordCount 개의 기록",
+                    text =  buildRecordCountText(recordCount),
                     style = RecordyTheme.typography.body2M,
                     color = RecordyTheme.colors.gray01,
                 )
@@ -77,6 +81,7 @@ fun RecordScreen(videoItems: List<VideoData>, recordCount: Int) {
                         imageUri = item.previewUri,
                         isBookmarkable = false,
                         isBookmark = false,
+                        location = item.location,
                     )
                 }
             }
@@ -84,12 +89,32 @@ fun RecordScreen(videoItems: List<VideoData>, recordCount: Int) {
     }
 }
 
+@Composable
+fun buildRecordCountText(recordCount: Int): AnnotatedString {
+    return buildAnnotatedString {
+        withStyle(style = SpanStyle(color = RecordyTheme.colors.white)) {
+            append("• $recordCount")
+        }
+        withStyle(style = SpanStyle(color = RecordyTheme.colors.gray03)) {
+            append(" 개의 기록")
+        }
+    }
+}
+
 @Preview
 @Composable
-fun PreviewRecordScreenWithSampleList() {
+fun PreviewRecordEmptyScreen() {
+    RecordyTheme {
+        RecordScreen(emptyList(), recordCount = 0)
+    }
+}
+
+@Preview
+@Composable
+fun PreviewRecordScreen() {
     RecordyTheme {
         RecordScreen(
-            SampleData.sampleVideos, SampleData.sampleVideos.size
+            SampleData.sampleVideos, SampleData.sampleVideos.size,
         )
     }
 }

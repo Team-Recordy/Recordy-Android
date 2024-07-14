@@ -87,7 +87,7 @@ fun TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCoun
                     .align(Alignment.Center)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.img_aft_bubble),
+                    painter = painterResource(id = com.record.designsystem.R.drawable.img_bg_bubble),
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()

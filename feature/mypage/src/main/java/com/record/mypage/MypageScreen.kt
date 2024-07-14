@@ -66,9 +66,15 @@ import coil.compose.rememberImagePainter
 import com.record.designsystem.theme.RecordyTheme
 import com.record.mypage.screen.BookmarkScreen
 import com.record.mypage.screen.RecordScreen
+import com.record.mypage.screen.SampleData
 import com.record.mypage.screen.TasteScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+
+data class VideoItem(
+    val previewUri: String,
+    val isBookmarked: Boolean
+)
 
 @Composable
 fun MypageRoute(
@@ -179,11 +185,11 @@ fun MypageScreen(
                     }
 
                     MypageTab.RECORD.ordinal -> {
-                        RecordScreen(tasteData, 10)
+                        RecordScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
                     }
 
                     MypageTab.BOOKMARK.ordinal -> {
-                        BookmarkScreen(emptyList(), 0)
+                        BookmarkScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
                     }
                 }
             }

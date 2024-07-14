@@ -124,6 +124,15 @@ internal class MainNavigator(
             navController.popBackStack(homeRoute, inclusive = false)
         }
     }
+    fun navigateSelectedKeyword() {
+        navController.navigateSelectedKeyword()
+    }
+    fun navigateDefinedContent() {
+        navController.navigateDefinedContent()
+    }
+    fun navigateCompletedUpload() {
+        navController.navigateCompletedUpload()
+    }
 
     private fun isSameCurrentDestination(route: String) =
         navController.currentDestination?.route == route

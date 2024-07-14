@@ -27,13 +27,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.theme.RecordyTheme
+import com.record.model.VideoData
 import com.record.mypage.R
+import com.record.mypage.VideoItem
 
 @Composable
-fun RecordScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCount: Int) {
-    if (dataAvailable.isEmpty()) {
+fun RecordScreen(videoItems: List<VideoData>, recordCount: Int) {
+    if (videoItems.isEmpty()) {
         EmptyDataScreen(
-            imageRes = R.drawable.img_for_empty,
+            imageRes = com.record.designsystem.R.drawable.img_camera,
             message = "내 첫 번째 공간 기록을\n작성해 보세요",
             recordCount = recordCount,
             showButton = true,
@@ -73,7 +75,7 @@ fun RecordScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCou
                 items(SampleData.sampleVideos) { item ->
                     RecordyVideoThumbnail(
                         imageUri = item.previewUri,
-                        isBookmarkable = true,
+                        isBookmarkable = false,
                         isBookmark = false,
                     )
                 }
@@ -87,12 +89,7 @@ fun RecordScreen(dataAvailable: List<Pair<String, Int>> = emptyList(), recordCou
 fun PreviewRecordScreenWithSampleList() {
     RecordyTheme {
         RecordScreen(
-            listOf(
-                Pair("집중하기 좋은", 66),
-                Pair("조용한", 22),
-                Pair("신나는", 8),
-            ),
-            recordCount = 3,
+            SampleData.sampleVideos, SampleData.sampleVideos.size
         )
     }
 }

@@ -25,13 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.theme.RecordyTheme
+import com.record.model.VideoData
 import com.record.mypage.R
 
 @Composable
-fun BookmarkScreen(bookmarks: List<Pair<String, Int>> = emptyList(), recordCount: Int) {
-    if (bookmarks.isEmpty()) {
+fun BookmarkScreen(videoItems: List<VideoData>, recordCount: Int) {
+    if (videoItems.isEmpty()) {
         EmptyDataScreen(
-            imageRes = R.drawable.img_for_empty,
+            imageRes = com.record.designsystem.R.drawable.img_bookmark,
             message = "자유롭게 취향을\n북마크해 보세요",
             recordCount = recordCount,
             showButton = false,
@@ -68,7 +69,7 @@ fun BookmarkScreen(bookmarks: List<Pair<String, Int>> = emptyList(), recordCount
                 items(SampleData.sampleVideos) { item ->
                     RecordyVideoThumbnail(
                         imageUri = item.previewUri,
-                        isBookmarkable = true,
+                        isBookmarkable = false,
                         isBookmark = false,
                     )
                 }
@@ -83,12 +84,7 @@ fun BookmarkScreen(bookmarks: List<Pair<String, Int>> = emptyList(), recordCount
 fun PreviewBookmarkScreenWithSampleList() {
     RecordyTheme {
         BookmarkScreen(
-            listOf(
-                Pair("집중하기 좋은", 66),
-                Pair("조용한", 22),
-                Pair("신나는", 8),
-            ),
-            recordCount = 3,
+            SampleData.sampleVideos, SampleData.sampleVideos.size
         )
     }
 }

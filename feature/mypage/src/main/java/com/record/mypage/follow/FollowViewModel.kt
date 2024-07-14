@@ -1,4 +1,4 @@
-package com.record.mypage
+package com.record.mypage.follow
 
 import androidx.lifecycle.viewModelScope
 import com.record.model.UserData
@@ -10,7 +10,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FollowViewModel @Inject constructor() : BaseViewModel<FollowState, FollowSideEffect>(FollowState()) {
+class FollowViewModel @Inject constructor() : BaseViewModel<FollowState, FollowSideEffect>(
+    FollowState()
+) {
 
     fun toggleFollow(user: UserData) {
         intent {

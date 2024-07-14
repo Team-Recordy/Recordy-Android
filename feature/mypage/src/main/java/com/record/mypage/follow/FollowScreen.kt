@@ -1,4 +1,4 @@
-package com.record.mypage
+package com.record.mypage.follow
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn

@@ -2,6 +2,7 @@ package com.record.upload
 
 import android.Manifest
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -31,16 +32,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
 import com.record.designsystem.R
 import com.record.designsystem.component.button.RecordyButton
+import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.component.textfield.RecordyBasicTextField
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -49,11 +56,21 @@ import timber.log.Timber
 @Composable
 fun VideoPickerRoute(
     paddingValues: PaddingValues,
+    viewModel: UploadViewModel = hiltViewModel(),
     navigateSelectedVideo: () -> Unit,
 ) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { }
+    }
+
     VideoPickerScreen(
+        state = state,
         navigateSelectedVideo = navigateSelectedVideo,
         onClickKeyword = {},
+        showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
+        hideShouldShowRationaleDialog = viewModel::hideShouldShowRationaleDialog,
     )
 }
 
@@ -61,8 +78,11 @@ fun VideoPickerRoute(
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun VideoPickerScreen(
+    state: UploadState = UploadState(),
     navigateSelectedVideo: () -> Unit,
     onClickKeyword: () -> Unit = {},
+    showShouldShowRationaleDialog: () -> Unit = {},
+    hideShouldShowRationaleDialog: () -> Unit = {},
 ) {
     val cameraPermissionState = rememberPermissionState(Manifest.permission.READ_MEDIA_VIDEO)
 
@@ -107,15 +127,22 @@ fun VideoPickerScreen(
             Box(
                 modifier = Modifier
                     .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(16.dp))
-                    .customClickable(onClick = {
-                        if (cameraPermissionState.status.isGranted) {
-                            navigateSelectedVideo()
-                            return@customClickable
-                        }
-                        scope.launch {
-                            requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_VIDEO)
-                        }
-                    },),
+                    .customClickable(
+                        onClick = {
+                            if (cameraPermissionState.status.isGranted) {
+                                navigateSelectedVideo()
+                                return@customClickable
+                            }
+                            if (cameraPermissionState.status.shouldShowRationale) {
+                                Log.d("shouldShowRationale", "${cameraPermissionState.status.shouldShowRationale}")
+                                showShouldShowRationaleDialog()
+                                return@customClickable
+                            }
+                            scope.launch {
+                                requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_VIDEO)
+                            }
+                        },
+                    ),
             ) {
                 Column(
                     modifier = Modifier
@@ -190,10 +217,20 @@ fun VideoPickerScreen(
                 onValueChange = { normalValue = it },
             )
             RecordyButton(
-//                modifier = Modifier.padding(16.dp),
                 text = "키워드",
                 enabled = false,
                 onClick = { Timber.d("basic key word") },
+            )
+        }
+        if (state.showShouldShowRationaleDialog) {
+            RecordyDialog(
+                graphicAsset = R.drawable.img_allow,
+                title = "필수 권한을 허용해주세요",
+                subTitle = "사진 접근을 허용하여 영상을 업로드 하세요.",
+                negativeButtonLabel = "닫기",
+                positiveButtonLabel = "지금 설정",
+                onDismissRequest = hideShouldShowRationaleDialog,
+                onPositiveButtonClick = {},
             )
         }
     }

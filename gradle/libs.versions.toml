@@ -80,6 +80,7 @@ jsoup = "1.17.2"
 kakao-login = "2.19.0"
 process-pheonix = "3.0.0"
 preference = "1.2.1"
+collapsing-toolbar = "2.3.5"
 
 [plugins]
 # Gradle Plugins
@@ -213,9 +214,11 @@ itlab-detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-
 # Miscellaneous Libraries
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
 kakao-login = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-login" }
 process-phoenix = { module = "com.jakewharton:process-phoenix", version.ref = "process-pheonix" }
+collapsing-toolbar = { group = "me.onebone", name = "toolbar-compose", version.ref = "collapsing-toolbar" }
 
 [bundles]
 firebase = ["firebase-analytics", "firebase-database", "firebase-messaging", "firebase-remoteConfig"]

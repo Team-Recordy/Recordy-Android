@@ -209,8 +209,8 @@ fun MypageScreenPreview() {
     val exampleState = MypageState(
         profileImg = "",
         nickname = "공간수집가열글자아아",
-        followerNum = 100,
-        followingNum = 50,
+        followerNum = 1260,
+        followingNum = 96880,
         mypageTab = MypageTab.TASTE,
     )
     RecordyTheme {
@@ -317,16 +317,23 @@ fun CustomTabRow(
 private fun buildFollowerFollowingText(state: MypageState): AnnotatedString {
     return buildAnnotatedString {
         withStyle(style = SpanStyle(color = RecordyTheme.colors.white)) {
-            append("${state.followerNum}")
+            append(formatNumber(state.followerNum))
         }
         withStyle(style = SpanStyle(color = RecordyTheme.colors.gray03)) {
             append(" 명의 팔로워 | ")
         }
         withStyle(style = SpanStyle(color = RecordyTheme.colors.white)) {
-            append("${state.followingNum}")
+            append(formatNumber(state.followingNum))
         }
         withStyle(style = SpanStyle(color = RecordyTheme.colors.gray03)) {
             append(" 명의 팔로잉")
         }
+    }
+}
+fun formatNumber(number: Int): String {
+    return when {
+        number >= 10000 -> "${number / 10000}.${(number % 10000) / 1000}만"
+        number >= 1000 -> "${number / 1000}.${(number % 1000) / 100}천"
+        else -> number.toString()
     }
 }

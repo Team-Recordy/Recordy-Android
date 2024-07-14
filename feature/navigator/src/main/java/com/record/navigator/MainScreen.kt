@@ -126,9 +126,8 @@ private fun MainBottomNavigationBar(
                 color = RecordyTheme.colors.gray05,
             )
             Row(
-                modifier = Modifier
-                    .height(72.dp)
-                    .background(color = RecordyTheme.colors.gray08),
+                modifier = Modifier.height(72.dp)
+                    .background(color = RecordyTheme.colors.background),
             ) {
                 entries.forEach { tab ->
                     tab.run {

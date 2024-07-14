@@ -26,12 +26,6 @@ enum class MainNavTab(
         titleId = R.string.video,
         route = VideoRoute.route,
     ),
-    UPLOAD(
-        iconId = R.drawable.ic_tab_record_28,
-        selectedIconId = R.drawable.ic_tab_record_pressed_28,
-        titleId = R.string.upload,
-        route = UploadRoute.route,
-    ),
     MYPAGE(
         iconId = R.drawable.ic_tab_profile_28,
         selectedIconId = R.drawable.ic_tab_profile_pressed_28,

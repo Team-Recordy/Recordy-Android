@@ -7,5 +7,6 @@ android {
 }
 
 dependencies {
+    implementation("com.google.accompanist:accompanist-permissions:0.34.0")
     implementation(projects.domain.upload)
 }

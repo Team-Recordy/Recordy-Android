@@ -2,7 +2,6 @@ package com.record.upload
 
 import android.content.ContentUris
 import android.content.Context
-import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
@@ -11,26 +10,27 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.semantics.Role.Companion.Image
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.decode.VideoFrameDecoder
-import coil.size.Scale
 import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.Background
@@ -48,8 +48,9 @@ fun SelectedVideoRoute(
 @Composable
 fun SelectedVideoScreen(
     navigateDefinedContent: () -> Unit,
-) { Log.d("images","${getAllVideos(10, null, LocalContext.current)}")
-    val a =getAllVideos(10, null, LocalContext.current)
+) {
+    Log.d("images", "${getAllVideos(10, null, LocalContext.current)}")
+    val a = getAllVideos(10, null, LocalContext.current)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -68,7 +69,14 @@ fun SelectedVideoScreen(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
             )
-            VideoThumbnail(video = a[0])
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(4),
+                modifier = Modifier.padding(8.dp),
+            ) {
+                items(a) { video ->
+                    VideoThumbnail(video = video)
+                }
+            }
         }
         RecordyButton(
             modifier = Modifier.align(Alignment.BottomCenter),
@@ -77,9 +85,7 @@ fun SelectedVideoScreen(
             onClick = {},
         )
     }
-
 }
-
 
 @Composable
 fun VideoThumbnail(video: GalleryVideo) {
@@ -87,35 +93,31 @@ fun VideoThumbnail(video: GalleryVideo) {
     val imageLoader = ImageLoader.Builder(context)
         .components {
             add(VideoFrameDecoder.Factory())
-        }.crossfade(true)
+        }
+        .crossfade(true)
         .build()
 
     val painter = rememberAsyncImagePainter(
         model = video.filepath,
-        imageLoader = imageLoader,)
+        imageLoader = imageLoader,
+    )
 
-    Box(modifier = Modifier
-        .padding(8.dp)
-        .fillMaxWidth()) {
-//        val painter = rememberImagePainter(
-//            data = video.uri,
-//            imageLoader = imageLoader,
-//            builder = {
-//                crossfade(true)
-//                scale(Scale.FILL)
-//            }
-//        )
-
+    Box(
+        modifier = Modifier
+            .padding(8.dp)
+            .size(85.dp),
+    ) {
         Image(
             painter = painter,
             contentDescription = "Video Thumbnail",
+            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(16 / 9f)
+                .fillMaxSize()
+                .clip(RectangleShape),
         )
-
     }
 }
+
 @Preview
 @Composable
 fun SelectedVideoScreenPreview() {
@@ -127,19 +129,17 @@ fun SelectedVideoScreenPreview() {
 fun getAllVideos(
     loadSize: Int,
     currentLocation: String?,
-    context: Context
+    context: Context,
 ): MutableList<GalleryVideo> {
     val galleryVideoList = mutableListOf<GalleryVideo>()
-    // 외장 메모리에 있는 비디오 파일의 URI를 받도록 함
     val uriExternal: Uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-    // 커서에 가져올 정보에 대해서 지정한다.
     val projection = arrayOf(
         MediaStore.Video.VideoColumns.DATA,
         MediaStore.Video.VideoColumns.DISPLAY_NAME, // 이름
         MediaStore.Video.VideoColumns.SIZE, // 크기
         MediaStore.Video.VideoColumns.DATE_TAKEN,
         MediaStore.Video.VideoColumns.DATE_ADDED, // 추가된 날짜
-        MediaStore.Video.VideoColumns._ID
+        MediaStore.Video.VideoColumns._ID,
     )
     val resolver = context.contentResolver
 
@@ -151,15 +151,14 @@ fun getAllVideos(
         projection,
         selection,
         selectionArgs,
-        "${MediaStore.Video.VideoColumns.DATE_ADDED} DESC"
+        "${MediaStore.Video.VideoColumns.DATE_ADDED} DESC",
     )
 
     query?.use { cursor ->
-        Log.d("gallery cursor", "Cursor count: ${cursor.count}.")
-
         if (cursor.moveToFirst()) {
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns._ID)
-            val nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DISPLAY_NAME)
+            val nameColumn =
+                cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DISPLAY_NAME)
             val filePathColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DATA)
             val sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.SIZE)
             val dateColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DATE_TAKEN)
@@ -180,8 +179,8 @@ fun getAllVideos(
                         uri = contentUri,
                         name = name,
                         date = date ?: "",
-                        size = size
-                    )
+                        size = size,
+                    ),
                 )
             } while (cursor.moveToNext())
         }
@@ -196,5 +195,5 @@ data class GalleryVideo(
     val uri: Uri,
     val name: String,
     val date: String,
-    val size: Int
+    val size: Int,
 )

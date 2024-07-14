@@ -1,12 +1,10 @@
 package com.record.upload
 
 import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,11 +27,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.record.designsystem.R
 import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.navbar.TopNavigationBar
@@ -45,6 +44,8 @@ import com.record.ui.extension.customClickable
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun VideoPickerRoute(
     paddingValues: PaddingValues,
@@ -52,60 +53,32 @@ fun VideoPickerRoute(
 ) {
     VideoPickerScreen(
         navigateSelectedVideo = navigateSelectedVideo,
-        onClickKeyword = {}
+        onClickKeyword = {},
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun VideoPickerScreen(
     navigateSelectedVideo: () -> Unit,
     onClickKeyword: () -> Unit = {},
 ) {
+    val cameraPermissionState = rememberPermissionState(Manifest.permission.READ_MEDIA_VIDEO)
 
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    var hasPermission by remember { mutableStateOf(false) }
-
-    // Permission launcher
-    val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        hasPermission = permissions.values.all { it }
-    }
-    LaunchedEffect(Unit) {
-        hasPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            context.checkSelfPermission(Manifest.permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_GRANTED
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted ->
+        if (isGranted) {
+            Timber.d("Permission granted")
         } else {
-            context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        }
-
-        if (!hasPermission) {
-            permissionLauncher.launch(
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    arrayOf(Manifest.permission.READ_MEDIA_VIDEO)
-                } else {
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                }
-            )
+            Timber.d("Handle permission denial")
         }
     }
     var normalValue by remember {
         mutableStateOf("")
     }
-    if (hasPermission) {
-        Log.d("galley","hasPermission")
-    } else {
-        scope.launch {
-            permissionLauncher.launch(
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    arrayOf(Manifest.permission.READ_MEDIA_VIDEO)
-                } else {
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                }
-            )
-        }
-       Log.d("galleynotPermissio ","hasPermission")
-    }
+    val scope = rememberCoroutineScope()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -129,24 +102,32 @@ fun VideoPickerScreen(
                 text = "영상",
                 color = RecordyTheme.colors.white,
                 style = RecordyTheme.typography.subtitle,
-                modifier = Modifier.padding(top = 20.dp, bottom = 9.dp)
+                modifier = Modifier.padding(top = 20.dp, bottom = 9.dp),
             )
             Box(
                 modifier = Modifier
                     .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(16.dp))
-                    .customClickable(onClick = navigateSelectedVideo),
+                    .customClickable(onClick = {
+                        if (cameraPermissionState.status.isGranted) {
+                            navigateSelectedVideo()
+                            return@customClickable
+                        }
+                        scope.launch {
+                            requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_VIDEO)
+                        }
+                    },),
             ) {
                 Column(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .padding(vertical = 115.dp, horizontal = 57.dp),
                     verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_plus_25),
                         contentDescription = null,
-                        modifier = Modifier.padding(bottom = 12.dp)
+                        modifier = Modifier.padding(bottom = 12.dp),
                     )
                     Text(
                         text = "영상 선택",
@@ -159,31 +140,32 @@ fun VideoPickerScreen(
                 text = "키워드",
                 color = RecordyTheme.colors.white,
                 style = RecordyTheme.typography.subtitle,
-                modifier = Modifier.padding(top = 22.dp, bottom = 12.dp)
+                modifier = Modifier.padding(top = 22.dp, bottom = 12.dp),
             )
-                Row(modifier = Modifier
+            Row(
+                modifier = Modifier
                     .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(30.dp))
                     .padding(vertical = 8.dp)
                     .padding(start = 8.dp, end = 12.dp)
                     .customClickable(onClick = onClickKeyword),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_plus_16),
-                        contentDescription = null,
-                    )
-                    Text(
-                        text = "키워드",
-                        color = RecordyTheme.colors.gray03,
-                        style = RecordyTheme.typography.body2M,
-                    )
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_plus_16),
+                    contentDescription = null,
+                )
+                Text(
+                    text = "키워드",
+                    color = RecordyTheme.colors.gray03,
+                    style = RecordyTheme.typography.body2M,
+                )
             }
             Text(
                 text = "위치",
                 color = RecordyTheme.colors.white,
                 style = RecordyTheme.typography.subtitle,
-                modifier = Modifier.padding(top = 20.dp, bottom = 12.dp)
+                modifier = Modifier.padding(top = 20.dp, bottom = 12.dp),
             )
             RecordyBasicTextField(
                 placeholder = "영상 속 위치는 어디인가요?",
@@ -196,7 +178,7 @@ fun VideoPickerScreen(
                 text = "내용",
                 color = RecordyTheme.colors.white,
                 style = RecordyTheme.typography.subtitle,
-                modifier = Modifier.padding(top = 10.dp, bottom = 12.dp)
+                modifier = Modifier.padding(top = 10.dp, bottom = 12.dp),
             )
             RecordyBasicTextField(
                 placeholder = "공간에 대한 나의 생각을 자유롭게 적어주세요!",
@@ -217,6 +199,7 @@ fun VideoPickerScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Preview
 @Composable
 fun VideoPickerScreenPreview() {

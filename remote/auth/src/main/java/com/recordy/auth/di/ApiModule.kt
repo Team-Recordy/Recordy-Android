@@ -1,6 +1,6 @@
 package com.recordy.auth.di
 
-import com.record.network.di.AuthRetroFit
+import com.record.network.di.Auth
 import com.recordy.auth.api.AuthService
 import dagger.Module
 import dagger.Provides
@@ -14,6 +14,6 @@ import javax.inject.Singleton
 object ApiModule {
     @Provides
     @Singleton
-    fun providesRecordyApi(@AuthRetroFit retrofit: Retrofit): AuthService =
+    fun providesRecordyApi(@Auth retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
 }

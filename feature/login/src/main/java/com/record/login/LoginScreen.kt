@@ -1,5 +1,6 @@
 package com.record.login
 
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -60,9 +61,9 @@ fun LoginRoute(
                 is LoginSideEffect.StartLogin -> {
                     val result = oAuthInteractor.loginByKakao()
                     result.onSuccess {
-                        viewModel.handleLoginSuccess(it)
+                        viewModel.signIn(it.accessToken)
                     }.onFailure {
-                        viewModel.handleLoginError(it.message.toString())
+                        Log.d("login", "LoginRoute: ")
                     }
                 }
 

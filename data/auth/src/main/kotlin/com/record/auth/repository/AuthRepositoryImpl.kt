@@ -9,11 +9,11 @@ import com.recordy.auth.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-//    private val authLocalDataSource: AuthLocalDataSource,
+    private val authLocalDataSource: AuthLocalDataSource,
     private val authRemoteDataSource: AuthRemoteDataSource,
 ) : AuthRepository {
-    override suspend fun signIn(platformType: String): Result<AuthToken> = runCatching {
-        authRemoteDataSource.signIn(platformType).data!!.toDomain()
+    override suspend fun signIn(accessToken: String): Result<AuthToken> = runCatching {
+        authRemoteDataSource.signIn(accessToken).data!!.toDomain()
     }
 
     override suspend fun signUp(accessToken: String, authAgreementEntity: AuthAgreementEntity): Result<Unit> = runCatching {

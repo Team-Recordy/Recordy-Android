@@ -1,5 +1,6 @@
 package com.recordy.auth.api
 
+import com.record.auth.model.request.RequestSignInDto
 import com.record.auth.model.request.RequestSignUpDto
 import com.record.auth.model.response.ResponseSignInDto
 import com.record.network.model.BaseResponse
@@ -15,7 +16,7 @@ interface AuthService {
     @POST("/$API/$VERSION/$USER/$SIGNIN")
     suspend fun signIn(
         @Header(AUTHORIZATION) authorization: String,
-        @Body platformType: String = KAKAO,
+        @Body platformType: RequestSignInDto = RequestSignInDto(KAKAO),
     ): BaseResponse<ResponseSignInDto>
 
     @POST("/$API/$VERSION/$USER/$SIGNUP")
@@ -59,5 +60,6 @@ interface AuthService {
 
         const val AUTHORIZATION = "Authorization"
         const val KAKAO = "KAKAO"
+        const val BEARER = "Bearer"
     }
 }

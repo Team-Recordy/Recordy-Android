@@ -1,7 +1,11 @@
 package com.record.upload
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,6 +32,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -84,6 +89,7 @@ fun VideoPickerScreen(
     showShouldShowRationaleDialog: () -> Unit = {},
     hideShouldShowRationaleDialog: () -> Unit = {},
 ) {
+    val context = LocalContext.current
     val cameraPermissionState = rememberPermissionState(Manifest.permission.READ_MEDIA_VIDEO)
 
     val requestPermissionLauncher = rememberLauncherForActivityResult(
@@ -134,7 +140,6 @@ fun VideoPickerScreen(
                                 return@customClickable
                             }
                             if (cameraPermissionState.status.shouldShowRationale) {
-                                Log.d("shouldShowRationale", "${cameraPermissionState.status.shouldShowRationale}")
                                 showShouldShowRationaleDialog()
                                 return@customClickable
                             }
@@ -230,7 +235,9 @@ fun VideoPickerScreen(
                 negativeButtonLabel = "닫기",
                 positiveButtonLabel = "지금 설정",
                 onDismissRequest = hideShouldShowRationaleDialog,
-                onPositiveButtonClick = {},
+                onPositiveButtonClick = {
+                    openAppSettings(context)
+                },
             )
         }
     }
@@ -243,4 +250,11 @@ fun VideoPickerScreenPreview() {
     RecordyTheme {
         VideoPickerScreen(navigateSelectedVideo = { /*TODO*/ })
     }
+}
+
+fun openAppSettings(context: Context) {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.fromParts("package", context.packageName, null)
+    }
+    context.startActivity(intent)
 }

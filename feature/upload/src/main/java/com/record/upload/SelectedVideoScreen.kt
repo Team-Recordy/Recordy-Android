@@ -30,8 +30,7 @@ fun SelectedVideoRoute(
 }
 
 @Composable
-fun SelectedVideoScreen(
-) {
+fun SelectedVideoScreen() {
     Log.d("images", "${getAllVideos(10, null, LocalContext.current)}")
     val a = getAllVideos(10, null, LocalContext.current)
 }

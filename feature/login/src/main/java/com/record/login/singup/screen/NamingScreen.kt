@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.component.textfield.RecordyBasicTextField
 import com.record.designsystem.component.textfield.RecordyValidateTextfield
 import com.record.designsystem.theme.RecordyTheme
 import com.record.login.singup.SignUpState

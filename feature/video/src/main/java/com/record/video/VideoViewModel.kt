@@ -38,9 +38,13 @@ class VideoViewModel @Inject constructor() : BaseViewModel<VideoState, VideoSide
     }
 
     fun showNetworkErrorSnackbar(msg: String) {
-        postSideEffect(VideoSideEffect.showNetworkErrorSnackbar(msg))
+        postSideEffect(VideoSideEffect.ShowNetworkErrorSnackbar(msg))
     }
 
     fun watchVideo(id: Int) {
+    }
+
+    fun navigateToProfile(id: Int) {
+        postSideEffect(VideoSideEffect.NavigateToUserProfile(id))
     }
 }

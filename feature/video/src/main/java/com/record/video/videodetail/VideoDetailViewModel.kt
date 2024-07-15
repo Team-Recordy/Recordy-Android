@@ -51,4 +51,8 @@ class VideoDetailViewModel @Inject constructor(
 
     fun watchVideo(id: Int) {
     }
+
+    fun navigateToProfile(id: Int) {
+        postSideEffect(VideoDetailSideEffect.NavigateToUserProfile(id))
+    }
 }

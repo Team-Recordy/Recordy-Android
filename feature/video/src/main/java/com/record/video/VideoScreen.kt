@@ -30,14 +30,21 @@ fun VideoRoute(
     modifier: Modifier = Modifier,
     viewModel: VideoViewModel = hiltViewModel(),
     onShowSnackbar: (String, SnackBarType) -> Unit,
+    navigateToMypage: () -> Unit,
+    navigateToProfile: (Int) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                is VideoSideEffect.navigateToUserProfile -> TODO()
-                is VideoSideEffect.showNetworkErrorSnackbar -> { onShowSnackbar(sideEffect.msg, SnackBarType.WARNING) }
+                is VideoSideEffect.NavigateToUserProfile -> {
+                    navigateToProfile(sideEffect.id)
+                }
+                VideoSideEffect.NavigateToMypage -> {
+                    navigateToMypage()
+                }
+                is VideoSideEffect.ShowNetworkErrorSnackbar -> { onShowSnackbar(sideEffect.msg, SnackBarType.WARNING) }
             }
         }
     }
@@ -52,6 +59,7 @@ fun VideoRoute(
         onDeleteDialogDismissRequest = viewModel::dismissDeleteDialog,
         onError = viewModel::showNetworkErrorSnackbar,
         onPlayVideo = viewModel::watchVideo,
+        onNicknameClick = viewModel::navigateToProfile,
     )
 }
 
@@ -63,6 +71,7 @@ fun VideoScreen(
     onToggleClick: () -> Unit,
     onDeleteClick: (Int) -> Unit,
     onBookmarkClick: (Int) -> Unit,
+    onNicknameClick: (Int) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
     onError: (String) -> Unit,
     onPlayVideo: (Int) -> Unit,
@@ -100,7 +109,7 @@ fun VideoScreen(
                             isMyVideo = true,
                             onBookmarkClick = { onBookmarkClick(id.toInt()) },
                             onDeleteClick = { onDeleteClick(id.toInt()) },
-                            onNicknameClick = { },
+                            onNicknameClick = { onNicknameClick(id.toInt()) },
                         )
                     }
                 }

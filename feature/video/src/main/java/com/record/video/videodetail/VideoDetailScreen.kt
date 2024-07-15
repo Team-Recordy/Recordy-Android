@@ -54,7 +54,7 @@ fun VideoDetailRoute(
         onDeleteDialogDismissRequest = viewModel::dismissDeleteDialog,
         onError = viewModel::showNetworkErrorSnackbar,
         onPlayVideo = viewModel::watchVideo,
-        onNickNameClick = { viewModel::na },
+        onNickNameClick = viewModel::navigateToProfile,
     )
 }
 
@@ -66,7 +66,7 @@ fun VideoDetailScreen(
     onDeleteClick: (Int) -> Unit,
     onBookmarkClick: (Int) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
-    onNickNameClick: (String) -> Unit,
+    onNickNameClick: (Int) -> Unit,
     onError: (String) -> Unit,
     onPlayVideo: (Int) -> Unit,
 ) {
@@ -103,7 +103,7 @@ fun VideoDetailScreen(
                             isMyVideo = state.videoType == VideoType.MY,
                             onBookmarkClick = { onBookmarkClick(id.toInt()) },
                             onDeleteClick = { onDeleteClick(id.toInt()) },
-                            onNicknameClick = { onNickNameClick(id.toString()) },
+                            onNicknameClick = { onNickNameClick(id.toInt()) },
                         )
                     }
                 }

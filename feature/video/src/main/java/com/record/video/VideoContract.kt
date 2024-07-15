@@ -15,6 +15,7 @@ data class VideoState(
 ) : UiState
 
 sealed interface VideoSideEffect : SideEffect {
-    data class showNetworkErrorSnackbar(val msg: String) : VideoSideEffect
-    data class navigateToUserProfile(val id: Int) : VideoSideEffect
+    data class ShowNetworkErrorSnackbar(val msg: String) : VideoSideEffect
+    data object NavigateToMypage : VideoSideEffect
+    data class NavigateToUserProfile(val id: Int) : VideoSideEffect
 }

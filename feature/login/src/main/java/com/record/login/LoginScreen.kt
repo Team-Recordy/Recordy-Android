@@ -61,9 +61,10 @@ fun LoginRoute(
                 is LoginSideEffect.StartLogin -> {
                     val result = oAuthInteractor.loginByKakao()
                     result.onSuccess {
+                        Log.d("login", "LoginRoute: ${it.accessToken}")
                         viewModel.signIn(it.accessToken)
                     }.onFailure {
-                        Log.d("login", "LoginRoute: ")
+                        Log.d("login", "LoginRoute: ${it.message}")
                     }
                 }
 

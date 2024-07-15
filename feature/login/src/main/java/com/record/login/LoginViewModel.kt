@@ -31,8 +31,7 @@ class LoginViewModel @Inject constructor(
                     ),
                 ),
             ).onSuccess {
-                    AuthToken ->
-                AuthToken
+                    AuthToken -> AuthToken
             }.onFailure {
                 Log.d("login - signup", "signUp: ${it.message}")
             }
@@ -41,10 +40,11 @@ class LoginViewModel @Inject constructor(
 
     fun signIn(socialToken: String) {
         viewModelScope.launch {
-            authRepository.signIn(socialToken).onSuccess {
+            authRepository.signIn(socialToken).onSuccess { it->
+                authRepository.saveLocalData(it)
+                Log.d("login singin - localdata", "signIn: ${authRepository.getLocalData()}")
                 postSideEffect(LoginSideEffect.LoginSuccess(socialToken))
             }.onFailure {
-                Log.d("login - signIn", "signp: ${it.message}")
                 postSideEffect(LoginSideEffect.LoginError(errorMessage = it.message.toString()))
             }
         }

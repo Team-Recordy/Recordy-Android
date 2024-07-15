@@ -9,4 +9,7 @@ interface AuthRepository {
     suspend fun checkNickname(accessToken: String, nickname: String): Result<Unit>
     suspend fun delete(accessToken: String): Result<Unit>
     suspend fun logout(accessToken: String): Result<Unit>
+
+    suspend fun saveLocalData(authToken: AuthEntity)
+    suspend fun getLocalData(): AuthEntity
 }

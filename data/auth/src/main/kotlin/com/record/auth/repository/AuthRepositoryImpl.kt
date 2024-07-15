@@ -1,10 +1,14 @@
 package com.record.auth.repository
 
+import android.util.Log
 import com.record.auth.model.request.toData
+import com.record.auth.source.local.AuthLocalDataSource
 import com.record.auth.source.remote.AuthRemoteDataSource
+import com.record.datastore.token.AuthToken
 import com.recordy.auth.model.AuthAgreementEntity
 import com.recordy.auth.model.AuthEntity
 import com.recordy.auth.repository.AuthRepository
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -29,5 +33,19 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun logout(accessToken: String): Result<Unit> = runCatching {
         authRemoteDataSource.logout(accessToken)
     }
+
+    override suspend fun saveLocalData(authToken: AuthEntity) {
+        Log.d("login - authRepo", "saveLocalData before: $authToken \n\n ${authLocalDataSource.userLocalData}")
+        authLocalDataSource.setAuthLocalData(AuthToken(authToken.accessToken, authToken.refreshToken, authToken.isSignedUp))
+        Log.d("login - authRepo", "saveLocalData after: $authToken \n\n ${authLocalDataSource.userLocalData}")
+    }
+
+    override suspend fun getLocalData(): AuthEntity =
+        AuthEntity(
+            authLocalDataSource.userLocalData.first().accessToken,
+            authLocalDataSource.userLocalData.first().refreshToken,
+            authLocalDataSource.userLocalData.first().isSigned,
+        )
+
 
 }

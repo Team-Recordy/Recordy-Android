@@ -1,4 +1,4 @@
-package com.record.mypage
+package com.record.mypage.follow
 
 import com.record.model.UserData
 import com.record.ui.base.SideEffect

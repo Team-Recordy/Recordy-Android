@@ -1,4 +1,4 @@
-package com.record.mypage
+package com.record.designsystem.component.container
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -1,11 +1,13 @@
-package com.record.mypage
+package com.record.mypage.follow
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,10 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.rememberAsyncImagePainter
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
@@ -71,17 +74,32 @@ fun EmptyFollowerScreen() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Image(
-                painter = rememberAsyncImagePainter("https://picsum.photos/id/200/200"),
-                contentDescription = null,
-                modifier = Modifier.size(120.dp),
-            )
+            Row() {
+                Spacer(modifier = Modifier.weight(13f))
+                Image(
+                    painter = painterResource(com.record.designsystem.R.drawable.img_no_follower),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .weight(10f)
+                        .aspectRatio(1f),
+                )
+                Spacer(modifier = Modifier.weight(13f))
+            }
+
             Spacer(modifier = Modifier.size(32.dp))
             Text(
-                text = "아직 팔로우하는 사람이 없어요",
-                style = RecordyTheme.typography.body2M,
+                text = "아직 팔로워가 없어요",
+                style = RecordyTheme.typography.emptybody,
                 color = RecordyTheme.colors.white,
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewEmptyFollowerScreen() {
+    RecordyTheme {
+        EmptyFollowerScreen()
     }
 }

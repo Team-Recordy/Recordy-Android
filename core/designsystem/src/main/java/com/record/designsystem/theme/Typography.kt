@@ -29,6 +29,7 @@ class RecordyTypography internal constructor(
     body1M: TextStyle,
     body1R: TextStyle,
     body2M: TextStyle,
+    body2B: TextStyle,
     body2L: TextStyle,
     caption1: TextStyle,
     caption1U: TextStyle,
@@ -59,6 +60,8 @@ class RecordyTypography internal constructor(
     var body1R: TextStyle by mutableStateOf(body1R)
         private set
     var body2M: TextStyle by mutableStateOf(body2M)
+        private set
+    var body2B: TextStyle by mutableStateOf(body2B)
         private set
     var body2L: TextStyle by mutableStateOf(body2L)
         private set
@@ -97,6 +100,7 @@ class RecordyTypography internal constructor(
         body1M: TextStyle = this.body1M,
         body1R: TextStyle = this.body1R,
         body2M: TextStyle = this.body2M,
+        body2B: TextStyle = this.body2B,
         body2L: TextStyle = this.body2L,
         caption1: TextStyle = this.caption1,
         caption1U: TextStyle = this.caption1U,
@@ -120,6 +124,7 @@ class RecordyTypography internal constructor(
         body1M,
         body1R,
         body2M,
+        body2B,
         body2L,
         caption1,
         caption1U,
@@ -145,6 +150,7 @@ class RecordyTypography internal constructor(
         body1M = other.body1M
         body1R = other.body1R
         body2M = other.body2M
+        body2B = other.body2B
         body2L = other.body2L
         caption1 = other.caption1
         caption1U = other.caption1U
@@ -204,6 +210,12 @@ fun RecordyTypography(): RecordyTypography {
         ),
         body2M = TextStyle(
             fontFamily = PretendardMedium,
+            fontSize = 14.sp,
+            lineHeight = 20.sp,
+            letterSpacing = (-0.5).sp,
+        ),
+        body2B = TextStyle(
+            fontFamily = PretendardBold,
             fontSize = 14.sp,
             lineHeight = 20.sp,
             letterSpacing = (-0.5).sp,

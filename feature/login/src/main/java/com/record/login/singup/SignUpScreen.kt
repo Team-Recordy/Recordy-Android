@@ -17,6 +17,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +41,7 @@ import com.record.designsystem.theme.RecordyTheme
 import com.record.login.singup.screen.NamingScreen
 import com.record.login.singup.screen.PolicyScreen
 import com.record.login.singup.screen.SignUpSuccessScreen
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -47,6 +49,7 @@ import kotlinx.coroutines.launch
 fun SignUpRoute(
     padding: PaddingValues = PaddingValues(horizontal = 16.dp),
     viewModel: SignUpViewModel = hiltViewModel(),
+    navigateToHome: () -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { 3 })
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -55,6 +58,16 @@ fun SignUpRoute(
 
     var columnSize by remember {
         mutableStateOf(IntSize.Zero)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collectLatest {
+            when (it) {
+                SignUpEffect.NavigateToHome -> {
+                    navigateToHome()
+                }
+            }
+        }
     }
     BackHandler(enabled = pagerState.currentPage >= 1) {
         coroutineScope.launch {
@@ -117,7 +130,11 @@ fun SignUpRoute(
                     onCheckAgeClick = viewModel::checkAgeEvent,
                 )
 
-                SignUpScreen.Naming -> NamingScreen(uiState = uiState, onTextChangeEvent = viewModel::updateNickName)
+                SignUpScreen.Naming -> NamingScreen(
+                    uiState = uiState,
+                    onTextChangeEvent = viewModel::updateNickName,
+                    onInputComplete = viewModel::checkValidateNickName,
+                )
                 SignUpScreen.Success -> SignUpSuccessScreen()
             }
         }
@@ -157,7 +174,7 @@ fun PreviewSignUp(
 ) {
     RecordyTheme {
         Box(modifier = Modifier.background(color = RecordyTheme.colors.background)) {
-            SignUpRoute(padding = padding, viewModel = viewModel)
+            SignUpRoute(padding = padding, viewModel = viewModel, navigateToHome = {})
         }
     }
 }

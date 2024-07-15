@@ -1,12 +1,19 @@
 package com.record.login.singup
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.record.model.ValidateResult
 import com.record.ui.base.BaseViewModel
+import com.recordy.auth.model.AuthAgreementEntity
+import com.recordy.auth.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor() : BaseViewModel<SignUpState, SignUpEffect>(SignUpState()) {
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+) : BaseViewModel<SignUpState, SignUpEffect>(SignUpState()) {
 
     fun allCheckEvent() {
         intent {
@@ -57,42 +64,63 @@ class SignUpViewModel @Inject constructor() : BaseViewModel<SignUpState, SignUpE
                     copy(title = TITLE_NAMING_NAME)
                 }
             }
-            2 -> { // todo 화면이동
+
+            2 -> {
                 intent {
                     copy(title = TITLE_SIGNUP_NAME)
                 }
+            }
+
+            3 -> {
+                signUp()
+            }
+        }
+    }
+
+    private fun signUp() {
+        viewModelScope.launch {
+            authRepository.signUp(
+                AuthAgreementEntity(
+                    nickname = uiState.value.nicknameText,
+                    termsAgreement = AuthAgreementEntity.TermsAgreement(
+                        useTerm = true,
+                        personalInfoTerm = true,
+                        ageTerm = true,
+                    ),
+                ),
+            ).onSuccess {
+                Log.d("singup success", "signUp: 성공")
+                postSideEffect(SignUpEffect.NavigateToHome)
+            }.onFailure { it ->
+
+                Log.d("singup fail", "signUp: 실패$it")
             }
         }
     }
 
     fun updateNickName(nickname: String) {
         intent {
-            copy(nicknameText = nickname)
+            copy(nicknameText = nickname, btnEnable = false)
         }
-        checkValidateNickName()
     }
 
-    fun checkValidateNickName() =
-        when {
-            uiState.value.nicknameText.isBlank() -> {
-                intent { copy(nicknameValidate = ValidateResult.Inputting, btnEnable = false) }
-            }
+    fun nickNameRegex(nickname: String): Boolean = NICKNAME_PATTERN.matches(nickname)
 
-            !nickNameDuplication(uiState.value.nicknameText) -> {
-                intent { copy(nicknameValidate = ValidateResult.OverlapError, btnEnable = false) }
-            }
-
-            !nickNameRegex(uiState.value.nicknameText) -> {
-                intent { copy(nicknameValidate = ValidateResult.ValidationError, btnEnable = false) }
-            }
-
-            else -> {
-                intent { copy(nicknameValidate = ValidateResult.Success, btnEnable = true) }
+    fun checkValidateNickName() {
+        viewModelScope.launch {
+            authRepository.checkNickname(uiState.value.nicknameText).onSuccess {
+                if (uiState.value.nicknameText.isBlank()) {
+                    intent { copy(nicknameValidate = ValidateResult.Inputting, btnEnable = false) }
+                } else if (!nickNameRegex(uiState.value.nicknameText)) {
+                    intent { copy(nicknameValidate = ValidateResult.ValidationError, btnEnable = false) }
+                } else {
+                    intent { copy(nicknameValidate = ValidateResult.Success, btnEnable = true, labelText = "사용 가능한 닉네임이에요") }
+                }
+            }.onFailure {
+                intent { copy(nicknameValidate = ValidateResult.OverlapError, btnEnable = false, labelText = "ⓘ 이미 사용중인 닉네임이에요") }
             }
         }
-
-    fun nickNameRegex(nickname: String): Boolean = NICKNAME_PATTERN.matches(nickname)
-    fun nickNameDuplication(nickname: String): Boolean = true
+    }
 
     private fun allChecked() {
         intent {

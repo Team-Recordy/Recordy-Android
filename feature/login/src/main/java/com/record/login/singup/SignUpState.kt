@@ -14,8 +14,11 @@ data class SignUpState(
 
     val nicknameText: String = "",
     val nicknameValidate: ValidateResult = ValidateResult.Inputting,
+    val labelText: String = "",
 
     val title: String = "이용약관",
 ) : UiState
 
-sealed interface SignUpEffect : SideEffect
+sealed interface SignUpEffect : SideEffect {
+    data object NavigateToHome : SignUpEffect
+}

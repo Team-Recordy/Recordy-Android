@@ -1,34 +1,34 @@
 package com.record.login
 
 import androidx.lifecycle.viewModelScope
+import com.record.model.AuthEntity
 import com.record.ui.base.BaseViewModel
-import com.recordy.oauth.model.KakaoToken
+import com.recordy.auth.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : BaseViewModel<LoginState, LoginSideEffect>(LoginState()) {
+class LoginViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+) : BaseViewModel<LoginState, LoginSideEffect>(LoginState()) {
 
     fun startKakaoLogin() {
         postSideEffect(LoginSideEffect.StartLogin)
     }
 
-    fun handleLoginSuccess(KakaoToken: KakaoToken) { // 로그인 성공시 작업
-        intent {
-            copy(autoLogin = true)
-        }
+    fun signIn(socialToken: String) {
         viewModelScope.launch {
-            postSideEffect(LoginSideEffect.LoginSuccess(KakaoToken.accessToken))
-        }
-    }
-
-    fun handleLoginError(KakaoToken: String) { // 로그인 실패시 작업
-        intent {
-            copy(autoLogin = false)
-        }
-        viewModelScope.launch {
-            postSideEffect(LoginSideEffect.LoginError(KakaoToken))
+            authRepository.getLocalData().onSuccess {
+                if (it.isSignedUp) postSideEffect(LoginSideEffect.LoginSuccess)
+            }
+            authRepository.signIn(socialToken)
+                .onSuccess {
+                    authRepository.saveLocalData(AuthEntity(it.accessToken, it.refreshToken, it.isSignedUp))
+                    postSideEffect(LoginSideEffect.LoginToSignUp)
+                }.onFailure {
+                    postSideEffect(LoginSideEffect.LoginError(errorMessage = it.message.toString()))
+                }
         }
     }
 }

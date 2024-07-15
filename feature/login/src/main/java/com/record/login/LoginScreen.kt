@@ -38,7 +38,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.R
 import com.record.designsystem.theme.Kakao
 import com.record.designsystem.theme.RecordyTheme
-import com.record.login.singup.SignUpRoute
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.flow.collectLatest
 
@@ -47,6 +46,8 @@ fun LoginRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
+    navigateToHome: () -> Unit,
+    navigateToSignUp: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current as ComponentActivity
@@ -57,16 +58,18 @@ fun LoginRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is LoginSideEffect.StartLogin -> {
-                    var result = oAuthInteractor.loginByKakao()
+                    val result = oAuthInteractor.loginByKakao()
                     result.onSuccess {
-                        viewModel.handleLoginSuccess(it)
+                        viewModel.signIn(it.accessToken)
                     }.onFailure {
-                        viewModel.handleLoginError(it.message.toString())
                     }
+                }
+                is LoginSideEffect.LoginToSignUp -> {
+                    navigateToSignUp()
                 }
 
                 is LoginSideEffect.LoginSuccess -> {
-                    // 필요 시 LoginSuccess 추가 처리
+                    navigateToHome()
                 }
 
                 is LoginSideEffect.LoginError -> {
@@ -75,12 +78,12 @@ fun LoginRoute(
             }
         }
     }
-    SignUpRoute()
-//    LoginScreen(
-//        padding = padding,
-//        modifier = modifier,
-//        onLogInClick = { viewModel.startKakaoLogin() },
-//    )
+
+    LoginScreen(
+        padding = padding,
+        modifier = modifier,
+        onLogInClick = { viewModel.startKakaoLogin() },
+    )
 }
 
 @Composable
@@ -143,7 +146,7 @@ fun LoginScreen(
             colors = ButtonDefaults.buttonColors(containerColor = Kakao),
             shape = RoundedCornerShape(10.dp),
         ) {
-            Image(painterResource(id = com.record.designsystem.R.drawable.ic_kakao_16), null, modifier = Modifier.padding(end = 8.dp))
+            Image(painterResource(id = R.drawable.ic_kakao_16), null, modifier = Modifier.padding(end = 8.dp))
             Text("카카오로 시작하기", style = RecordyTheme.typography.button2.copy(color = RecordyTheme.colors.black))
         }
 
@@ -155,6 +158,6 @@ fun LoginScreen(
 @Composable
 fun LoginView() {
     RecordyTheme {
-        LoginRoute(padding = PaddingValues(horizontal = 16.dp), modifier = Modifier.fillMaxSize())
+        LoginRoute(padding = PaddingValues(horizontal = 16.dp), modifier = Modifier.fillMaxSize(), navigateToHome = {}, navigateToSignUp = {})
     }
 }

@@ -9,6 +9,7 @@ data class LoginState(
 
 sealed interface LoginSideEffect : SideEffect {
     data object StartLogin : LoginSideEffect
-    data class LoginSuccess(val accessToken: String) : LoginSideEffect
+    data object LoginSuccess : LoginSideEffect
+    data object LoginToSignUp : LoginSideEffect
     data class LoginError(val errorMessage: String) : LoginSideEffect
 }

@@ -1,6 +1,5 @@
 package com.record.login
 
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -61,15 +60,16 @@ fun LoginRoute(
                 is LoginSideEffect.StartLogin -> {
                     val result = oAuthInteractor.loginByKakao()
                     result.onSuccess {
-                        Log.d("login", "LoginRoute: ${it.accessToken}")
                         viewModel.signIn(it.accessToken)
                     }.onFailure {
-                        Log.d("login", "LoginRoute: ${it.message}")
                     }
+                }
+                is LoginSideEffect.LoginToSignUp -> {
+                    navigateToSignUp()
                 }
 
                 is LoginSideEffect.LoginSuccess -> {
-                    navigateToSignUp()
+                    navigateToHome()
                 }
 
                 is LoginSideEffect.LoginError -> {
@@ -146,7 +146,7 @@ fun LoginScreen(
             colors = ButtonDefaults.buttonColors(containerColor = Kakao),
             shape = RoundedCornerShape(10.dp),
         ) {
-            Image(painterResource(id = com.record.designsystem.R.drawable.ic_kakao_16), null, modifier = Modifier.padding(end = 8.dp))
+            Image(painterResource(id = R.drawable.ic_kakao_16), null, modifier = Modifier.padding(end = 8.dp))
             Text("카카오로 시작하기", style = RecordyTheme.typography.button2.copy(color = RecordyTheme.colors.black))
         }
 

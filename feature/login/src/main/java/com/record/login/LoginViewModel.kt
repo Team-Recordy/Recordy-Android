@@ -1,9 +1,8 @@
 package com.record.login
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.record.model.AuthEntity
 import com.record.ui.base.BaseViewModel
-import com.recordy.auth.model.AuthAgreementEntity
 import com.recordy.auth.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,35 +17,18 @@ class LoginViewModel @Inject constructor(
         postSideEffect(LoginSideEffect.StartLogin)
     }
 
-    fun signUp(socialToken: String) {
-        viewModelScope.launch {
-            authRepository.signUp(
-                "Bearer $socialToken",
-                AuthAgreementEntity(
-                    "1_2",
-                    AuthAgreementEntity.TermsAgreement(
-                        useTerm = true,
-                        personalInfoTerm = true,
-                        ageTerm = true,
-                    ),
-                ),
-            ).onSuccess {
-                    AuthToken -> AuthToken
-            }.onFailure {
-                Log.d("login - signup", "signUp: ${it.message}")
-            }
-        }
-    }
-
     fun signIn(socialToken: String) {
         viewModelScope.launch {
-            authRepository.signIn(socialToken).onSuccess { it->
-                authRepository.saveLocalData(it)
-                Log.d("login singin - localdata", "signIn: ${authRepository.getLocalData()}")
-                postSideEffect(LoginSideEffect.LoginSuccess(socialToken))
-            }.onFailure {
-                postSideEffect(LoginSideEffect.LoginError(errorMessage = it.message.toString()))
+            authRepository.getLocalData().onSuccess {
+                if (it.isSignedUp) postSideEffect(LoginSideEffect.LoginSuccess)
             }
+            authRepository.signIn(socialToken)
+                .onSuccess {
+                    authRepository.saveLocalData(AuthEntity(it.accessToken, it.refreshToken, it.isSignedUp))
+                    postSideEffect(LoginSideEffect.LoginToSignUp)
+                }.onFailure {
+                    postSideEffect(LoginSideEffect.LoginError(errorMessage = it.message.toString()))
+                }
         }
     }
 }

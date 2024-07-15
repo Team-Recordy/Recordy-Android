@@ -1,6 +1,7 @@
 package com.record.upload.component.bottomsheet
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.bottomsheet.RecordyBottomSheet
-import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.Gray03
@@ -56,24 +56,25 @@ fun SelectedVideoBottomSheet(
                     color = Gray03,
                     style = RecordyTheme.typography.caption2,
                     maxLines = 1,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 22.dp),
                     textAlign = TextAlign.Center,
                 )
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(4),
-                    modifier = Modifier.padding(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(1.dp),
+                    verticalArrangement = Arrangement.spacedBy(1.dp),
                 ) {
                     items(galleyVideos) { video ->
                         VideoThumbnail(video = video, setVideo = setVideo)
                     }
                 }
             }
-            RecordyButton(
-                modifier = Modifier.align(Alignment.BottomCenter),
-                text = "다음",
-                enabled = true,
-                onClick = onDismissRequest,
-            )
+//            RecordyButton(
+//                modifier = Modifier.align(Alignment.BottomCenter),
+//                text = "다음",
+//                enabled = true,
+//                onClick = onDismissRequest,
+//            )
         }
     }
 }

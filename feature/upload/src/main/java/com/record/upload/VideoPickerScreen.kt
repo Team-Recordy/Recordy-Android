@@ -161,6 +161,7 @@ fun VideoPickerScreen(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
         ) {
+//            if (state.video!=null) compressVideo(context,state.video!!.uri, state.video.name)
             Text(
                 text = "영상",
                 color = RecordyTheme.colors.white,

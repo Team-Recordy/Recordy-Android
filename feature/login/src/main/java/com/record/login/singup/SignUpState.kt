@@ -14,6 +14,7 @@ data class SignUpState(
 
     val nicknameText: String = "",
     val nicknameValidate: ValidateResult = ValidateResult.Inputting,
+    val labelText: String = "",
 
     val title: String = "이용약관",
 ) : UiState

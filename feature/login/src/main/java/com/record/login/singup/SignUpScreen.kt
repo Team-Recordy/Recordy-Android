@@ -130,7 +130,11 @@ fun SignUpRoute(
                     onCheckAgeClick = viewModel::checkAgeEvent,
                 )
 
-                SignUpScreen.Naming -> NamingScreen(uiState = uiState, onTextChangeEvent = viewModel::updateNickName)
+                SignUpScreen.Naming -> NamingScreen(
+                    uiState = uiState,
+                    onTextChangeEvent = viewModel::updateNickName,
+                    onInputComplete = viewModel::checkValidateNickName,
+                )
                 SignUpScreen.Success -> SignUpSuccessScreen()
             }
         }

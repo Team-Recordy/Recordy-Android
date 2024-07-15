@@ -60,8 +60,8 @@ fun BookmarkScreen(videoItems: List<VideoData>, recordCount: Int) {
                 items(SampleData.sampleVideos) { item ->
                     RecordyVideoThumbnail(
                         imageUri = item.previewUri,
-                        isBookmarkable = false,
-                        isBookmark = false,
+                        isBookmarkable = true,
+                        isBookmark = true,
                         location = item.location,
                     )
                 }

@@ -66,7 +66,7 @@ fun RecordScreen(videoItems: List<VideoData>, recordCount: Int) {
                 items(SampleData.sampleVideos) { item ->
                     RecordyVideoThumbnail(
                         imageUri = item.previewUri,
-                        isBookmarkable = false,
+                        isBookmarkable = true,
                         isBookmark = false,
                         location = item.location,
                     )

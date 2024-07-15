@@ -37,7 +37,7 @@ class AuthenticationIntercept @Inject constructor(
                     }
 
                     else -> {
-                        originalRequest.accessTokenBuilder()
+                        originalRequest
                     }
                 }
             }
@@ -48,7 +48,7 @@ class AuthenticationIntercept @Inject constructor(
         }
 
     private fun Request.accessTokenBuilder() =
-        this.newBuilder().addHeader("accessToken", runBlocking { datastore.token.first().accessToken }).build()
+        this.newBuilder().addHeader("Authorization", runBlocking { "Bearer ${datastore.token.first().accessToken}" }).build()
 
     private fun Request.refreshTokenBuilder() =
         this.newBuilder().addHeader("refreshToken", runBlocking { datastore.token.first().refreshToken }).build()

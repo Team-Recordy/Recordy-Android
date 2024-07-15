@@ -19,9 +19,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
 fun SettingRoute(
@@ -36,6 +38,7 @@ fun SettingRoute(
 fun SettingScreen(
     padding: PaddingValues = PaddingValues(),
     modifier: Modifier = Modifier,
+    viewmodel: SettingViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -79,7 +82,7 @@ fun SettingScreen(
             color = RecordyTheme.colors.gray01,
         )
         SettingButton(kakao = true)
-        SettingButton(text = "로그아웃")
+        SettingButton(text = "로그아웃", onClickEvent = viewmodel::Logout)
         SettingButton(text = "탈퇴")
         Text(
             text = "앱 버전 1.0",

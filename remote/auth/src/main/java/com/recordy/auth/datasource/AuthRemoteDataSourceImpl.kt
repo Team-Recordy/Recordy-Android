@@ -19,5 +19,5 @@ class AuthRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun delete(accessToken: String) = authService.delete(accessToken)
 
-    override suspend fun logout(accessToken: String) = authService.logout(accessToken)
+    override suspend fun logout() = authService.logout()
 }

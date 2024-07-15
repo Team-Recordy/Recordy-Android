@@ -40,9 +40,7 @@ interface AuthService {
     ): BaseResponse<Unit>
 
     @DELETE("/$API/$VERSION/$USER/$LOGOUT")
-    suspend fun logout(
-        @Header(AUTHORIZATION) authorization: String,
-    ): BaseResponse<Unit>
+    suspend fun logout()
 
     companion object {
         const val API = "api"

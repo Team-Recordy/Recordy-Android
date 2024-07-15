@@ -19,7 +19,7 @@ import com.record.video.navigation.navigateVideoDetail
 internal class MainNavigator(
     val navController: NavHostController,
 ) {
-    val startDestination = HomeRoute.route
+    val startDestination = LoginRoute.route
     private val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination

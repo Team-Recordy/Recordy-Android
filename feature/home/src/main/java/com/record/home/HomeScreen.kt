@@ -132,7 +132,7 @@ fun HomeScreen(
 
 @Composable
 fun BoxScope.BackgroundAnimation() {
-    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.bubble_aos))
+    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.bubble))
     val progress by animateLottieCompositionAsState(
         composition,
         iterations = LottieConstants.IterateForever,
@@ -142,8 +142,7 @@ fun BoxScope.BackgroundAnimation() {
         composition,
         { progress },
         modifier = Modifier
-            .align(Alignment.TopCenter)
-            .offset(y = -180.dp),
+            .align(Alignment.TopCenter),
     )
 }
 
@@ -200,7 +199,7 @@ fun CollapsingToolbar(
 @Composable
 fun CollapsingToolbarScope.ToolbarContent(toolbarState: CollapsingToolbarScaffoldState) {
     val topPadding = (32 + 12 * toolbarState.toolbarState.progress).dp
-    val alpha = toolbarState.toolbarState.progress
+    val alpha = toolbarState.toolbarState.progress*2 - 0.5f
     Image(
         painter = painterResource(R.drawable.ic_recordy_logo),
         contentDescription = "logo",

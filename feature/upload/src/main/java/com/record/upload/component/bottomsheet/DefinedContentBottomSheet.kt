@@ -1,5 +1,6 @@
 package com.record.upload.component.bottomsheet
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +25,6 @@ import com.record.designsystem.component.bottomsheet.RecordyBottomSheet
 import com.record.designsystem.component.button.RecordyChipButton
 import com.record.designsystem.component.button.RecordyMiddleButton
 import com.record.designsystem.theme.RecordyTheme
-import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -32,6 +32,9 @@ fun DefinedContentBottomSheet(
     sheetState: SheetState = rememberModalBottomSheetState(),
     isSheetOpen: Boolean,
     onDismissRequest: () -> Unit,
+    contentList: List<String>,
+    selectedList: List<String>,
+    onClickContentChip: (String) -> Unit,
 ) {
     RecordyBottomSheet(
         isSheetOpen = isSheetOpen,
@@ -77,19 +80,24 @@ fun DefinedContentBottomSheet(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                val chips = listOf("asdsadasdasda", "asdasdb", "asdasdc", "dasd", "asdsadasdasda", "asdasdb", "asdasdc", "dasd", "asdsadasdasda", "asdasdb", "asdasdc", "dasd")
-                chips.forEach { chip ->
+                contentList.forEach { chip ->
                     RecordyChipButton(
-                        text = "$chip",
-                        isActive = false,
-                        onClick = { Timber.d("close key word") },
+                        text = chip,
+                        isActive = if (selectedList.filter { it == chip }.isNotEmpty()) true else false,
+                        onClick = { onClickContentChip(chip) },
                     )
                 }
             }
             RecordyMiddleButton(
-                modifier = Modifier.wrapContentWidth().padding(bottom = 44.dp).align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(bottom = 44.dp)
+                    .align(Alignment.CenterHorizontally),
                 text = "적용하기",
-                onClick = { },
+                enabled = if (selectedList.isNotEmpty()) true else false,
+                onClick = {
+                    if (selectedList.isNotEmpty()) Log.d("enable btn", "true") else Log.d("disable btn", "false")
+                },
             )
         }
     }

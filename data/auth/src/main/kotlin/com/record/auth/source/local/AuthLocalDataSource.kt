@@ -1,6 +1,6 @@
 package com.record.auth.source.local
 
-import com.recordy.auth.model.AuthToken
+import com.record.datastore.token.AuthToken
 import kotlinx.coroutines.flow.Flow
 
 interface AuthLocalDataSource {

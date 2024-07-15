@@ -19,4 +19,34 @@ class TokenDataStore @Inject constructor(
             Log.e("exception", "ioException")
         }
     }
+
+    suspend fun setAutoLogin(boolean: Boolean) {
+        try {
+            tokenPreferences.updateData {
+                it.copy(isSigned = boolean)
+            }
+        } catch (ioException: IOException) {
+            Log.e("exception", "ioException")
+        }
+    }
+
+    suspend fun setAccessToken(accessToken: String) {
+        try {
+            tokenPreferences.updateData {
+                it.copy(accessToken = accessToken)
+            }
+        } catch (ioException: IOException) {
+            Log.e("exception", "ioException")
+        }
+    }
+
+    suspend fun setRefreshToken(refreshToken: String) {
+        try {
+            tokenPreferences.updateData {
+                it.copy(refreshToken = refreshToken)
+            }
+        } catch (ioException: IOException) {
+            Log.e("exception", "ioException")
+        }
+    }
 }

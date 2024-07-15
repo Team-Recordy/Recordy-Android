@@ -14,12 +14,12 @@ data class RequestSignUpDto(
 ) {
     @Serializable
     data class TermsAgreement(
-        @SerialName("ageTerm")
-        val ageTerm: Boolean,
-        @SerialName("personalInfoTerm")
-        val personalInfoTerm: Boolean,
         @SerialName("useTerm")
         val useTerm: Boolean,
+        @SerialName("personalInfoTerm")
+        val personalInfoTerm: Boolean,
+        @SerialName("ageTerm")
+        val ageTerm: Boolean,
     )
 }
 
@@ -27,9 +27,9 @@ fun AuthAgreementEntity.toData(): RequestSignUpDto =
     RequestSignUpDto(
         nickname = nickname,
         termsAgreement = RequestSignUpDto.TermsAgreement(
-            ageTerm = termsAgreement.ageTerm,
-            personalInfoTerm = termsAgreement.personalInfoTerm,
             useTerm = termsAgreement.useTerm,
+            personalInfoTerm = termsAgreement.personalInfoTerm,
+            ageTerm = termsAgreement.ageTerm,
         ),
     )
 

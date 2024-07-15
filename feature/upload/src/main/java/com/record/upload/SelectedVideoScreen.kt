@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.VideoFrameDecoder
+import com.record.ui.extension.customClickable
 
 @Composable
 fun SelectedVideoRoute(
@@ -36,7 +37,10 @@ fun SelectedVideoScreen() {
 }
 
 @Composable
-fun VideoThumbnail(video: GalleryVideo) {
+fun VideoThumbnail(
+    video: GalleryVideo,
+    setVideo: (GalleryVideo) -> Unit,
+) {
     val context = LocalContext.current
     val imageLoader = ImageLoader.Builder(context)
         .components {
@@ -61,10 +65,14 @@ fun VideoThumbnail(video: GalleryVideo) {
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
-                .clip(RectangleShape),
+                .clip(RectangleShape)
+                .customClickable(
+                    onClick = { setVideo(video) },
+                ),
         )
     }
 }
+
 fun getAllVideos(
     loadSize: Int,
     currentLocation: String?,

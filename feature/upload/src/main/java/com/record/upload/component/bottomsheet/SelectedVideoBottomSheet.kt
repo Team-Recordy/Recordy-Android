@@ -34,6 +34,7 @@ fun SelectedVideoBottomSheet(
     isSheetOpen: Boolean,
     onDismissRequest: () -> Unit,
     galleyVideos: List<GalleryVideo>,
+    setVideo: (GalleryVideo) -> Unit,
 ) {
     RecordyBottomSheet(
         isSheetOpen = isSheetOpen,
@@ -63,7 +64,7 @@ fun SelectedVideoBottomSheet(
                     modifier = Modifier.padding(8.dp),
                 ) {
                     items(galleyVideos) { video ->
-                        VideoThumbnail(video = video)
+                        VideoThumbnail(video = video, setVideo = setVideo)
                     }
                 }
             }
@@ -71,7 +72,7 @@ fun SelectedVideoBottomSheet(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 text = "다음",
                 enabled = true,
-                onClick = {},
+                onClick = onDismissRequest,
             )
         }
     }

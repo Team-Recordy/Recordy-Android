@@ -86,6 +86,8 @@ internal fun MainScreen(
                 videoNavGraph(
                     padding = innerPadding,
                     onShowSnackBar = viewModel::onShowSnackbar,
+                    navigateToMypage = { navigator.navigateMypage() },
+                    navigateToProfile = { navigator.navigateProfile(it) },
                 )
 
                 mypageNavGraph(

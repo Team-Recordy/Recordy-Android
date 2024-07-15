@@ -14,6 +14,8 @@ import com.record.login.navigation.LoginRoute
 import com.record.login.navigation.SignupRoute
 import com.record.mypage.navigation.navigateMypage
 import com.record.profile.navigation.navigateProfile
+import com.record.setting.navigate.SettingRoute
+import com.record.setting.navigate.navigateSetting
 import com.record.video.navigation.navigateVideo
 import com.record.video.navigation.navigateVideoDetail
 
@@ -83,6 +85,10 @@ internal class MainNavigator(
 
     fun navigateProfile(id: Int) {
         navController.navigateProfile(navOptions { })
+    }
+
+    fun navigateSetting(id: Int){
+        navController.navigateSetting(navOptions {  })
     }
 
     fun popBackStackIfNotHome() {

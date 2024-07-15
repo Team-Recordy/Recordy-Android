@@ -28,14 +28,14 @@ fun SettingRoute(
     padding: PaddingValues,
     modifier: Modifier,
 ) {
-
+    SettingScreen(padding,modifier)
 }
 
 
 @Composable
 fun SettingScreen(
-    modifier: Modifier = Modifier,
     padding: PaddingValues = PaddingValues(),
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = Modifier

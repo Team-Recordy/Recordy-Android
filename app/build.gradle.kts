@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.core.datastore)
     implementation(projects.core.network)
     implementation(projects.data.auth)
+    implementation(projects.data.oauth)
     implementation(projects.local.auth)
     implementation(projects.remote.auth)
     implementation(projects.feature.navigator)

@@ -17,19 +17,17 @@ interface AuthService {
     suspend fun signIn(
         @Header(AUTHORIZATION) authorization: String,
         @Body platformType: RequestSignInDto = RequestSignInDto(KAKAO),
-    ): BaseResponse<ResponseSignInDto>
+    ): ResponseSignInDto
 
     @POST("/$API/$VERSION/$USER/$SIGNUP")
     suspend fun signUp(
-        @Header(AUTHORIZATION) authorization: String,
         @Body body: RequestSignUpDto,
-    ): BaseResponse<Unit>
+    )
 
     @GET("/$API/$VERSION/$USER/$CEHCK_NICKNAME")
     suspend fun checkNickname(
-        @Header(AUTHORIZATION) authorization: String,
         @Query(NICKNAME) nickname: String,
-    ): BaseResponse<Unit>
+    )
 
     @POST("/$API/$VERSION/$USER/$TOKEN")
     suspend fun getToken(
@@ -60,6 +58,5 @@ interface AuthService {
 
         const val AUTHORIZATION = "Authorization"
         const val KAKAO = "KAKAO"
-        const val BEARER = "Bearer"
     }
 }

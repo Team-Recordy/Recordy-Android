@@ -2,8 +2,8 @@ package com.record.user.api
 
 import com.record.user.model.remote.response.ResponseGetFollowerListDto
 import com.record.user.model.remote.response.ResponseGetFollowingListDto
+import com.record.user.model.remote.response.ResponseGetUserPreferenceDto
 import com.record.user.model.remote.response.ResponseGetUserProfileDto
-import com.record.user.model.remote.response.ResponsePostFollowDto
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -25,10 +25,13 @@ interface UserApi {
     @POST("/api/v1/users/follow/{followingId}")
     fun postFollow(
         @Path("followingId") followingId: Long,
-    ): ResponsePostFollowDto
+    ): Boolean
 
     @GET("/api/v1/users/profile/{userId}")
     fun getUserProfileDto(
         @Path("userId") userId: Long,
     ): ResponseGetUserProfileDto
+
+    @GET("/api/v1/preference")
+    fun getUserPreference(): ResponseGetUserPreferenceDto
 }

@@ -74,7 +74,6 @@ import timber.log.Timber
 fun VideoPickerRoute(
     paddingValues: PaddingValues,
     viewModel: UploadViewModel = hiltViewModel(),
-    navigateSelectedVideo: () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 

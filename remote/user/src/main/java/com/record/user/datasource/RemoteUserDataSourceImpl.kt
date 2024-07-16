@@ -5,7 +5,6 @@ import com.record.user.model.remote.response.ResponseGetFollowerListDto
 import com.record.user.model.remote.response.ResponseGetFollowingListDto
 import com.record.user.model.remote.response.ResponseGetUserPreferenceDto
 import com.record.user.model.remote.response.ResponseGetUserProfileDto
-import com.record.user.model.remote.response.ResponsePostFollowDto
 import com.record.user.source.remote.RemoteUserDataSource
 import javax.inject.Inject
 

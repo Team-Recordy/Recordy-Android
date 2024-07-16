@@ -24,5 +24,5 @@ interface UserRepository {
         userId: Long,
     ): Result<Profile>
 
-    fun getUserPreference(): Result<Triple<Preference,Preference,Preference>>
+    fun getUserPreference(): Result<Triple<Preference, Preference, Preference>>
 }

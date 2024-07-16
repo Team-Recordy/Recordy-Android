@@ -19,5 +19,5 @@ fun ResponseGetPagingVideoDto.toCore() = Page(
     page = pageNumber,
     data = content.map {
         it.toDomain()
-    }
+    },
 )

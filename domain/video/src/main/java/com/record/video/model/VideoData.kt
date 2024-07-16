@@ -10,5 +10,5 @@ data class VideoData(
     val location: String,
     val uploaderId: Int,
     val nickname: String,
-    val isMine: Boolean
+    val isMine: Boolean,
 )

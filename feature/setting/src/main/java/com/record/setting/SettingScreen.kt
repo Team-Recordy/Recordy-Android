@@ -81,7 +81,6 @@ fun SettingScreen(
     logoutEvent: () -> Unit,
     deleteEvent: () -> Unit,
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -15,13 +15,13 @@ fun NavController.navigateSetting(navOptions: NavOptions) {
 fun NavGraphBuilder.settingNavGraph(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
-    navigateToLogin: ()->Unit,)
-{
+    navigateToLogin: () -> Unit,
+) {
     composable(route = SettingRoute.route) {
         SettingRoute(
             padding = padding,
             modifier = modifier,
-            navigateToLogin= navigateToLogin
+            navigateToLogin = navigateToLogin,
         )
     }
 }

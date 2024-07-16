@@ -1,6 +1,5 @@
 package com.record.login
 
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -55,6 +54,8 @@ fun LoginRoute(
     val entryPoint = EntryPointAccessors.fromActivity<OAuthEntryPoint>(context)
     val oAuthInteractor = entryPoint.getOAuthInteractor()
 
+    viewModel.autoLoginCheck()
+
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
@@ -65,8 +66,8 @@ fun LoginRoute(
                     }.onFailure {
                     }
                 }
+
                 is LoginSideEffect.LoginToSignUp -> {
-                    Log.e("발생", "발생")
                     navigateToSignUp()
                 }
 

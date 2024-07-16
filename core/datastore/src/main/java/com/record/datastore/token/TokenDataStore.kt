@@ -13,7 +13,7 @@ class TokenDataStore @Inject constructor(
     suspend fun setAuthToken(authToken: AuthToken) {
         try {
             tokenPreferences.updateData {
-                it.copy(authToken.accessToken, authToken.refreshToken)
+                it.copy(authToken.accessToken, authToken.refreshToken, authToken.isSigned)
             }
         } catch (ioException: IOException) {
             Log.e("exception", "ioException")

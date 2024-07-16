@@ -19,6 +19,15 @@ class LoginViewModel @Inject constructor(
         postSideEffect(LoginSideEffect.StartLogin)
     }
 
+    fun autoLoginCheck() {
+        Log.d("autologinCheck", "autoLoginCheck:  ")
+        viewModelScope.launch {
+            authRepository.getLocalData().onSuccess {
+                if (it.accessToken.isNotBlank() && it.isSignedUp) postSideEffect(LoginSideEffect.LoginSuccess)
+            }
+        }
+    }
+
     fun signIn(socialToken: String) {
         viewModelScope.launch {
             authRepository.getLocalData().onSuccess {
@@ -26,9 +35,12 @@ class LoginViewModel @Inject constructor(
             }
             authRepository.signIn(socialToken)
                 .onSuccess {
-                    Log.e("성공", "성공")
                     authRepository.saveLocalData(AuthEntity(it.accessToken, it.refreshToken, it.isSignedUp))
-                    postSideEffect(LoginSideEffect.LoginToSignUp)
+                    if (it.isSignedUp) {
+                        postSideEffect(LoginSideEffect.LoginSuccess)
+                    } else {
+                        postSideEffect(LoginSideEffect.LoginToSignUp)
+                    }
                 }.onFailure {
                     when (it) {
                         is ApiError -> Log.e("실패", it.message)

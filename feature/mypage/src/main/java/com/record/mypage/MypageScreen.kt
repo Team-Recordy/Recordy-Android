@@ -57,6 +57,7 @@ import com.record.mypage.screen.BookmarkScreen
 import com.record.mypage.screen.RecordScreen
 import com.record.mypage.screen.SampleData
 import com.record.mypage.screen.TasteScreen
+import com.record.ui.extension.customClickable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -65,6 +66,7 @@ fun MypageRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: MypageViewModel = hiltViewModel(),
+    navigateToSetting: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Box(
@@ -76,6 +78,7 @@ fun MypageRoute(
         MypageScreen(
             state = uiState,
             onTabSelected = { viewModel.selectTab(it) },
+            navigateToSetting = navigateToSetting,
         )
     }
 }
@@ -85,6 +88,7 @@ fun MypageRoute(
 fun MypageScreen(
     state: MypageState,
     onTabSelected: (MypageTab) -> Unit,
+    navigateToSetting: () -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
@@ -111,7 +115,7 @@ fun MypageScreen(
                     .align(Alignment.TopEnd)
                     .padding(top = 45.dp, end = 16.dp)
                     .size(24.dp)
-                    .clickable { },
+                    .customClickable { navigateToSetting() },
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -206,6 +210,7 @@ fun MypageScreenPreview() {
         MypageScreen(
             state = exampleState,
             onTabSelected = {},
+            navigateToSetting = {},
         )
     }
 }
@@ -313,6 +318,7 @@ private fun buildFollowerFollowingText(state: MypageState): AnnotatedString {
         }
     }
 }
+
 fun formatNumber(number: Int): String {
     return when {
         number >= 10000 -> "${number / 10000}.${(number % 10000) / 1000}만"

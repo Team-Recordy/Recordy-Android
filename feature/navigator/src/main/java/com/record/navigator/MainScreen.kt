@@ -38,6 +38,7 @@ import com.record.home.navigation.homeNavGraph
 import com.record.login.navigation.loginNavGraph
 import com.record.mypage.navigation.mypageNavGraph
 import com.record.profile.navigation.profileNavGraph
+import com.record.setting.navigate.settingNavGraph
 import com.record.upload.navigation.uploadNavGraph
 import com.record.video.navigation.videoNavGraph
 import kotlinx.collections.immutable.ImmutableList
@@ -94,6 +95,12 @@ internal fun MainScreen(
 
                 mypageNavGraph(
                     padding = innerPadding,
+                    navigateToSetting = { navigator.navigateSetting() },
+                )
+
+                settingNavGraph(
+                    padding = innerPadding,
+                    navigateToLogin = { navigator.navigateLogin() },
                 )
             }
             RecordySnackBar(
@@ -130,7 +137,8 @@ private fun MainBottomNavigationBar(
                 color = RecordyTheme.colors.gray05,
             )
             Row(
-                modifier = Modifier.height(72.dp)
+                modifier = Modifier
+                    .height(72.dp)
                     .background(color = RecordyTheme.colors.background),
             ) {
                 entries.forEach { tab ->

@@ -10,7 +10,7 @@ interface AuthRemoteDataSource {
     suspend fun signUp(requestSignUpDto: RequestSignUpDto)
     suspend fun checkNickname(nickname: String)
     suspend fun getToken(refreshToken: String): BaseResponse<String>
-    suspend fun delete(accessToken: String): BaseResponse<Unit>
-    suspend fun logout(accessToken: String): BaseResponse<Unit>
+    suspend fun delete()
+    suspend fun logout()
 }
 

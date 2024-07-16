@@ -2,6 +2,7 @@ package com.record.upload
 
 import com.record.ui.base.SideEffect
 import com.record.ui.base.UiState
+import com.record.upload.extension.GalleryVideo
 import kotlinx.collections.immutable.persistentListOf
 
 data class UploadState(

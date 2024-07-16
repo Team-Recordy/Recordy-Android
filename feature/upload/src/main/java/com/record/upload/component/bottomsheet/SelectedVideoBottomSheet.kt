@@ -27,8 +27,8 @@ import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.Gray03
 import com.record.designsystem.theme.RecordyTheme
-import com.record.upload.GalleryVideo
-import com.record.upload.VideoThumbnail
+import com.record.upload.component.VideoThumbnail
+import com.record.upload.extension.GalleryVideo
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)

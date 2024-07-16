@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.record.upload"
 }
+
+dependencies {
+    implementation(projects.domain.upload)
+}

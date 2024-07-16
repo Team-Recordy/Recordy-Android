@@ -27,7 +27,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun signIn(accessToken: String): Result<AuthEntity> = runCatching {
-        authRemoteDataSource.signIn(accessToken)
+        authRemoteDataSource.signIn("Bearer $accessToken")
     }.recoverCatching { exception ->
         when (exception) {
             is HttpException -> throw ApiError(getErrorMessage(exception.code()))

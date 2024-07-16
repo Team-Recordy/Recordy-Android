@@ -7,5 +7,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.feature.video)
+    implementation(projects.domain.user)
+    implementation(projects.domain.video)
 }

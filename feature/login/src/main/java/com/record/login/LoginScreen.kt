@@ -1,5 +1,6 @@
 package com.record.login
 
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -65,6 +66,7 @@ fun LoginRoute(
                     }
                 }
                 is LoginSideEffect.LoginToSignUp -> {
+                    Log.e("발생", "발생")
                     navigateToSignUp()
                 }
 

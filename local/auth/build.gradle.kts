@@ -1,7 +1,5 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.recordy.data)
-    alias(libs.plugins.recordy.android.hilt)
+    alias(libs.plugins.recordy.local)
 }
 
 android {

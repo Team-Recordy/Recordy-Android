@@ -30,5 +30,4 @@ class RemoteVideoDataSourceImpl @Inject constructor(
     override fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetSliceVideoDto = videoApi.getBookmarkVideos(cursorId, size)
 
     override fun bookmark(recordId: Long): Boolean = videoApi.postBookmark(recordId)
-
 }

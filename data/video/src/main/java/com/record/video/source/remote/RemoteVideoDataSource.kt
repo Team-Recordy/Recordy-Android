@@ -3,10 +3,6 @@ package com.record.video.source.remote
 import com.record.video.model.remote.response.ResponseGetPagingVideoDto
 import com.record.video.model.remote.response.ResponseGetSliceVideoDto
 import com.record.video.model.remote.response.ResponseGetVideoDto
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface RemoteVideoDataSource {
     fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto>

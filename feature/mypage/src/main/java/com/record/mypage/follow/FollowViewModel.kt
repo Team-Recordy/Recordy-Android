@@ -1,11 +1,12 @@
 package com.record.mypage.follow
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.record.model.UserData
 import com.record.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,23 +14,26 @@ import javax.inject.Inject
 class FollowViewModel @Inject constructor() : BaseViewModel<FollowState, FollowSideEffect>(
     FollowState(),
 ) {
+    fun toggleFollow(isFollowingScreen: Boolean, user: UserData) {
+        val updatedList = if (isFollowingScreen) {
+            updateUserList(uiState.value.followingList, user)
+        } else {
+            updateUserList(uiState.value.followerList, user)
+        }
 
-    fun toggleFollow(user: UserData) {
         intent {
-            val updatedFollowingList = updateUserList(uiState.value.followingList, user)
-            val updatedFollowerList = updateUserList(uiState.value.followerList, user)
-
-            copy(
-                followingList = updatedFollowingList,
-                followerList = updatedFollowerList,
-            )
+            if (isFollowingScreen) {
+                copy(followingList = updatedList)
+            } else {
+                copy(followerList = updatedList)
+            }
         }
 
         viewModelScope.launch {
             if (user.isFollowing) {
-                postSideEffect(FollowSideEffect.UnFollowing)
+                Log.d("FollowViewModel", "unfollow")
             } else {
-                postSideEffect(FollowSideEffect.Following)
+                Log.d("FollowViewModel", "follow")
             }
         }
     }
@@ -41,18 +45,6 @@ class FollowViewModel @Inject constructor() : BaseViewModel<FollowState, FollowS
             val updatedUser = newList[index].copy(isFollowing = !newList[index].isFollowing)
             newList[index] = updatedUser
         }
-        return newList.toPersistentList()
-    }
-
-    fun updateFollowerList(newList: List<UserData>) {
-        intent {
-            copy(followerList = newList.toPersistentList())
-        }
-    }
-
-    fun updateFollowingList(newList: List<UserData>) {
-        intent {
-            copy(followingList = newList.toPersistentList())
-        }
+        return newList.toImmutableList()
     }
 }

@@ -52,7 +52,7 @@ fun UserDataContainer(
         )
         Text(
             text = user.name,
-            style = RecordyTheme.typography.body2M,
+            style = RecordyTheme.typography.body2B,
             color = RecordyTheme.colors.white,
         )
         Spacer(modifier = Modifier.weight(1f))

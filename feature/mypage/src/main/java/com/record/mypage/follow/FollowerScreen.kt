@@ -22,8 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun FollowerRoute(
@@ -32,18 +30,6 @@ fun FollowerRoute(
     viewModel: FollowViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    LaunchedEffectWithLifecycle(Unit) {
-        viewModel.sideEffect.collectLatest { sideEffect ->
-            when (sideEffect) {
-                is FollowSideEffect.Following -> {
-                }
-
-                is FollowSideEffect.UnFollowing -> {
-                }
-            }
-        }
-    }
 
     Box(
         modifier = modifier
@@ -56,7 +42,7 @@ fun FollowerRoute(
         } else {
             FollowScreen(
                 followerList = uiState.followerList,
-                onClick = { user -> viewModel.toggleFollow(user) },
+                onClick = { viewModel::toggleFollow },
             )
         }
     }

@@ -16,8 +16,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.component.container.UserDataContainer
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.UserData
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun FollowingRoute(
@@ -25,19 +23,7 @@ fun FollowingRoute(
     modifier: Modifier = Modifier,
     viewModel: FollowViewModel = hiltViewModel(),
 ) {
-    val followState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    LaunchedEffectWithLifecycle(Unit) {
-        viewModel.sideEffect.collectLatest { sideEffect ->
-            when (sideEffect) {
-                is FollowSideEffect.Following -> {
-                }
-
-                is FollowSideEffect.UnFollowing -> {
-                }
-            }
-        }
-    }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Box(
         modifier = modifier
@@ -45,19 +31,21 @@ fun FollowingRoute(
             .background(RecordyTheme.colors.background)
             .padding(padding),
     ) {
-        DefaultProfileScreen(followState, viewModel::toggleFollow)
+        DefaultProfileScreen(uiState) { following, user ->
+            viewModel.toggleFollow(true, user)
+        }
     }
 }
 
+
 @Composable
-fun DefaultProfileScreen(followState: FollowState, onclickEvent: (UserData) -> Unit) {
-    val defaultUser =
-        UserData(
-            id = 0,
-            profileImageResId = com.record.designsystem.R.drawable.img_profile,
-            name = "유영",
-            isFollowing = false,
-        )
+fun DefaultProfileScreen(followState: FollowState, onClickEvent: (Boolean, UserData) -> Unit) {
+    val defaultUser = UserData(
+        id = 0,
+        profileImageResId = com.record.designsystem.R.drawable.img_profile,
+        name = "유영",
+        isFollowing = false,
+    )
 
     val sortedList = listOf(defaultUser) + followState.followingList
 
@@ -65,17 +53,20 @@ fun DefaultProfileScreen(followState: FollowState, onclickEvent: (UserData) -> U
         items(sortedList) { user ->
             UserDataContainer(
                 user = user,
-                onClick = { onclickEvent(user) },
+                onClick = { onClickEvent(!user.isFollowing, user) },
                 showFollowButton = user.name != "유영",
             )
         }
     }
 }
 
+
+
+
 @Preview
 @Composable
 fun DefaultProfileScreenPreview() {
     RecordyTheme {
-        DefaultProfileScreen(FollowState(), onclickEvent = {})
+        DefaultProfileScreen(FollowState()) { _, _ -> }
     }
 }

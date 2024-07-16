@@ -8,7 +8,7 @@ import javax.inject.Inject
 class VideoCoreRepositoryImpl @Inject constructor(
     private val remoteVideoCoreDataSource: RemoteVideoCoreDataSource,
 ) : VideoCoreRepository {
-    override fun deleteVideo(id: Long): Result<Unit> = runCatching {
+    override suspend fun deleteVideo(id: Long): Result<Unit> = runCatching {
         remoteVideoCoreDataSource.deleteVideo(id)
     }.recoverCatching { exception ->
         when (exception) {
@@ -22,7 +22,7 @@ class VideoCoreRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun watchVideo(id: Long): Result<Unit> = runCatching {
+    override suspend fun watchVideo(id: Long): Result<Unit> = runCatching {
         remoteVideoCoreDataSource.watchVideo(id)
     }.recoverCatching { exception ->
         when (exception) {

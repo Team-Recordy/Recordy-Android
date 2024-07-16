@@ -4,5 +4,5 @@ import retrofit2.http.GET
 
 interface KeywordApi {
     @GET("/api/v1/keywords")
-    fun getKeywords(): List<String>
+    suspend fun getKeywords(): List<String>
 }

@@ -10,24 +10,24 @@ import javax.inject.Inject
 class RemoteVideoDataSourceImpl @Inject constructor(
     private val videoApi: VideoApi,
 ) : RemoteVideoDataSource {
-    override fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto> = videoApi.getAllVideos(cursorId, size)
+    override suspend fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto> = videoApi.getAllVideos(cursorId, size)
 
-    override fun getRecentVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetSliceVideoDto = videoApi.getRecentVideos(
+    override suspend fun getRecentVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetSliceVideoDto = videoApi.getRecentVideos(
         keywords,
         pageNumber,
         pageSize,
     )
 
-    override fun getPopularVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetPagingVideoDto =
+    override suspend fun getPopularVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetPagingVideoDto =
         videoApi.getPopularVideos(keywords, pageNumber, pageSize)
 
-    override fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto =
+    override suspend fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto =
         videoApi.getUserVideos(otherUserId, cursorId, size)
 
-    override fun getFollowingVideos(userId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto =
+    override suspend fun getFollowingVideos(userId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto =
         videoApi.getFollowingVideos(userId, cursorId, size)
 
-    override fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetSliceVideoDto = videoApi.getBookmarkVideos(cursorId, size)
+    override suspend fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetSliceVideoDto = videoApi.getBookmarkVideos(cursorId, size)
 
-    override fun bookmark(recordId: Long): Boolean = videoApi.postBookmark(recordId)
+    override suspend fun bookmark(recordId: Long): Boolean = videoApi.postBookmark(recordId)
 }

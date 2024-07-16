@@ -6,23 +6,23 @@ import com.record.user.model.Profile
 import com.record.user.model.User
 
 interface UserRepository {
-    fun getFollowingList(
+    suspend fun getFollowingList(
         cursorId: Long,
         size: Int,
     ): Result<Cursor<User>>
 
-    fun getFollowerList(
+    suspend fun getFollowerList(
         cursorId: Long,
         size: Int,
     ): Result<Cursor<User>>
 
-    fun postFollow(
+    suspend fun postFollow(
         followingId: Long,
     ): Result<Boolean>
 
-    fun getUserProfile(
+    suspend fun getUserProfile(
         userId: Long,
     ): Result<Profile>
 
-    fun getUserPreference(): Result<Triple<Preference, Preference, Preference>>
+    suspend fun getUserPreference(): Result<Triple<Preference, Preference, Preference>>
 }

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class KeywordRepositoryImpl @Inject constructor(
     private val remoteKeywordDataSource: RemoteKeywordDataSource,
 ) : KeywordRepository {
-    override fun getKeywords(): Result<PreferenceKeyword> = runCatching {
+    override suspend fun getKeywords(): Result<PreferenceKeyword> = runCatching {
         remoteKeywordDataSource.getKeywords()
     }.mapCatching {
         PreferenceKeyword(keywords = it)

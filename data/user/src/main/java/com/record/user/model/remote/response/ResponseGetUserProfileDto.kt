@@ -1,6 +1,5 @@
 package com.record.user.model.remote.response
 
-
 import com.record.user.model.Profile
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

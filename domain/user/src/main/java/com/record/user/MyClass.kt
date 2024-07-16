@@ -1,4 +1,3 @@
 package com.record.user
 
-class MyClass {
-}
+class MyClass

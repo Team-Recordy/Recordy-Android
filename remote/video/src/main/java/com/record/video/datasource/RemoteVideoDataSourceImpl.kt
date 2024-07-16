@@ -11,5 +11,9 @@ class RemoteVideoDataSourceImpl @Inject constructor(
 ) : RemoteVideoDataSource {
     override fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto> = videoApi.getAllVideos(cursorId, size)
 
-    override fun getRecentVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetRecentVideoDto = videoApi.getRecentVideos(keywords, pageNumber, pageSize)
+    override fun getRecentVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetRecentVideoDto = videoApi.getRecentVideos(
+        keywords,
+        pageNumber,
+        pageSize,
+    )
 }

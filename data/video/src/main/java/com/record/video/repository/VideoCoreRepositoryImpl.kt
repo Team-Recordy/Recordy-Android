@@ -22,7 +22,7 @@ class VideoCoreRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun watchVideo(id: Long): Result<Unit> = runCatching{
+    override fun watchVideo(id: Long): Result<Unit> = runCatching {
         remoteVideoCoreDataSource.watchVideo(id)
     }.recoverCatching { exception ->
         when (exception) {

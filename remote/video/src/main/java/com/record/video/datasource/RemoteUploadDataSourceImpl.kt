@@ -7,11 +7,11 @@ import com.record.video.source.remote.RemoteUploadDataSource
 import javax.inject.Inject
 
 class RemoteUploadDataSourceImpl @Inject constructor(
-    private val uploadApi: UploadApi
-): RemoteUploadDataSource {
+    private val uploadApi: UploadApi,
+) : RemoteUploadDataSource {
     override fun getUploadUrl(): ResponseGetPresignedUrlDto = uploadApi.getPresignedUploadUrl()
 
     override fun uploadRecord(
-        requestPostVideoDto: RequestPostVideoDto
+        requestPostVideoDto: RequestPostVideoDto,
     ) = uploadApi.postRecord(requestPostVideoDto)
 }

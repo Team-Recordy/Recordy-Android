@@ -15,6 +15,9 @@ class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : BaseViewModel<LoginState, LoginSideEffect>(LoginState()) {
 
+    fun splashScreen() {
+        intent { copy(splash = false) }
+    }
     fun startKakaoLogin() {
         postSideEffect(LoginSideEffect.StartLogin)
     }

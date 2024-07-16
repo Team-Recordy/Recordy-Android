@@ -1,8 +1,12 @@
 package com.record.login
 
+import android.window.SplashScreen
 import androidx.activity.ComponentActivity
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -39,6 +44,7 @@ import com.record.designsystem.R
 import com.record.designsystem.theme.Kakao
 import com.record.designsystem.theme.RecordyTheme
 import dagger.hilt.android.EntryPointAccessors
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -54,8 +60,6 @@ fun LoginRoute(
     val entryPoint = EntryPointAccessors.fromActivity<OAuthEntryPoint>(context)
     val oAuthInteractor = entryPoint.getOAuthInteractor()
 
-    viewModel.autoLoginCheck()
-
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
@@ -64,6 +68,7 @@ fun LoginRoute(
                     result.onSuccess {
                         viewModel.signIn(it.accessToken)
                     }.onFailure {
+                        // 카카오 로그인 실패 재시도 요청?
                     }
                 }
 
@@ -81,12 +86,73 @@ fun LoginRoute(
             }
         }
     }
+    if (uiState.splash) {
+        var startAnimation by remember { mutableStateOf(false) }
+        val offsetY by animateFloatAsState(
+            targetValue = if (startAnimation) 0f else 200f,
+            animationSpec = tween(durationMillis = 2000),
+        )
+        val alpha by animateFloatAsState(
+            targetValue = if (startAnimation) 1f else 0f,
+            animationSpec = tween(durationMillis = 2000),
+        )
+        SplashScreen(offsetY, alpha)
+        LaunchedEffect(Unit) {
+            startAnimation = true
+            delay(2000)
+            viewModel.splashScreen()
+        }
+    } else {
+        viewModel.autoLoginCheck()
+        LoginScreen(
+            padding = padding,
+            modifier = modifier,
+            onLogInClick = { viewModel.startKakaoLogin() },
+        )
+    }
+}
 
-    LoginScreen(
-        padding = padding,
-        modifier = modifier,
-        onLogInClick = { viewModel.startKakaoLogin() },
-    )
+@Composable
+fun SplashScreen(offsetY: Float, alpha: Float) {
+    var columnSize by remember {
+        mutableStateOf(IntSize.Zero)
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    listOf(Color(0x339babfb), Color(0x00000000)),
+                    startY = columnSize.height.toFloat() * 0.1f,
+                    endY = columnSize.height.toFloat() * 0.6f,
+                ),
+            ),
+    ) {
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = offsetY.dp)
+            .onGloballyPositioned { layoutCoordinates ->
+                columnSize = layoutCoordinates.size
+            },
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.weight(1f))
+        Image(
+            painterResource(id = R.drawable.ic_recordy_logo),
+            null,
+            modifier = Modifier
+                .fillMaxWidth(0.3f)
+                .aspectRatio(1f)
+                .alpha(alpha),
+
+        )
+        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.weight(1.0f))
+        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.weight(0.3f))
+    }
 }
 
 @Composable
@@ -121,7 +187,7 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painterResource(id = R.drawable.ic_kakao_16),
+                painterResource(id = R.drawable.ic_recordy_logo),
                 null,
                 modifier = Modifier
                     .fillMaxWidth(0.3f)

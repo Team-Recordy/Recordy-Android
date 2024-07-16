@@ -25,7 +25,6 @@ import com.record.model.UserData
 fun UserDataContainer(
     user: UserData,
     onClick: (UserData) -> Unit,
-    showFollowButton: Boolean = true,
 ) {
     val profileImage = user.profileImage
     val profileImageResId = user.profileImageResId
@@ -35,6 +34,8 @@ fun UserDataContainer(
         profileImageResId != null -> painterResource(id = profileImageResId)
         else -> painterResource(id = com.record.designsystem.R.drawable.img_profile)
     }
+
+    val showFollowButton = user.name != "유영"
 
     Row(
         modifier = Modifier

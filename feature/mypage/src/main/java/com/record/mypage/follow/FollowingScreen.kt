@@ -5,17 +5,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.record.designsystem.component.container.UserDataContainer
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.UserData
+import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun FollowingRoute(
@@ -25,21 +23,6 @@ fun FollowingRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(RecordyTheme.colors.background)
-            .padding(padding),
-    ) {
-        DefaultProfileScreen(uiState) { following, user ->
-            viewModel.toggleFollow(true, user)
-        }
-    }
-}
-
-
-@Composable
-fun DefaultProfileScreen(followState: FollowState, onClickEvent: (Boolean, UserData) -> Unit) {
     val defaultUser = UserData(
         id = 0,
         profileImageResId = com.record.designsystem.R.drawable.img_profile,
@@ -47,26 +30,29 @@ fun DefaultProfileScreen(followState: FollowState, onClickEvent: (Boolean, UserD
         isFollowing = false,
     )
 
-    val sortedList = listOf(defaultUser) + followState.followingList
+    val updatedFollowingList = listOf(defaultUser) + (uiState.followingList)
 
-    LazyColumn {
-        items(sortedList) { user ->
-            UserDataContainer(
-                user = user,
-                onClick = { onClickEvent(!user.isFollowing, user) },
-                showFollowButton = user.name != "유영",
-            )
-        }
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(RecordyTheme.colors.background)
+            .padding(padding),
+    ) {
+        FollowScreen(
+            followingList = updatedFollowingList.toPersistentList(),
+            onClick = { user ->
+                viewModel.toggleFollow(true, user)
+            }
+        )
     }
 }
 
-
-
-
 @Preview
 @Composable
-fun DefaultProfileScreenPreview() {
+fun FollowingRoutePreview() {
     RecordyTheme {
-        DefaultProfileScreen(FollowState()) { _, _ -> }
+        FollowingRoute(
+            padding = PaddingValues(),
+        )
     }
 }

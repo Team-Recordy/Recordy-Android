@@ -70,5 +70,15 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @S3
+    fun provideS3Retrofit(@NoneAuth okHttpClient: OkHttpClient, buildConfigFieldProvider: BuildConfigFieldProvider): Retrofit =
+        Retrofit.Builder()
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .baseUrl(buildConfigFieldProvider.get().baseUrl)
+            .client(okHttpClient)
+            .build()
+
+    @Provides
+    @Singleton
     fun provideAuthInterceptor(interceptor: AuthenticationIntercept): Interceptor = interceptor
 }

@@ -1,9 +1,19 @@
 package com.record.video.source.remote
 
-import com.record.video.model.remote.response.ResponseGetRecentVideoDto
+import com.record.video.model.remote.response.ResponseGetPagingVideoDto
+import com.record.video.model.remote.response.ResponseGetSliceVideoDto
 import com.record.video.model.remote.response.ResponseGetVideoDto
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RemoteVideoDataSource {
     fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto>
-    fun getRecentVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetRecentVideoDto
+    fun getRecentVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetSliceVideoDto
+    fun getPopularVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetPagingVideoDto
+    fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto
+    fun getFollowingVideos(userId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto
+    fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetSliceVideoDto
+    fun bookmark(recordId: Long): Boolean
 }

@@ -2,6 +2,7 @@ package com.record.video.model.remote.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.io.Serial
 
 @Serializable
 data class RecordInfo(
@@ -19,6 +20,8 @@ data class RecordInfo(
     val uploaderId: Int,
     @SerialName("uploaderNickname")
     val uploaderNickname: String,
+    @SerialName("isMine")
+    val isMine: Boolean
 )
 
 @Serializable

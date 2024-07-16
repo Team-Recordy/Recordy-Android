@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResponseGetRecentVideoDto(
+data class ResponseGetSliceVideoDto(
     @SerialName("content")
     val content: List<ResponseGetVideoDto>,
     @SerialName("hasNext")
@@ -14,7 +14,7 @@ data class ResponseGetRecentVideoDto(
     val nextCursor: Int,
 )
 
-fun ResponseGetRecentVideoDto.toCore() = Cursor(
+fun ResponseGetSliceVideoDto.toCore() = Cursor(
     hasNext = hasNext,
     nextCursor = nextCursor,
     data = content.map { content ->

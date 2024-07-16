@@ -22,4 +22,5 @@ fun ResponseGetVideoDto.toDomain() = VideoData(
     location = recordInfo.location,
     uploaderId = recordInfo.uploaderId,
     nickname = recordInfo.uploaderNickname,
+    isMine = recordInfo.isMine,
 )

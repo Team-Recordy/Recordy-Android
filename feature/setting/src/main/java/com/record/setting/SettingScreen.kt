@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
+import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,6 +46,9 @@ fun SettingScreen(
             .fillMaxSize()
             .background(color = RecordyTheme.colors.background),
     ) {
+        TopNavigationBar(
+            title = "설정"
+        )
         Spacer(modifier = Modifier.height(30.dp))
         Text(
             text = "설정",
@@ -82,8 +86,8 @@ fun SettingScreen(
             color = RecordyTheme.colors.gray01,
         )
         SettingButton(kakao = true)
-        SettingButton(text = "로그아웃", onClickEvent = viewmodel::Logout)
-        SettingButton(text = "탈퇴")
+        SettingButton(text = "로그아웃", onClickEvent = viewmodel::logout)
+        SettingButton(text = "탈퇴", onClickEvent = viewmodel::delete)
         Text(
             text = "앱 버전 1.0",
             modifier = Modifier

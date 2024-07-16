@@ -1,6 +1,5 @@
 package com.record.setting
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.record.model.AuthEntity
@@ -14,17 +13,24 @@ class SettingViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) :ViewModel(){
 
-    fun Logout(){
+    fun logout(){
         viewModelScope.launch {
             authRepository.logout().onSuccess {
-                Log.d("logout success", "Logout: $it")
                 authRepository.saveLocalData(AuthEntity("","",false))
             }.onFailure {
-                Log.d("logout fail", "Logout: $it")
-                //logout fail
+                //logout fail 재시작 로직
             }
         }
+    }
 
+    fun delete(){
+        viewModelScope.launch {
+            authRepository.delete().onSuccess {
+                authRepository.saveLocalData(AuthEntity("","",false))
+            }.onFailure {
+
+            }
+        }
     }
 
 }

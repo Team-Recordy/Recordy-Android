@@ -53,8 +53,8 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun delete(accessToken: String): Result<Unit> = runCatching {
-        authRemoteDataSource.delete(accessToken)
+    override suspend fun delete(): Result<Unit> = runCatching {
+        authRemoteDataSource.delete()
         Unit
     }.recoverCatching { exception ->
         when (exception) {

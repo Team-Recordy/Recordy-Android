@@ -38,6 +38,7 @@ class SettingViewModel @Inject constructor(
         viewModelScope.launch {
             authRepository.logout().onSuccess {
                 authRepository.saveLocalData(AuthEntity("","",false))
+                postSideEffect(SettingSideEffect.Restart)
             }.onFailure {
                 //logout fail 재시작 로직
             }
@@ -48,6 +49,7 @@ class SettingViewModel @Inject constructor(
         viewModelScope.launch {
             authRepository.delete().onSuccess {
                 authRepository.saveLocalData(AuthEntity("","",false))
+                postSideEffect(SettingSideEffect.Restart)
             }.onFailure {
 
             }

@@ -27,13 +27,15 @@ import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SettingRoute(
     padding: PaddingValues,
     modifier: Modifier,
 ) {
-    SettingScreen(padding,modifier)
+    SettingScreen(padding, modifier)
 }
 
 
@@ -41,9 +43,19 @@ fun SettingRoute(
 fun SettingScreen(
     padding: PaddingValues = PaddingValues(),
     modifier: Modifier = Modifier,
-    viewModel: SettingViewModel = hiltViewModel()
+    viewModel: SettingViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                is SettingSideEffect.Restart -> {
+                    //todo restart
+                }
+            }
+        }
+    }
     if (uiState.dialog == SettingDialog.LOGOUT) {
         RecordyDialog(
             graphicAsset = R.drawable.img_alert,
@@ -52,7 +64,7 @@ fun SettingScreen(
             negativeButtonLabel = "취소",
             positiveButtonLabel = "로그아웃",
             onDismissRequest = { viewModel.dismissDialog() },
-            onPositiveButtonClick = {viewModel.logoutInDialog()},
+            onPositiveButtonClick = { viewModel.logoutInDialog() },
         )
     }
     if (uiState.dialog == SettingDialog.DELETE) {
@@ -63,7 +75,7 @@ fun SettingScreen(
             negativeButtonLabel = "취소",
             positiveButtonLabel = "탈퇴",
             onDismissRequest = { viewModel.dismissDialog() },
-            onPositiveButtonClick = {viewModel.deleteInDialog()},
+            onPositiveButtonClick = { viewModel.deleteInDialog() },
         )
     }
     Column(
@@ -72,7 +84,7 @@ fun SettingScreen(
             .background(color = RecordyTheme.colors.background),
     ) {
         TopNavigationBar(
-            title = "설정"
+            title = "설정",
         )
         Text(
             text = "도움말",

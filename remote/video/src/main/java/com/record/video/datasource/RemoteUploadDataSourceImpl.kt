@@ -6,7 +6,6 @@ import com.record.video.model.remote.request.RequestPostVideoDto
 import com.record.video.model.remote.response.ResponseGetPresignedUrlDto
 import com.record.video.source.remote.RemoteUploadDataSource
 import okhttp3.MultipartBody
-import retrofit2.http.Multipart
 import javax.inject.Inject
 
 class RemoteUploadDataSourceImpl @Inject constructor(
@@ -19,7 +18,5 @@ class RemoteUploadDataSourceImpl @Inject constructor(
         requestPostVideoDto: RequestPostVideoDto,
     ) = uploadApi.postRecord(requestPostVideoDto)
 
-    override suspend fun uploadVideoToS3Bucket(url: String, multipart: MultipartBody.Part) = bucketApi.uploadVideoWithS3Bucket(url = url,multipart)
-
-
+    override suspend fun uploadVideoToS3Bucket(url: String, multipart: MultipartBody.Part) = bucketApi.uploadVideoWithS3Bucket(url = url, multipart)
 }

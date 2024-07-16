@@ -34,14 +34,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun SettingRoute(
     padding: PaddingValues,
     modifier: Modifier,
-) {
-    SettingScreen(padding, modifier)
-}
-
-@Composable
-fun SettingScreen(
-    padding: PaddingValues = PaddingValues(),
-    modifier: Modifier = Modifier,
+    navigateToLogin: () -> Unit,
     viewModel: SettingViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -50,11 +43,12 @@ fun SettingScreen(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is SettingSideEffect.Restart -> {
-                    // todo restart
+                    navigateToLogin()
                 }
             }
         }
     }
+
     if (uiState.dialog == SettingDialog.LOGOUT) {
         RecordyDialog(
             graphicAsset = R.drawable.img_alert,
@@ -77,6 +71,17 @@ fun SettingScreen(
             onPositiveButtonClick = { viewModel.deleteInDialog() },
         )
     }
+    SettingScreen(padding, modifier, viewModel::logout, viewModel::delete)
+}
+
+@Composable
+fun SettingScreen(
+    padding: PaddingValues = PaddingValues(),
+    modifier: Modifier = Modifier,
+    logoutEvent: () -> Unit,
+    deleteEvent: () -> Unit,
+) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -112,8 +117,8 @@ fun SettingScreen(
             color = RecordyTheme.colors.gray01,
         )
         SettingButton(kakao = true)
-        SettingButton(text = "로그아웃", onClickEvent = viewModel::logout)
-        SettingButton(text = "탈퇴", onClickEvent = viewModel::delete)
+        SettingButton(text = "로그아웃", onClickEvent = logoutEvent)
+        SettingButton(text = "탈퇴", onClickEvent = deleteEvent)
         Text(
             text = "앱 버전 1.0",
             modifier = Modifier
@@ -195,6 +200,6 @@ fun SettingButton(
 @Composable
 fun PreviewSettingScreen() {
     RecordyTheme {
-        SettingScreen()
+        SettingScreen(logoutEvent = {}, deleteEvent = {})
     }
 }

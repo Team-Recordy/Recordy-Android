@@ -100,6 +100,7 @@ internal fun MainScreen(
 
                 settingNavGraph(
                     padding = innerPadding,
+                    navigateToLogin = { navigator.navigateLogin() },
                 )
             }
             RecordySnackBar(
@@ -136,7 +137,8 @@ private fun MainBottomNavigationBar(
                 color = RecordyTheme.colors.gray05,
             )
             Row(
-                modifier = Modifier.height(72.dp)
+                modifier = Modifier
+                    .height(72.dp)
                     .background(color = RecordyTheme.colors.background),
             ) {
                 entries.forEach { tab ->

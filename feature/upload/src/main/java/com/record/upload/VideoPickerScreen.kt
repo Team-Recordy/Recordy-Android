@@ -65,6 +65,8 @@ import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.upload.component.bottomsheet.DefinedContentBottomSheet
 import com.record.upload.component.bottomsheet.SelectedVideoBottomSheet
+import com.record.upload.extension.GalleryVideo
+import com.record.upload.extension.getAllVideos
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -81,18 +83,20 @@ fun VideoPickerRoute(
         viewModel.sideEffect.collectLatest { }
     }
 
-    VideoPickerScreen(
-        state = state,
-        showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
-        hideShouldShowRationaleDialog = viewModel::hideShouldShowRationaleDialog,
-        showIsSelectedVideoSheetOpen = viewModel::showIsSelectedVideoSheetOpen,
-        hideIsSelectedVideoSheetOpen = viewModel::hideIsSelectedVideoSheetOpen,
-        showIsSelectedDefinedContentSheetOpen = viewModel::showIsSelectedDefinedContentSheetOpen,
-        hideIsSelectedDefinedContentSheetOpen = viewModel::hideIsSelectedDefinedContentSheetOpen,
-        onClickContentChip = viewModel::setSelectedList,
-        setVideo = viewModel::setVideo,
-        onSuccess = viewModel::onSuccess,
-    )
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        VideoPickerScreen(
+            state = state,
+            showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
+            hideShouldShowRationaleDialog = viewModel::hideShouldShowRationaleDialog,
+            showIsSelectedVideoSheetOpen = viewModel::showIsSelectedVideoSheetOpen,
+            hideIsSelectedVideoSheetOpen = viewModel::hideIsSelectedVideoSheetOpen,
+            showIsSelectedDefinedContentSheetOpen = viewModel::showIsSelectedDefinedContentSheetOpen,
+            hideIsSelectedDefinedContentSheetOpen = viewModel::hideIsSelectedDefinedContentSheetOpen,
+            onClickContentChip = viewModel::setSelectedList,
+            setVideo = viewModel::setVideo,
+            onSuccess = viewModel::onSuccess,
+        )
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)

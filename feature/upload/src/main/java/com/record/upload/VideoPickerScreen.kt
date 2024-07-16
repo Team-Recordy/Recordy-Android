@@ -69,7 +69,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun VideoPickerRoute(
     paddingValues: PaddingValues,
@@ -78,6 +77,7 @@ fun VideoPickerRoute(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffectWithLifecycle {
+        viewModel.getPresignedUrl()
         viewModel.sideEffect.collectLatest { }
     }
 
@@ -91,6 +91,7 @@ fun VideoPickerRoute(
         hideIsSelectedDefinedContentSheetOpen = viewModel::hideIsSelectedDefinedContentSheetOpen,
         onClickContentChip = viewModel::setSelectedList,
         setVideo = viewModel::setVideo,
+        onSuccess = viewModel::onSuccess,
     )
 }
 
@@ -112,6 +113,7 @@ fun VideoPickerScreen(
     hideIsSelectedDefinedContentSheetOpen: () -> Unit = {},
     onClickContentChip: (String) -> Unit,
     setVideo: (GalleryVideo) -> Unit,
+    onSuccess: (String?) -> Unit,
 ) {
     val context = LocalContext.current
     val cameraPermissionState = rememberPermissionState(Manifest.permission.READ_MEDIA_VIDEO)
@@ -160,7 +162,9 @@ fun VideoPickerScreen(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
         ) {
-//            if (state.video!=null) compressVideo(context,state.video!!.uri, state.video.name)
+            if (state.video != null) {
+//                compressVideo(context, state.video.uri,state.video.name, onSuccess = onSuccess)
+            }
             Text(
                 text = "영상",
                 color = RecordyTheme.colors.white,
@@ -223,7 +227,8 @@ fun VideoPickerScreen(
             color = RecordyTheme.colors.white,
             style = RecordyTheme.typography.subtitle,
             modifier = Modifier
-                .padding(horizontal = 16.dp).padding(top = 22.dp, bottom = 12.dp),
+                .padding(horizontal = 16.dp)
+                .padding(top = 22.dp, bottom = 12.dp),
         )
         FlowRow(
             modifier = Modifier
@@ -270,7 +275,8 @@ fun VideoPickerScreen(
             color = RecordyTheme.colors.white,
             style = RecordyTheme.typography.subtitle,
             modifier = Modifier
-                .padding(horizontal = 16.dp).padding(top = 20.dp, bottom = 12.dp),
+                .padding(horizontal = 16.dp)
+                .padding(top = 20.dp, bottom = 12.dp),
         )
         RecordyBasicTextField(
             modifier = Modifier
@@ -286,7 +292,8 @@ fun VideoPickerScreen(
             color = RecordyTheme.colors.white,
             style = RecordyTheme.typography.subtitle,
             modifier = Modifier
-                .padding(horizontal = 16.dp).padding(top = 10.dp, bottom = 12.dp),
+                .padding(horizontal = 16.dp)
+                .padding(top = 10.dp, bottom = 12.dp),
         )
         RecordyBasicTextField(
             placeholder = "공간에 대한 나의 생각을 자유롭게 적어주세요!",
@@ -295,7 +302,8 @@ fun VideoPickerScreen(
             minHeight = 148.dp,
             value = normalValue,
             modifier = Modifier
-                .padding(horizontal = 16.dp).padding(bottom = 10.dp),
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 10.dp),
             onValueChange = { normalValue = it },
         )
         Box(modifier = Modifier.padding(16.dp)) {
@@ -357,6 +365,7 @@ fun VideoPickerScreenPreview() {
         VideoPickerScreen(
             onClickContentChip = {},
             setVideo = {},
+            onSuccess = {},
         )
     }
 }

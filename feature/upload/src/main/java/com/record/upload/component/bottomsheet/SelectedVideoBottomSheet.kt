@@ -1,5 +1,7 @@
 package com.record.upload.component.bottomsheet
 
+import android.content.Context
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +19,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.bottomsheet.RecordyBottomSheet
@@ -26,6 +29,7 @@ import com.record.designsystem.theme.Gray03
 import com.record.designsystem.theme.RecordyTheme
 import com.record.upload.GalleryVideo
 import com.record.upload.VideoThumbnail
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,6 +40,7 @@ fun SelectedVideoBottomSheet(
     galleyVideos: List<GalleryVideo>,
     setVideo: (GalleryVideo) -> Unit,
 ) {
+    val context = LocalContext.current
     RecordyBottomSheet(
         isSheetOpen = isSheetOpen,
         sheetState = sheetState,
@@ -77,4 +82,13 @@ fun SelectedVideoBottomSheet(
 //            )
         }
     }
+}
+fun copyFileToTemp(context: Context, sourceUri: Uri, fileName: String): File {
+    val tempFile = File(context.cacheDir, fileName)
+    context.contentResolver.openInputStream(sourceUri).use { inputStream ->
+        tempFile.outputStream().use { outputStream ->
+            inputStream?.copyTo(outputStream)
+        }
+    }
+    return tempFile
 }

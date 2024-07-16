@@ -158,16 +158,6 @@ fun getAllVideos(
     return galleryVideoList
 }
 
-data class GalleryVideo(
-    val id: Long,
-    val filepath: String,
-    val uri: Uri,
-    val name: String,
-    val date: String,
-    val size: Int,
-    val duration: Long,
-)
-
 fun getVideoDuration(context: Context, uri: Uri): Long {
     val retriever = MediaMetadataRetriever()
     return try {
@@ -182,8 +172,17 @@ fun getVideoDuration(context: Context, uri: Uri): Long {
         retriever.release()
     }
 }
+data class GalleryVideo(
+    val id: Long,
+    val filepath: String,
+    val uri: Uri,
+    val name: String,
+    val date: String,
+    val size: Int,
+    val duration: Long,
+)
 
-fun compressVideo(context: Context, videoUri: Uri, name: String) {
+fun compressVideo(context: Context, videoUri: Uri, name: String, onSuccess: (String?) -> Unit) {
     CoroutineScope(Dispatchers.IO).launch {
         VideoCompressor.start(
             context = context,
@@ -215,6 +214,7 @@ fun compressVideo(context: Context, videoUri: Uri, name: String) {
                 override fun onSuccess(index: Int, size: Long, path: String?) {
                     // 압축 성공 시 호출
                     Log.d("video onSuccess", "$index $size $path")
+                    onSuccess(path)
                 }
 
                 override fun onFailure(index: Int, failureMessage: String) {

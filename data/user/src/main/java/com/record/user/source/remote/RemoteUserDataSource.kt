@@ -2,6 +2,7 @@ package com.record.user.source.remote
 
 import com.record.user.model.remote.response.ResponseGetFollowerListDto
 import com.record.user.model.remote.response.ResponseGetFollowingListDto
+import com.record.user.model.remote.response.ResponseGetUserPreferenceDto
 import com.record.user.model.remote.response.ResponseGetUserProfileDto
 import com.record.user.model.remote.response.ResponsePostFollowDto
 
@@ -18,9 +19,12 @@ interface RemoteUserDataSource {
 
     fun postFollow(
         followingId: Long,
-    ): ResponsePostFollowDto
+    ): Boolean
 
     fun getUserProfile(
         userId: Long,
     ): ResponseGetUserProfileDto
+
+    fun getUserPreference(
+    ): ResponseGetUserPreferenceDto
 }

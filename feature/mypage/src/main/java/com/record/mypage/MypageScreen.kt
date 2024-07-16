@@ -42,10 +42,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -78,6 +74,8 @@ fun MypageRoute(
         MypageScreen(
             state = uiState,
             onTabSelected = { viewModel.selectTab(it) },
+            onFollowingClick = {},
+            onFollowerClick = {},
             navigateToSetting = navigateToSetting,
         )
     }
@@ -89,6 +87,8 @@ fun MypageScreen(
     state: MypageState,
     onTabSelected: (MypageTab) -> Unit,
     navigateToSetting: () -> Unit,
+    onFollowerClick: () -> Unit,
+    onFollowingClick: () -> Unit
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
@@ -148,9 +148,11 @@ fun MypageScreen(
                             color = RecordyTheme.colors.white,
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = buildFollowerFollowingText(state),
-                            style = RecordyTheme.typography.body2M,
+                        buildFollowerFollowingRow(
+                            followerNum = state.followerNum,
+                            followingNum = state.followingNum,
+                            onFollowerClick = onFollowerClick,
+                            onFollowingClick = onFollowingClick
                         )
                     }
                 }
@@ -211,6 +213,8 @@ fun MypageScreenPreview() {
             state = exampleState,
             onTabSelected = {},
             navigateToSetting = {},
+            onFollowerClick = {},
+            onFollowingClick = {},
         )
     }
 }
@@ -302,28 +306,59 @@ fun CustomTabRow(
     }
 }
 
-@Composable
-private fun buildFollowerFollowingText(state: MypageState): AnnotatedString {
-    return buildAnnotatedString {
-        withStyle(style = SpanStyle(color = RecordyTheme.colors.white)) {
-            append(formatNumber(state.followerNum))
-        }
-        withStyle(style = SpanStyle(color = RecordyTheme.colors.gray03)) {
-            append(" 명의 팔로워 | ")
-        }
-        withStyle(style = SpanStyle(color = RecordyTheme.colors.white)) {
-            append(formatNumber(state.followingNum))
-        }
-        withStyle(style = SpanStyle(color = RecordyTheme.colors.gray03)) {
-            append(" 명의 팔로잉")
-        }
-    }
-}
-
 fun formatNumber(number: Int): String {
     return when {
         number >= 10000 -> "${number / 10000}.${(number % 10000) / 1000}만"
         number >= 1000 -> "${number / 1000}.${(number % 1000) / 100}천"
         else -> number.toString()
+    }
+}
+
+@Composable
+private fun buildFollowerFollowingRow(
+    followerNum: Int,
+    followingNum: Int,
+    onFollowerClick: () -> Unit,
+    onFollowingClick: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .clickable(onClick = onFollowerClick)
+        ) {
+            Text(
+                text = formatNumber(followerNum),
+                style = RecordyTheme.typography.body2M,
+                color = RecordyTheme.colors.white
+            )
+            Text(
+                text = " 명의 팔로워",
+                style = RecordyTheme.typography.body2M,
+                color = RecordyTheme.colors.gray03
+            )
+        }
+        Text(
+            text = "|",
+            style = RecordyTheme.typography.body2M,
+            color = RecordyTheme.colors.gray03
+        )
+        Row(
+            modifier = Modifier
+                .clickable(onClick = onFollowingClick)
+        ) {
+            Text(
+                text = formatNumber(followingNum),
+                style = RecordyTheme.typography.body2M,
+                color = RecordyTheme.colors.white
+            )
+            Text(
+                text = " 명의 팔로잉",
+                style = RecordyTheme.typography.body2M,
+                color = RecordyTheme.colors.gray03
+            )
+        }
     }
 }

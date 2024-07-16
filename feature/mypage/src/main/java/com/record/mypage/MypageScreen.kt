@@ -62,6 +62,8 @@ fun MypageRoute(
     modifier: Modifier = Modifier,
     viewModel: MypageViewModel = hiltViewModel(),
     navigateToSetting: () -> Unit,
+    navigateToFollower: () -> Unit,
+    navigateToFollowing: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Box(
@@ -73,8 +75,8 @@ fun MypageRoute(
         MypageScreen(
             state = uiState,
             onTabSelected = { viewModel.selectTab(it) },
-            onFollowingClick = {},
-            onFollowerClick = {},
+            onFollowingClick = navigateToFollowing,
+            onFollowerClick = navigateToFollower,
             navigateToSetting = navigateToSetting,
         )
     }
@@ -326,7 +328,7 @@ private fun buildFollowerFollowingRow(
     ) {
         Row(
             modifier = Modifier
-                .clickable(onClick = onFollowerClick),
+                .customClickable {onFollowerClick()},
         ) {
             Text(
                 text = formatNumber(followerNum),
@@ -346,7 +348,7 @@ private fun buildFollowerFollowingRow(
         )
         Row(
             modifier = Modifier
-                .clickable(onClick = onFollowingClick),
+                .customClickable {onFollowingClick()},
         ) {
             Text(
                 text = formatNumber(followingNum),

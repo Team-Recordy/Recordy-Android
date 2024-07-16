@@ -12,7 +12,10 @@ import com.record.home.navigation.HomeRoute
 import com.record.home.navigation.navigateHome
 import com.record.login.navigation.LoginRoute
 import com.record.login.navigation.SignupRoute
+import com.record.mypage.navigation.MypageRoute
 import com.record.mypage.navigation.navigateMypage
+import com.record.mypage.navigation.navigateToFollower
+import com.record.mypage.navigation.navigateToFollowing
 import com.record.profile.navigation.navigateProfile
 import com.record.setting.navigate.navigateSetting
 import com.record.video.navigation.navigateVideo
@@ -88,6 +91,14 @@ internal class MainNavigator(
 
     fun navigateSetting() {
         navController.navigateSetting(navOptions { })
+    }
+
+    fun navigateToFollowing() {
+        navController.navigateToFollowing(navOptions { })
+    }
+
+    fun navigateToFollower() {
+        navController.navigateToFollower(navOptions { })
     }
 
     fun popBackStackIfNotHome() {

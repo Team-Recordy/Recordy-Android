@@ -5,11 +5,11 @@ import com.record.video.model.remote.response.ResponseGetSliceVideoDto
 import com.record.video.model.remote.response.ResponseGetVideoDto
 
 interface RemoteVideoDataSource {
-    fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto>
-    fun getRecentVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetSliceVideoDto
-    fun getPopularVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetPagingVideoDto
-    fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto
-    fun getFollowingVideos(userId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto
-    fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetSliceVideoDto
-    fun bookmark(recordId: Long): Boolean
+    suspend fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto>
+    suspend fun getRecentVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetSliceVideoDto
+    suspend fun getPopularVideos(keywords: List<String>, pageNumber: Int, pageSize: Int): ResponseGetPagingVideoDto
+    suspend fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto
+    suspend fun getFollowingVideos(userId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto
+    suspend fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetSliceVideoDto
+    suspend fun bookmark(recordId: Long): Boolean
 }

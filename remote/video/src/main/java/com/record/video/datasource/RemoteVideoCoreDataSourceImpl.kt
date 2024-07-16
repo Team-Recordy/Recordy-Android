@@ -7,7 +7,7 @@ import javax.inject.Inject
 class RemoteVideoCoreDataSourceImpl @Inject constructor(
     private val videoCoreApi: VideoCoreApi,
 ) : RemoteVideoCoreDataSource {
-    override fun deleteVideo(recordId: Long) = videoCoreApi.deleteVideo(recordId)
+    override suspend fun deleteVideo(recordId: Long) = videoCoreApi.deleteVideo(recordId)
 
-    override fun watchVideo(recordId: Long) = videoCoreApi.postWatchVideo(recordId)
+    override suspend fun watchVideo(recordId: Long) = videoCoreApi.postWatchVideo(recordId)
 }

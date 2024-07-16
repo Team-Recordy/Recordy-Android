@@ -6,12 +6,12 @@ import retrofit2.http.Path
 
 interface VideoCoreApi {
     @POST("/api/v1/records/{record_id}")
-    fun postWatchVideo(
+    suspend fun postWatchVideo(
         @Path("record_id") recordId: Long,
     )
 
     @DELETE("/api/v1/records/{record_id}")
-    fun deleteVideo(
+    suspend fun deleteVideo(
         @Path("record_id") recordId: Long,
     )
 }

@@ -14,7 +14,7 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val remoteUserDataSource: RemoteUserDataSource,
 ) : UserRepository {
-    override fun getFollowingList(cursorId: Long, size: Int): Result<Cursor<User>> = runCatching {
+    override suspend fun getFollowingList(cursorId: Long, size: Int): Result<Cursor<User>> = runCatching {
         remoteUserDataSource.getFollowerList(cursorId, size)
     }.mapCatching {
         it.toCore()
@@ -30,7 +30,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getFollowerList(cursorId: Long, size: Int): Result<Cursor<User>> = runCatching {
+    override suspend fun getFollowerList(cursorId: Long, size: Int): Result<Cursor<User>> = runCatching {
         remoteUserDataSource.getFollowerList(cursorId, size)
     }.mapCatching {
         it.toCore()
@@ -46,7 +46,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun postFollow(followingId: Long): Result<Boolean> = runCatching {
+    override suspend fun postFollow(followingId: Long): Result<Boolean> = runCatching {
         remoteUserDataSource.postFollow(followingId)
     }.map {
         it
@@ -62,7 +62,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getUserProfile(userId: Long): Result<Profile> = runCatching {
+    override suspend fun getUserProfile(userId: Long): Result<Profile> = runCatching {
         remoteUserDataSource.getUserProfile(userId)
     }.mapCatching {
         it.toDomain()
@@ -78,7 +78,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getUserPreference(): Result<Triple<Preference, Preference, Preference>> = runCatching {
+    override suspend fun getUserPreference(): Result<Triple<Preference, Preference, Preference>> = runCatching {
         remoteUserDataSource.getUserPreference().preference
     }.mapCatching {
         Triple(

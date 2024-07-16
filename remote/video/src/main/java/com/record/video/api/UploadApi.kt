@@ -8,8 +8,8 @@ import retrofit2.http.POST
 
 interface UploadApi {
     @GET("/api/v1/records/presigned-url")
-    fun getPresignedUploadUrl(): ResponseGetPresignedUrlDto
+    suspend fun getPresignedUploadUrl(): ResponseGetPresignedUrlDto
 
     @POST("/api/v1/records")
-    fun postRecord(@Body requestPostVideoDto: RequestPostVideoDto)
+    suspend fun postRecord(@Body requestPostVideoDto: RequestPostVideoDto)
 }

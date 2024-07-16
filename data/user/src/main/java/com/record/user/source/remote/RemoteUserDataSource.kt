@@ -6,23 +6,23 @@ import com.record.user.model.remote.response.ResponseGetUserPreferenceDto
 import com.record.user.model.remote.response.ResponseGetUserProfileDto
 
 interface RemoteUserDataSource {
-    fun getFollowingList(
+    suspend fun getFollowingList(
         cursorId: Long,
         size: Int,
     ): ResponseGetFollowingListDto
 
-    fun getFollowerList(
+    suspend fun getFollowerList(
         cursorId: Long,
         size: Int,
     ): ResponseGetFollowerListDto
 
-    fun postFollow(
+    suspend fun postFollow(
         followingId: Long,
     ): Boolean
 
-    fun getUserProfile(
+    suspend fun getUserProfile(
         userId: Long,
     ): ResponseGetUserProfileDto
 
-    fun getUserPreference(): ResponseGetUserPreferenceDto
+    suspend fun getUserPreference(): ResponseGetUserPreferenceDto
 }

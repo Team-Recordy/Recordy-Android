@@ -11,47 +11,47 @@ import retrofit2.http.Query
 
 interface VideoApi {
     @GET("/api/v1/records")
-    fun getAllVideos(
+    suspend fun getAllVideos(
         @Query("cursorId") cursorId: Long,
         @Query("size") size: Int,
     ): List<ResponseGetVideoDto>
 
     @GET("/api/v1/records/recent")
-    fun getRecentVideos(
+    suspend fun getRecentVideos(
         @Query("keywords") keywords: List<String>,
         @Query("pageNumber") pageNumber: Int,
         @Query("pageSize") pageSize: Int,
     ): ResponseGetSliceVideoDto
 
     @GET("/api/v1/records/famous")
-    fun getPopularVideos(
+    suspend fun getPopularVideos(
         @Query("keywords") keywords: List<String>,
         @Query("pageNumber") pageNumber: Int,
         @Query("pageSize") pageSize: Int,
     ): ResponseGetPagingVideoDto
 
     @GET("/api/v1/records/user/{otherUserId}")
-    fun getUserVideos(
+    suspend fun getUserVideos(
         @Path("otherUserId") otherUserId: Long,
         @Query("cursorId") cursorId: Long,
         @Query("size") size: Int,
     ): ResponseGetSliceVideoDto
 
     @GET("/api/v1/records/following")
-    fun getFollowingVideos(
+    suspend fun getFollowingVideos(
         @Header("userId") userId: Long,
         @Query("cursorId") cursorId: Long,
         @Query("size") size: Int,
     ): ResponseGetSliceVideoDto
 
     @GET("/api/v1/records/bookmark")
-    fun getBookmarkVideos(
+    suspend fun getBookmarkVideos(
         @Query("cursorId") cursorId: Long,
         @Query("size") size: Int,
     ): ResponseGetSliceVideoDto
 
     @POST("/api/v1/bookmarks/{recordId}")
-    fun postBookmark(
+    suspend fun postBookmark(
         @Path("recordId") recordId: Long,
     ): Boolean
 }

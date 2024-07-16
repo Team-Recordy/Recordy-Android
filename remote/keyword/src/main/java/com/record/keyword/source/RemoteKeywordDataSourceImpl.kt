@@ -6,5 +6,5 @@ import javax.inject.Inject
 class RemoteKeywordDataSourceImpl @Inject constructor(
     private val keywordApi: KeywordApi,
 ) : RemoteKeywordDataSource {
-    override fun getKeywords(): List<String> = keywordApi.getKeywords()
+    override suspend fun getKeywords(): List<String> = keywordApi.getKeywords()
 }

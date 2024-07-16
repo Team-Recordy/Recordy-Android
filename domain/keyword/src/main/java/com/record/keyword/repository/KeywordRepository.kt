@@ -3,5 +3,5 @@ package com.record.keyword.repository
 import com.record.keyword.model.PreferenceKeyword
 
 interface KeywordRepository {
-    fun getKeywords(): Result<PreferenceKeyword>
+    suspend fun getKeywords(): Result<PreferenceKeyword>
 }

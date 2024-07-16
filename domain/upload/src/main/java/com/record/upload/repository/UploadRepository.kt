@@ -4,6 +4,6 @@ import com.record.upload.model.UploadInfo
 import com.record.upload.model.VideoInfo
 
 interface UploadRepository {
-    fun getPresignedUrl(): Result<UploadInfo>
-    fun uploadRecord(videoInfo: VideoInfo): Result<Unit>
+    suspend fun getPresignedUrl(): Result<UploadInfo>
+    suspend fun uploadRecord(videoInfo: VideoInfo): Result<Unit>
 }

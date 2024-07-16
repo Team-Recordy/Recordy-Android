@@ -11,27 +11,27 @@ import retrofit2.http.Query
 
 interface UserApi {
     @GET("/api/v1/users/following")
-    fun getFollowingList(
+    suspend fun getFollowingList(
         @Query("cursorId") cursorId: Long,
         @Query("size") size: Int,
     ): ResponseGetFollowingListDto
 
     @GET("/api/v1/users/follower")
-    fun getFollowerList(
+    suspend fun getFollowerList(
         @Query("cursorId") cursorId: Long,
         @Query("size") size: Int,
     ): ResponseGetFollowerListDto
 
     @POST("/api/v1/users/follow/{followingId}")
-    fun postFollow(
+    suspend fun postFollow(
         @Path("followingId") followingId: Long,
     ): Boolean
 
     @GET("/api/v1/users/profile/{userId}")
-    fun getUserProfileDto(
+    suspend fun getUserProfileDto(
         @Path("userId") userId: Long,
     ): ResponseGetUserProfileDto
 
     @GET("/api/v1/preference")
-    fun getUserPreference(): ResponseGetUserPreferenceDto
+    suspend fun getUserPreference(): ResponseGetUserPreferenceDto
 }

@@ -9,9 +9,9 @@ import javax.inject.Inject
 class RemoteUploadDataSourceImpl @Inject constructor(
     private val uploadApi: UploadApi,
 ) : RemoteUploadDataSource {
-    override fun getUploadUrl(): ResponseGetPresignedUrlDto = uploadApi.getPresignedUploadUrl()
+    override suspend fun getUploadUrl(): ResponseGetPresignedUrlDto = uploadApi.getPresignedUploadUrl()
 
-    override fun uploadRecord(
+    override suspend fun uploadRecord(
         requestPostVideoDto: RequestPostVideoDto,
     ) = uploadApi.postRecord(requestPostVideoDto)
 }

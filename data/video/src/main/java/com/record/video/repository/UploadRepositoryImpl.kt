@@ -13,7 +13,7 @@ import javax.inject.Inject
 class UploadRepositoryImpl @Inject constructor(
     private val remoteUploadDataSource: RemoteUploadDataSource,
 ) : UploadRepository {
-    override fun getPresignedUrl(): Result<UploadInfo> = runCatching {
+    override suspend fun getPresignedUrl(): Result<UploadInfo> = runCatching {
         remoteUploadDataSource.getUploadUrl()
     }.mapCatching {
         it.toCore()
@@ -29,7 +29,7 @@ class UploadRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun uploadRecord(videoInfo: VideoInfo): Result<Unit> = runCatching {
+    override suspend fun uploadRecord(videoInfo: VideoInfo): Result<Unit> = runCatching {
         remoteUploadDataSource.uploadRecord(videoInfo.toData())
     }.recoverCatching { exception ->
         when (exception) {

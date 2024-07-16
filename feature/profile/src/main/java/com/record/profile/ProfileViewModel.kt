@@ -3,6 +3,8 @@ package com.record.profile
 import androidx.lifecycle.viewModelScope
 import com.record.model.UserData
 import com.record.ui.base.BaseViewModel
+import com.record.ui.base.SideEffect
+import com.record.ui.base.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -12,17 +14,13 @@ class ProfileViewModel @Inject constructor() : BaseViewModel<ProfileState, Profi
 
     fun toggleFollow(user: UserData) {
         viewModelScope.launch {
-            val updatedUser = user.copy(isFollowing = !user.isFollowing)
-            intent {
-                copy(user = updatedUser)
+            if (user.isFollowing) {
+                // Unfollow
+            } else {
+                // Follow
             }
-            postSideEffect(
-                if (updatedUser.isFollowing) {
-                    ProfileSideEffect.Following
-                } else {
-                    ProfileSideEffect.Unfollowing
-                },
-            )
         }
     }
 }
+
+sealed interface ProfileSideEffect : SideEffect

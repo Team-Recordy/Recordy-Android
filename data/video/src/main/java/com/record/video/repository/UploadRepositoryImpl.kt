@@ -11,7 +11,7 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 class UploadRepositoryImpl @Inject constructor(
-    private val remoteUploadDataSource: RemoteUploadDataSource
+    private val remoteUploadDataSource: RemoteUploadDataSource,
 ) : UploadRepository {
     override fun getPresignedUrl(): Result<UploadInfo> = runCatching {
         remoteUploadDataSource.getUploadUrl()

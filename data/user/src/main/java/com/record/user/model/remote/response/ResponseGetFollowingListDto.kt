@@ -1,6 +1,5 @@
 package com.record.user.model.remote.response
 
-
 import com.record.model.Cursor
 import com.record.user.model.User
 import kotlinx.serialization.SerialName

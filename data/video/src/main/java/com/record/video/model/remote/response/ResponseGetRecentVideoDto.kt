@@ -1,6 +1,5 @@
 package com.record.video.model.remote.response
 
-
 import com.record.model.Cursor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

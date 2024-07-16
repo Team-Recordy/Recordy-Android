@@ -1,6 +1,5 @@
 package com.record.video.model.remote.response
 
-
 import com.record.network.model.RecordInfo
 import com.record.video.model.VideoData
 import kotlinx.serialization.SerialName

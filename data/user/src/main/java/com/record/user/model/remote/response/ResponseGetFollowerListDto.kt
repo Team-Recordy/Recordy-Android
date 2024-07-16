@@ -1,6 +1,5 @@
 package com.record.user.model.remote.response
 
-
 import com.record.model.Cursor
 import com.record.user.model.User
 import kotlinx.serialization.SerialName
@@ -13,14 +12,14 @@ data class ResponseGetFollowerListDto(
     @SerialName("hasNext")
     val hasNext: Boolean,
     @SerialName("nextCursor")
-    val nextCursor: Int
+    val nextCursor: Int,
 ) {
     @Serializable
     data class Content(
         @SerialName("following")
         val following: Boolean,
         @SerialName("userInfo")
-        val userInfo: UserInfo
+        val userInfo: UserInfo,
     )
 }
 
@@ -34,5 +33,5 @@ fun ResponseGetFollowerListDto.toCore() = Cursor(
             isFollowing = it.following,
             profileImageUri = it.userInfo.profileImageUrl,
         )
-    }
+    },
 )

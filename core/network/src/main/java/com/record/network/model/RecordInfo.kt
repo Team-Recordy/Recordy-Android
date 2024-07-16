@@ -1,6 +1,5 @@
 package com.record.network.model
 
-import com.record.model.VideoUrl
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,7 +18,7 @@ data class RecordInfo(
     @SerialName("uploaderId")
     val uploaderId: Int,
     @SerialName("uploaderNickname")
-    val uploaderNickname: String
+    val uploaderNickname: String,
 )
 
 @Serializable
@@ -27,5 +26,5 @@ data class FileUrl(
     @SerialName("thumbnailUrl")
     val thumbnailUrl: String,
     @SerialName("videoUrl")
-    val videoUrl: String
+    val videoUrl: String,
 )

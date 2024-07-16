@@ -1,7 +1,5 @@
 package com.record.video.model.remote.response
 
-
-import com.record.network.model.RecordInfo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -12,5 +10,5 @@ data class ResponseGetBookmarkVideoDto(
     @SerialName("hasNext")
     val hasNext: Boolean,
     @SerialName("nextCursor")
-    val nextCursor: Int
+    val nextCursor: Int,
 )

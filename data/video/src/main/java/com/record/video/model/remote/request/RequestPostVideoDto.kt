@@ -1,11 +1,9 @@
 package com.record.video.model.remote.request
 
-
 import com.record.network.model.FileUrl
 import com.record.upload.model.VideoInfo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.io.File
 
 @Serializable
 data class RequestPostVideoDto(
@@ -16,7 +14,7 @@ data class RequestPostVideoDto(
     @SerialName("keywords")
     val keywords: List<String>,
     @SerialName("location")
-    val location: String
+    val location: String,
 )
 
 fun VideoInfo.toData() = RequestPostVideoDto(

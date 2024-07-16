@@ -10,5 +10,5 @@ data class UserInfo(
     @SerialName("nickname")
     val nickname: String,
     @SerialName("profileImageUrl")
-    val profileImageUrl: String
+    val profileImageUrl: String,
 )

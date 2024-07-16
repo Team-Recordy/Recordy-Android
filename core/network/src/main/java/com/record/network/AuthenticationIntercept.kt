@@ -19,39 +19,10 @@ class AuthenticationIntercept @Inject constructor(
         return response
     }
 
-    private fun handleRequest(originalRequest: Request) =
-        when {
-            originalRequest.url.encodedPath.contains(USER) -> {
-                when {
-                    originalRequest.url.encodedPath.contains(SIGNUP) ||
-                        originalRequest.url.encodedPath.contains(CEHCK_NICKNAME) ||
-                        originalRequest.url.encodedPath.contains(NICKNAME) ||
-                        originalRequest.url.encodedPath.contains(LOGOUT) ||
-                        originalRequest.url.encodedPath.contains(DELETE)
-                    -> {
-                        originalRequest.accessTokenBuilder()
-                    }
-
-                    originalRequest.url.encodedPath.contains(TOKEN) -> {
-                        originalRequest.refreshTokenBuilder()
-                    }
-
-                    else -> {
-                        originalRequest
-                    }
-                }
-            }
-
-            else -> {
-                originalRequest
-            }
-        }
+    private fun handleRequest(originalRequest: Request) = originalRequest.accessTokenBuilder()
 
     private fun Request.accessTokenBuilder() =
         this.newBuilder().addHeader("Authorization", runBlocking { "Bearer ${datastore.token.first().accessToken}" }).build()
-
-    private fun Request.refreshTokenBuilder() =
-        this.newBuilder().addHeader("refreshToken", runBlocking { datastore.token.first().refreshToken }).build()
 
     companion object {
         const val API = "api"

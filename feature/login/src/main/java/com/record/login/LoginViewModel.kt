@@ -20,7 +20,6 @@ class LoginViewModel @Inject constructor(
     }
 
     fun autoLoginCheck() {
-        Log.d("autologinCheck", "autoLoginCheck:  ")
         viewModelScope.launch {
             authRepository.getLocalData().onSuccess {
                 if (it.accessToken.isNotBlank() && it.isSignedUp) postSideEffect(LoginSideEffect.LoginSuccess)
@@ -33,7 +32,8 @@ class LoginViewModel @Inject constructor(
             authRepository.getLocalData().onSuccess {
                 if (it.isSignedUp) postSideEffect(LoginSideEffect.LoginSuccess)
             }
-            authRepository.signIn(socialToken)
+            authRepository.saveLocalData(AuthEntity(socialToken, "", false))
+            authRepository.signIn()
                 .onSuccess {
                     authRepository.saveLocalData(AuthEntity(it.accessToken, it.refreshToken, it.isSignedUp))
                     if (it.isSignedUp) {

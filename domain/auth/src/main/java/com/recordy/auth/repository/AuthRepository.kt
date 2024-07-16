@@ -4,7 +4,7 @@ import com.record.model.AuthEntity
 import com.recordy.auth.model.AuthAgreementEntity
 
 interface AuthRepository {
-    suspend fun signIn(accessToken: String): Result<AuthEntity>
+    suspend fun signIn(): Result<AuthEntity>
     suspend fun signUp(authAgreementEntity: AuthAgreementEntity): Result<Unit>
     suspend fun checkNickname(nickname: String): Result<Unit>
     suspend fun delete(): Result<Unit>

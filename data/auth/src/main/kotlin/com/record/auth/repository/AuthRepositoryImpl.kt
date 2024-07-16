@@ -26,8 +26,8 @@ class AuthRepositoryImpl @Inject constructor(
         const val ERROR_SERVER = "서버 오류"
     }
 
-    override suspend fun signIn(accessToken: String): Result<AuthEntity> = runCatching {
-        authRemoteDataSource.signIn("Bearer $accessToken")
+    override suspend fun signIn(): Result<AuthEntity> = runCatching {
+        authRemoteDataSource.signIn()
     }.recoverCatching { exception ->
         when (exception) {
             is HttpException -> throw ApiError(getErrorMessage(exception.code()))
@@ -44,8 +44,8 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun checkNickname( nickname: String): Result<Unit> = runCatching {
-        authRemoteDataSource.checkNickname( nickname = nickname)
+    override suspend fun checkNickname(nickname: String): Result<Unit> = runCatching {
+        authRemoteDataSource.checkNickname(nickname = nickname)
     }.recoverCatching { exception ->
         when (exception) {
             is HttpException -> throw ApiError(getErrorMessage(exception.code()))

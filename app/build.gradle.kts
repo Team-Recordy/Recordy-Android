@@ -18,10 +18,12 @@ dependencies {
     implementation(projects.data.oauth)
     implementation(projects.data.video)
     implementation(projects.data.user)
+    implementation(projects.data.keyword)
     implementation(projects.local.auth)
     implementation(projects.remote.auth)
     implementation(projects.remote.user)
     implementation(projects.remote.video)
+    implementation(projects.remote.keyword)
     implementation(projects.feature.navigator)
     implementation(libs.kakao.login)
 }

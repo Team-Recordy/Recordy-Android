@@ -2,8 +2,10 @@ package com.record.upload
 
 import android.util.Log
 import com.record.ui.base.BaseViewModel
+import com.record.upload.extension.GalleryVideo
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +28,9 @@ class UploadViewModel @Inject constructor(
         }.onFailure {
             Log.d("failure", "${it.message}")
         }
+    }
+    suspend fun uploadVideoToS3Bucket(file:File){
+        uploadRepository.uploadVideoToS3Bucket("",file)
     }
     fun setVideo(video: GalleryVideo) = intent {
         copy(video = video)

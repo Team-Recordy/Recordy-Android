@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -36,41 +37,35 @@ fun RecordScreen(videoItems: List<VideoData>, recordCount: Int) {
             },
         )
     } else {
-        Box(
+        LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                contentAlignment = Alignment.TopEnd,
-            ) {
-                Text(
-                    text = buildRecordCountText(recordCount),
-                    style = RecordyTheme.typography.body2M,
-                    color = RecordyTheme.colors.gray01,
-                )
-            }
-
-            LazyVerticalGrid(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 43.dp)
-                    .align(Alignment.BottomStart),
-                columns = GridCells.Fixed(2),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                items(SampleData.sampleVideos) { item ->
-                    RecordyVideoThumbnail(
-                        imageUri = item.previewUri,
-                        isBookmarkable = true,
-                        isBookmark = false,
-                        location = item.location,
+            item(span = { GridItemSpan(maxCurrentLineSpan) }) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
+                    contentAlignment = Alignment.TopEnd,
+                ) {
+                    Text(
+                        text = buildRecordCountText(recordCount),
+                        style = RecordyTheme.typography.body2M,
+                        color = RecordyTheme.colors.gray01,
                     )
                 }
+            }
+            items(SampleData.sampleVideos) { item ->
+                RecordyVideoThumbnail(
+                    imageUri = item.previewUri,
+                    isBookmarkable = true,
+                    isBookmark = true,
+                    location = item.location,
+                )
             }
         }
     }

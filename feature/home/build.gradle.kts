@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.recordy.feature)
-    alias(libs.plugins.recordy.android.hilt)
 }
 
 android {
@@ -8,6 +7,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.domain.video)
     implementation(libs.lottie.compose)
     implementation(libs.collapsing.toolbar)
 }

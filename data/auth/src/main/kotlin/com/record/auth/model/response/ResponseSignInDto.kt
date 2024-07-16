@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseSignInDto(
+    @SerialName("userId")
+    val userId: Long,
     @SerialName("accessToken")
     val accessToken: String,
     @SerialName("refreshToken")

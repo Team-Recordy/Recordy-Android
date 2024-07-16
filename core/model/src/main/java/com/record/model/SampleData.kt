@@ -1,6 +1,4 @@
-package com.record.home
-
-import com.record.model.VideoData
+package com.record.model
 
 object SampleData {
     private val video1 = VideoData(

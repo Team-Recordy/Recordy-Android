@@ -19,7 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.component.container.UserDataContainer
 import com.record.designsystem.theme.RecordyTheme
-import com.record.video.SampleData
+import com.record.model.SampleData
 
 @Composable
 fun ProfileRoute(

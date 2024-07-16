@@ -95,11 +95,11 @@ internal fun MainScreen(
 
                 mypageNavGraph(
                     padding = innerPadding,
-                    navigateToSetting = {navigator.navigateSetting()}
+                    navigateToSetting = { navigator.navigateSetting() },
                 )
 
                 settingNavGraph(
-                    padding = innerPadding
+                    padding = innerPadding,
                 )
             }
             RecordySnackBar(

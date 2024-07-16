@@ -1,15 +1,12 @@
 package com.record.setting
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.record.model.AuthEntity
 import com.record.ui.base.BaseViewModel
 import com.recordy.auth.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
@@ -34,26 +31,24 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    fun logoutInDialog(){
+    fun logoutInDialog() {
         viewModelScope.launch {
             authRepository.logout().onSuccess {
-                authRepository.saveLocalData(AuthEntity("","",false))
+                authRepository.saveLocalData(AuthEntity("", "", false))
                 postSideEffect(SettingSideEffect.Restart)
             }.onFailure {
-                //logout fail 재시작 로직
+                // logout fail 재시작 로직
             }
         }
     }
 
-    fun deleteInDialog(){
+    fun deleteInDialog() {
         viewModelScope.launch {
             authRepository.delete().onSuccess {
-                authRepository.saveLocalData(AuthEntity("","",false))
+                authRepository.saveLocalData(AuthEntity("", "", false))
                 postSideEffect(SettingSideEffect.Restart)
             }.onFailure {
-
             }
         }
     }
-
 }

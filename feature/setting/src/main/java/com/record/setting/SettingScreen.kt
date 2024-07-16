@@ -38,7 +38,6 @@ fun SettingRoute(
     SettingScreen(padding, modifier)
 }
 
-
 @Composable
 fun SettingScreen(
     padding: PaddingValues = PaddingValues(),
@@ -51,7 +50,7 @@ fun SettingScreen(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is SettingSideEffect.Restart -> {
-                    //todo restart
+                    // todo restart
                 }
             }
         }
@@ -124,7 +123,6 @@ fun SettingScreen(
             color = RecordyTheme.colors.gray04,
         )
     }
-
 }
 
 @Composable
@@ -141,7 +139,9 @@ fun SettingButtonWithIcon(
                 .fillMaxHeight()
                 .padding(start = 16.dp)
                 .padding(vertical = 12.dp),
-            style = RecordyTheme.typography.body1M, color = RecordyTheme.colors.gray01, textAlign = TextAlign.Center,
+            style = RecordyTheme.typography.body1M,
+            color = RecordyTheme.colors.gray01,
+            textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
@@ -153,7 +153,6 @@ fun SettingButtonWithIcon(
             tint = RecordyTheme.colors.gray03,
         )
     }
-
 }
 
 @Composable
@@ -175,7 +174,9 @@ fun SettingButton(
                 .fillMaxHeight()
                 .padding(start = 16.dp)
                 .padding(vertical = 12.dp),
-            style = RecordyTheme.typography.body1M, color = RecordyTheme.colors.gray01, textAlign = TextAlign.Center,
+            style = RecordyTheme.typography.body1M,
+            color = RecordyTheme.colors.gray01,
+            textAlign = TextAlign.Center,
         )
         if (kakao) {
             Spacer(modifier = Modifier.weight(1f))

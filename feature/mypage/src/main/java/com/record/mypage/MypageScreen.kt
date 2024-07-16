@@ -78,7 +78,7 @@ fun MypageRoute(
         MypageScreen(
             state = uiState,
             onTabSelected = { viewModel.selectTab(it) },
-            navigateToSetting = navigateToSetting
+            navigateToSetting = navigateToSetting,
         )
     }
 }
@@ -88,7 +88,7 @@ fun MypageRoute(
 fun MypageScreen(
     state: MypageState,
     onTabSelected: (MypageTab) -> Unit,
-    navigateToSetting: () -> Unit
+    navigateToSetting: () -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
@@ -115,7 +115,7 @@ fun MypageScreen(
                     .align(Alignment.TopEnd)
                     .padding(top = 45.dp, end = 16.dp)
                     .size(24.dp)
-                    .customClickable { navigateToSetting()},
+                    .customClickable { navigateToSetting() },
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -210,7 +210,7 @@ fun MypageScreenPreview() {
         MypageScreen(
             state = exampleState,
             onTabSelected = {},
-            navigateToSetting = {}
+            navigateToSetting = {},
         )
     }
 }

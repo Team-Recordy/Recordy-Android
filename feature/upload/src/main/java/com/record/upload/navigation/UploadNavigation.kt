@@ -14,20 +14,15 @@ import com.record.upload.VideoPickerRoute
 fun NavController.navigateUpload(navOptions: NavOptions) {
     navigate(UploadRoute.ROUTE, navOptions)
 }
-fun NavController.navigateSelectedVideo() {
-    navigate(UploadRoute.SELECTED_VIDEO)
-}
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.uploadNavGraph(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
-    navigateSelectedVideo: () -> Unit,
 ) {
     composable(route = UploadRoute.ROUTE) {
         VideoPickerRoute(
             paddingValues = padding,
-            navigateSelectedVideo = navigateSelectedVideo,
         )
     }
     composable(route = UploadRoute.SELECTED_VIDEO) {

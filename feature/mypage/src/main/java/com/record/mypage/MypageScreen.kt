@@ -50,6 +50,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
@@ -132,9 +133,9 @@ fun MypageScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    Image(
-                        painter = rememberImagePainter(data = state.profileImg),
-                        contentDescription = null,
+                    AsyncImage(
+                        model = state.profileImg,
+                        contentDescription = "profile",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(52.dp)
@@ -281,7 +282,6 @@ fun CustomTabRow(
                         color = textColor,
                         style = textStyle,
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
@@ -298,6 +298,7 @@ fun CustomTabRow(
                     .background(color = RecordyTheme.colors.gray01),
             )
         }
+        Spacer(modifier = Modifier.height(18.dp))
     }
 }
 

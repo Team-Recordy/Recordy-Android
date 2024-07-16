@@ -44,7 +44,8 @@ fun FollowerRoute(
                 followerList = uiState.followerList,
                 onClick = { user ->
                     viewModel.toggleFollow(false, user)
-                }
+                },
+                navigateToProfile = { },
             )
         }
     }

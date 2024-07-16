@@ -10,6 +10,7 @@ import com.record.model.VideoType
 import com.record.mypage.MypageRoute
 import com.record.mypage.follow.FollowerRoute
 import com.record.mypage.follow.FollowingRoute
+import com.record.mypage.follow.FollowingRoute
 
 fun NavController.navigateMypage(navOptions: NavOptions) {
     navigate(MypageRoute.route, navOptions)
@@ -30,6 +31,7 @@ fun NavGraphBuilder.mypageNavGraph(
     navigateToFollowing: () -> Unit,
     navigateToFollower: () -> Unit,
     navigateToVideo: (VideoType, Int) -> Unit,
+    navigateToProfile: (Int) -> Unit,
 ) {
     composable(route = MypageRoute.route) {
         MypageRoute(
@@ -39,6 +41,7 @@ fun NavGraphBuilder.mypageNavGraph(
             navigateToFollowing = navigateToFollowing,
             navigateToFollower = navigateToFollower,
             navigateToVideo = navigateToVideo,
+            navigateToProfile = navigateToProfile
         )
     }
     composable(route = MypageRoute.followingRoute) {
@@ -53,10 +56,20 @@ fun NavGraphBuilder.mypageNavGraph(
             modifier = modifier,
         )
     }
+
+    composable(route = MypageRoute.profileRoute("{${MypageRoute.PROFILE_ID_ARG_NAME}}")) {
+        FollowingRoute(
+            padding = padding,
+            modifier = modifier,
+            navigateToProfile = navigateToProfile
+        )
+    }
 }
 
 object MypageRoute {
     const val route = "mypage"
     const val followerRoute = "follower"
     const val followingRoute = "following"
+    const val PROFILE_ID_ARG_NAME = "profile-id"
+    fun profileRoute(id: String) = "profile/$id"
 }

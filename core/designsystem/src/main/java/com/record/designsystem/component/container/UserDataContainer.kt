@@ -20,11 +20,13 @@ import coil.compose.rememberAsyncImagePainter
 import com.record.designsystem.component.button.FollowButton
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.UserData
+import com.record.ui.extension.customClickable
 
 @Composable
 fun UserDataContainer(
     user: UserData,
     onClick: (UserData) -> Unit,
+    navigateToProfile: (Int) -> Unit = navigateToProfile@{},
 ) {
     val profileImage = user.profileImage
     val profileImageResId = user.profileImageResId
@@ -40,7 +42,8 @@ fun UserDataContainer(
     Row(
         modifier = Modifier
             .background(RecordyTheme.colors.background)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .customClickable { navigateToProfile(user.id) },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
@@ -65,19 +68,5 @@ fun UserDataContainer(
             )
             Spacer(modifier = Modifier.size(16.dp))
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun UserDataContainerPreview() {
-    val sampleUser = UserData(
-        id = 1,
-        profileImage = "https://picsum.photos/id/200/60",
-        name = "John Doe",
-        isFollowing = false,
-    )
-    RecordyTheme {
-        UserDataContainer(user = sampleUser, onClick = {})
     }
 }

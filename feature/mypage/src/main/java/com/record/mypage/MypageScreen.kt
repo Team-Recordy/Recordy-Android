@@ -2,7 +2,6 @@ package com.record.mypage
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -88,7 +87,7 @@ fun MypageScreen(
     onTabSelected: (MypageTab) -> Unit,
     navigateToSetting: () -> Unit,
     onFollowerClick: () -> Unit,
-    onFollowingClick: () -> Unit
+    onFollowingClick: () -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
@@ -152,7 +151,7 @@ fun MypageScreen(
                             followerNum = state.followerNum,
                             followingNum = state.followingNum,
                             onFollowerClick = onFollowerClick,
-                            onFollowingClick = onFollowingClick
+                            onFollowingClick = onFollowingClick,
                         )
                     }
                 }
@@ -319,45 +318,45 @@ private fun buildFollowerFollowingRow(
     followerNum: Int,
     followingNum: Int,
     onFollowerClick: () -> Unit,
-    onFollowingClick: () -> Unit
+    onFollowingClick: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Row(
             modifier = Modifier
-                .clickable(onClick = onFollowerClick)
+                .clickable(onClick = onFollowerClick),
         ) {
             Text(
                 text = formatNumber(followerNum),
                 style = RecordyTheme.typography.body2M,
-                color = RecordyTheme.colors.white
+                color = RecordyTheme.colors.white,
             )
             Text(
                 text = " 명의 팔로워",
                 style = RecordyTheme.typography.body2M,
-                color = RecordyTheme.colors.gray03
+                color = RecordyTheme.colors.gray03,
             )
         }
         Text(
             text = "|",
             style = RecordyTheme.typography.body2M,
-            color = RecordyTheme.colors.gray03
+            color = RecordyTheme.colors.gray03,
         )
         Row(
             modifier = Modifier
-                .clickable(onClick = onFollowingClick)
+                .clickable(onClick = onFollowingClick),
         ) {
             Text(
                 text = formatNumber(followingNum),
                 style = RecordyTheme.typography.body2M,
-                color = RecordyTheme.colors.white
+                color = RecordyTheme.colors.white,
             )
             Text(
                 text = " 명의 팔로잉",
                 style = RecordyTheme.typography.body2M,
-                color = RecordyTheme.colors.gray03
+                color = RecordyTheme.colors.gray03,
             )
         }
     }

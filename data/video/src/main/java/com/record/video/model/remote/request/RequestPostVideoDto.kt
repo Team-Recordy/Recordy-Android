@@ -1,7 +1,7 @@
 package com.record.video.model.remote.request
 
-import com.record.network.model.FileUrl
 import com.record.upload.model.VideoInfo
+import com.record.video.model.remote.response.FileUrl
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -3,17 +3,38 @@ package com.record.setting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.record.model.AuthEntity
+import com.record.ui.base.BaseViewModel
 import com.recordy.auth.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val authRepository: AuthRepository
-) :ViewModel(){
+    private val authRepository: AuthRepository,
+) : BaseViewModel<SettingState, SettingSideEffect>(SettingState()) {
 
-    fun logout(){
+    fun logout() {
+        intent {
+            copy(dialog = SettingDialog.LOGOUT)
+        }
+    }
+
+    fun delete() {
+        intent {
+            copy(dialog = SettingDialog.DELETE)
+        }
+    }
+
+    fun dismissDialog() {
+        intent {
+            copy(dialog = SettingDialog.NONE)
+        }
+    }
+
+    fun logoutInDialog(){
         viewModelScope.launch {
             authRepository.logout().onSuccess {
                 authRepository.saveLocalData(AuthEntity("","",false))
@@ -23,7 +44,7 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    fun delete(){
+    fun deleteInDialog(){
         viewModelScope.launch {
             authRepository.delete().onSuccess {
                 authRepository.saveLocalData(AuthEntity("","",false))

@@ -14,17 +14,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.R
+import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
 fun SettingRoute(
@@ -39,8 +41,31 @@ fun SettingRoute(
 fun SettingScreen(
     padding: PaddingValues = PaddingValues(),
     modifier: Modifier = Modifier,
-    viewmodel: SettingViewModel = hiltViewModel()
+    viewModel: SettingViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    if (uiState.dialog == SettingDialog.LOGOUT) {
+        RecordyDialog(
+            graphicAsset = R.drawable.img_alert,
+            title = "로그아웃 하시겠어요?",
+            subTitle = "버튼을 누르면 로그인 페이지로 이동합니다.",
+            negativeButtonLabel = "취소",
+            positiveButtonLabel = "로그아웃",
+            onDismissRequest = { viewModel.dismissDialog() },
+            onPositiveButtonClick = {viewModel.logoutInDialog()},
+        )
+    }
+    if (uiState.dialog == SettingDialog.DELETE) {
+        RecordyDialog(
+            graphicAsset = R.drawable.img_alert,
+            title = "정말 탈퇴하시겠어요?",
+            subTitle = "소중한 기록들이 모두 사라져요.",
+            negativeButtonLabel = "취소",
+            positiveButtonLabel = "탈퇴",
+            onDismissRequest = { viewModel.dismissDialog() },
+            onPositiveButtonClick = {viewModel.deleteInDialog()},
+        )
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -76,8 +101,8 @@ fun SettingScreen(
             color = RecordyTheme.colors.gray01,
         )
         SettingButton(kakao = true)
-        SettingButton(text = "로그아웃", onClickEvent = viewmodel::logout)
-        SettingButton(text = "탈퇴", onClickEvent = viewmodel::delete)
+        SettingButton(text = "로그아웃", onClickEvent = viewModel::logout)
+        SettingButton(text = "탈퇴", onClickEvent = viewModel::delete)
         Text(
             text = "앱 버전 1.0",
             modifier = Modifier

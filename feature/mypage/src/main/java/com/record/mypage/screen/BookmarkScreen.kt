@@ -13,6 +13,10 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +28,9 @@ import com.record.mypage.R
 
 @Composable
 fun BookmarkScreen(videoItems: List<VideoData>, recordCount: Int) {
-    if (videoItems.isEmpty()) {
+    val videos = remember { mutableStateListOf(*videoItems.filter { it.isBookmark }.toTypedArray()) }
+
+    if (videos.isEmpty()) {
         EmptyDataScreen(
             imageRes = com.record.designsystem.R.drawable.img_bookmark,
             message = "자유롭게 취향을 북마크해 보세요",
@@ -53,17 +59,27 @@ fun BookmarkScreen(videoItems: List<VideoData>, recordCount: Int) {
                     )
                 }
             }
-            items(SampleData.sampleVideos) { item ->
+            items(videos) { item ->
+                val isBookmarked = remember { mutableStateOf(item.isBookmark) }
+
                 RecordyVideoThumbnail(
                     imageUri = item.previewUri,
                     isBookmarkable = true,
-                    isBookmark = true,
+                    isBookmark = isBookmarked.value,
+                    onBookmarkClick = {
+                        isBookmarked.value = !isBookmarked.value
+                        val index = videos.indexOfFirst { it.id == item.id }
+                        if (index != -1) {
+                            videos[index] = videos[index].copy(isBookmark = isBookmarked.value)
+                        }
+                    },
                     location = item.location,
                 )
             }
         }
     }
 }
+
 
 @Preview
 @Composable

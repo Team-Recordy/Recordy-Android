@@ -87,7 +87,7 @@ internal class MainNavigator(
         navController.navigateProfile(navOptions { })
     }
 
-    fun navigateSetting(id: Int){
+    fun navigateSetting(){
         navController.navigateSetting(navOptions {  })
     }
 

@@ -95,6 +95,7 @@ internal fun MainScreen(
 
                 mypageNavGraph(
                     padding = innerPadding,
+                    navigateToSetting = {navigator.navigateSetting()}
                 )
 
                 settingNavGraph(

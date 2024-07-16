@@ -49,16 +49,6 @@ fun SettingScreen(
         TopNavigationBar(
             title = "설정"
         )
-        Spacer(modifier = Modifier.height(30.dp))
-        Text(
-            text = "설정",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            textAlign = TextAlign.Center,
-            style = RecordyTheme.typography.title3,
-            color = RecordyTheme.colors.gray01,
-        )
         Text(
             text = "도움말",
             modifier = Modifier

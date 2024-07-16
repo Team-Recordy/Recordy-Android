@@ -15,11 +15,13 @@ fun NavController.navigateMypage(navOptions: NavOptions) {
 fun NavGraphBuilder.mypageNavGraph(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
+    navigateToSetting :()->Unit
 ) {
     composable(route = MypageRoute.route) {
         MypageRoute(
             padding = padding,
             modifier = modifier,
+            navigateToSetting = navigateToSetting,
         )
     }
 }

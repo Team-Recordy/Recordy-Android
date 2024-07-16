@@ -1,11 +1,15 @@
 package com.record.upload
 
+import android.util.Log
 import com.record.ui.base.BaseViewModel
+import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class UploadViewModel @Inject constructor() :
+class UploadViewModel @Inject constructor(
+    private val uploadRepository: UploadRepository,
+) :
     BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
     fun setSelectedList(selectedContent: String) = intent {
         val newSelectedList = selectedList.toMutableList()
@@ -16,8 +20,18 @@ class UploadViewModel @Inject constructor() :
         }
         copy(selectedList = newSelectedList)
     }
+    suspend fun getPresignedUrl() {
+        uploadRepository.getPresignedUrl().onSuccess {
+            Log.d("success", "$it")
+        }.onFailure {
+            Log.d("failure", "${it.message}")
+        }
+    }
     fun setVideo(video: GalleryVideo) = intent {
         copy(video = video)
+    }
+    fun onSuccess(path: String?) {
+        Log.d("path", "$path")
     }
     fun showShouldShowRationaleDialog() = intent {
         copy(showShouldShowRationaleDialog = true)

@@ -29,7 +29,7 @@ fun EmptyDataScreen(imageRes: Int, message: String, showButton: Boolean, onButto
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 100.dp),
+                .padding(top = 120.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column(

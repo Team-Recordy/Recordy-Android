@@ -1,10 +1,12 @@
 package com.record.upload
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.record.ui.base.BaseViewModel
 import com.record.upload.extension.GalleryVideo
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
@@ -22,22 +24,36 @@ class UploadViewModel @Inject constructor(
         }
         copy(selectedList = newSelectedList)
     }
-    suspend fun getPresignedUrl() {
+
+    suspend fun getPresignedUrl() = viewModelScope.launch {
         uploadRepository.getPresignedUrl().onSuccess {
             Log.d("success", "$it")
+            bucket(it.videoUrl)
         }.onFailure {
             Log.d("failure", "${it.message}")
         }
     }
-    suspend fun uploadVideoToS3Bucket(file:File){
-        uploadRepository.uploadVideoToS3Bucket("",file)
-    }
+
+    fun uploadVideoToS3Bucket(file: File) =
+        viewModelScope.launch {
+            Log.d("file", "$file ")
+            Log.d("file", "${uiState.value.bucketUrl} ")
+            uploadRepository.uploadVideoToS3Bucket(
+                uiState.value.bucketUrl,
+                file,
+            ).onSuccess { Log.d("success", "$it") }.onFailure {
+                Log.d("failure", "${it.message}")
+            }
+        }
+
     fun setVideo(video: GalleryVideo) = intent {
         copy(video = video)
     }
-    fun onSuccess(path: String?) {
-        Log.d("path", "$path")
+
+    fun bucket(video: String) = intent {
+        copy(bucketUrl = video)
     }
+
     fun showShouldShowRationaleDialog() = intent {
         copy(showShouldShowRationaleDialog = true)
     }
@@ -53,6 +69,7 @@ class UploadViewModel @Inject constructor(
     fun hideIsSelectedVideoSheetOpen() = intent {
         copy(isSelectedVideoSheetOpen = false)
     }
+
     fun showIsSelectedDefinedContentSheetOpen() = intent {
         copy(isSelectedDefinedContentSheetOpen = true)
     }

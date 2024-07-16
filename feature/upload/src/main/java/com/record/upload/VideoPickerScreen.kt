@@ -70,6 +70,7 @@ import com.record.upload.extension.getAllVideos
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.File
 
 @Composable
 fun VideoPickerRoute(
@@ -94,7 +95,9 @@ fun VideoPickerRoute(
             hideIsSelectedDefinedContentSheetOpen = viewModel::hideIsSelectedDefinedContentSheetOpen,
             onClickContentChip = viewModel::setSelectedList,
             setVideo = viewModel::setVideo,
-            onSuccess = viewModel::onSuccess,
+            uploadVideoS3Bucket = {
+                viewModel.uploadVideoToS3Bucket(it)
+            },
         )
     }
 }
@@ -117,7 +120,7 @@ fun VideoPickerScreen(
     hideIsSelectedDefinedContentSheetOpen: () -> Unit = {},
     onClickContentChip: (String) -> Unit,
     setVideo: (GalleryVideo) -> Unit,
-    onSuccess: (String?) -> Unit,
+    uploadVideoS3Bucket: (File) -> Unit,
 ) {
     val context = LocalContext.current
     val cameraPermissionState = rememberPermissionState(Manifest.permission.READ_MEDIA_VIDEO)
@@ -167,6 +170,7 @@ fun VideoPickerScreen(
                 .padding(horizontal = 16.dp),
         ) {
             if (state.video != null) {
+                uploadVideoS3Bucket(File(state.video.filepath))
 //                compressVideo(context, state.video.uri,state.video.name, onSuccess = onSuccess)
             }
             Text(
@@ -369,7 +373,7 @@ fun VideoPickerScreenPreview() {
         VideoPickerScreen(
             onClickContentChip = {},
             setVideo = {},
-            onSuccess = {},
+            uploadVideoS3Bucket = {},
         )
     }
 }

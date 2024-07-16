@@ -80,7 +80,6 @@ fun BookmarkScreen(videoItems: List<VideoData>, recordCount: Int) {
     }
 }
 
-
 @Preview
 @Composable
 fun PreviewBookmarkScreenWithSampleList() {

@@ -1,6 +1,8 @@
 package com.record.video.di
 
 import com.record.network.di.Auth
+import com.record.network.di.S3
+import com.record.video.api.BucketApi
 import com.record.video.api.UploadApi
 import com.record.video.api.VideoApi
 import com.record.video.api.VideoCoreApi
@@ -26,4 +28,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun providesVideoCoreApi(@Auth retrofit: Retrofit): VideoCoreApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun providesS3BucketApi(@S3 retrofit: Retrofit): BucketApi = retrofit.create()
 }

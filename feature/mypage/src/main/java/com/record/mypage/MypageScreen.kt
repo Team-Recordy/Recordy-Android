@@ -70,6 +70,7 @@ fun MypageRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     viewModel.fetchUserProfile()
+    viewModel.fetchUserPreferences()
 
     LaunchedEffectWithLifecycle() {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -77,12 +78,15 @@ fun MypageRoute(
                 MypageSideEffect.NavigateToFollower -> {
                     navigateToFollower()
                 }
+
                 MypageSideEffect.NavigateToFollowing -> {
                     navigateToFollowing()
                 }
+
                 MypageSideEffect.NavigateToSettings -> {
                     navigateToSetting()
                 }
+
                 is MypageSideEffect.NavigateToVideoDetail -> {
                     navigateToVideo(sideEffect.type, sideEffect.index)
                 }
@@ -203,9 +207,7 @@ fun MypageScreen(
                         Box(
                             modifier = Modifier.fillMaxSize(),
                         ) {
-                            TasteScreen(
-                                listOf(Pair("신나는", 72), Pair("활동적인", 20), Pair("북적북적한", 5)),
-                            )
+                            TasteScreen(dataAvailable = state.preferences)
                         }
                     }
 

@@ -1,6 +1,7 @@
 package com.record.mypage.screen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,16 +30,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.theme.RecordyTheme
-import com.record.mypage.R
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.filter
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
+fun BoxScope.TasteScreen(dataAvailable: ImmutableList<Pair<String, Int>> = emptyList<Pair<String, Int>>().toImmutableList()) {
+    Log.d("TasteScreen", "Data available: $dataAvailable")
     val circleCoords = listOf(
         Pair(258, 327),
         Pair(456, 170),
@@ -59,7 +60,6 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
             snapshotFlow { Pair(imageWidth, imageHeight) }
                 .filter { (width, height) -> width > 0 && height > 0 }
         }
-
         if (dataAvailable.size < 3) {
             EmptyDataScreen(
                 imageRes = com.record.designsystem.R.drawable.img_question,
@@ -133,26 +133,6 @@ fun BoxScope.TasteScreen(dataAvailable: List<Pair<String, Int>> = emptyList()) {
                     }
                 }
             }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewTasteScreenWithEmptyList() {
-    RecordyTheme {
-        Box(modifier = Modifier.fillMaxSize()) {
-            TasteScreen(listOf(Pair("신나는", 72), Pair("활동적인", 20), Pair("북적북적한", 5)))
-        }
-    }
-}
-
-@Preview
-@Composable
-fun random() {
-    RecordyTheme {
-        Box(modifier = Modifier.fillMaxSize()) {
-            TasteScreen()
         }
     }
 }

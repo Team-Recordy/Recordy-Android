@@ -1,6 +1,5 @@
 package com.record.login.singup
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.record.model.ValidateResult
 import com.record.ui.base.BaseViewModel
@@ -89,11 +88,11 @@ class SignUpViewModel @Inject constructor(
                     ),
                 ),
             ).onSuccess {
-                Log.d("singup success", "signUp: 성공")
+                intent {
+                    copy(btnEnable = true)
+                }
                 postSideEffect(SignUpEffect.NavigateToHome)
-            }.onFailure { it ->
-
-                Log.d("singup fail", "signUp: 실패$it")
+            }.onFailure {
             }
         }
     }
@@ -104,20 +103,20 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun nickNameRegex(nickname: String): Boolean = NICKNAME_PATTERN.matches(nickname)
+    private fun nickNameRegex(nickname: String): Boolean = NICKNAME_PATTERN.matches(nickname)
 
     fun checkValidateNickName() {
         viewModelScope.launch {
             authRepository.checkNickname(uiState.value.nicknameText).onSuccess {
                 if (uiState.value.nicknameText.isBlank()) {
                     intent { copy(nicknameValidate = ValidateResult.Inputting, btnEnable = false) }
-                } else if (!nickNameRegex(uiState.value.nicknameText)) {
+                } else if (!nickNameRegex(uiState.value.nicknameText) && !uiState.value.nicknameText.contains(" ")) {
                     intent { copy(nicknameValidate = ValidateResult.ValidationError, btnEnable = false) }
                 } else {
-                    intent { copy(nicknameValidate = ValidateResult.Success, btnEnable = true, labelText = "사용 가능한 닉네임이에요") }
+                    intent { copy(nicknameValidate = ValidateResult.Success, btnEnable = true) }
                 }
             }.onFailure {
-                intent { copy(nicknameValidate = ValidateResult.OverlapError, btnEnable = false, labelText = "ⓘ 이미 사용중인 닉네임이에요") }
+                intent { copy(nicknameValidate = ValidateResult.OverlapError, btnEnable = false) }
             }
         }
     }

@@ -13,6 +13,7 @@ data class UploadState(
     val isSelectedVideoSheetOpen: Boolean = false,
     val isSelectedDefinedContentSheetOpen: Boolean = false,
     val bucketUrl: String = "",
+    val thumbnailUrl: String = "",
 ) : UiState
 
 sealed interface UploadSideEffect : SideEffect

@@ -13,6 +13,6 @@ interface BucketApi {
     suspend fun uploadVideoWithS3Bucket(
         @Url url: String,
         @Part video: MultipartBody.Part,
-        @Header("Content-Type") contentType: String = "video/mp4",
+        @Header("Content-Type") contentType: String,
     ): Unit
 }

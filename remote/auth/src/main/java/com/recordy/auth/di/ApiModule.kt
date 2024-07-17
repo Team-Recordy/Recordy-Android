@@ -1,6 +1,7 @@
 package com.recordy.auth.di
 
 import com.record.network.di.Auth
+import com.record.network.di.NoneAuth
 import com.recordy.auth.api.AuthService
 import dagger.Module
 import dagger.Provides

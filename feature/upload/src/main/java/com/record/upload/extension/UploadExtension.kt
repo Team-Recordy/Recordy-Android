@@ -12,9 +12,17 @@ import com.abedelazizshe.lightcompressorlibrary.VideoQuality
 import com.abedelazizshe.lightcompressorlibrary.config.Configuration
 import com.abedelazizshe.lightcompressorlibrary.config.SaveLocation
 import com.abedelazizshe.lightcompressorlibrary.config.SharedStorageConfiguration
+import com.arthenica.mobileffmpeg.Config
+import com.arthenica.mobileffmpeg.FFmpeg
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import java.io.File
+import java.io.IOException
 
 fun getAllVideos(
     loadSize: Int,
@@ -156,4 +164,74 @@ fun formatDuration(durationMillis: Long): String {
     val minutes = (durationMillis / 1000) / 60
     val seconds = (durationMillis / 1000) % 60
     return String.format("%d:%02d", minutes, seconds)
+}
+
+fun getVideoEncodingInfo(context: Context, videoFile: File) {
+    val retriever = MediaMetadataRetriever()
+    try {
+        retriever.setDataSource(context, Uri.fromFile(videoFile))
+        val mimeType = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE)
+        val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+        val width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
+        val height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
+        val bitrate = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
+
+        Log.d("VideoInfo", "MIME Type: $mimeType")
+        Log.d("VideoInfo", "Duration: $duration ms")
+        Log.d("VideoInfo", "Width: $width pixels")
+        Log.d("VideoInfo", "Height: $height pixels")
+        Log.d("VideoInfo", "Bitrate: $bitrate bps")
+    } catch (e: Exception) {
+        e.printStackTrace()
+    } finally {
+        retriever.release()
+    }
+}
+
+fun reencodeVideo(inputFile: File, outputFile: File, callback: (Boolean, String) -> Unit) {
+    val command = arrayOf(
+        "-i", inputFile.absolutePath,
+        "-c:v", "libx264", // 비디오 코덱 설정
+        "-b:v", "1000k",  // 비디오 비트레이트 설정
+        "-c:a", "aac",    // 오디오 코덱 설정
+        "-b:a", "192k",   // 오디오 비트레이트 설정
+        "-movflags", "faststart", // 웹 스트리밍을 위해 메타데이터를 파일의 시작 부분에 배치
+        outputFile.absolutePath
+    )
+    Config.setLogLevel(Config.getLogLevel())
+    Config.enableLogCallback { logMessage ->
+        Log.d("FFmpegLog", logMessage.text)
+    }
+    FFmpeg.executeAsync(command) { executionId, returnCode ->
+        if (returnCode == Config.RETURN_CODE_SUCCESS) {
+            callback(true, "Re-encoding successful")
+        } else {
+            callback(false, "Re-encoding failed with return code $returnCode")
+        }
+    }
+}
+
+fun uploadFileToS3PresignedUrl(presignedUrl: String, file: File, callback: (Boolean, String) -> Unit) {
+    val client = OkHttpClient()
+    val mediaType = "application/octet-stream".toMediaTypeOrNull()
+    val requestBody = RequestBody.create(mediaType, file)
+
+    val request = Request.Builder()
+        .url(presignedUrl)
+        .put(requestBody)
+        .build()
+
+    client.newCall(request).enqueue(object : okhttp3.Callback {
+        override fun onFailure(call: okhttp3.Call, e: IOException) {
+            callback(false, "Upload failed: ${e.message}")
+        }
+
+        override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+            if (response.isSuccessful) {
+                callback(true, "Upload successful")
+            } else {
+                callback(false, "Upload failed: ${response.message}")
+            }
+        }
+    })
 }

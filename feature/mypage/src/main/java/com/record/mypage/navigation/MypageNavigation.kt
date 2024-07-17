@@ -30,7 +30,7 @@ fun NavGraphBuilder.mypageNavGraph(
     navigateToFollowing: () -> Unit,
     navigateToFollower: () -> Unit,
     navigateToVideo: (VideoType, Int) -> Unit,
-    navigateToProfile: (Int) -> Unit,
+    navigateToProfile: (Long) -> Unit,
 ) {
     composable(route = MypageRoute.route) {
         MypageRoute(
@@ -57,7 +57,7 @@ fun NavGraphBuilder.mypageNavGraph(
         )
     }
 
-    composable(route = MypageRoute.profileRoute("{${MypageRoute.PROFILE_ID_ARG_NAME}}")) {
+    composable(route = MypageRoute.profileRoute) {
         FollowingRoute(
             padding = padding,
             modifier = modifier,
@@ -70,6 +70,5 @@ object MypageRoute {
     const val route = "mypage"
     const val followerRoute = "follower"
     const val followingRoute = "following"
-    const val PROFILE_ID_ARG_NAME = "profile-id"
-    fun profileRoute(id: String) = "profile/$id"
+    const val profileRoute = "profile"
 }

@@ -1,6 +1,5 @@
 package com.record.designsystem.component.container
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,12 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter.State.Empty.painter
-import coil.compose.rememberAsyncImagePainter
 import com.record.designsystem.component.button.FollowButton
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
@@ -28,15 +23,14 @@ import com.record.user.model.User
 fun UserDataContainer(
     user: User,
     onClick: (User) -> Unit,
-    navigateToProfile: (Int) -> Unit,
+    navigateToProfile: (Long) -> Unit,
 ) {
-    val showFollowButton = user.nickname != "유영"
 
     Row(
         modifier = Modifier
             .background(RecordyTheme.colors.background)
             .fillMaxWidth()
-            .customClickable { navigateToProfile(user.id) },
+            .customClickable { navigateToProfile(user.id.toLong()) },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         AsyncImage(
@@ -54,7 +48,7 @@ fun UserDataContainer(
         )
         Spacer(modifier = Modifier.weight(1f))
 
-        if (showFollowButton) {
+        if (user.nickname != "유영") {
             FollowButton(
                 isFollowing = user.isFollowing,
                 onClick = { onClick(user) },

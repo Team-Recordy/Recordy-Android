@@ -17,7 +17,7 @@ fun FollowScreen(
     modifier: Modifier = Modifier,
     followList: ImmutableList<User>? = null,
     onClick: (User) -> Unit,
-    navigateToProfile: (Int) -> Unit,
+    navigateToProfile: (Long) -> Unit,
     loadMoreFollow: () -> Unit,
 ) {
     val listState = rememberLazyListState()

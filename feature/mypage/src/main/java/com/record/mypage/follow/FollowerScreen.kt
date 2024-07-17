@@ -32,7 +32,7 @@ fun FollowerRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: FollowViewModel = hiltViewModel(),
-    navigateToProfile: (Int) -> Unit,
+    navigateToProfile: (Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

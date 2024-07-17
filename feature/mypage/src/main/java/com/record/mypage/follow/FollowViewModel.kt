@@ -112,7 +112,7 @@ class FollowViewModel @Inject constructor(
         return newList.toImmutableList()
     }
 
-    fun navigateToProfile(id: Int) {
+    fun navigateToProfile(id: Long) {
         postSideEffect(FollowSideEffect.NavigateToUserProfile(id))
     }
 }

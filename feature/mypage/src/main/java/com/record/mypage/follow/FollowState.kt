@@ -15,5 +15,5 @@ data class FollowState(
 ) : UiState
 
 sealed interface FollowSideEffect : SideEffect {
-    data class NavigateToUserProfile(val id: Int) : FollowSideEffect
+    data class NavigateToUserProfile(val id: Long) : FollowSideEffect
 }

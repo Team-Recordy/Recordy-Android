@@ -49,6 +49,7 @@ import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.SampleData
 import com.record.model.VideoType
+import com.record.mypage.follow.FollowingRoute
 import com.record.mypage.screen.BookmarkScreen
 import com.record.mypage.screen.RecordScreen
 import com.record.mypage.screen.TasteScreen

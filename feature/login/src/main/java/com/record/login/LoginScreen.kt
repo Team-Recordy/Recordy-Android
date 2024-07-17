@@ -96,10 +96,10 @@ fun LoginRoute(
             targetValue = if (startAnimation) 1f else 0f,
             animationSpec = tween(durationMillis = 2000),
         )
-        SplashScreen(offsetY, alpha)
+        SplashScreen(padding, offsetY, alpha)
         LaunchedEffect(Unit) {
             startAnimation = true
-            delay(2000)
+            delay(2500)
             viewModel.splashScreen()
         }
     } else {
@@ -113,7 +113,11 @@ fun LoginRoute(
 }
 
 @Composable
-fun SplashScreen(offsetY: Float, alpha: Float) {
+fun SplashScreen(
+    padding: PaddingValues,
+    offsetY: Float,
+    alpha: Float,
+) {
     var columnSize by remember {
         mutableStateOf(IntSize.Zero)
     }
@@ -135,7 +139,8 @@ fun SplashScreen(offsetY: Float, alpha: Float) {
             .padding(top = offsetY.dp)
             .onGloballyPositioned { layoutCoordinates ->
                 columnSize = layoutCoordinates.size
-            },
+            }
+            .padding(padding),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.weight(1f))
@@ -200,7 +205,8 @@ fun LoginScreen(
                 text = "내 취향의 공간 발견하는 곳",
                 modifier = Modifier.height(24.dp),
                 textAlign = TextAlign.Center,
-                style = RecordyTheme.typography.body1M.copy(color = RecordyTheme.colors.main),
+                style = RecordyTheme.typography.body1M,
+                color = RecordyTheme.colors.main,
             )
         }
 

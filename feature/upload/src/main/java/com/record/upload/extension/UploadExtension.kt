@@ -192,11 +192,11 @@ fun reencodeVideo(inputFile: File, outputFile: File, callback: (Boolean, String)
     val command = arrayOf(
         "-i", inputFile.absolutePath,
         "-c:v", "libx264", // 비디오 코덱 설정
-        "-b:v", "1000k", // 비디오 비트레이트 설정
-        "-c:a", "aac", // 오디오 코덱 설정
-        "-b:a", "192k", // 오디오 비트레이트 설정
+        "-b:v", "1000k",  // 비디오 비트레이트 설정
+        "-c:a", "aac",    // 오디오 코덱 설정
+        "-b:a", "192k",   // 오디오 비트레이트 설정
         "-movflags", "faststart", // 웹 스트리밍을 위해 메타데이터를 파일의 시작 부분에 배치
-        outputFile.absolutePath,
+        outputFile.absolutePath
     )
     Config.setLogLevel(Config.getLogLevel())
     Config.enableLogCallback { logMessage ->
@@ -233,5 +233,52 @@ fun uploadFileToS3PresignedUrl(presignedUrl: String, file: File, callback: (Bool
                 callback(false, "Upload failed: ${response.message}")
             }
         }
-    },)
+    })
+}
+
+fun extractAndUploadThumbnail(videoFile: File, thumbnailFile: File, presignedUrl: String, callback: (Boolean, String) -> Unit) {
+    val extractCommand = arrayOf(
+        "ffmpeg",
+        "-i", videoFile.absolutePath,
+        "-ss", "00:00:01.000",
+        "-vframes", "1",
+        thumbnailFile.absolutePath
+    )
+
+    try {
+        val process = ProcessBuilder(*extractCommand).start()
+        process.waitFor()
+        if (process.exitValue() == 0) {
+            val client = OkHttpClient()
+            val mediaType = "image/jpeg".toMediaTypeOrNull()
+            val requestBody = RequestBody.create(mediaType, thumbnailFile)
+
+            val request = Request.Builder()
+                .url(presignedUrl)
+                .put(requestBody)
+                .build()
+
+            client.newCall(request).enqueue(object : okhttp3.Callback {
+                override fun onFailure(call: okhttp3.Call, e: IOException) {
+                    callback(false, "Upload failed: ${e.message}")
+                }
+
+                override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                    if (response.isSuccessful) {
+                        callback(true, "Upload successful")
+                    } else {
+                        callback(false, "Upload failed: ${response.message}")
+                    }
+                }
+            })
+        } else {
+            callback(false, "Thumbnail extraction failed with return code ${process.exitValue()}")
+        }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        callback(false, "Thumbnail extraction failed with exception: ${e.message}")
+    } catch (e: InterruptedException) {
+        e.printStackTrace()
+        callback(false, "Thumbnail extraction failed with exception: ${e.message}")
+    }
 }

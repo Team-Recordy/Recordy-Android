@@ -66,8 +66,9 @@ class SignUpViewModel @Inject constructor(
 
             2 -> {
                 intent {
-                    copy(title = TITLE_SIGNUP_NAME)
+                    copy(title = TITLE_SIGNUP_NAME, btnEnable = false)
                 }
+                signUp()
             }
 
             3 -> {
@@ -91,7 +92,6 @@ class SignUpViewModel @Inject constructor(
                 intent {
                     copy(btnEnable = true)
                 }
-                postSideEffect(SignUpEffect.NavigateToHome)
             }.onFailure {
             }
         }

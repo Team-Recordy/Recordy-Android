@@ -100,7 +100,7 @@ fun RecordyValidateTextfield(
                 keyboardActions = keyboardActions,
                 singleLine = maxLines == 1,
                 cursorBrush = Brush.verticalGradient(
-                    colors = listOf(RecordyTheme.colors.gray01, RecordyTheme.colors.gray01)
+                    colors = listOf(RecordyTheme.colors.gray01, RecordyTheme.colors.gray01),
                 ),
                 decorationBox = { innerTextField ->
                     if (value.isEmpty() && !isFocused) {
@@ -110,7 +110,7 @@ fun RecordyValidateTextfield(
                         )
                     }
                     innerTextField()
-                }
+                },
             )
         }
 

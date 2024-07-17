@@ -59,7 +59,7 @@ fun FollowerRoute(
             EmptyFollowerScreen()
         } else {
             FollowScreen(
-                followerList = uiState.followerList,
+                followList = uiState.followerList,
                 onClick = { user ->
                     viewModel.toggleFollow(false, user)
                 },

@@ -2,15 +2,15 @@ package com.record.profile
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.record.model.UserData
 import com.record.ui.base.BaseViewModel
+import com.record.user.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor() : BaseViewModel<ProfileState, ProfileSideEffect>(ProfileState()){
-    fun toggleFollow(user: UserData) {
+    fun toggleFollow(user: User) {
         viewModelScope.launch {
             if (user.isFollowing) {
                 Log.d("FollowViewModel", "unfollow")

@@ -16,28 +16,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import coil.compose.rememberAsyncImagePainter
 import com.record.designsystem.component.button.FollowButton
 import com.record.designsystem.theme.RecordyTheme
-import com.record.model.UserData
 import com.record.ui.extension.customClickable
+import com.record.user.model.User
 
 @Composable
 fun UserDataContainer(
-    user: UserData,
-    onClick: (UserData) -> Unit,
+    user: User,
+    onClick: (User) -> Unit,
     navigateToProfile: (Int) -> Unit,
 ) {
-    val profileImage = user.profileImage
-    val profileImageResId = user.profileImageResId
-
-    val painter = when {
-        profileImage != null -> rememberAsyncImagePainter(profileImage)
-        profileImageResId != null -> painterResource(id = profileImageResId)
-        else -> painterResource(id = com.record.designsystem.R.drawable.img_profile)
-    }
-
-    val showFollowButton = user.name != "유영"
+    val showFollowButton = user.nickname != "유영"
 
     Row(
         modifier = Modifier
@@ -46,16 +39,16 @@ fun UserDataContainer(
             .customClickable { navigateToProfile(user.id) },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            painter = painter,
-            contentDescription = null,
+        AsyncImage(
+            model = user.profileImageUri,
+            contentDescription = "profile",
             modifier = Modifier
                 .padding(vertical = 10.dp, horizontal = 16.dp)
                 .size(54.dp)
                 .clip(CircleShape),
         )
         Text(
-            text = user.name,
+            text = user.nickname,
             style = RecordyTheme.typography.body2B,
             color = RecordyTheme.colors.white,
         )

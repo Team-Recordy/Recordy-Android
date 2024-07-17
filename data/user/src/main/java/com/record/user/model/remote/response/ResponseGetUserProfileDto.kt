@@ -17,7 +17,7 @@ data class ResponseGetUserProfileDto(
     @SerialName("nickname")
     val nickname: String,
     @SerialName("profileImageUrl")
-    val profileImageUrl: String?,
+    val profileImageUrl: String,
     @SerialName("recordCount")
     val recordCount: Int,
 )

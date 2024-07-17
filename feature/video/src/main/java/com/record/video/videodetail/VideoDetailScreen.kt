@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
@@ -20,10 +21,11 @@ import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.videoplayer.RecordyVideoText
 import com.record.designsystem.component.videoplayer.VideoPlayer
-import com.record.model.VideoType
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.record.ui.scroll.onBottomReached
 import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoDetailRoute(
     padding: PaddingValues,
@@ -34,17 +36,37 @@ fun VideoDetailRoute(
     navigateToMypage: () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = { state.videos.size },
+    )
     LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                is VideoDetailSideEffect.NavigateToUserProfile -> { navigateToUserProfile(sideEffect.id) }
-                is VideoDetailSideEffect.NavigateToMypage -> { navigateToMypage() }
-                is VideoDetailSideEffect.ShowNetworkErrorSnackbar -> { onShowSnackbar(sideEffect.msg, SnackBarType.WARNING) }
+                is VideoDetailSideEffect.NavigateToUserProfile -> {
+                    navigateToUserProfile(sideEffect.id)
+                }
+
+                is VideoDetailSideEffect.NavigateToMypage -> {
+                    navigateToMypage()
+                }
+
+                is VideoDetailSideEffect.ShowNetworkErrorSnackbar -> {
+                    onShowSnackbar(sideEffect.msg, SnackBarType.WARNING)
+                }
+
+                is VideoDetailSideEffect.InitialPagerState -> {
+                    pagerState.scrollToPage(sideEffect.index)
+                }
+
+                is VideoDetailSideEffect.MovePage -> {
+                    pagerState.scrollToPage(pagerState.currentPage - sideEffect.index)
+                }
             }
         }
     }
     VideoDetailScreen(
+        pagerState = pagerState,
         modifier = modifier
             .padding(bottom = padding.calculateBottomPadding())
             .fillMaxSize(),
@@ -55,24 +77,27 @@ fun VideoDetailRoute(
         onError = viewModel::showNetworkErrorSnackbar,
         onPlayVideo = viewModel::watchVideo,
         onNickNameClick = viewModel::navigateToProfile,
+        loadMoreVideos = viewModel::getVideos,
     )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoDetailScreen(
+    pagerState: PagerState,
     modifier: Modifier = Modifier,
     state: VideoDetailState,
-    onDeleteClick: (Int) -> Unit,
+    onDeleteClick: (Long) -> Unit,
     onBookmarkClick: (Int) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
     onNickNameClick: (Int) -> Unit,
     onError: (String) -> Unit,
-    onPlayVideo: (Int) -> Unit,
+    onPlayVideo: (Long) -> Unit,
+    loadMoreVideos: () -> Unit,
 ) {
-    val pagerState = rememberPagerState(
-        initialPage = 0,
-        pageCount = { state.videos.size },
+    pagerState.onBottomReached(
+        buffer = 3,
+        onLoadMore = { loadMoreVideos() },
     )
     Box(
         modifier = modifier,
@@ -85,7 +110,7 @@ fun VideoDetailScreen(
             Box {
                 if (page in state.videos.indices) {
                     state.videos[page].run {
-                        VideoPlayer(id.toInt(), videoUri, pagerState, page, onError = onError, onPlayVideo = onPlayVideo)
+                        VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo)
                         RecordyLocationBadge(
                             modifier = Modifier
                                 .align(Alignment.TopStart)
@@ -96,13 +121,13 @@ fun VideoDetailScreen(
                             location = location,
                         )
                         RecordyVideoText(
-                            nickname = userName,
+                            nickname = nickname,
                             content = content,
                             isBookmark = isBookmark,
                             bookmarkCount = 123,
-                            isMyVideo = state.videoType == VideoType.MY,
+                            isMyVideo = isMine,
                             onBookmarkClick = { onBookmarkClick(id.toInt()) },
-                            onDeleteClick = { onDeleteClick(id.toInt()) },
+                            onDeleteClick = { onDeleteClick(id) },
                             onNicknameClick = { onNickNameClick(id.toInt()) },
                         )
                     }

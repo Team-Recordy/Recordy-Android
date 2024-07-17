@@ -22,14 +22,27 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.theme.RecordyTheme
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun FollowerRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: FollowViewModel = hiltViewModel(),
+    navigateToProfile: (Int) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                is FollowSideEffect.NavigateToUserProfile -> {
+                    navigateToProfile(sideEffect.id)
+                }
+            }
+        }
+    }
 
     Box(
         modifier = modifier
@@ -45,7 +58,7 @@ fun FollowerRoute(
                 onClick = { user ->
                     viewModel.toggleFollow(false, user)
                 },
-                navigateToProfile = { },
+                navigateToProfile = viewModel::navigateToProfile
             )
         }
     }
@@ -63,7 +76,7 @@ fun EmptyFollowerScreen() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Row() {
+            Row {
                 Spacer(modifier = Modifier.weight(13f))
                 Image(
                     painter = painterResource(com.record.designsystem.R.drawable.img_no_follower),

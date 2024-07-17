@@ -5,9 +5,8 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.record.ui.base.BaseViewModel
 import com.record.upload.extension.GalleryVideo
-import com.record.upload.extension.extractAndUploadThumbnail
-import com.record.upload.extension.reencodeVideo
 import com.record.upload.extension.uploadFileToS3PresignedUrl
+import com.record.upload.extension.uploadFileToS3ThumbnailPresignedUrl
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -38,12 +37,15 @@ class UploadViewModel @Inject constructor(
         }
     }
 
-    fun uploadVideoToS3Bucket(file: File) =
+    fun uploadVideoToS3Bucket(context: Context,file: File) =
         viewModelScope.launch {
-            Log.d("outputfile", "$file ")
-            Log.d("outputfile", "${uiState.value.bucketUrl} ")
             uploadFileToS3PresignedUrl(uiState.value.bucketUrl, file) { success, message ->
                 println(message)
+                Log.d("messageFile", "$message ")
+            }
+            uploadFileToS3ThumbnailPresignedUrl(context,uiState.value.thumbnailUrl, file) { success, message ->
+                println(message)
+                Log.d("messageThumbnail", "$message ")
             }
         }
 

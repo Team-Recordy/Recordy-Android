@@ -67,7 +67,6 @@ import com.record.upload.component.bottomsheet.DefinedContentBottomSheet
 import com.record.upload.component.bottomsheet.SelectedVideoBottomSheet
 import com.record.upload.extension.GalleryVideo
 import com.record.upload.extension.getAllVideos
-import com.record.upload.extension.getVideoEncodingInfo
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -96,7 +95,7 @@ fun VideoPickerRoute(
         onClickContentChip = viewModel::setSelectedList,
         setVideo = viewModel::setVideo,
         uploadVideoS3Bucket = {
-            viewModel.uploadVideoToS3Bucket(it)
+            viewModel.uploadVideoToS3Bucket(context,it)
         },
     )
 }

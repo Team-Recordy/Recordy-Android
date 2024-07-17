@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.record.model.AuthEntity
 import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel
+import com.record.user.repository.UserRepository
 import com.recordy.auth.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,6 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
 ) : BaseViewModel<LoginState, LoginSideEffect>(LoginState()) {
 
     fun splashScreen() {
@@ -38,6 +40,7 @@ class LoginViewModel @Inject constructor(
             authRepository.saveLocalData(AuthEntity(socialToken, "", false))
             authRepository.signIn()
                 .onSuccess {
+                    userRepository.saveUserId(it.userid)
                     authRepository.saveLocalData(AuthEntity(it.accessToken, it.refreshToken, it.isSignedUp))
                     if (it.isSignedUp) {
                         postSideEffect(LoginSideEffect.LoginSuccess)

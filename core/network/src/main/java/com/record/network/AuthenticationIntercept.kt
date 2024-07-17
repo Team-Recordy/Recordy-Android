@@ -23,15 +23,4 @@ class AuthenticationIntercept @Inject constructor(
 
     private fun Request.accessTokenBuilder() =
         this.newBuilder().addHeader("Authorization", runBlocking { "Bearer ${datastore.token.first().accessToken}" }).build()
-
-    companion object {
-        const val API = "api"
-        const val USER = "users"
-        const val SIGNUP = "signUp"
-        const val CEHCK_NICKNAME = "check-nickname"
-        const val NICKNAME = "nickname"
-        const val TOKEN = "token"
-        const val DELETE = "delete"
-        const val LOGOUT = "logout"
-    }
 }

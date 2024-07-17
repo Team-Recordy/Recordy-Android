@@ -8,4 +8,5 @@ android {
 dependencies {
     implementation(projects.domain.oauth)
     implementation(projects.domain.auth)
+    implementation(projects.domain.user)
 }

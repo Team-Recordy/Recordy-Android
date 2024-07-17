@@ -6,6 +6,8 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import com.record.datastore.token.AuthToken
 import com.record.datastore.token.TokenDataSerializer
+import com.record.datastore.user.UserData
+import com.record.datastore.user.UserDataSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +28,17 @@ object DataStoreModule {
             serializer = tokenDataSerializer,
         ) {
             context.dataStoreFile("token.json")
+        }
+
+    @Provides
+    @Singleton
+    fun provideUserDataStore(
+        @ApplicationContext context: Context,
+        userDataSerializer: UserDataSerializer,
+    ): DataStore<UserData> =
+        DataStoreFactory.create(
+            serializer = userDataSerializer,
+        ) {
+            context.dataStoreFile("user.json")
         }
 }

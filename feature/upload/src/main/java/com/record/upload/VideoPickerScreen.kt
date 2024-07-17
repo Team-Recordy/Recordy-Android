@@ -85,22 +85,21 @@ fun VideoPickerRoute(
         viewModel.sideEffect.collectLatest { }
     }
 
-        VideoPickerScreen(
-            state = state,
-            showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
-            hideShouldShowRationaleDialog = viewModel::hideShouldShowRationaleDialog,
-            showIsSelectedVideoSheetOpen = viewModel::showIsSelectedVideoSheetOpen,
-            hideIsSelectedVideoSheetOpen = viewModel::hideIsSelectedVideoSheetOpen,
-            showIsSelectedDefinedContentSheetOpen = viewModel::showIsSelectedDefinedContentSheetOpen,
-            hideIsSelectedDefinedContentSheetOpen = viewModel::hideIsSelectedDefinedContentSheetOpen,
-            onClickContentChip = viewModel::setSelectedList,
-            setVideo = viewModel::setVideo,
-            uploadVideoS3Bucket = {
-                viewModel.reencodevideo(context,it)
-                getVideoEncodingInfo(context, it)
-            },
-        )
-
+    VideoPickerScreen(
+        state = state,
+        showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
+        hideShouldShowRationaleDialog = viewModel::hideShouldShowRationaleDialog,
+        showIsSelectedVideoSheetOpen = viewModel::showIsSelectedVideoSheetOpen,
+        hideIsSelectedVideoSheetOpen = viewModel::hideIsSelectedVideoSheetOpen,
+        showIsSelectedDefinedContentSheetOpen = viewModel::showIsSelectedDefinedContentSheetOpen,
+        hideIsSelectedDefinedContentSheetOpen = viewModel::hideIsSelectedDefinedContentSheetOpen,
+        onClickContentChip = viewModel::setSelectedList,
+        setVideo = viewModel::setVideo,
+        uploadVideoS3Bucket = {
+            viewModel.reencodevideo(context, it)
+            getVideoEncodingInfo(context, it)
+        },
+    )
 }
 
 @OptIn(
@@ -123,7 +122,9 @@ fun VideoPickerScreen(
     uploadVideoS3Bucket: (File) -> Unit,
 ) {
     val context = LocalContext.current
-    val cameraPermissionState = rememberPermissionState(if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU)Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE)
+    val cameraPermissionState = rememberPermissionState(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
+    )
     val exampleVideoList = getAllVideos(10, null, context)
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),

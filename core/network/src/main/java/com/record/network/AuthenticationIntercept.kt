@@ -1,6 +1,5 @@
 package com.record.network
 
-import android.util.Log
 import com.record.datastore.token.TokenDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

@@ -1,5 +1,7 @@
 package com.record.login.singup
 
+import android.content.Intent
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -27,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
@@ -52,10 +55,9 @@ fun SignUpRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
 
-    var columnSize by remember {
-        mutableStateOf(IntSize.Zero)
-    }
+    var columnSize by remember { mutableStateOf(IntSize.Zero) }
 
     BackHandler(enabled = pagerState.currentPage >= 1 && pagerState.currentPage != 2) {
         coroutineScope.launch {
@@ -113,7 +115,6 @@ fun SignUpRoute(
             modifier = Modifier
                 .fillMaxSize(),
         ) { page ->
-
             when (SignUpScreen.fromScreenNumber(page)) {
                 SignUpScreen.Policy -> PolicyScreen(
                     padding = padding,
@@ -122,6 +123,10 @@ fun SignUpRoute(
                     onCheckServiceClick = viewModel::checkServiceEvent,
                     onCheckPolicyClick = viewModel::checkPrivacyPolicyEvent,
                     onCheckAgeClick = viewModel::checkAgeEvent,
+                    onMoreClick = { url ->
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        context.startActivity(intent)
+                    },
                 )
 
                 SignUpScreen.Naming -> NamingScreen(

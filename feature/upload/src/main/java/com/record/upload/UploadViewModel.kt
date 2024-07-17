@@ -31,19 +31,19 @@ class UploadViewModel @Inject constructor(
     suspend fun getPresignedUrl() = viewModelScope.launch {
         uploadRepository.getPresignedUrl().onSuccess {
             Log.d("success", "$it")
-            bucket(it.videoUrl,it.imageUrl)
+            bucket(it.videoUrl, it.imageUrl)
         }.onFailure {
             Log.d("failure", "${it.message}")
         }
     }
 
-    fun uploadVideoToS3Bucket(context: Context,file: File) =
+    fun uploadVideoToS3Bucket(context: Context, file: File) =
         viewModelScope.launch {
             uploadFileToS3PresignedUrl(uiState.value.bucketUrl, file) { success, message ->
                 println(message)
                 Log.d("messageFile", "$message ")
             }
-            uploadFileToS3ThumbnailPresignedUrl(context,uiState.value.thumbnailUrl, file) { success, message ->
+            uploadFileToS3ThumbnailPresignedUrl(context, uiState.value.thumbnailUrl, file) { success, message ->
                 println(message)
                 Log.d("messageThumbnail", "$message ")
             }
@@ -53,7 +53,7 @@ class UploadViewModel @Inject constructor(
         copy(video = video)
     }
 
-    fun bucket(video: String,thumbnail:String) = intent {
+    fun bucket(video: String, thumbnail: String) = intent {
         copy(bucketUrl = video, thumbnailUrl = thumbnail)
     }
 

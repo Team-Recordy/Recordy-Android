@@ -98,11 +98,7 @@ class FollowViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            if (user.isFollowing) {
-                Log.d("FollowViewModel", "unfollow")
-            } else {
-                Log.d("FollowViewModel", "follow")
-            }
+            userRepository.postFollow(user.id.toLong())
         }
     }
 

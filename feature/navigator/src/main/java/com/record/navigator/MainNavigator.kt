@@ -7,11 +7,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.home.navigation.HomeRoute
 import com.record.home.navigation.navigateHome
 import com.record.login.navigation.LoginRoute
 import com.record.login.navigation.SignupRoute
+import com.record.model.VideoType
 import com.record.mypage.navigation.navigateMypage
 import com.record.profile.navigation.navigateProfile
 import com.record.setting.navigate.navigateSetting
@@ -75,10 +75,12 @@ internal class MainNavigator(
         navController.navigateMypage(navOptions { })
     }
 
-    fun navigateVideoDetail(snackBarType: SnackBarType, videoId: Int) {
+    fun navigateVideoDetail(videoType: VideoType, index: Int, keyword: String? = "", userId: Long = 0) {
         navController.navigateVideoDetail(
-            snackBarType = snackBarType,
-            id = videoId,
+            videoType = videoType,
+            index = index,
+            keyword = keyword,
+            userId = userId,
         )
     }
 

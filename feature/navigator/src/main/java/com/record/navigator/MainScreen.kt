@@ -58,6 +58,7 @@ internal fun MainScreen(
     }
 
     Scaffold(
+        modifier = modifier,
         content = { innerPadding ->
             NavHost(
                 modifier = modifier
@@ -76,6 +77,7 @@ internal fun MainScreen(
 
                 homeNavGraph(
                     padding = innerPadding,
+                    navigateToVideoDetail = navigator::navigateVideoDetail,
                 )
 
                 profileNavGraph(

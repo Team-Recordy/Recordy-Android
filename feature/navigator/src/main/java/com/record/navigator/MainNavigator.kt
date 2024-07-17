@@ -78,13 +78,21 @@ internal class MainNavigator(
         navController.navigateMypage(navOptions { })
     }
 
-    fun navigateVideoDetail(videoType: VideoType, index: Int, keyword: String? = "", userId: Long = 0) {
+    fun navigateVideoDetail(videoType: VideoType, index: Int, keyword: String? = "all", userId: Long = 0) {
         navController.navigateVideoDetail(
             videoType = videoType,
             index = index,
             keyword = keyword,
             userId = userId,
         )
+    }
+
+    fun navigateToFollowing() {
+        navController.navigateToFollowing()
+    }
+
+    fun navigateToFollower() {
+        navController.navigateToFollower()
     }
 
     fun navigateProfile(id: Int) {

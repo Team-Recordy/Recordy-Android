@@ -29,7 +29,7 @@ fun NavGraphBuilder.mypageNavGraph(
     navigateToSetting: () -> Unit,
     navigateToFollowing: () -> Unit,
     navigateToFollower: () -> Unit,
-    navigateToVideo: (VideoType, Long) -> Unit,
+    navigateToVideo: (VideoType, Int) -> Unit,
 ) {
     composable(route = MypageRoute.route) {
         MypageRoute(

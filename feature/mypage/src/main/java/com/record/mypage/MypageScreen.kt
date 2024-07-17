@@ -65,7 +65,7 @@ fun MypageRoute(
     navigateToSetting: () -> Unit,
     navigateToFollower: () -> Unit,
     navigateToFollowing: () -> Unit,
-    navigateToVideo: (VideoType, Long) -> Unit,
+    navigateToVideo: (VideoType, Int) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Box(
@@ -93,7 +93,7 @@ fun MypageScreen(
     navigateToSetting: () -> Unit,
     onFollowerClick: () -> Unit,
     onFollowingClick: () -> Unit,
-    navigateToVideo: (VideoType, Long) -> Unit,
+    navigateToVideo: (VideoType, Int) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
@@ -192,7 +192,7 @@ fun MypageScreen(
                         RecordScreen(
                             videoItems = SampleData.sampleVideos,
                             recordCount = SampleData.sampleVideos.size,
-                            onItemClick = { videoData: VideoData -> navigateToVideo(VideoType.MY, videoData.id.toLong()) },
+                            onItemClick = navigateToVideo,
                         )
                     }
 
@@ -200,7 +200,7 @@ fun MypageScreen(
                         BookmarkScreen(
                             videoItems = SampleData.sampleVideos,
                             recordCount = SampleData.sampleVideos.size,
-                            onItemClick = { videoData: VideoData -> navigateToVideo(VideoType.PROFILE, videoData.id.toLong()) },
+                            onItemClick = navigateToVideo,
                         )
                     }
                 }

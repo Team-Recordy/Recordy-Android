@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,12 +25,13 @@ import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.VideoData
+import com.record.model.VideoType
 
 @Composable
 fun RecordScreen(
     videoItems: List<VideoData>,
     recordCount: Int,
-    onItemClick: (VideoData) -> Unit,
+    onItemClick: (VideoType, Int) -> Unit,
 ) {
     val videos = remember { mutableStateOf(videoItems) }
 
@@ -65,7 +67,7 @@ fun RecordScreen(
                     )
                 }
             }
-            items(videos.value) { item ->
+            itemsIndexed(videos.value) { index, item ->
                 val isBookmarked = remember { mutableStateOf(item.isBookmark) }
 
                 RecordyVideoThumbnail(
@@ -82,7 +84,7 @@ fun RecordScreen(
                         }
                     },
                     location = item.location,
-                    onClick = { onItemClick(item) },
+                    onClick = { onItemClick(VideoType.MY, index) },
                 )
             }
         }

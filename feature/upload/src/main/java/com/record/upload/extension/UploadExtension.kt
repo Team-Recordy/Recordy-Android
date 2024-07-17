@@ -192,11 +192,11 @@ fun reencodeVideo(inputFile: File, outputFile: File, callback: (Boolean, String)
     val command = arrayOf(
         "-i", inputFile.absolutePath,
         "-c:v", "libx264", // 비디오 코덱 설정
-        "-b:v", "1000k",  // 비디오 비트레이트 설정
-        "-c:a", "aac",    // 오디오 코덱 설정
-        "-b:a", "192k",   // 오디오 비트레이트 설정
+        "-b:v", "1000k", // 비디오 비트레이트 설정
+        "-c:a", "aac", // 오디오 코덱 설정
+        "-b:a", "192k", // 오디오 비트레이트 설정
         "-movflags", "faststart", // 웹 스트리밍을 위해 메타데이터를 파일의 시작 부분에 배치
-        outputFile.absolutePath
+        outputFile.absolutePath,
     )
     Config.setLogLevel(Config.getLogLevel())
     Config.enableLogCallback { logMessage ->
@@ -233,5 +233,5 @@ fun uploadFileToS3PresignedUrl(presignedUrl: String, file: File, callback: (Bool
                 callback(false, "Upload failed: ${response.message}")
             }
         }
-    })
+    },)
 }

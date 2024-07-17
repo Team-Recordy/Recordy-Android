@@ -105,10 +105,19 @@ fun LoginRoute(
             viewModel.splashScreen()
         }
     } else {
+        var startAnimation by remember { mutableStateOf(false) }
+        LaunchedEffectWithLifecycle {
+            startAnimation = true
+        }
+        val alpha by animateFloatAsState(
+            targetValue = if (startAnimation) 1f else 0f,
+            animationSpec = tween(durationMillis = 1500),
+        )
         LoginScreen(
             padding = padding,
             modifier = modifier,
             onLogInClick = { viewModel.startKakaoLogin() },
+            alpha = alpha,
         )
     }
 }
@@ -166,6 +175,7 @@ fun LoginScreen(
     padding: PaddingValues = PaddingValues(horizontal = 16.dp),
     modifier: Modifier = Modifier,
     onLogInClick: () -> Unit,
+    alpha: Float = 1f,
 ) {
     var columnSize by remember {
         mutableStateOf(IntSize.Zero)
@@ -204,7 +214,7 @@ fun LoginScreen(
 
             Text(
                 text = "내 취향의 공간 발견하는 곳",
-                modifier = Modifier.height(24.dp),
+                modifier = Modifier.height(24.dp).alpha(alpha),
                 textAlign = TextAlign.Center,
                 style = RecordyTheme.typography.body1M,
                 color = RecordyTheme.colors.main,
@@ -216,6 +226,7 @@ fun LoginScreen(
         Button(
             onClick = onLogInClick,
             modifier = Modifier
+                .alpha(alpha)
                 .fillMaxWidth()
                 .height(48.dp)
                 .padding(horizontal = 16.dp),

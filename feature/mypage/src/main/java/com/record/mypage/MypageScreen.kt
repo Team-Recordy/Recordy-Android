@@ -53,7 +53,9 @@ import com.record.mypage.screen.BookmarkScreen
 import com.record.mypage.screen.RecordScreen
 import com.record.mypage.screen.TasteScreen
 import com.record.ui.extension.customClickable
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -67,6 +69,26 @@ fun MypageRoute(
     navigateToVideo: (VideoType, Int) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    viewModel.fetchUserProfile()
+
+    LaunchedEffectWithLifecycle() {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                MypageSideEffect.NavigateToFollower -> {
+                    navigateToFollower()
+                }
+                MypageSideEffect.NavigateToFollowing -> {
+                    navigateToFollowing()
+                }
+                MypageSideEffect.NavigateToSettings -> {
+                    navigateToSetting()
+                }
+                is MypageSideEffect.NavigateToVideoDetail -> {
+                    navigateToVideo(sideEffect.type, sideEffect.index)
+                }
+            }
+        }
+    }
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -76,10 +98,10 @@ fun MypageRoute(
         MypageScreen(
             state = uiState,
             onTabSelected = { viewModel.selectTab(it) },
-            onFollowingClick = navigateToFollowing,
-            onFollowerClick = navigateToFollower,
-            navigateToSetting = navigateToSetting,
-            navigateToVideo = navigateToVideo,
+            onFollowingClick = viewModel::navigateToFollowing,
+            onFollowerClick = viewModel::navigateToFollower,
+            navigateToSetting = viewModel::navigateToSetting,
+            navigateToVideo = viewModel::navigateToVideoDetail,
         )
     }
 }

@@ -33,22 +33,17 @@ class SettingViewModel @Inject constructor(
 
     fun logoutInDialog() {
         viewModelScope.launch {
-            authRepository.logout().onSuccess {
-                authRepository.saveLocalData(AuthEntity("", "", false))
-                postSideEffect(SettingSideEffect.Restart)
-            }.onFailure {
-                // logout fail 재시작 로직
-            }
+            authRepository.logout()
+            authRepository.saveLocalData(AuthEntity("", "", false))
+            postSideEffect(SettingSideEffect.Restart)
         }
     }
 
     fun deleteInDialog() {
         viewModelScope.launch {
-            authRepository.delete().onSuccess {
-                authRepository.saveLocalData(AuthEntity("", "", false))
-                postSideEffect(SettingSideEffect.Restart)
-            }.onFailure {
-            }
+            authRepository.delete()
+            authRepository.saveLocalData(AuthEntity("", "", false))
+            postSideEffect(SettingSideEffect.Restart)
         }
     }
 }

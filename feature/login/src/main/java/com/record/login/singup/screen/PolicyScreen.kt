@@ -42,12 +42,13 @@ fun PolicyScreen(
     onCheckServiceClick: () -> Unit,
     onCheckPolicyClick: () -> Unit,
     onCheckAgeClick: () -> Unit,
+    onMoreClick: (String) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
         Spacer(modifier = Modifier.height(33.dp))
         Image(
             painter = painterResource(id = R.drawable.img_onboarding),
-            null,
+            contentDescription = null,
             modifier = Modifier
                 .width(84.dp)
                 .padding(start = 12.dp)
@@ -76,12 +77,16 @@ fun PolicyScreen(
             padding = padding,
             checked = uiState.serviceTermsChecked,
             onClickEvent = { onCheckServiceClick() },
+            moreUrl = "https://bohyunnkim.notion.site/e5c0a49d73474331a21b1594736ee0df?pvs=4",
+            onMoreClick = onMoreClick,
         )
         RecordyCheckBox(
             "(필수) 개인정보 수집이용 동의",
             padding = padding,
             checked = uiState.privacyPolicyChecked,
             onClickEvent = { onCheckPolicyClick() },
+            moreUrl = "https://bohyunnkim.notion.site/c2bdf3572df1495c92aedd0437158cf0?pvs=4",
+            onMoreClick = onMoreClick,
         )
         RecordyCheckBox(
             "(필수) 만 14세 이상입니다",
@@ -93,7 +98,70 @@ fun PolicyScreen(
 }
 
 @Composable
-fun RecordyCheckAllBox(contentText: String = "", padding: PaddingValues, checked: Boolean = false, onClickEvent: () -> Unit) {
+fun RecordyCheckBox(
+    contentText: String = "",
+    padding: PaddingValues,
+    checked: Boolean = false,
+    onClickEvent: () -> Unit,
+    moreUrl: String? = null,
+    onMoreClick: ((String) -> Unit)? = null,
+) {
+    Column {
+        Spacer(modifier = Modifier.height(9.dp))
+        Box(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxWidth()
+                .height(40.dp)
+                .clickable(onClick = onClickEvent, indication = null, interactionSource = remember { MutableInteractionSource() })
+                .padding(start = 20.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Icon(
+                    ImageVector.vectorResource(id = R.drawable.ic_check_16),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .animateContentSize { _, _ -> }
+                        .height(24.dp)
+                        .padding(vertical = 2.dp)
+                        .aspectRatio(1f),
+                    tint = if (checked) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray05,
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = contentText,
+                    style = RecordyTheme.typography.caption1.copy(color = RecordyTheme.colors.gray01),
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                if (moreUrl != null && onMoreClick != null) {
+                    Text(
+                        text = "더보기",
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.clickable(
+                            onClick = { onMoreClick(moreUrl) },
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() },
+                        ),
+                        style = RecordyTheme.typography.caption1U.copy(color = RecordyTheme.colors.gray01),
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RecordyCheckAllBox(
+    contentText: String = "",
+    padding: PaddingValues,
+    checked: Boolean = false,
+    onClickEvent: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .padding(padding)
@@ -123,55 +191,6 @@ fun RecordyCheckAllBox(contentText: String = "", padding: PaddingValues, checked
                 text = contentText,
                 style = RecordyTheme.typography.subtitle.copy(color = RecordyTheme.colors.gray01),
             )
-        }
-    }
-}
-
-@Composable
-fun RecordyCheckBox(contentText: String = "", padding: PaddingValues, checked: Boolean = false, onClickEvent: () -> Unit) {
-    Column {
-        Spacer(modifier = Modifier.height(9.dp))
-        Box(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxWidth()
-                .height(40.dp)
-                .clickable(onClick = onClickEvent, indication = null, interactionSource = remember { MutableInteractionSource() })
-                .padding(start = 20.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Icon(
-                    ImageVector.vectorResource(id = R.drawable.ic_check_16),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .animateContentSize { initialValue, targetValue -> }
-                        .height(24.dp)
-                        .padding(vertical = 2.dp)
-                        .aspectRatio(1f),
-                    tint = if (checked) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray05,
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = contentText,
-                    style = RecordyTheme.typography.caption1.copy(color = RecordyTheme.colors.gray01),
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = "더보기",
-                    textAlign = TextAlign.End,
-                    modifier = Modifier.clickable(
-                        onClick = { /*TODO*/ },
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() },
-                    ),
-                    style = RecordyTheme.typography.caption1U.copy(color = RecordyTheme.colors.gray01),
-                )
-            }
         }
     }
 }

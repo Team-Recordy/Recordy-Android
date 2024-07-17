@@ -16,5 +16,5 @@ data class HomeState(
 
 sealed interface HomeSideEffect : SideEffect {
     data object navigateToUpload : HomeSideEffect
-    data class navigateToVideo(val index: Int, val type: VideoType, val keyword: String?) : HomeSideEffect
+    data class navigateToVideo(val index: Long, val type: VideoType, val keyword: String?) : HomeSideEffect
 }

@@ -26,7 +26,7 @@ fun UploadFloatingButton(
 ) {
     Box(
         modifier = modifier
-            .customClickable { onClick() }
+            .customClickable(rippleEnabled = false) { onClick() }
             .background(color = Color(0xFF9BABFB), shape = RoundedCornerShape(40.dp)),
     ) {
         Row(

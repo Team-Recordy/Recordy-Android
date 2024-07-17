@@ -47,7 +47,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
-import com.record.model.SampleData
 import com.record.model.VideoType
 import com.record.mypage.screen.BookmarkScreen
 import com.record.mypage.screen.RecordScreen
@@ -66,11 +65,13 @@ fun MypageRoute(
     navigateToSetting: () -> Unit,
     navigateToFollower: () -> Unit,
     navigateToFollowing: () -> Unit,
-    navigateToVideo: (VideoType, Int) -> Unit,
+    navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     viewModel.fetchUserProfile()
     viewModel.fetchUserPreferences()
+    viewModel.fetchUserVideos()
+    viewModel.fetchBookmarkVideos()
 
     LaunchedEffectWithLifecycle() {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -88,7 +89,7 @@ fun MypageRoute(
                 }
 
                 is MypageSideEffect.NavigateToVideoDetail -> {
-                    navigateToVideo(sideEffect.type, sideEffect.index)
+                    navigateToVideo(sideEffect.type, sideEffect.videoId)
                 }
             }
         }
@@ -118,7 +119,7 @@ fun MypageScreen(
     navigateToSetting: () -> Unit,
     onFollowerClick: () -> Unit,
     onFollowingClick: () -> Unit,
-    navigateToVideo: (VideoType, Int) -> Unit,
+    navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
@@ -213,16 +214,16 @@ fun MypageScreen(
 
                     MypageTab.RECORD.ordinal -> {
                         RecordScreen(
-                            videoItems = SampleData.sampleVideos,
-                            recordCount = SampleData.sampleVideos.size,
+                            videoItems = state.myRecordList,
+                            recordCount = state.recordVideoCount,
                             onItemClick = navigateToVideo,
                         )
                     }
 
                     MypageTab.BOOKMARK.ordinal -> {
                         BookmarkScreen(
-                            videoItems = SampleData.sampleVideos,
-                            recordCount = SampleData.sampleVideos.size,
+                            videoItems = state.myBookmarkList,
+                            recordCount = state.bookmarkVideoCount,
                             onItemClick = navigateToVideo,
                         )
                     }

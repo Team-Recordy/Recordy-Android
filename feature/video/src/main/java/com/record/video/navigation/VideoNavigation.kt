@@ -15,8 +15,8 @@ fun NavController.navigateVideo(navOptions: NavOptions) {
     navigate(VideoRoute.route, navOptions)
 }
 
-fun NavController.navigateVideoDetail(videoType: VideoType, index: Int, keyword: String? = "all", userId: Long = 0) {
-    navigate(VideoRoute.detailRoute(videoType.toString(), index.toString(), keyword, userId.toString()))
+fun NavController.navigateVideoDetail(videoType: VideoType, videoId: Long, keyword: String? = "all", userId: Long = 0) {
+    navigate(VideoRoute.detailRoute(videoType.toString(), videoId.toString(), keyword, userId.toString()))
 }
 
 fun NavGraphBuilder.videoNavGraph(

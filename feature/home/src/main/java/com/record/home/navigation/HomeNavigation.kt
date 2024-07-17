@@ -16,7 +16,7 @@ fun NavController.navigateHome(navOptions: NavOptions) {
 fun NavGraphBuilder.homeNavGraph(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
-    navigateToVideoDetail: (VideoType, Int, String?, Long) -> Unit,
+    navigateToVideoDetail: (VideoType, Long, String?, Long) -> Unit,
 ) {
     composable(route = HomeRoute.route) {
         HomeRoute(

@@ -1,5 +1,6 @@
 package com.record.profile
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,9 +31,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.component.button.FollowButton
+import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.SampleData
-import com.record.model.UserData
 
 @Composable
 fun ProfileRoute(
@@ -52,12 +54,22 @@ fun ProfileScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(RecordyTheme.colors.background)
+    ) {
+        TopNavigationBar(
+            title = "프로필",
+            modifier = Modifier.fillMaxWidth()
+        )
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(start = 16.dp)
                 .padding(vertical = 10.dp)
+                .padding(bottom = 24.dp)
         ) {
             AsyncImage(
                 model = uiState.user.profileImage,

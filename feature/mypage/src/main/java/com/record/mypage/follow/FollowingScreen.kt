@@ -1,16 +1,16 @@
 package com.record.mypage.follow
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.UserData
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
@@ -41,31 +41,27 @@ fun FollowingRoute(
                 }
             }
         }
-
     }
-    Box(
-        modifier = modifier
+
+    Column(
+        modifier = Modifier
             .fillMaxSize()
             .background(RecordyTheme.colors.background)
-            .padding(padding),
     ) {
+        TopNavigationBar(
+            title = "팔로잉",
+            modifier = Modifier.fillMaxWidth()
+        )
+
         FollowScreen(
+            modifier = Modifier
+                .fillMaxSize(),
             followingList = updatedFollowingList.toPersistentList(),
             onClick = { user ->
                 viewModel.toggleFollow(true, user)
             },
-            navigateToProfile = viewModel::navigateToProfile
-        )
-    }
-}
-
-@Preview
-@Composable
-fun FollowingRoutePreview() {
-    RecordyTheme {
-        FollowingRoute(
-            padding = PaddingValues(),
-            navigateToProfile = { },
+            navigateToProfile = viewModel::navigateToProfile,
+            loadMoreFollow = viewModel::loadMoreFollowing,
         )
     }
 }

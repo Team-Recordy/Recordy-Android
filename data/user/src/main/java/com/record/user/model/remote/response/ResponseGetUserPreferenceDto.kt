@@ -7,6 +7,4 @@ import kotlinx.serialization.Serializable
 data class ResponseGetUserPreferenceDto(
     @SerialName("preference")
     val preference: List<List<String>>,
-    @SerialName("userId")
-    val userId: Int,
 )

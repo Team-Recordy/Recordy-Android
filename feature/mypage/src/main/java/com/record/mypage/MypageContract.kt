@@ -3,6 +3,8 @@ package com.record.mypage
 import com.record.model.VideoType
 import com.record.ui.base.SideEffect
 import com.record.ui.base.UiState
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 data class MypageState(
     val profileImg: String = "",
@@ -10,6 +12,7 @@ data class MypageState(
     val followerNum: Int = 0,
     val followingNum: Int = 0,
     val mypageTab: MypageTab = MypageTab.TASTE,
+    val preferences: ImmutableList<Pair<String, Int>> = emptyList<Pair<String, Int>>().toImmutableList(),
 ) : UiState
 
 sealed interface MypageSideEffect : SideEffect {

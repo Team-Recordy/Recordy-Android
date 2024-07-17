@@ -7,6 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.record.designsystem.component.snackbar.SnackBarType
+import com.record.model.VideoType
 import com.record.video.VideoRoute
 import com.record.video.videodetail.VideoDetailRoute
 
@@ -14,8 +15,8 @@ fun NavController.navigateVideo(navOptions: NavOptions) {
     navigate(VideoRoute.route, navOptions)
 }
 
-fun NavController.navigateVideoDetail(snackBarType: SnackBarType, id: Int) {
-    navigate(VideoRoute.detailRoute(snackBarType.toString(), id.toString()))
+fun NavController.navigateVideoDetail(videoType: VideoType, id: Long) {
+    navigate(VideoRoute.detailRoute(videoType.toString(), id.toString()))
 }
 
 fun NavGraphBuilder.videoNavGraph(

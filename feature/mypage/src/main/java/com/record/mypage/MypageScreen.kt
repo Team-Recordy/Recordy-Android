@@ -41,16 +41,17 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
+import com.record.model.SampleData
+import com.record.model.VideoData
+import com.record.model.VideoType
 import com.record.mypage.screen.BookmarkScreen
 import com.record.mypage.screen.RecordScreen
-import com.record.mypage.screen.SampleData
 import com.record.mypage.screen.TasteScreen
 import com.record.ui.extension.customClickable
 import kotlinx.coroutines.CoroutineScope
@@ -64,6 +65,7 @@ fun MypageRoute(
     navigateToSetting: () -> Unit,
     navigateToFollower: () -> Unit,
     navigateToFollowing: () -> Unit,
+    navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Box(
@@ -78,6 +80,7 @@ fun MypageRoute(
             onFollowingClick = navigateToFollowing,
             onFollowerClick = navigateToFollower,
             navigateToSetting = navigateToSetting,
+            navigateToVideo = navigateToVideo,
         )
     }
 }
@@ -90,6 +93,7 @@ fun MypageScreen(
     navigateToSetting: () -> Unit,
     onFollowerClick: () -> Unit,
     onFollowingClick: () -> Unit,
+    navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
@@ -185,38 +189,23 @@ fun MypageScreen(
                     }
 
                     MypageTab.RECORD.ordinal -> {
-                        RecordScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
-                        // RecordScreen(emptyList(), 0)
+                        RecordScreen(
+                            videoItems = SampleData.sampleVideos,
+                            recordCount = SampleData.sampleVideos.size,
+                            onItemClick = { videoData: VideoData -> navigateToVideo(VideoType.MY, videoData.id.toLong()) },
+                        )
                     }
 
                     MypageTab.BOOKMARK.ordinal -> {
-                        BookmarkScreen(videoItems = SampleData.sampleVideos, recordCount = SampleData.sampleVideos.size)
-                        // BookmarkScreen(emptyList(), 0)
+                        BookmarkScreen(
+                            videoItems = SampleData.sampleVideos,
+                            recordCount = SampleData.sampleVideos.size,
+                            onItemClick = { videoData: VideoData -> navigateToVideo(VideoType.PROFILE, videoData.id.toLong()) },
+                        )
                     }
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true, backgroundColor = 0x0000)
-@Composable
-fun MypageScreenPreview() {
-    val exampleState = MypageState(
-        profileImg = "",
-        nickname = "공간수집가열글자아아",
-        followerNum = 1260,
-        followingNum = 96880,
-        mypageTab = MypageTab.TASTE,
-    )
-    RecordyTheme {
-        MypageScreen(
-            state = exampleState,
-            onTabSelected = {},
-            navigateToSetting = {},
-            onFollowerClick = {},
-            onFollowingClick = {},
-        )
     }
 }
 
@@ -328,7 +317,7 @@ private fun buildFollowerFollowingRow(
     ) {
         Row(
             modifier = Modifier
-                .customClickable {onFollowerClick()},
+                .customClickable { onFollowerClick() },
         ) {
             Text(
                 text = formatNumber(followerNum),
@@ -348,7 +337,7 @@ private fun buildFollowerFollowingRow(
         )
         Row(
             modifier = Modifier
-                .customClickable {onFollowingClick()},
+                .customClickable { onFollowingClick() },
         ) {
             Text(
                 text = formatNumber(followingNum),

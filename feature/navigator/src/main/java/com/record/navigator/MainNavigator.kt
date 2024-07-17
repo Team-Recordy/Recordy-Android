@@ -7,12 +7,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.home.navigation.HomeRoute
 import com.record.home.navigation.navigateHome
 import com.record.login.navigation.LoginRoute
 import com.record.login.navigation.SignupRoute
-import com.record.mypage.navigation.MypageRoute
+import com.record.model.VideoType
 import com.record.mypage.navigation.navigateMypage
 import com.record.mypage.navigation.navigateToFollower
 import com.record.mypage.navigation.navigateToFollowing
@@ -78,9 +77,9 @@ internal class MainNavigator(
         navController.navigateMypage(navOptions { })
     }
 
-    fun navigateVideoDetail(snackBarType: SnackBarType, videoId: Int) {
+    fun navigateVideoDetail(videoType: VideoType, videoId: Long) {
         navController.navigateVideoDetail(
-            snackBarType = snackBarType,
+            videoType = videoType,
             id = videoId,
         )
     }
@@ -94,11 +93,11 @@ internal class MainNavigator(
     }
 
     fun navigateToFollowing() {
-        navController.navigateToFollowing(navOptions { })
+        navController.navigateToFollowing()
     }
 
     fun navigateToFollower() {
-        navController.navigateToFollower(navOptions { })
+        navController.navigateToFollower()
     }
 
     fun popBackStackIfNotHome() {

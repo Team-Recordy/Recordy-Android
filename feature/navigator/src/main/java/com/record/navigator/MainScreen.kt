@@ -98,6 +98,7 @@ internal fun MainScreen(
                     navigateToSetting = { navigator.navigateSetting() },
                     navigateToFollowing = { navigator.navigateToFollowing() },
                     navigateToFollower = { navigator.navigateToFollower() },
+                    navigateToVideo = { a, b -> navigator.navigateVideoDetail(a, b) },
                 )
 
                 settingNavGraph(

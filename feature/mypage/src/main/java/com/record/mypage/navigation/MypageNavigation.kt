@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.record.model.VideoType
 import com.record.mypage.MypageRoute
 import com.record.mypage.follow.FollowerRoute
 import com.record.mypage.follow.FollowingRoute
@@ -14,12 +15,12 @@ fun NavController.navigateMypage(navOptions: NavOptions) {
     navigate(MypageRoute.route, navOptions)
 }
 
-fun NavController.navigateToFollowing(navOptions: NavOptions){
-    navigate(MypageRoute.followingRoute, navOptions)
+fun NavController.navigateToFollowing() {
+    navigate(MypageRoute.followingRoute)
 }
 
-fun NavController.navigateToFollower(navOptions: NavOptions){
-    navigate(MypageRoute.followerRoute, navOptions)
+fun NavController.navigateToFollower() {
+    navigate(MypageRoute.followerRoute)
 }
 
 fun NavGraphBuilder.mypageNavGraph(
@@ -28,6 +29,7 @@ fun NavGraphBuilder.mypageNavGraph(
     navigateToSetting: () -> Unit,
     navigateToFollowing: () -> Unit,
     navigateToFollower: () -> Unit,
+    navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     composable(route = MypageRoute.route) {
         MypageRoute(
@@ -36,17 +38,20 @@ fun NavGraphBuilder.mypageNavGraph(
             navigateToSetting = navigateToSetting,
             navigateToFollowing = navigateToFollowing,
             navigateToFollower = navigateToFollower,
+            navigateToVideo = navigateToVideo,
         )
     }
-    composable(route = MypageRoute.followingRoute){
+    composable(route = MypageRoute.followingRoute) {
         FollowingRoute(
             padding = padding,
-            modifier = modifier,)
+            modifier = modifier,
+        )
     }
-    composable(route = MypageRoute.followerRoute){
+    composable(route = MypageRoute.followerRoute) {
         FollowerRoute(
             padding = padding,
-            modifier = modifier,)
+            modifier = modifier,
+        )
     }
 }
 

@@ -18,14 +18,14 @@ interface VideoApi {
 
     @GET("/api/v1/records/recent")
     suspend fun getRecentVideos(
-        @Query("keywords") keywords: List<String>,
+        @Query("keywords") keywords: List<String>?,
         @Query("pageNumber") pageNumber: Int,
         @Query("pageSize") pageSize: Int,
     ): ResponseGetSliceVideoDto
 
     @GET("/api/v1/records/famous")
     suspend fun getPopularVideos(
-        @Query("keywords") keywords: List<String>,
+        @Query("keywords") keywords: List<String>?,
         @Query("pageNumber") pageNumber: Int,
         @Query("pageSize") pageSize: Int,
     ): ResponseGetPagingVideoDto

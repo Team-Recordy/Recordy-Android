@@ -12,7 +12,7 @@ class KeywordRepositoryImpl @Inject constructor(
     override suspend fun getKeywords(): Result<PreferenceKeyword> = runCatching {
         remoteKeywordDataSource.getKeywords()
     }.mapCatching {
-        PreferenceKeyword(keywords = it)
+        PreferenceKeyword(keywords = it.map { char -> char.replace("_", " ") })
     }.recoverCatching { exception ->
         when (exception) {
             is HttpException -> {

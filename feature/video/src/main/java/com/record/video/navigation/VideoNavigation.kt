@@ -15,8 +15,8 @@ fun NavController.navigateVideo(navOptions: NavOptions) {
     navigate(VideoRoute.route, navOptions)
 }
 
-fun NavController.navigateVideoDetail(videoType: VideoType, id: Long) {
-    navigate(VideoRoute.detailRoute(videoType.toString(), id.toString()))
+fun NavController.navigateVideoDetail(videoType: VideoType, index: Int, keyword: String? = "", userId: Long = 0) {
+    navigate(VideoRoute.detailRoute(videoType.toString(), index.toString(), keyword, userId.toString()))
 }
 
 fun NavGraphBuilder.videoNavGraph(
@@ -36,7 +36,12 @@ fun NavGraphBuilder.videoNavGraph(
         )
     }
     composable(
-        route = VideoRoute.detailRoute("{${VideoRoute.VIDEO_TYPE_ARG_NAME}}", "{${VideoRoute.VIDEO_ID_ARG_NAME}}"),
+        route = VideoRoute.detailRoute(
+            "{${VideoRoute.VIDEO_TYPE_ARG_NAME}}",
+            "{${VideoRoute.VIDEO_INDEX}}",
+            "{${VideoRoute.VIDEO_KEYWORD}}",
+            "{${VideoRoute.VIDEO_USER_ID}}",
+        ),
     ) {
         VideoDetailRoute(
             padding = padding,
@@ -51,6 +56,8 @@ fun NavGraphBuilder.videoNavGraph(
 object VideoRoute {
     const val route = "video"
     const val VIDEO_TYPE_ARG_NAME = "video-type"
-    const val VIDEO_ID_ARG_NAME = "video-id"
-    fun detailRoute(type: String, id: String) = "detail/$type/$id"
+    const val VIDEO_INDEX = "video-index"
+    const val VIDEO_KEYWORD = "video-keyword"
+    const val VIDEO_USER_ID = "video-user-id"
+    fun detailRoute(type: String, id: String, keyword: String?, userId: String) = "detail/$type/$id/${keyword ?: "all"}/$userId"
 }

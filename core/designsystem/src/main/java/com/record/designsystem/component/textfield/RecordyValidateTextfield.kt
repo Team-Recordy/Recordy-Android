@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -98,15 +99,19 @@ fun RecordyValidateTextfield(
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions,
                 singleLine = maxLines == 1,
-            ) { innerTextField ->
-                if (value.isEmpty() && !isFocused) {
-                    Text(
-                        text = placeholder,
-                        style = RecordyTheme.typography.body2M.copy(color = RecordyTheme.colors.gray04),
-                    )
-                }
-                innerTextField()
-            }
+                cursorBrush = Brush.verticalGradient(
+                    colors = listOf(RecordyTheme.colors.gray01, RecordyTheme.colors.gray01),
+                ),
+                decorationBox = { innerTextField ->
+                    if (value.isEmpty() && !isFocused) {
+                        Text(
+                            text = placeholder,
+                            style = RecordyTheme.typography.body2M.copy(color = RecordyTheme.colors.gray04),
+                        )
+                    }
+                    innerTextField()
+                },
+            )
         }
 
         Row(

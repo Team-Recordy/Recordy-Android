@@ -12,11 +12,11 @@ data class RecordInfo(
     @SerialName("fileUrl")
     val fileUrl: FileUrl,
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("location")
     val location: String,
     @SerialName("uploaderId")
-    val uploaderId: Int,
+    val uploaderId: Long,
     @SerialName("uploaderNickname")
     val uploaderNickname: String,
     @SerialName("isMine")

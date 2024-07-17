@@ -15,7 +15,6 @@ interface AuthService {
 
     @POST("/$API/$VERSION/$USER/$SIGNIN")
     suspend fun signIn(
-        @Header(AUTHORIZATION) authorization: String,
         @Body platformType: RequestSignInDto = RequestSignInDto(KAKAO),
     ): ResponseSignInDto
 

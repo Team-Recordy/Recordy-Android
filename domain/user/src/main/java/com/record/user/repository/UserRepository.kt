@@ -25,4 +25,8 @@ interface UserRepository {
     ): Result<Profile>
 
     suspend fun getUserPreference(): Result<Triple<Preference, Preference, Preference>>
+
+    suspend fun saveUserId(userId: Long): Result<Unit>
+
+    suspend fun getUserId(): Result<Long>
 }

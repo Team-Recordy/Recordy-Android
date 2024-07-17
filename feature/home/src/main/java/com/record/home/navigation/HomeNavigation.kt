@@ -7,6 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.record.home.HomeRoute
+import com.record.model.VideoType
 
 fun NavController.navigateHome(navOptions: NavOptions) {
     navigate(HomeRoute.route, navOptions)
@@ -15,11 +16,13 @@ fun NavController.navigateHome(navOptions: NavOptions) {
 fun NavGraphBuilder.homeNavGraph(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
+    navigateToVideoDetail: (VideoType, Int, String?, Long) -> Unit,
 ) {
     composable(route = HomeRoute.route) {
         HomeRoute(
             padding = padding,
             modifier = modifier,
+            navigateToVideoDetail = navigateToVideoDetail,
         )
     }
 }

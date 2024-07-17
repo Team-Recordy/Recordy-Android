@@ -95,7 +95,7 @@ fun VideoPickerRoute(
         onClickContentChip = viewModel::setSelectedList,
         setVideo = viewModel::setVideo,
         uploadVideoS3Bucket = {
-            viewModel.uploadVideoToS3Bucket(context,it)
+            viewModel.uploadVideoToS3Bucket(context, it)
         },
     )
 }

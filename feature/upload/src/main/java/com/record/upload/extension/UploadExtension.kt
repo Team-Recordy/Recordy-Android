@@ -167,7 +167,6 @@ fun formatDuration(durationMillis: Long): String {
 }
 
 fun uploadFileToS3PresignedUrl(presignedUrl: String, file: File, callback: (Boolean, String) -> Unit) {
-
     val client = OkHttpClient()
     val mediaType = "application/octet-stream".toMediaTypeOrNull()
     val requestBody = RequestBody.create(mediaType, file)
@@ -189,12 +188,12 @@ fun uploadFileToS3PresignedUrl(presignedUrl: String, file: File, callback: (Bool
                 callback(false, "Upload failed: ${response.message}")
             }
         }
-    })
+    },)
 }
 
-fun uploadFileToS3ThumbnailPresignedUrl(context: Context,presignedUrl: String, file: File, callback: (Boolean, String) -> Unit) {
+fun uploadFileToS3ThumbnailPresignedUrl(context: Context, presignedUrl: String, file: File, callback: (Boolean, String) -> Unit) {
     val videoPath = file.absolutePath
-    val outputImagePath = File(context.cacheDir,"${ file.name }.jpg")
+    val outputImagePath = File(context.cacheDir, "${ file.name }.jpg")
     getVideoFrameAt1Sec(videoPath, outputImagePath.absolutePath)
     val client = OkHttpClient()
     val mediaType = "application/octet-stream".toMediaTypeOrNull()
@@ -217,7 +216,7 @@ fun uploadFileToS3ThumbnailPresignedUrl(context: Context,presignedUrl: String, f
                 callback(false, "Upload failed: ${response.message}")
             }
         }
-    })
+    },)
 }
 fun getVideoFrameAt1Sec(videoPath: String, outputImagePath: String) {
     val retriever = MediaMetadataRetriever()

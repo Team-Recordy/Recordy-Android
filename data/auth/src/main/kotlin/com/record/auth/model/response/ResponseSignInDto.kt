@@ -17,4 +17,4 @@ data class ResponseSignInDto(
     val isSignedUp: Boolean,
 )
 
-fun ResponseSignInDto.toCoreModel() = AuthEntity(accessToken, refreshToken, isSignedUp)
+fun ResponseSignInDto.toCoreModel() = AuthEntity(accessToken, refreshToken, isSignedUp, userid = userId)

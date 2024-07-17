@@ -20,6 +20,7 @@ dependencies {
     implementation(projects.data.user)
     implementation(projects.data.keyword)
     implementation(projects.local.auth)
+    implementation(projects.local.user)
     implementation(projects.remote.auth)
     implementation(projects.remote.user)
     implementation(projects.remote.video)

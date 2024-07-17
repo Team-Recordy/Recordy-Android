@@ -9,15 +9,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,19 +26,18 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.component.button.RecordyButton
+import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.component.progressbar.RecordyProgressBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.login.singup.screen.NamingScreen
 import com.record.login.singup.screen.PolicyScreen
 import com.record.login.singup.screen.SignUpSuccessScreen
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -60,16 +56,7 @@ fun SignUpRoute(
         mutableStateOf(IntSize.Zero)
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.sideEffect.collectLatest {
-            when (it) {
-                SignUpEffect.NavigateToHome -> {
-                    navigateToHome()
-                }
-            }
-        }
-    }
-    BackHandler(enabled = pagerState.currentPage >= 1) {
+    BackHandler(enabled = pagerState.currentPage >= 1 && pagerState.currentPage != 2) {
         coroutineScope.launch {
             viewModel.navScreen(pagerState.currentPage - 1)
             pagerState.animateScrollToPage(
@@ -97,16 +84,9 @@ fun SignUpRoute(
                 ),
             ),
     ) {
-        Text(
-            text = uiState.title,
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            style = RecordyTheme.typography.title3,
-            color = RecordyTheme.colors.white,
+        TopNavigationBar(
+            title = uiState.title,
         )
-        // todo 추후 앱바 구현에 따른 변경
         Spacer(modifier = Modifier.height(12.dp))
         RecordyProgressBar(
             completionRatioNumerator = pagerState.currentPage + 1,
@@ -135,6 +115,7 @@ fun SignUpRoute(
                     onTextChangeEvent = viewModel::updateNickName,
                     onInputComplete = viewModel::checkValidateNickName,
                 )
+
                 SignUpScreen.Success -> SignUpSuccessScreen()
             }
         }
@@ -144,6 +125,7 @@ fun SignUpRoute(
             RecordyButton(
                 text = "다음",
                 enabled = uiState.btnEnable,
+                clickable = uiState.btnEnable,
                 onClick = {
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(
@@ -154,6 +136,7 @@ fun SignUpRoute(
                             ),
                         )
                     }
+                    if (pagerState.currentPage == 2) navigateToHome()
                     focusManager.clearFocus()
                     viewModel.navScreen(pagerState.currentPage + 1)
                 },

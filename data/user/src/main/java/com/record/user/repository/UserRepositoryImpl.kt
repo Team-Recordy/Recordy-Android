@@ -1,5 +1,6 @@
 package com.record.user.repository
 
+import com.record.datastore.user.UserData
 import com.record.model.Cursor
 import com.record.model.exception.ApiError
 import com.record.user.model.Preference
@@ -7,11 +8,14 @@ import com.record.user.model.Profile
 import com.record.user.model.User
 import com.record.user.model.remote.response.toCore
 import com.record.user.model.remote.response.toDomain
+import com.record.user.source.local.UserLocalDataSource
 import com.record.user.source.remote.RemoteUserDataSource
+import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
+    private val userLocalDataSource: UserLocalDataSource,
     private val remoteUserDataSource: RemoteUserDataSource,
 ) : UserRepository {
     override suspend fun getFollowingList(cursorId: Long, size: Int): Result<Cursor<User>> = runCatching {
@@ -86,6 +90,34 @@ class UserRepositoryImpl @Inject constructor(
             Preference(it[1][0], it[1][1].toInt()),
             Preference(it[2][0], it[2][1].toInt()),
         )
+    }.recoverCatching { exception ->
+        when (exception) {
+            is HttpException -> {
+                throw ApiError(exception.message())
+            }
+
+            else -> {
+                throw exception
+            }
+        }
+    }
+
+    override suspend fun saveUserId(userId: Long): Result<Unit> = runCatching {
+        userLocalDataSource.setUserLocalData(UserData(userid = userId))
+    }.recoverCatching { exception ->
+        when (exception) {
+            is HttpException -> {
+                throw ApiError(exception.message())
+            }
+
+            else -> {
+                throw exception
+            }
+        }
+    }
+
+    override suspend fun getUserId(): Result<Long> = runCatching {
+        userLocalDataSource.userLocalData.first().userid
     }.recoverCatching { exception ->
         when (exception) {
             is HttpException -> {

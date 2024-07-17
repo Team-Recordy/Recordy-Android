@@ -4,7 +4,7 @@ import com.record.ui.base.SideEffect
 import com.record.ui.base.UiState
 
 data class LoginState(
-    var autoLogin: Boolean = false,
+    var splash: Boolean = true,
 ) : UiState
 
 sealed interface LoginSideEffect : SideEffect {

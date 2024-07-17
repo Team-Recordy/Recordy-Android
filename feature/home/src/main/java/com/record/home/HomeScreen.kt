@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,9 +47,10 @@ import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.component.button.RecordyChipButton
 import com.record.designsystem.theme.RecordyTheme
 import com.record.home.component.UploadFloatingButton
-import com.record.model.VideoData
+import com.record.model.VideoType
 import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.record.video.model.VideoData
 import kotlinx.coroutines.flow.collectLatest
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
@@ -61,6 +63,7 @@ fun HomeRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
+    navigateToVideoDetail: (VideoType, Int, String?, Long) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -69,7 +72,9 @@ fun HomeRoute(
             when (sideEffect) {
                 HomeSideEffect.navigateToUpload -> {
                 }
+
                 is HomeSideEffect.navigateToVideo -> {
+                    navigateToVideoDetail(sideEffect.type, sideEffect.index, sideEffect.keyword, 0)
                 }
             }
         }
@@ -89,9 +94,9 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     state: HomeState,
     onUploadButtonClick: () -> Unit,
-    onChipButtonClick: (String) -> Unit,
+    onChipButtonClick: (Int) -> Unit,
     onVideoClick: (Int, VideoType) -> Unit,
-    onBookmarkClick: (Int) -> Unit,
+    onBookmarkClick: (Long) -> Unit,
 ) {
     var boxSize by remember {
         mutableStateOf(IntSize.Zero)
@@ -171,9 +176,9 @@ fun LoadingLottie() {
 @Composable
 fun CollapsingToolbar(
     state: HomeState,
-    onChipButtonClick: (String) -> Unit,
+    onChipButtonClick: (Int) -> Unit,
     onVideoClick: (Int, VideoType) -> Unit,
-    onBookmarkClick: (Int) -> Unit,
+    onBookmarkClick: (Long) -> Unit,
 ) {
     val toolbarState = rememberCollapsingToolbarScaffoldState()
     CollapsingToolbarScaffold(
@@ -186,7 +191,7 @@ fun CollapsingToolbar(
             ToolbarContent(toolbarState)
         },
     ) {
-        ChipRow(state.chipList, state.selectedChip, onChipButtonClick)
+        ChipRow(state.chipList, state.selectedChipIndex, onChipButtonClick)
         Content(
             state = state,
             onVideoClick = onVideoClick,
@@ -203,44 +208,61 @@ fun CollapsingToolbarScope.ToolbarContent(toolbarState: CollapsingToolbarScaffol
         painter = painterResource(R.drawable.ic_recordy_logo),
         contentDescription = "logo",
         modifier = Modifier
-            .padding(start = 16.dp, top = topPadding)
+            .padding(start = 16.dp, top = topPadding, bottom = 12.dp)
             .pin(),
     )
     Box(
         modifier = Modifier
-            .height(216.dp)
+            .fillMaxWidth()
+            .height(246.dp)
             .road(Alignment.CenterEnd, Alignment.BottomStart)
             .alpha(alpha)
-            .padding(horizontal = 16.dp),
+            .padding(start = 16.dp),
     ) {
-        Text(
-            text = "오늘은 어떤 키워드로\n공간을 둘러볼까요?",
+        Row(
             modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(bottom = 28.dp),
-            style = RecordyTheme.typography.title1,
-            color = RecordyTheme.colors.white,
-        )
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom,
+        ) {
+            Text(
+                text = "오늘은 어떤 키워드로\n공간을 둘러볼까요?",
+                modifier = Modifier
+                    .weight(192f)
+                    .padding(bottom = 28.dp),
+                style = RecordyTheme.typography.title1,
+                color = RecordyTheme.colors.white,
+            )
+
+            Image(
+                modifier = Modifier
+                    .weight(140f)
+                    .padding(end = 12.dp),
+                painter = painterResource(R.drawable.img_home_graphic),
+                contentDescription = "home",
+            )
+        }
     }
 }
 
 @Composable
 fun ChipRow(
     chipList: List<String>,
-    selectedChip: String,
-    onChipButtonClick: (String) -> Unit,
+    selectedChip: Int?,
+    onChipButtonClick: (Int) -> Unit,
 ) {
     LazyRow(
         modifier = Modifier
-            .padding(top = 12.dp, bottom = 12.dp),
+            .padding(bottom = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item { Spacer(modifier = Modifier.width(8.dp)) }
-        items(chipList) { index ->
+        itemsIndexed(chipList) { i, item ->
             RecordyChipButton(
-                text = index,
-                isActive = selectedChip == index,
-                onClick = { onChipButtonClick(index) },
+                text = item,
+                isActive = selectedChip == i,
+                onClick = { onChipButtonClick(i) },
             )
         }
         item { Spacer(modifier = Modifier.width(8.dp)) }
@@ -251,14 +273,14 @@ fun ChipRow(
 fun Content(
     state: HomeState,
     onVideoClick: (Int, VideoType) -> Unit,
-    onBookmarkClick: (Int) -> Unit,
+    onBookmarkClick: (Long) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 56.dp),
+            .padding(top = 44.dp),
     ) {
         item {
             Section(
@@ -288,7 +310,7 @@ fun Section(
     videoList: List<VideoData>,
     screenWidth: Dp,
     onVideoClick: (Int, VideoType) -> Unit,
-    onBookmarkClick: (Int) -> Unit,
+    onBookmarkClick: (Long) -> Unit,
     videoType: VideoType,
 ) {
     Column(
@@ -307,15 +329,15 @@ fun Section(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item { Spacer(modifier = Modifier.width(4.dp)) }
-            items(videoList) { videoData ->
+            itemsIndexed(videoList) { index, videoData ->
                 RecordyVideoThumbnail(
                     modifier = Modifier.width(screenWidth / 8 * 3),
-                    imageUri = videoData.previewUri,
+                    imageUri = videoData.previewUrl,
                     location = videoData.location,
                     isBookmarkable = true,
                     isBookmark = videoData.isBookmark,
-                    onClick = { onVideoClick(videoData.id.toInt(), videoType) },
-                    onBookmarkClick = { onBookmarkClick(videoData.id.toInt()) },
+                    onClick = { onVideoClick(index, videoType) },
+                    onBookmarkClick = { onBookmarkClick(videoData.id) },
                 )
             }
             item { Spacer(modifier = Modifier.width(4.dp)) }

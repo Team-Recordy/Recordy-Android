@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.component.button.RecordyButton
-import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.component.progressbar.RecordyProgressBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.login.singup.screen.NamingScreen
@@ -84,9 +85,22 @@ fun SignUpRoute(
                 ),
             ),
     ) {
-        TopNavigationBar(
-            title = uiState.title,
-        )
+        Box(
+            modifier = Modifier
+                .background(color = Color.Transparent)
+                .fillMaxWidth()
+                .padding(
+                    top = 45.dp,
+                    bottom = 15.dp,
+                ),
+        ) {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = uiState.title,
+                color = Color.White,
+                style = RecordyTheme.typography.title3,
+            )
+        }
         Spacer(modifier = Modifier.height(12.dp))
         RecordyProgressBar(
             completionRatioNumerator = pagerState.currentPage + 1,

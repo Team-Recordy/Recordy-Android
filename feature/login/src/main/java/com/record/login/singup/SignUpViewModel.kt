@@ -130,7 +130,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     companion object {
-        val NICKNAME_PATTERN = Regex("^[가-힣ㄱ-ㅎㅏ-ㅣ0-9_]+$")
+        val NICKNAME_PATTERN = Regex("^[가-힣ㅏ-ㅣ0-9_]+$")
         const val TITLE_POLICY_NAME = "이용약관"
         const val TITLE_NAMING_NAME = "닉네임 설명"
         const val TITLE_SIGNUP_NAME = "회원가입 완료"

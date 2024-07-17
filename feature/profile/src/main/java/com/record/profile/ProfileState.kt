@@ -1,6 +1,7 @@
 package com.record.profile
 
 import com.record.model.UserData
+import com.record.ui.base.SideEffect
 import com.record.ui.base.UiState
 
 data class ProfileState(
@@ -13,3 +14,5 @@ data class ProfileState(
 
     val followerNum: Int = 0,
 ) : UiState
+
+sealed class ProfileSideEffect : SideEffect

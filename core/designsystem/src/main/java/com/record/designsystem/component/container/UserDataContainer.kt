@@ -26,7 +26,7 @@ import com.record.ui.extension.customClickable
 fun UserDataContainer(
     user: UserData,
     onClick: (UserData) -> Unit,
-    navigateToProfile: (Int) -> Unit = navigateToProfile@{},
+    navigateToProfile: (Int) -> Unit,
 ) {
     val profileImage = user.profileImage
     val profileImageResId = user.profileImageResId

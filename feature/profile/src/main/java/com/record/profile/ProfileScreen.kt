@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -30,6 +31,7 @@ import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.component.button.FollowButton
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.SampleData
+import com.record.model.UserData
 
 @Composable
 fun ProfileRoute(
@@ -46,7 +48,6 @@ fun ProfileRoute(
 fun ProfileScreen(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -54,19 +55,20 @@ fun ProfileScreen(
     Column(modifier = modifier.fillMaxSize()) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(start = 16.dp)
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .padding(vertical = 10.dp)
         ) {
             AsyncImage(
                 model = uiState.user.profileImage,
                 contentDescription = "profile",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .padding(vertical = 10.dp)
                     .size(54.dp)
                     .clip(CircleShape),
             )
 
-            Spacer(modifier = Modifier.padding(end = 12.dp))
+            Spacer(modifier = Modifier.width(12.dp))
 
             Column {
                 Text(
@@ -84,7 +86,7 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.weight(1f))
             FollowButton(
                 isFollowing = uiState.user.isFollowing,
-                onClick = { onClick() },
+                onClick = { viewModel.toggleFollow(user = uiState.user) },
             )
             Spacer(modifier = Modifier.size(16.dp))
         }
@@ -117,9 +119,7 @@ private fun BuildFollowerFollowingRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Row(
-            modifier = Modifier,
-        ) {
+        Row {
             Text(
                 text = formatNumber(followerNum),
                 style = RecordyTheme.typography.body2M,

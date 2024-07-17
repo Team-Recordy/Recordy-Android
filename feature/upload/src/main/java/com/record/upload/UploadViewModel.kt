@@ -1,9 +1,12 @@
 package com.record.upload
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.record.ui.base.BaseViewModel
 import com.record.upload.extension.GalleryVideo
+import com.record.upload.extension.reencodeVideo
+import com.record.upload.extension.uploadFileToS3PresignedUrl
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,30 +31,47 @@ class UploadViewModel @Inject constructor(
     suspend fun getPresignedUrl() = viewModelScope.launch {
         uploadRepository.getPresignedUrl().onSuccess {
             Log.d("success", "$it")
-            bucket(it.videoUrl)
+            bucket(it.videoUrl,it.imageUrl)
         }.onFailure {
             Log.d("failure", "${it.message}")
         }
     }
 
+    fun reencodevideo(context: Context,inputFile:File) = viewModelScope.launch {
+        val outputFile = File(context.cacheDir, "${inputFile.name}")
+        Log.d("outputFile","$inputFile $outputFile")
+        uploadVideoToS3Bucket(inputFile)
+        reencodeVideo(inputFile, outputFile) { success, message ->
+            if (success) {
+                Log.d("outputFile","$inputFile $outputFile")
+                Log.d("outputFileSuccess","$outputFile")
+                uploadVideoToS3Bucket(outputFile)
+            } else {
+                Log.d("outputFileFail","$message")
+            }
+        }
+    }
     fun uploadVideoToS3Bucket(file: File) =
         viewModelScope.launch {
-            Log.d("file", "$file ")
-            Log.d("file", "${uiState.value.bucketUrl} ")
-            uploadRepository.uploadVideoToS3Bucket(
-                uiState.value.bucketUrl,
-                file,
-            ).onSuccess { Log.d("success", "$it") }.onFailure {
-                Log.d("failure", "${it.message}")
+            Log.d("outputfile", "$file ")
+            Log.d("outputfile", "${uiState.value.bucketUrl} ")
+            uploadFileToS3PresignedUrl(uiState.value.bucketUrl, file) { success, message ->
+                println(message)
             }
+//            uploadRepository.uploadVideoToS3Bucket(
+//                uiState.value.bucketUrl,
+//                file,
+//            ).onSuccess { Log.d("outputsuccess", "$it") }.onFailure {
+//                Log.d("outputfailure", "${it.message}")
+//            }
         }
 
     fun setVideo(video: GalleryVideo) = intent {
         copy(video = video)
     }
 
-    fun bucket(video: String) = intent {
-        copy(bucketUrl = video)
+    fun bucket(video: String,thumbnail:String) = intent {
+        copy(bucketUrl = video, thumbnailUrl = thumbnail)
     }
 
     fun showShouldShowRationaleDialog() = intent {

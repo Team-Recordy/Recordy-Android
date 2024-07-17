@@ -67,6 +67,7 @@ import com.record.upload.component.bottomsheet.DefinedContentBottomSheet
 import com.record.upload.component.bottomsheet.SelectedVideoBottomSheet
 import com.record.upload.extension.GalleryVideo
 import com.record.upload.extension.getAllVideos
+import com.record.upload.extension.getVideoEncodingInfo
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -78,13 +79,12 @@ fun VideoPickerRoute(
     viewModel: UploadViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-
+    val context = LocalContext.current
     LaunchedEffectWithLifecycle {
         viewModel.getPresignedUrl()
         viewModel.sideEffect.collectLatest { }
     }
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         VideoPickerScreen(
             state = state,
             showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
@@ -96,13 +96,13 @@ fun VideoPickerRoute(
             onClickContentChip = viewModel::setSelectedList,
             setVideo = viewModel::setVideo,
             uploadVideoS3Bucket = {
-                viewModel.uploadVideoToS3Bucket(it)
+                viewModel.reencodevideo(context,it)
+                getVideoEncodingInfo(context, it)
             },
         )
-    }
+
 }
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(
     ExperimentalPermissionsApi::class,
     ExperimentalMaterial3Api::class,
@@ -123,7 +123,7 @@ fun VideoPickerScreen(
     uploadVideoS3Bucket: (File) -> Unit,
 ) {
     val context = LocalContext.current
-    val cameraPermissionState = rememberPermissionState(Manifest.permission.READ_MEDIA_VIDEO)
+    val cameraPermissionState = rememberPermissionState(if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU)Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE)
     val exampleVideoList = getAllVideos(10, null, context)
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -184,6 +184,7 @@ fun VideoPickerScreen(
                     .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(16.dp))
                     .customClickable(
                         onClick = {
+//                            showIsSelectedVideoSheetOpen()
                             if (cameraPermissionState.status.isGranted) {
                                 showIsSelectedVideoSheetOpen()
                                 return@customClickable

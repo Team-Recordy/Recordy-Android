@@ -12,11 +12,13 @@ class RemoteUploadDataSourceImpl @Inject constructor(
     private val uploadApi: UploadApi,
     private val bucketApi: BucketApi,
 ) : RemoteUploadDataSource {
-    override suspend fun getUploadUrl(): ResponseGetPresignedUrlDto = uploadApi.getPresignedUploadUrl()
+    override suspend fun getUploadUrl(): ResponseGetPresignedUrlDto =
+        uploadApi.getPresignedUploadUrl()
 
     override suspend fun uploadRecord(
         requestPostVideoDto: RequestPostVideoDto,
     ) = uploadApi.postRecord(requestPostVideoDto)
 
-    override suspend fun uploadVideoToS3Bucket(url: String, multipart: MultipartBody.Part) = bucketApi.uploadVideoWithS3Bucket(url = url, multipart)
+    override suspend fun uploadVideoToS3Bucket(url: String, multipart: MultipartBody.Part) =
+        bucketApi.uploadVideoWithS3Bucket(url = url, multipart, "video/mp4")
 }

@@ -71,9 +71,7 @@ class SignUpViewModel @Inject constructor(
                 signUp()
             }
 
-            3 -> {
-                signUp()
-            }
+            3 -> {}
         }
     }
 

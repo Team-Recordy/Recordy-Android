@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -101,6 +102,7 @@ fun SettingScreen(
         SettingButtonWithIcon(text = "서비스 이용약관")
         SettingButtonWithIcon(text = "개인정보 취급취침")
         SettingButtonWithIcon(text = "문의")
+        Spacer(modifier = Modifier.height(12.dp))
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
@@ -136,7 +138,7 @@ fun SettingButtonWithIcon(
     text: String = "커뮤니티 가이드라인",
     onClickEvent: () -> Unit = {},
 ) {
-    Row(modifier = modifier.customClickable(rippleEnabled = false, onClick = onClickEvent)) {
+    Row(modifier = modifier.customClickable(rippleEnabled = false, onClick = onClickEvent), verticalAlignment = Alignment.CenterVertically) {
         Text(
             text = text,
             modifier = modifier
@@ -171,6 +173,7 @@ fun SettingButton(
         modifier = Modifier
             .fillMaxWidth()
             .customClickable(rippleEnabled = false, onClick = onClickEvent),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = text,

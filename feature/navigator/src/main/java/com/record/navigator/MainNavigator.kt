@@ -7,7 +7,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.home.navigation.HomeRoute
 import com.record.home.navigation.navigateHome
 import com.record.login.navigation.LoginRoute

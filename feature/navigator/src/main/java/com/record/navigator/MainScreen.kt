@@ -98,6 +98,9 @@ internal fun MainScreen(
                 mypageNavGraph(
                     padding = innerPadding,
                     navigateToSetting = { navigator.navigateSetting() },
+                    navigateToFollowing = { navigator.navigateToFollowing() },
+                    navigateToFollower = { navigator.navigateToFollower() },
+                    navigateToVideo = navigator::navigateVideoDetail,
                 )
 
                 settingNavGraph(

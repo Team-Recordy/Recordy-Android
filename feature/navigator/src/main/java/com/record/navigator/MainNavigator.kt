@@ -13,6 +13,8 @@ import com.record.login.navigation.LoginRoute
 import com.record.login.navigation.SignupRoute
 import com.record.model.VideoType
 import com.record.mypage.navigation.navigateMypage
+import com.record.mypage.navigation.navigateToFollower
+import com.record.mypage.navigation.navigateToFollowing
 import com.record.profile.navigation.navigateProfile
 import com.record.setting.navigate.navigateSetting
 import com.record.video.navigation.navigateVideo
@@ -75,13 +77,21 @@ internal class MainNavigator(
         navController.navigateMypage(navOptions { })
     }
 
-    fun navigateVideoDetail(videoType: VideoType, index: Int, keyword: String? = "", userId: Long = 0) {
+    fun navigateVideoDetail(videoType: VideoType, index: Int, keyword: String? = "all", userId: Long = 0) {
         navController.navigateVideoDetail(
             videoType = videoType,
             index = index,
             keyword = keyword,
             userId = userId,
         )
+    }
+
+    fun navigateToFollowing() {
+        navController.navigateToFollowing()
+    }
+
+    fun navigateToFollower() {
+        navController.navigateToFollower()
     }
 
     fun navigateProfile(id: Int) {

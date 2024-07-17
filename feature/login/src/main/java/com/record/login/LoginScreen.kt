@@ -1,6 +1,5 @@
 package com.record.login
 
-import android.window.SplashScreen
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -43,6 +42,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.R
 import com.record.designsystem.theme.Kakao
 import com.record.designsystem.theme.RecordyTheme
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -90,20 +90,21 @@ fun LoginRoute(
         var startAnimation by remember { mutableStateOf(false) }
         val offsetY by animateFloatAsState(
             targetValue = if (startAnimation) 0f else 200f,
-            animationSpec = tween(durationMillis = 2000),
+            animationSpec = tween(durationMillis = 1500),
         )
         val alpha by animateFloatAsState(
             targetValue = if (startAnimation) 1f else 0f,
-            animationSpec = tween(durationMillis = 2000),
+            animationSpec = tween(durationMillis = 1500),
         )
         SplashScreen(padding, offsetY, alpha)
-        LaunchedEffect(Unit) {
+        LaunchedEffectWithLifecycle {
             startAnimation = true
-            delay(2500)
+            delay(1000)
+            viewModel.autoLoginCheck()
+            delay(1000)
             viewModel.splashScreen()
         }
     } else {
-        viewModel.autoLoginCheck()
         LoginScreen(
             padding = padding,
             modifier = modifier,

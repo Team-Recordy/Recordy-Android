@@ -12,9 +12,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
-import com.record.model.UserData
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
-import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -25,13 +24,6 @@ fun FollowingRoute(
     navigateToProfile: (Int) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val defaultUser = UserData(
-        id = 0,
-        profileImageResId = com.record.designsystem.R.drawable.img_profile,
-        name = "유영",
-        isFollowing = false,
-    )
-    val updatedFollowingList = listOf(defaultUser) + (uiState.followingList)
 
     LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -42,6 +34,8 @@ fun FollowingRoute(
             }
         }
     }
+
+    val sortedFollowingList = uiState.followingList.sortedByDescending { it.nickname == "유영" }
 
     Column(
         modifier = Modifier
@@ -56,7 +50,7 @@ fun FollowingRoute(
         FollowScreen(
             modifier = Modifier
                 .fillMaxSize(),
-            followingList = updatedFollowingList.toPersistentList(),
+            followList = sortedFollowingList.toImmutableList(),
             onClick = { user ->
                 viewModel.toggleFollow(true, user)
             },
@@ -65,3 +59,4 @@ fun FollowingRoute(
         )
     }
 }
+

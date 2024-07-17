@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
@@ -21,9 +22,11 @@ import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.videoplayer.RecordyVideoText
 import com.record.designsystem.component.videoplayer.VideoPlayer
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.record.ui.scroll.onBottomReached
 import com.record.video.component.VideoTypeToggle
 import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoRoute(
     padding: PaddingValues,
@@ -34,7 +37,10 @@ fun VideoRoute(
     navigateToProfile: (Int) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = { state.videos.size },
+    )
     LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
@@ -45,10 +51,15 @@ fun VideoRoute(
                     navigateToMypage()
                 }
                 is VideoSideEffect.ShowNetworkErrorSnackbar -> { onShowSnackbar(sideEffect.msg, SnackBarType.WARNING) }
+
+                is VideoSideEffect.MovePage -> {
+                    pagerState.scrollToPage(pagerState.currentPage - sideEffect.index)
+                }
             }
         }
     }
     VideoScreen(
+        pagerState = pagerState,
         modifier = modifier
             .padding(bottom = padding.calculateBottomPadding())
             .fillMaxSize(),
@@ -60,12 +71,14 @@ fun VideoRoute(
         onError = viewModel::showNetworkErrorSnackbar,
         onPlayVideo = viewModel::watchVideo,
         onNicknameClick = viewModel::navigateToProfile,
+        loadMoreVideos = viewModel::loadMoreVideos,
     )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoScreen(
+    pagerState: PagerState,
     modifier: Modifier = Modifier,
     state: VideoState,
     onToggleClick: () -> Unit,
@@ -74,11 +87,12 @@ fun VideoScreen(
     onNicknameClick: (Int) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
     onError: (String) -> Unit,
-    onPlayVideo: (Int) -> Unit,
+    onPlayVideo: (Long) -> Unit,
+    loadMoreVideos: () -> Unit,
 ) {
-    val pagerState = rememberPagerState(
-        initialPage = 0,
-        pageCount = { state.videos.size },
+    pagerState.onBottomReached(
+        buffer = 3,
+        onLoadMore = { loadMoreVideos() },
     )
     Box(
         modifier = modifier,
@@ -91,7 +105,7 @@ fun VideoScreen(
             Box {
                 if (page in state.videos.indices) {
                     state.videos[page].run {
-                        VideoPlayer(id.toInt(), videoUri, pagerState, page, onError = onError, onPlayVideo = onPlayVideo)
+                        VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo)
                         RecordyLocationBadge(
                             modifier = Modifier
                                 .align(Alignment.TopStart)
@@ -102,11 +116,11 @@ fun VideoScreen(
                             location = location,
                         )
                         RecordyVideoText(
-                            nickname = userName,
+                            nickname = nickname,
                             content = content,
                             isBookmark = isBookmark,
                             bookmarkCount = 123,
-                            isMyVideo = true,
+                            isMyVideo = isMine,
                             onBookmarkClick = { onBookmarkClick(id.toInt()) },
                             onDeleteClick = { onDeleteClick(id.toInt()) },
                             onNicknameClick = { onNicknameClick(id.toInt()) },

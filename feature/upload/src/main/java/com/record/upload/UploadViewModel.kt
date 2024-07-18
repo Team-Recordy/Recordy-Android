@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.record.keyword.repository.KeywordRepository
 import com.record.ui.base.BaseViewModel
 import com.record.upload.extension.GalleryVideo
 import com.record.upload.extension.uploadFileToS3PresignedUrl
@@ -19,8 +20,14 @@ import javax.inject.Inject
 @HiltViewModel
 class UploadViewModel @Inject constructor(
     private val uploadRepository: UploadRepository,
-) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+    private val keywordRepository: KeywordRepository,
 
+) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+    fun getKeyWordList() = viewModelScope.launch {
+        keywordRepository.getKeywords().onSuccess {
+            intent { copy(contentList = it.keywords) }
+        }
+    }
     fun setSelectedList(selectedContent: String) = intent {
         val newSelectedList = selectedList.toMutableList()
         if (newSelectedList.contains(selectedContent)) {
@@ -66,12 +73,11 @@ class UploadViewModel @Inject constructor(
 
     fun uploadRecord(a: String, b: String) =
         viewModelScope.launch {
-            Log.d("test", "${uiState.value.selectedList}")
             uploadRepository.uploadRecord(
                 videoInfo = VideoInfo(
                     location = uiState.value.locationTextValue,
                     content = uiState.value.contentTextValue,
-                    keywords = encodingString("감각적인,강렬한,귀여운").trim(),
+                    keywords = encodingString(uiState.value.selectedList.joinToString(separator = ",")).trim(),
                     videoUrl = a,
                     previewUrl = b,
                 ),

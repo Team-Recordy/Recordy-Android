@@ -69,17 +69,19 @@ fun getAllVideos(
                 val date = cursor.getString(dateColumn)
                 val contentUri = ContentUris.withAppendedId(uriExternal, id)
                 val duration = getVideoDuration(context, contentUri)
-                galleryVideoList.add(
-                    GalleryVideo(
-                        id,
-                        filepath = filepath,
-                        uri = contentUri,
-                        name = name,
-                        date = date ?: "",
-                        size = size,
-                        duration = duration,
-                    ),
-                )
+                if (duration <= 15000) {
+                    galleryVideoList.add(
+                        GalleryVideo(
+                            id,
+                            filepath = filepath,
+                            uri = contentUri,
+                            name = name,
+                            date = date ?: "",
+                            size = size,
+                            duration = duration,
+                        ),
+                    )
+                }
             } while (cursor.moveToNext())
         }
     }

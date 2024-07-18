@@ -34,7 +34,7 @@ fun BookmarkScreen(
 ) {
     val videos = remember { mutableStateOf(videoItems) }
     val lazyGridState = rememberLazyGridState()
-    lazyGridState.OnBottomReached {
+    lazyGridState.OnBottomReached(2) {
         onLoadMore()
     }
     if (videos.value.isEmpty()) {
@@ -77,7 +77,7 @@ fun BookmarkScreen(
                     },
                     location = item.location,
                     onClick = {
-                        onItemClick(VideoType.BOOKMARK, item.id)
+                        onItemClick(VideoType.BOOKMARK, item.bookmarkId)
                     },
                 )
             }

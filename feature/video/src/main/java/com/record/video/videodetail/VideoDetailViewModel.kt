@@ -38,7 +38,7 @@ class VideoDetailViewModel @Inject constructor(
                 videoType = videoTypeEnum ?: VideoType.MY,
                 observingId = videoId ?: 0,
                 page = 0,
-                cursor = videoId ?: 0,
+                cursor = videoId?.plus(1) ?: 0,
                 keyword = realKeyword,
                 userId = otherUserId ?: 0,
             )
@@ -70,22 +70,22 @@ class VideoDetailViewModel @Inject constructor(
     private suspend fun getRecentVideos() {
         val videos = uiState.value.videos.toList()
         val keyword = uiState.value.keyword.takeIf { it.isNotBlank() }?.let { listOf(it) }
-        videoRepository.getRecentVideos(keyword, uiState.value.cursor + 1, 10).handleCursorResponse(videos)
+        videoRepository.getRecentVideos(keyword, uiState.value.cursor, 10).handleCursorResponse(videos)
     }
 
     private suspend fun getMyVideos() {
         val videos = uiState.value.videos.toList()
-        videoRepository.getMyVideos(uiState.value.cursor + 1, 10).handleCursorResponse(videos)
+        videoRepository.getMyVideos(uiState.value.cursor, 10).handleCursorResponse(videos)
     }
 
     private suspend fun getUserVideos() {
         val videos = uiState.value.videos.toList()
-        videoRepository.getUserVideos(uiState.value.userId, uiState.value.cursor + 1, 10).handleCursorResponse(videos)
+        videoRepository.getUserVideos(uiState.value.userId, uiState.value.cursor, 10).handleCursorResponse(videos)
     }
 
     private suspend fun getBookmarkVideos() {
         val videos = uiState.value.videos.toList()
-        videoRepository.getBookmarkVideos(uiState.value.cursor + 1, 10).handleCursorResponse(videos)
+        videoRepository.getBookmarkVideos(uiState.value.cursor, 10).handleCursorResponse(videos)
     }
 
     private fun Result<Cursor<VideoData>>.handleCursorResponse(existingVideos: List<VideoData>) {

@@ -38,7 +38,7 @@ fun RecordScreen(
 ) {
     val videos = remember { mutableStateOf(videoItems) }
     val lazyGridState = rememberLazyGridState()
-    lazyGridState.OnBottomReached {
+    lazyGridState.OnBottomReached(2) {
         onLoadMore()
     }
     if (videos.value.isEmpty()) {

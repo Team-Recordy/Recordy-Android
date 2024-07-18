@@ -28,10 +28,17 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
+    private var _currentTab: MainNavTab? = null
+
     val currentTab: MainNavTab?
-        @Composable get() = currentDestination
-            ?.route
-            ?.let(MainNavTab::find)
+        @Composable get() {
+            val currentRoute = currentDestination?.route
+            val mainTab = currentRoute?.let(MainNavTab::find)
+            if (mainTab != null) {
+                _currentTab = mainTab
+            }
+            return _currentTab
+        }
 
     fun navigate(tab: MainNavTab) {
         val navOptions = navOptions {
@@ -39,8 +46,14 @@ internal class MainNavigator(
                 saveState = true
             }
             launchSingleTop = true
-            restoreState = true
+            restoreState = when (tab) {
+                MainNavTab.HOME -> false
+                MainNavTab.VIDEO -> true
+                MainNavTab.MYPAGE -> true
+            }
         }
+
+        _currentTab = tab
 
         when (tab) {
             MainNavTab.HOME -> navController.navigateHome(navOptions)
@@ -59,7 +72,7 @@ internal class MainNavigator(
 
     fun navigateLogin() {
         navController.navigate(LoginRoute.route) {
-            popUpTo(navController.graph.id) {
+            popUpTo(navController.graph.startDestinationId) {
                 inclusive = true
             }
         }
@@ -67,7 +80,7 @@ internal class MainNavigator(
 
     fun navigateSignUp() {
         navController.navigate(SignupRoute.route) {
-            popUpTo(navController.graph.id) {
+            popUpTo(navController.graph.startDestinationId) {
                 inclusive = true
             }
         }
@@ -103,8 +116,11 @@ internal class MainNavigator(
     }
 
     fun popBackStackIfNotHome() {
-        if (!isSameCurrentDestination(HomeRoute.route)) {
+        val homeRoute = HomeRoute.route
+        if (navController.currentDestination?.route == homeRoute) {
             navController.popBackStack()
+        } else {
+            navController.popBackStack(homeRoute, inclusive = false)
         }
     }
 
@@ -114,7 +130,7 @@ internal class MainNavigator(
     @Composable
     fun shouldShowBottomBar(): Boolean {
         val currentRoute = currentDestination?.route ?: return false
-        return currentRoute in MainNavTab
+        return currentRoute in MainNavTab || currentRoute in InMainNavTab || currentRoute.contains("detail")
     }
 }
 

@@ -25,6 +25,7 @@ fun NavGraphBuilder.videoNavGraph(
     onShowSnackBar: (String, SnackBarType) -> Unit,
     navigateToMypage: () -> Unit,
     navigateToProfile: (Int) -> Unit,
+    popBackStack: () -> Unit,
 ) {
     composable(route = VideoRoute.route) {
         VideoRoute(
@@ -49,6 +50,7 @@ fun NavGraphBuilder.videoNavGraph(
             onShowSnackbar = onShowSnackBar,
             navigateToMypage = navigateToMypage,
             navigateToUserProfile = navigateToProfile,
+            popBackStack = popBackStack,
         )
     }
 }
@@ -59,5 +61,6 @@ object VideoRoute {
     const val VIDEO_INDEX = "video-index"
     const val VIDEO_KEYWORD = "video-keyword"
     const val VIDEO_USER_ID = "video-user-id"
-    fun detailRoute(type: String, id: String, keyword: String?, userId: String) = "detail/$type/$id/${keyword ?: "all"}/$userId"
+    const val detailRoute = "detail"
+    fun detailRoute(type: String, id: String, keyword: String?, userId: String) = "$detailRoute/$type/$id/${keyword ?: "all"}/$userId"
 }

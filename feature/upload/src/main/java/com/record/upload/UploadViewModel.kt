@@ -23,10 +23,11 @@ class UploadViewModel @Inject constructor(
 
     fun setSelectedList(selectedContent: String) = intent {
         val newSelectedList = selectedList.toMutableList()
-        if (newSelectedList.contains(selectedContent))
+        if (newSelectedList.contains(selectedContent)) {
             newSelectedList.remove(selectedContent)
-        else
+        } else {
             if (newSelectedList.size < 3) newSelectedList.add(selectedContent)
+        }
         copy(selectedList = newSelectedList)
     }
 
@@ -45,7 +46,7 @@ class UploadViewModel @Inject constructor(
             uploadFileToS3PresignedUrl(
                 uiState.value.bucketUrl,
                 uiState.value.thumbnailUrl,
-                file
+                file,
             ) { success, message ->
                 println(message)
                 a = removeQueryParameters(message)
@@ -65,10 +66,11 @@ class UploadViewModel @Inject constructor(
 
     fun uploadRecord(a: String, b: String) =
         viewModelScope.launch {
+            Log.d("test", "${uiState.value.selectedList}")
             uploadRepository.uploadRecord(
                 videoInfo = VideoInfo(
-                    location = "test",
-                    content = "test",
+                    location = uiState.value.locationTextValue,
+                    content = uiState.value.contentTextValue,
                     keywords = encodingString("감각적인,강렬한,귀여운").trim(),
                     videoUrl = a,
                     previewUrl = b,

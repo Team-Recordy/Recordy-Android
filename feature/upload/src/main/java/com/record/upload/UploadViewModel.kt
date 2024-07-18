@@ -21,7 +21,7 @@ class UploadViewModel @Inject constructor(
     private val uploadRepository: UploadRepository,
     private val keywordRepository: KeywordRepository,
 
-) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+    ) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
     fun getKeyWordList() = viewModelScope.launch {
         keywordRepository.getKeywords().onSuccess {
             intent { copy(contentList = it.keywords) }
@@ -44,7 +44,7 @@ class UploadViewModel @Inject constructor(
         return cleanUrl.toString()
     }
 
-//    fun uploadVideoToS3Bucket(context: Context, file: File) =
+    //    fun uploadVideoToS3Bucket(context: Context, file: File) =
 //        viewModelScope.launch {
 //            var a = ""
 //            var b = ""

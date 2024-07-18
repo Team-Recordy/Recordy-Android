@@ -207,7 +207,7 @@ class VideoDetailViewModel @Inject constructor(
         postSideEffect(VideoDetailSideEffect.ShowNetworkErrorSnackbar(msg))
     }
 
-    fun navigateToProfile(id: Int) {
+    fun navigateToProfile(id: Long) {
         postSideEffect(VideoDetailSideEffect.NavigateToUserProfile(id))
     }
 

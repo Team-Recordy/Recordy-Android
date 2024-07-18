@@ -34,7 +34,7 @@ fun VideoRoute(
     viewModel: VideoViewModel = hiltViewModel(),
     onShowSnackbar: (String, SnackBarType) -> Unit,
     navigateToMypage: () -> Unit,
-    navigateToProfile: (Int) -> Unit,
+    navigateToProfile: (Long) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(
@@ -47,10 +47,14 @@ fun VideoRoute(
                 is VideoSideEffect.NavigateToUserProfile -> {
                     navigateToProfile(sideEffect.id)
                 }
+
                 VideoSideEffect.NavigateToMypage -> {
                     navigateToMypage()
                 }
-                is VideoSideEffect.ShowNetworkErrorSnackbar -> { onShowSnackbar(sideEffect.msg, SnackBarType.WARNING) }
+
+                is VideoSideEffect.ShowNetworkErrorSnackbar -> {
+                    onShowSnackbar(sideEffect.msg, SnackBarType.WARNING)
+                }
 
                 is VideoSideEffect.MovePage -> {
                     pagerState.scrollToPage(pagerState.currentPage - sideEffect.index)
@@ -85,7 +89,7 @@ fun VideoScreen(
     onToggleClick: () -> Unit,
     onDeleteClick: (Long) -> Unit,
     onBookmarkClick: (Long) -> Unit,
-    onNicknameClick: (Int) -> Unit,
+    onNicknameClick: (Long) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
     onError: (String) -> Unit,
     onPlayVideo: (Long) -> Unit,
@@ -125,7 +129,7 @@ fun VideoScreen(
                             isMyVideo = isMine,
                             onBookmarkClick = { onBookmarkClick(id) },
                             onDeleteClick = { onDeleteClick(id) },
-                            onNicknameClick = { onNicknameClick(id.toInt()) },
+                            onNicknameClick = { onNicknameClick(uploaderId) },
                         )
                     }
                 }

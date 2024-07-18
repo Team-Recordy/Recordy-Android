@@ -36,7 +36,7 @@ fun VideoDetailRoute(
     modifier: Modifier,
     viewModel: VideoDetailViewModel = hiltViewModel(),
     onShowSnackbar: (String, SnackBarType) -> Unit,
-    navigateToUserProfile: (Int) -> Unit,
+    navigateToUserProfile: (Long) -> Unit,
     navigateToMypage: () -> Unit,
     popBackStack: () -> Unit,
 ) {
@@ -101,7 +101,7 @@ fun VideoDetailScreen(
     onDeleteClick: (Long) -> Unit,
     onBookmarkClick: (Long) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
-    onNickNameClick: (Int) -> Unit,
+    onNickNameClick: (Long) -> Unit,
     onError: (String) -> Unit,
     onPlayVideo: (Long) -> Unit,
     loadMoreVideos: () -> Unit,
@@ -141,7 +141,7 @@ fun VideoDetailScreen(
                             isMyVideo = isMine,
                             onBookmarkClick = { onBookmarkClick(id) },
                             onDeleteClick = { onDeleteClick(id) },
-                            onNicknameClick = { onNickNameClick(id.toInt()) },
+                            onNicknameClick = { onNickNameClick(uploaderId) },
                         )
                     }
                 }

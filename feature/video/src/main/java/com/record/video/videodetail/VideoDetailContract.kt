@@ -26,7 +26,7 @@ data class VideoDetailState(
 sealed interface VideoDetailSideEffect : SideEffect {
     data class ShowNetworkErrorSnackbar(val msg: String) : VideoDetailSideEffect
     data object NavigateToMypage : VideoDetailSideEffect
-    data class NavigateToUserProfile(val id: Int) : VideoDetailSideEffect
+    data class NavigateToUserProfile(val id: Long) : VideoDetailSideEffect
     data class InitialPagerState(val index: Int) : VideoDetailSideEffect
     data class MovePage(val index: Int) : VideoDetailSideEffect
     data object NavigateToBack : VideoDetailSideEffect

@@ -141,7 +141,7 @@ class VideoViewModel @Inject constructor(
         videoCoreRepository.watchVideo(id)
     }
 
-    fun navigateToProfile(id: Int) {
+    fun navigateToProfile(id: Long) {
         postSideEffect(VideoSideEffect.NavigateToUserProfile(id))
     }
 }

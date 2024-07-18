@@ -24,7 +24,7 @@ fun NavGraphBuilder.videoNavGraph(
     modifier: Modifier = Modifier,
     onShowSnackBar: (String, SnackBarType) -> Unit,
     navigateToMypage: () -> Unit,
-    navigateToProfile: (Int) -> Unit,
+    navigateToProfile: (Long) -> Unit,
     popBackStack: () -> Unit,
 ) {
     composable(route = VideoRoute.route) {

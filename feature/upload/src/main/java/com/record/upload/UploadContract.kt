@@ -10,10 +10,13 @@ data class UploadState(
     val selectedList: List<String> = persistentListOf(),
     val video: GalleryVideo? = null,
     val showShouldShowRationaleDialog: Boolean = false,
+    val showExitUploadDialog: Boolean = false,
     val isSelectedVideoSheetOpen: Boolean = false,
     val isSelectedDefinedContentSheetOpen: Boolean = false,
     val bucketUrl: String = "",
     val thumbnailUrl: String = "",
 ) : UiState
 
-sealed interface UploadSideEffect : SideEffect
+sealed interface UploadSideEffect : SideEffect{
+    data object PopBackStack : UploadSideEffect
+}

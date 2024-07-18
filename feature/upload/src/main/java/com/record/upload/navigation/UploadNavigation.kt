@@ -17,11 +17,13 @@ fun NavController.navigateToUpload() {
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.uploadNavGraph(
     padding: PaddingValues,
+    popBackStack: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     composable(route = UploadRoute.ROUTE) {
         VideoPickerRoute(
             paddingValues = padding,
+            popBackStack = popBackStack,
         )
     }
     composable(route = UploadRoute.SELECTED_VIDEO) {

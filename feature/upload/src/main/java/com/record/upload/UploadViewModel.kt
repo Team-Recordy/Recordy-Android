@@ -109,6 +109,14 @@ class UploadViewModel @Inject constructor(
         copy(showShouldShowRationaleDialog = false)
     }
 
+    fun showExitUploadDialog() = intent {
+        copy(showExitUploadDialog = true)
+    }
+
+    fun hideExitUploadDialog() = intent {
+        copy(showExitUploadDialog = false)
+    }
+
     fun showIsSelectedVideoSheetOpen() = intent {
         copy(isSelectedVideoSheetOpen = true)
     }
@@ -123,5 +131,9 @@ class UploadViewModel @Inject constructor(
 
     fun hideIsSelectedDefinedContentSheetOpen() = intent {
         copy(isSelectedDefinedContentSheetOpen = false)
+    }
+
+    fun popBackStack() {
+        postSideEffect(UploadSideEffect.PopBackStack)
     }
 }

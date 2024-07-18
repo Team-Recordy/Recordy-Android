@@ -100,6 +100,7 @@ internal fun MainScreen(
 
                 uploadNavGraph(
                     padding = innerPadding,
+                    popBackStack = navigator::popBackStackIfNotHome,
                 )
 
                 videoNavGraph(

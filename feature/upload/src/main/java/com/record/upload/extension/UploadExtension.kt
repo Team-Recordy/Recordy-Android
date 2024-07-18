@@ -166,7 +166,7 @@ fun formatDuration(durationMillis: Long): String {
     return String.format("%d:%02d", minutes, seconds)
 }
 
-fun uploadFileToS3PresignedUrl(presignedUrl: String, file: File, callback: (Boolean, String) -> Unit) {
+fun uploadFileToS3PresignedUrl(presignedUrl: String, thumbnailUrl: String, file: File, callback: (Boolean, String) -> Unit) {
     val client = OkHttpClient()
     val mediaType = "application/octet-stream".toMediaTypeOrNull()
     val requestBody = RequestBody.create(mediaType, file)
@@ -183,7 +183,7 @@ fun uploadFileToS3PresignedUrl(presignedUrl: String, file: File, callback: (Bool
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 if (response.isSuccessful) {
-                    callback(true, "Upload successful")
+                    callback(true, "${response.request.url}")
                 } else {
                     callback(false, "Upload failed: ${response.message}")
                 }
@@ -212,7 +212,7 @@ fun uploadFileToS3ThumbnailPresignedUrl(context: Context, presignedUrl: String, 
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 if (response.isSuccessful) {
-                    callback(true, "Upload successful")
+                    callback(true, "${response.request.url}")
                 } else {
                     callback(false, "Upload failed: ${response.message}")
                 }

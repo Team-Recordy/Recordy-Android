@@ -15,8 +15,12 @@ data class UploadState(
     val isSelectedDefinedContentSheetOpen: Boolean = false,
     val bucketUrl: String = "",
     val thumbnailUrl: String = "",
+    val locationTextValue: String ="",
+    val contentTextValue: String ="",
 ) : UiState
 
 sealed interface UploadSideEffect : SideEffect {
     data object PopBackStack : UploadSideEffect
+    data object FocusLocation : UploadSideEffect
+    data object FocusContent : UploadSideEffect
 }

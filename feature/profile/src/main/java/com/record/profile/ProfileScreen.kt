@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,27 +39,55 @@ import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.component.button.FollowButton
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
-import com.record.model.SampleData
+import com.record.model.VideoType
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.record.ui.scroll.OnBottomReached
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ProfileRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
+    viewModel: ProfileViewModel = hiltViewModel(),
+    navigateToVideoDetail: (VideoType, Long, Long) -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                is ProfileSideEffect.navigateToVideoDetail -> {
+                    navigateToVideoDetail(sideEffect.type, sideEffect.id, sideEffect.userId)
+                }
+            }
+        }
+    }
+
     ProfileScreen(
+        state = uiState,
         padding = padding,
         modifier = modifier,
+        onLoadMore = viewModel::getVideos,
+        onFollowClick = viewModel::toggleFollow,
+        onBookmarkClick = viewModel::bookmark,
+        onVideoClick = viewModel::navigateVideo,
     )
 }
 
 @Composable
 fun ProfileScreen(
+    state: ProfileState,
     padding: PaddingValues,
     modifier: Modifier = Modifier,
-    viewModel: ProfileViewModel = hiltViewModel(),
+    onLoadMore: () -> Unit,
+    onFollowClick: () -> Unit,
+    onBookmarkClick: (Long) -> Unit,
+    onVideoClick: (VideoType, Long) -> Unit,
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
+    val lazyGridState = rememberLazyGridState()
+    lazyGridState.OnBottomReached {
+        onLoadMore()
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,7 +106,7 @@ fun ProfileScreen(
                 .padding(bottom = 24.dp),
         ) {
             AsyncImage(
-                model = uiState.user.profileImageUrl,
+                model = state.profileImageUrl,
                 contentDescription = "profile",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -89,29 +118,30 @@ fun ProfileScreen(
 
             Column {
                 Text(
-                    text = uiState.user.nickname,
+                    text = state.nickname,
                     style = RecordyTheme.typography.subtitle,
                     color = RecordyTheme.colors.white,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
 
                 BuildFollowerFollowingRow(
-                    followerNum = uiState.user.followerCount,
+                    followerNum = state.followerCount,
                 )
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
-            if (uiState.user.nickname != "유영") {
+            if (state.nickname != "유영") {
                 FollowButton(
-                    isFollowing = uiState.user.isFollowing,
-                    onClick = { viewModel.toggleFollow(user = uiState.user) },
+                    isFollowing = state.isFollowing,
+                    onClick = { onFollowClick() },
                 )
                 Spacer(modifier = Modifier.width(16.dp))
             }
         }
 
         LazyVerticalGrid(
+            state = lazyGridState,
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(horizontal = 16.dp)
@@ -126,7 +156,7 @@ fun ProfileScreen(
                     contentAlignment = Alignment.CenterEnd,
                 ) {
                     Text(
-                        text = buildRecordCountText(uiState.user.recordCount),
+                        text = buildRecordCountText(state.recordCount),
                         style = RecordyTheme.typography.body2M,
                         color = RecordyTheme.colors.gray01,
                         modifier = Modifier
@@ -135,11 +165,18 @@ fun ProfileScreen(
                 }
             }
 
-            items(SampleData.sampleVideos) { item ->
+            items(state.userVideos) { item ->
                 RecordyVideoThumbnail(
-                    imageUri = item.previewUri,
+                    imageUri = item.previewUrl,
                     isBookmarkable = true,
-                    isBookmark = false,
+                    isBookmark = item.isBookmark,
+                    location = item.location,
+                    onClick = {
+                        onVideoClick(VideoType.PROFILE, item.id)
+                    },
+                    onBookmarkClick = {
+                        onBookmarkClick(item.id)
+                    },
                 )
             }
         }

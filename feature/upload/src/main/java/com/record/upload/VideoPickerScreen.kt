@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -58,6 +59,7 @@ import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.button.RecordyChipButton
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.navbar.TopNavigationBar
+import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.textfield.RecordyBasicTextField
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
@@ -76,18 +78,37 @@ import java.io.File
 fun VideoPickerRoute(
     paddingValues: PaddingValues,
     viewModel: UploadViewModel = hiltViewModel(),
+    popBackStack: () -> Unit,
 ) {
+
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    BackHandler(true) {
+        coroutineScope.launch {
+            viewModel.showExitUploadDialog()
+        }
+    }
+
     LaunchedEffectWithLifecycle {
         viewModel.getPresignedUrl()
         viewModel.sideEffect.collectLatest { }
+    }
+
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                is UploadSideEffect.PopBackStack -> popBackStack()
+            }
+        }
     }
 
     VideoPickerScreen(
         state = state,
         showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
         hideShouldShowRationaleDialog = viewModel::hideShouldShowRationaleDialog,
+        hideExitUploadDialog = viewModel::hideExitUploadDialog,
         showIsSelectedVideoSheetOpen = viewModel::showIsSelectedVideoSheetOpen,
         hideIsSelectedVideoSheetOpen = viewModel::hideIsSelectedVideoSheetOpen,
         showIsSelectedDefinedContentSheetOpen = viewModel::showIsSelectedDefinedContentSheetOpen,
@@ -97,6 +118,7 @@ fun VideoPickerRoute(
         uploadVideoS3Bucket = {
             viewModel.uploadVideoToS3Bucket(context, it)
         },
+        onClickBackStack = viewModel::popBackStack
     )
 }
 
@@ -111,6 +133,8 @@ fun VideoPickerScreen(
     state: UploadState = UploadState(),
     showShouldShowRationaleDialog: () -> Unit = {},
     hideShouldShowRationaleDialog: () -> Unit = {},
+    onClickBackStack: () -> Unit = {},
+    hideExitUploadDialog: () -> Unit = {},
     showIsSelectedVideoSheetOpen: () -> Unit = {},
     hideIsSelectedVideoSheetOpen: () -> Unit = {},
     showIsSelectedDefinedContentSheetOpen: () -> Unit = {},
@@ -333,6 +357,17 @@ fun VideoPickerScreen(
             onPositiveButtonClick = {
                 openAppSettings(context)
             },
+        )
+    }
+    if (state.showExitUploadDialog) {
+        RecordyDialog(
+            graphicAsset = R.drawable.img_allow,
+            title = "화면을 나가시겠어요?",
+            subTitle = "지금까지 작성하신 내용이 모두 사라져요.",
+            negativeButtonLabel = "취소",
+            positiveButtonLabel = "나가기",
+            onDismissRequest = hideExitUploadDialog,
+            onPositiveButtonClick = onClickBackStack
         )
     }
     SelectedVideoBottomSheet(

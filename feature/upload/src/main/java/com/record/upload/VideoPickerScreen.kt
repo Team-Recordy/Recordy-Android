@@ -200,7 +200,6 @@ fun VideoPickerScreen(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
         ) {
-
             Text(
                 text = "영상",
                 color = RecordyTheme.colors.white,
@@ -254,7 +253,10 @@ fun VideoPickerScreen(
                         modifier = Modifier
                             .width(158.dp)
                             .height(281.dp)
-                            .clip(RoundedCornerShape(16.dp)),
+                            .clip(RoundedCornerShape(16.dp))
+                            .customClickable(
+                                onClick = showIsSelectedVideoSheetOpen,
+                            ),
                         painter = painter,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,

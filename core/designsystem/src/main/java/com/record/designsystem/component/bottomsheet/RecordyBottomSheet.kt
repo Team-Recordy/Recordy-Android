@@ -36,8 +36,10 @@ fun RecordyBottomSheet(
             sheetState = sheetState,
             shape = shape,
             onDismissRequest = {
-                scope.launch { sheetState.hide() }
-                onDismissRequest()
+                scope.launch {
+                    sheetState.hide()
+                    onDismissRequest()
+                }
             },
             containerColor = Color(0xFFE8E8E8),
             dragHandle = null,

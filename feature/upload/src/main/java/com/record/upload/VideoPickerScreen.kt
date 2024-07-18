@@ -3,6 +3,7 @@ package com.record.upload
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -45,6 +46,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.ImageLoader
@@ -59,7 +61,6 @@ import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.button.RecordyChipButton
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.navbar.TopNavigationBar
-import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.textfield.RecordyBasicTextField
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
@@ -80,7 +81,6 @@ fun VideoPickerRoute(
     viewModel: UploadViewModel = hiltViewModel(),
     popBackStack: () -> Unit,
 ) {
-
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -118,7 +118,7 @@ fun VideoPickerRoute(
         uploadVideoS3Bucket = {
             viewModel.uploadVideoToS3Bucket(context, it)
         },
-        onClickBackStack = viewModel::popBackStack
+        onClickBackStack = viewModel::popBackStack,
     )
 }
 
@@ -145,7 +145,7 @@ fun VideoPickerScreen(
 ) {
     val context = LocalContext.current
     val cameraPermissionState = rememberPermissionState(
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
     )
     val exampleVideoList = getAllVideos(10, null, context)
     val requestPermissionLauncher = rememberLauncherForActivityResult(
@@ -156,6 +156,14 @@ fun VideoPickerScreen(
         } else {
             Timber.d("Handle permission denial")
         }
+    }
+    val permissionState = remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                context,
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
+            ) == PackageManager.PERMISSION_GRANTED,
+        )
     }
     var normalValue by remember {
         mutableStateOf("")
@@ -207,7 +215,6 @@ fun VideoPickerScreen(
                     .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(16.dp))
                     .customClickable(
                         onClick = {
-//                            showIsSelectedVideoSheetOpen()
                             if (cameraPermissionState.status.isGranted) {
                                 showIsSelectedVideoSheetOpen()
                                 return@customClickable
@@ -217,7 +224,11 @@ fun VideoPickerScreen(
                                 return@customClickable
                             }
                             scope.launch {
-                                requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_VIDEO)
+                                if (!permissionState.value) {
+                                    requestPermissionLauncher.launch(
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    )
+                                }
                             }
                         },
                     ),
@@ -367,7 +378,7 @@ fun VideoPickerScreen(
             negativeButtonLabel = "취소",
             positiveButtonLabel = "나가기",
             onDismissRequest = hideExitUploadDialog,
-            onPositiveButtonClick = onClickBackStack
+            onPositiveButtonClick = onClickBackStack,
         )
     }
     SelectedVideoBottomSheet(

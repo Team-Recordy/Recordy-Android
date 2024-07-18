@@ -40,11 +40,11 @@ fun FollowingRoute(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(RecordyTheme.colors.background)
+            .background(RecordyTheme.colors.background),
     ) {
         TopNavigationBar(
             title = "팔로잉",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         FollowScreen(
@@ -59,4 +59,3 @@ fun FollowingRoute(
         )
     }
 }
-

@@ -62,11 +62,11 @@ fun ProfileScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(RecordyTheme.colors.background)
+            .background(RecordyTheme.colors.background),
     ) {
         TopNavigationBar(
             title = "프로필",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Row(
@@ -74,7 +74,7 @@ fun ProfileScreen(
             modifier = Modifier
                 .padding(start = 16.dp)
                 .padding(vertical = 10.dp)
-                .padding(bottom = 24.dp)
+                .padding(bottom = 24.dp),
         ) {
             AsyncImage(
                 model = uiState.user.profileImageUrl,
@@ -123,14 +123,14 @@ fun ProfileScreen(
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.CenterEnd
+                    contentAlignment = Alignment.CenterEnd,
                 ) {
                     Text(
                         text = buildRecordCountText(uiState.user.recordCount),
                         style = RecordyTheme.typography.body2M,
                         color = RecordyTheme.colors.gray01,
                         modifier = Modifier
-                            .padding(end = 16.dp, bottom = 8.dp)
+                            .padding(end = 16.dp, bottom = 8.dp),
                     )
                 }
             }

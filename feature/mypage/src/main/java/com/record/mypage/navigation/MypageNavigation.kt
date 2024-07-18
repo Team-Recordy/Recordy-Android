@@ -46,14 +46,14 @@ fun NavGraphBuilder.mypageNavGraph(
         FollowingRoute(
             padding = padding,
             modifier = modifier,
-            navigateToProfile = navigateToProfile
+            navigateToProfile = navigateToProfile,
         )
     }
     composable(route = MypageRoute.followerRoute) {
         FollowerRoute(
             padding = padding,
             modifier = modifier,
-            navigateToProfile = navigateToProfile
+            navigateToProfile = navigateToProfile,
         )
     }
 
@@ -61,7 +61,7 @@ fun NavGraphBuilder.mypageNavGraph(
         FollowingRoute(
             padding = padding,
             modifier = modifier,
-            navigateToProfile = navigateToProfile
+            navigateToProfile = navigateToProfile,
         )
     }
 }

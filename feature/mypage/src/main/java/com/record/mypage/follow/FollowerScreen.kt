@@ -48,11 +48,11 @@ fun FollowerRoute(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(RecordyTheme.colors.background)
+            .background(RecordyTheme.colors.background),
     ) {
         TopNavigationBar(
             title = "팔로워",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         if (uiState.followerList.isEmpty()) {

@@ -25,7 +25,6 @@ fun UserDataContainer(
     onClick: (User) -> Unit,
     navigateToProfile: (Long) -> Unit,
 ) {
-
     Row(
         modifier = Modifier
             .background(RecordyTheme.colors.background)

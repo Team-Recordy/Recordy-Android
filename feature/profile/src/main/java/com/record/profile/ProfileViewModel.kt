@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<ProfileState, ProfileSideEffect>(ProfileState()) {
     private val userId = savedStateHandle.get<String>(ProfileRoute.PROFILE_ID_ARG_NAME)
 

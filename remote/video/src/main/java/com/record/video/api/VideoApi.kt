@@ -1,5 +1,6 @@
 package com.record.video.api
 
+import com.record.video.model.remote.response.ResponseGetBookmarkSliceVideoDto
 import com.record.video.model.remote.response.ResponseGetPagingVideoDto
 import com.record.video.model.remote.response.ResponseGetSliceVideoDto
 import com.record.video.model.remote.response.ResponseGetVideoDto
@@ -48,7 +49,7 @@ interface VideoApi {
     suspend fun getBookmarkVideos(
         @Query("cursorId") cursorId: Long,
         @Query("size") size: Int,
-    ): ResponseGetSliceVideoDto
+    ): ResponseGetBookmarkSliceVideoDto
 
     @POST("/api/v1/bookmarks/{recordId}")
     suspend fun postBookmark(

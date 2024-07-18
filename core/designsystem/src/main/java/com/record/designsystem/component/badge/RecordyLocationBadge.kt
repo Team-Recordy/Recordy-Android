@@ -54,7 +54,7 @@ fun RecordyLocationBadge(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = RecordyTheme.typography.caption1,
-                color = RecordyTheme.colors.gray01,
+                color = RecordyTheme.colors.white,
                 textAlign = TextAlign.Center,
             )
         }

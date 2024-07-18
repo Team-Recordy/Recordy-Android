@@ -40,6 +40,7 @@ fun SelectedVideoBottomSheet(
     onDismissRequest: () -> Unit,
     galleyVideos: List<GalleryVideo>,
     setVideo: (GalleryVideo) -> Unit,
+    showSnackBar: () -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -74,10 +75,17 @@ fun SelectedVideoBottomSheet(
                     verticalArrangement = Arrangement.spacedBy(1.dp),
                 ) {
                     items(galleyVideos) { video ->
-                        VideoThumbnail(video = video, setVideo = {
-                            onDismissRequest()
-                            setVideo(video)
-                        },)
+                        VideoThumbnail(
+                            video = video,
+                            setVideo = {
+                                if (video.duration > 15000) {
+                                    showSnackBar()
+                                } else {
+                                    onDismissRequest()
+                                    setVideo(video)
+                                }
+                            },
+                        )
                     }
                 }
             }

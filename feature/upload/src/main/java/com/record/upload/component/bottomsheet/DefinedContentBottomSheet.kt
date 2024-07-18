@@ -15,6 +15,8 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -24,7 +26,6 @@ import com.record.designsystem.component.bottomsheet.RecordyBottomSheet
 import com.record.designsystem.component.button.RecordyChipButton
 import com.record.designsystem.component.button.RecordyMiddleButton
 import com.record.designsystem.theme.RecordyTheme
-
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun DefinedContentBottomSheet(
@@ -33,8 +34,10 @@ fun DefinedContentBottomSheet(
     onDismissRequest: () -> Unit,
     contentList: List<String>,
     selectedList: List<String>,
-    onClickContentChip: (String) -> Unit,
+    onClickDefinedContent: (List<String>) -> Unit,
 ) {
+    val newSelectedList = remember { mutableStateListOf<String>() }
+
     RecordyBottomSheet(
         isSheetOpen = isSheetOpen,
         sheetState = sheetState,
@@ -62,7 +65,7 @@ fun DefinedContentBottomSheet(
                     .align(Alignment.CenterHorizontally),
             )
             Text(
-                text = "해당 공간은\n" + "어떤 느낌인가요?",
+                text = "해당 공간은\n어떤 느낌인가요?",
                 style = RecordyTheme.typography.title1,
                 color = RecordyTheme.colors.gray01,
                 modifier = Modifier.padding(top = 22.dp, bottom = 11.dp),
@@ -82,8 +85,14 @@ fun DefinedContentBottomSheet(
                 contentList.forEach { chip ->
                     RecordyChipButton(
                         text = chip,
-                        isActive = if (selectedList.filter { it == chip }.isNotEmpty()) true else false,
-                        onClick = { onClickContentChip(chip) },
+                        isActive = newSelectedList.contains(chip),
+                        onClick = {
+                            if (newSelectedList.contains(chip)) {
+                                newSelectedList.remove(chip)
+                            } else {
+                                if (newSelectedList.size < 3) newSelectedList.add(chip)
+                            }
+                        },
                     )
                 }
             }
@@ -93,8 +102,13 @@ fun DefinedContentBottomSheet(
                     .padding(bottom = 44.dp)
                     .align(Alignment.CenterHorizontally),
                 text = "적용하기",
-                enabled = if (selectedList.isNotEmpty()) true else false,
-                onClick = onDismissRequest,
+                enabled = newSelectedList.isNotEmpty(),
+                onClick = {
+                    if (newSelectedList.isNotEmpty()) {
+                        onClickDefinedContent(newSelectedList.toList())
+                        onDismissRequest()
+                    }
+                },
             )
         }
     }

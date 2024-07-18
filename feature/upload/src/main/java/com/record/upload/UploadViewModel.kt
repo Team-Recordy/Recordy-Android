@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
 import com.record.ui.base.BaseViewModel
 import com.record.upload.extension.GalleryVideo
@@ -12,6 +13,7 @@ import com.record.upload.extension.uploadFileToS3ThumbnailPresignedUrl
 import com.record.upload.model.VideoInfo
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 import java.net.URL
@@ -28,14 +30,9 @@ class UploadViewModel @Inject constructor(
             intent { copy(contentList = it.keywords) }
         }
     }
-    fun setSelectedList(selectedContent: String) = intent {
-        val newSelectedList = selectedList.toMutableList()
-        if (newSelectedList.contains(selectedContent)) {
-            newSelectedList.remove(selectedContent)
-        } else {
-            if (newSelectedList.size < 3) newSelectedList.add(selectedContent)
-        }
-        copy(selectedList = newSelectedList)
+    fun setSelectedList(selectedContent: List<String>) = intent {
+        Log.d("selectedContent", "$selectedContent")
+        copy(selectedList = selectedContent)
     }
 
     suspend fun getPresignedUrl() = viewModelScope.launch {
@@ -47,7 +44,7 @@ class UploadViewModel @Inject constructor(
     }
 
     fun uploadVideoToS3Bucket(context: Context, file: File) =
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             var a = ""
             var b = ""
             uploadFileToS3PresignedUrl(
@@ -71,7 +68,7 @@ class UploadViewModel @Inject constructor(
             }
         }
 
-    fun uploadRecord(a: String, b: String) =
+    fun uploadRecord(a: String, b: String) {
         viewModelScope.launch {
             uploadRepository.uploadRecord(
                 videoInfo = VideoInfo(
@@ -82,10 +79,12 @@ class UploadViewModel @Inject constructor(
                     previewUrl = b,
                 ),
             ).onSuccess {
-                popBackStack()
+                Log.d("testUpload", "upload")
+            }.onFailure {
             }
         }
-
+//        popBackStack()
+    }
     fun updateLocationTextField(locationValue: String) = intent {
         copy(locationTextValue = locationValue)
     }
@@ -148,5 +147,8 @@ class UploadViewModel @Inject constructor(
 
     fun popBackStack() {
         postSideEffect(UploadSideEffect.PopBackStack)
+    }
+    fun makeSnackBar() = viewModelScope.launch {
+        postSideEffect(UploadSideEffect.ShowSnackBar("기준에 맞는 영상을 선택해 주세요.", SnackBarType.WARNING))
     }
 }

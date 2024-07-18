@@ -10,6 +10,8 @@ data class ResponseGetUserProfileDto(
     val followerCount: Int,
     @SerialName("followingCount")
     val followingCount: Int,
+    @SerialName("bookmarkCount")
+    val bookmarkCount: Int,
     @SerialName("id")
     val id: Int,
     @SerialName("isFollowing")
@@ -30,4 +32,5 @@ fun ResponseGetUserProfileDto.toDomain() = Profile(
     nickname = nickname,
     profileImageUrl = profileImageUrl,
     recordCount = recordCount,
+    bookmarkCount = bookmarkCount
 )

@@ -5,16 +5,18 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResponseGetVideoDto(
+data class ResponseGetBookmarkVideoDto(
+    @SerialName("bookmarkId")
+    val bookmarkId: Long,
     @SerialName("isBookmark")
     val isBookmark: Boolean,
     @SerialName("recordInfo")
     val recordInfo: RecordInfo,
 )
 
-fun ResponseGetVideoDto.toDomain() = VideoData(
-    bookmarkId = 0,
+fun ResponseGetBookmarkVideoDto.toDomain() = VideoData(
     id = recordInfo.id,
+    bookmarkId = bookmarkId,
     isBookmark = isBookmark,
     bookmarkCount = recordInfo.bookmarkCount,
     content = recordInfo.content,

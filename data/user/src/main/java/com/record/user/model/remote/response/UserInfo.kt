@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserInfo(
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("nickname")
-    val nickname: String,
+    val nickname: String?,
     @SerialName("profileImageUrl")
-    val profileImageUrl: String,
+    val profileImageUrl: String?,
 )

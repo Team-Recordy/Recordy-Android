@@ -17,6 +17,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,6 +42,7 @@ fun SelectedVideoBottomSheet(
     setVideo: (GalleryVideo) -> Unit,
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     RecordyBottomSheet(
         isSheetOpen = isSheetOpen,
         sheetState = sheetState,
@@ -61,7 +63,9 @@ fun SelectedVideoBottomSheet(
                     color = Gray03,
                     style = RecordyTheme.typography.caption2,
                     maxLines = 1,
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 22.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 22.dp),
                     textAlign = TextAlign.Center,
                 )
                 LazyVerticalGrid(
@@ -70,19 +74,17 @@ fun SelectedVideoBottomSheet(
                     verticalArrangement = Arrangement.spacedBy(1.dp),
                 ) {
                     items(galleyVideos) { video ->
-                        VideoThumbnail(video = video, setVideo = setVideo)
+                        VideoThumbnail(video = video, setVideo = {
+                            onDismissRequest()
+                            setVideo(video)
+                        },)
                     }
                 }
             }
-//            RecordyButton(
-//                modifier = Modifier.align(Alignment.BottomCenter),
-//                text = "다음",
-//                enabled = true,
-//                onClick = onDismissRequest,
-//            )
         }
     }
 }
+
 fun copyFileToTemp(context: Context, sourceUri: Uri, fileName: String): File {
     val tempFile = File(context.cacheDir, fileName)
     context.contentResolver.openInputStream(sourceUri).use { inputStream ->

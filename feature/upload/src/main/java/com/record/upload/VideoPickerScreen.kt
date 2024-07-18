@@ -99,6 +99,7 @@ fun VideoPickerRoute(
 
     LaunchedEffectWithLifecycle {
         viewModel.getPresignedUrl()
+        viewModel.getKeyWordList()
     }
 
     LaunchedEffectWithLifecycle {
@@ -369,9 +370,6 @@ fun VideoPickerScreen(
                 .padding(bottom = 10.dp)
                 .focusRequester(contentFocusRequester),
             onValueChange = updateContentTextField,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Done,
-            ),
         )
         Box(modifier = Modifier.padding(16.dp)) {
             RecordyButton(
@@ -424,20 +422,7 @@ fun VideoPickerScreen(
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         isSheetOpen = state.isSelectedDefinedContentSheetOpen,
         onDismissRequest = hideIsSelectedDefinedContentSheetOpen,
-        contentList = listOf(
-            "asdsadasdasda",
-            "asdasdb",
-            "asdasdc",
-            "dasd",
-            "asdsadasdasda",
-            "asdasdbasd",
-            "asdasdc12312",
-            "dasd124123",
-            "asdsada124sdasda",
-            "asd124asdb",
-            "asda3sdc",
-            "das1d",
-        ),
+        contentList = state.contentList,
         selectedList = state.selectedList,
         onClickContentChip = onClickContentChip,
     )

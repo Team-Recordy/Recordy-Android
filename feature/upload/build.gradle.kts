@@ -12,6 +12,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.24.13-rc")
     implementation("com.github.AbedElazizShe:LightCompressor:1.3.2")
     implementation(projects.domain.upload)
+    implementation(projects.domain.keyword)
     implementation("com.arthenica:mobile-ffmpeg-full-gpl:4.4")
     implementation("com.amazonaws:aws-android-sdk-mobile-client:2.13.5")
     implementation("com.amazonaws:aws-android-sdk-cognito:2.13.5")

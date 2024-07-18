@@ -1,6 +1,5 @@
 package com.record.upload.component.bottomsheet
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -95,9 +94,7 @@ fun DefinedContentBottomSheet(
                     .align(Alignment.CenterHorizontally),
                 text = "적용하기",
                 enabled = if (selectedList.isNotEmpty()) true else false,
-                onClick = {
-                    if (selectedList.isNotEmpty()) Log.d("enable btn", "true") else Log.d("disable btn", "false")
-                },
+                onClick = onDismissRequest,
             )
         }
     }

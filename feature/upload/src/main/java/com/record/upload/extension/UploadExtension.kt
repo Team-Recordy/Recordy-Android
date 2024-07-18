@@ -175,25 +175,26 @@ fun uploadFileToS3PresignedUrl(presignedUrl: String, file: File, callback: (Bool
         .url(presignedUrl)
         .put(requestBody)
         .build()
-
-    client.newCall(request).enqueue(object : okhttp3.Callback {
-        override fun onFailure(call: okhttp3.Call, e: IOException) {
-            callback(false, "Upload failed: ${e.message}")
-        }
-
-        override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-            if (response.isSuccessful) {
-                callback(true, "Upload successful")
-            } else {
-                callback(false, "Upload failed: ${response.message}")
+    client.newCall(request).enqueue(
+        object : okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                callback(false, "Upload failed: ${e.message}")
             }
-        }
-    },)
+
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                if (response.isSuccessful) {
+                    callback(true, "Upload successful")
+                } else {
+                    callback(false, "Upload failed: ${response.message}")
+                }
+            }
+        },
+    )
 }
 
 fun uploadFileToS3ThumbnailPresignedUrl(context: Context, presignedUrl: String, file: File, callback: (Boolean, String) -> Unit) {
     val videoPath = file.absolutePath
-    val outputImagePath = File(context.cacheDir, "${ file.name }.jpg")
+    val outputImagePath = File(context.cacheDir, file.name)
     getVideoFrameAt1Sec(videoPath, outputImagePath.absolutePath)
     val client = OkHttpClient()
     val mediaType = "application/octet-stream".toMediaTypeOrNull()
@@ -203,26 +204,27 @@ fun uploadFileToS3ThumbnailPresignedUrl(context: Context, presignedUrl: String, 
         .url(presignedUrl)
         .put(requestBody)
         .build()
-
-    client.newCall(request).enqueue(object : okhttp3.Callback {
-        override fun onFailure(call: okhttp3.Call, e: IOException) {
-            callback(false, "Upload failed: ${e.message}")
-        }
-
-        override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-            if (response.isSuccessful) {
-                callback(true, "Upload successful")
-            } else {
-                callback(false, "Upload failed: ${response.message}")
+    client.newCall(request).enqueue(
+        object : okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                callback(false, "Upload failed: ${e.message}")
             }
-        }
-    },)
+
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                if (response.isSuccessful) {
+                    callback(true, "Upload successful")
+                } else {
+                    callback(false, "Upload failed: ${response.message}")
+                }
+            }
+        },
+    )
 }
 fun getVideoFrameAt1Sec(videoPath: String, outputImagePath: String) {
     val retriever = MediaMetadataRetriever()
     try {
         retriever.setDataSource(videoPath)
-        val timeUs = 1 * 1000000 // 1초를 마이크로초로 변환
+        val timeUs = 1 * 1000000
         val bitmap: Bitmap? = retriever.getFrameAtTime(timeUs.toLong(), MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
 
         if (bitmap != null) {

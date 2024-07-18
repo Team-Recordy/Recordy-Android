@@ -19,7 +19,7 @@ class UserRepositoryImpl @Inject constructor(
     private val remoteUserDataSource: RemoteUserDataSource,
 ) : UserRepository {
     override suspend fun getFollowingList(cursorId: Long, size: Int): Result<Cursor<User>> = runCatching {
-        remoteUserDataSource.getFollowerList(cursorId, size)
+        remoteUserDataSource.getFollowingList(cursorId, size)
     }.mapCatching {
         it.toCore()
     }.recoverCatching { exception ->

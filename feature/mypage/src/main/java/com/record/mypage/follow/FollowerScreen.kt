@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
@@ -30,33 +32,39 @@ fun FollowerRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: FollowViewModel = hiltViewModel(),
+    navigateToProfile: (Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffectWithLifecycle(Unit) {
+    LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                is FollowSideEffect.Following -> {
-                }
-
-                is FollowSideEffect.UnFollowing -> {
+                is FollowSideEffect.NavigateToUserProfile -> {
+                    navigateToProfile(sideEffect.id)
                 }
             }
         }
     }
-
-    Box(
-        modifier = modifier
+    Column(
+        modifier = Modifier
             .fillMaxSize()
-            .background(RecordyTheme.colors.background)
-            .padding(padding),
+            .background(RecordyTheme.colors.background),
     ) {
+        TopNavigationBar(
+            title = "팔로워",
+            modifier = Modifier.fillMaxWidth(),
+        )
+
         if (uiState.followerList.isEmpty()) {
             EmptyFollowerScreen()
         } else {
             FollowScreen(
-                followerList = uiState.followerList,
-                onClick = { user -> viewModel.toggleFollow(user) },
+                followList = uiState.followerList,
+                onClick = { user ->
+                    viewModel.toggleFollow(false, user)
+                },
+                navigateToProfile = viewModel::navigateToProfile,
+                loadMoreFollow = viewModel::loadMoreFollower,
             )
         }
     }
@@ -74,7 +82,7 @@ fun EmptyFollowerScreen() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Row() {
+            Row {
                 Spacer(modifier = Modifier.weight(13f))
                 Image(
                     painter = painterResource(com.record.designsystem.R.drawable.img_no_follower),

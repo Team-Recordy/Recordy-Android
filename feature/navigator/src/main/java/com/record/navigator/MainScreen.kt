@@ -94,8 +94,8 @@ internal fun MainScreen(
                     padding = innerPadding,
                     onShowSnackBar = viewModel::onShowSnackbar,
                     navigateToMypage = { navigator.navigateMypage() },
-                    navigateToProfile = { navigator.navigateProfile(it) },
                     popBackStack = navigator::popBackStackIfNotHome,
+                    navigateToProfile = navigator::navigateProfile,
                 )
 
                 mypageNavGraph(
@@ -104,6 +104,7 @@ internal fun MainScreen(
                     navigateToFollowing = { navigator.navigateToFollowing() },
                     navigateToFollower = { navigator.navigateToFollower() },
                     navigateToVideo = navigator::navigateVideoDetail,
+                    navigateToProfile = navigator::navigateProfile,
                 )
 
                 settingNavGraph(

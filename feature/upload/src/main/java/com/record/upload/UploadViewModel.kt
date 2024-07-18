@@ -80,7 +80,9 @@ class UploadViewModel @Inject constructor(
                     videoUrl = a,
                     previewUrl = b,
                 ),
-            )
+            ).onSuccess {
+                popBackStack()
+            }
         }
 
     private fun encodingString(contentValue: String): String {

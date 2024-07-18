@@ -200,10 +200,7 @@ fun VideoPickerScreen(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
         ) {
-            if (state.video != null) {
-                uploadVideoS3Bucket(File(state.video.filepath))
-//                compressVideo(context, state.video.uri,state.video.name, onSuccess = onSuccess)
-            }
+
             Text(
                 text = "영상",
                 color = RecordyTheme.colors.white,
@@ -353,10 +350,16 @@ fun VideoPickerScreen(
             RecordyButton(
                 text = "키워드",
                 enabled = false,
-                onClick = { Timber.d("basic key word") },
+                onClick = {
+                    if (state.video != null) {
+                        uploadVideoS3Bucket(File(state.video.filepath))
+//                compressVideo(context, state.video.uri,state.video.name, onSuccess = onSuccess)
+                    }
+                },
             )
         }
     }
+
     if (state.showShouldShowRationaleDialog) {
         RecordyDialog(
             graphicAsset = R.drawable.img_allow,
@@ -370,6 +373,7 @@ fun VideoPickerScreen(
             },
         )
     }
+
     if (state.showExitUploadDialog) {
         RecordyDialog(
             graphicAsset = R.drawable.img_allow,
@@ -381,6 +385,7 @@ fun VideoPickerScreen(
             onPositiveButtonClick = onClickBackStack,
         )
     }
+
     SelectedVideoBottomSheet(
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         isSheetOpen = state.isSelectedVideoSheetOpen,

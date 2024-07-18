@@ -12,7 +12,7 @@ data class RequestPostVideoDto(
     @SerialName("fileUrl")
     val fileUrl: FileUrl,
     @SerialName("keywords")
-    val keywords: List<String>,
+    val keywords: String,
     @SerialName("location")
     val location: String,
 )

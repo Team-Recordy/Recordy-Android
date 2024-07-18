@@ -13,6 +13,7 @@ import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
+import java.net.URL
 import java.net.URLDecoder
 import javax.inject.Inject
 
@@ -48,30 +49,36 @@ class UploadViewModel @Inject constructor(
 
     fun uploadVideoToS3Bucket(context: Context, file: File) =
         viewModelScope.launch {
-            uploadFileToS3PresignedUrl(uiState.value.bucketUrl, file) { success, message ->
+            var a = ""
+            var b = ""
+            uploadFileToS3PresignedUrl(uiState.value.bucketUrl, uiState.value.thumbnailUrl, file) { success, message ->
                 println(message)
-                Log.d("messageFile", "$message ")
+                a = removeQueryParameters(message)
+                Log.d("messageFile", "$message")
+                if (success) {
+                    uploadFileToS3ThumbnailPresignedUrl(
+                        context,
+                        uiState.value.thumbnailUrl,
+                        file,
+                    ) { success, message ->
+                        println(message)
+                        b = removeQueryParameters(message)
+                        Log.d("messageThumbnail", "$message ")
+                        uploadRecord(a, b)
+                    }
+                }
             }
-            uploadFileToS3ThumbnailPresignedUrl(
-                context,
-                uiState.value.thumbnailUrl,
-                file,
-            ) { success, message ->
-                println(message)
-                Log.d("messageThumbnail", "$message ")
-            }
-            uploadRecord()
         }
 
-    fun uploadRecord() =
+    fun uploadRecord(a: String, b: String) =
         viewModelScope.launch {
             uploadRepository.uploadRecord(
                 videoInfo = VideoInfo(
                     location = "test",
                     content = "test",
                     keywords = encodingString("감각적인,강렬한,귀여운").trim(),
-                    videoUrl = "https://recordy-bucket.s3.ap-northeast-2.amazonaws.com/videos/40683dd4-52a3-4bb1-9833-7fb2256285e9.mp4",
-                    previewUrl = "https://recordy-bucket.s3.ap-northeast-2.amazonaws.com/thumbnails/0ed9dfc0-8e41-491f-b4fb-2d7ea9a5d5e3.jpeg",
+                    videoUrl = a,
+                    previewUrl = b,
                 ),
             )
         }
@@ -81,7 +88,11 @@ class UploadViewModel @Inject constructor(
         val encodedString = Base64.encodeToString(bytes, Base64.DEFAULT)
         return encodedString
     }
-
+    fun removeQueryParameters(urlString: String): String {
+        val url = URL(urlString)
+        val cleanUrl = URL(url.protocol, url.host, url.port, url.path)
+        return cleanUrl.toString()
+    }
     fun setVideo(video: GalleryVideo) = intent {
         copy(video = video)
     }

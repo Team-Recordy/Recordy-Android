@@ -82,7 +82,6 @@ fun VideoPickerRoute(
     LaunchedEffectWithLifecycle {
         viewModel.getPresignedUrl()
         viewModel.sideEffect.collectLatest { }
-        viewModel.uploadRecord()
     }
 
     VideoPickerScreen(

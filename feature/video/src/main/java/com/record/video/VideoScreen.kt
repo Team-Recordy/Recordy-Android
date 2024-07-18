@@ -72,6 +72,7 @@ fun VideoRoute(
         onPlayVideo = viewModel::watchVideo,
         onNicknameClick = viewModel::navigateToProfile,
         loadMoreVideos = viewModel::loadMoreVideos,
+        onDialogDeleteButtonClick = viewModel::deleteVideo,
     )
 }
 
@@ -82,13 +83,14 @@ fun VideoScreen(
     modifier: Modifier = Modifier,
     state: VideoState,
     onToggleClick: () -> Unit,
-    onDeleteClick: (Int) -> Unit,
-    onBookmarkClick: (Int) -> Unit,
+    onDeleteClick: (Long) -> Unit,
+    onBookmarkClick: (Long) -> Unit,
     onNicknameClick: (Int) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
     onError: (String) -> Unit,
     onPlayVideo: (Long) -> Unit,
     loadMoreVideos: () -> Unit,
+    onDialogDeleteButtonClick: (Long) -> Unit,
 ) {
     pagerState.onBottomReached(
         buffer = 3,
@@ -99,7 +101,7 @@ fun VideoScreen(
     ) {
         VerticalPager(
             state = pagerState,
-            beyondBoundsPageCount = 1,
+            beyondBoundsPageCount = 0,
             modifier = Modifier.fillMaxSize(),
         ) { page ->
             Box {
@@ -119,10 +121,10 @@ fun VideoScreen(
                             nickname = nickname,
                             content = content,
                             isBookmark = isBookmark,
-                            bookmarkCount = 123,
+                            bookmarkCount = bookmarkCount,
                             isMyVideo = isMine,
-                            onBookmarkClick = { onBookmarkClick(id.toInt()) },
-                            onDeleteClick = { onDeleteClick(id.toInt()) },
+                            onBookmarkClick = { onBookmarkClick(id) },
+                            onDeleteClick = { onDeleteClick(id) },
                             onNicknameClick = { onNicknameClick(id.toInt()) },
                         )
                     }
@@ -144,7 +146,7 @@ fun VideoScreen(
                 negativeButtonLabel = "취소",
                 positiveButtonLabel = "삭제",
                 onDismissRequest = { onDeleteDialogDismissRequest() },
-                onPositiveButtonClick = {},
+                onPositiveButtonClick = { onDialogDeleteButtonClick(state.deleteVideoId) },
             )
         }
     }

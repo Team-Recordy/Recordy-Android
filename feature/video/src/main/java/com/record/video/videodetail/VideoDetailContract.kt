@@ -20,7 +20,7 @@ data class VideoDetailState(
     val cursor: Long = 0,
     val userId: Long = 0,
     val isEnd: Boolean = false,
-    val init: Boolean = false,
+    val isInit: Boolean = false,
 ) : UiState
 
 sealed interface VideoDetailSideEffect : SideEffect {
@@ -29,4 +29,5 @@ sealed interface VideoDetailSideEffect : SideEffect {
     data class NavigateToUserProfile(val id: Int) : VideoDetailSideEffect
     data class InitialPagerState(val index: Int) : VideoDetailSideEffect
     data class MovePage(val index: Int) : VideoDetailSideEffect
+    data object NavigateToBack : VideoDetailSideEffect
 }

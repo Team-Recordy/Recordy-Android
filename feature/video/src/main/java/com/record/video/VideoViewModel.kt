@@ -36,11 +36,7 @@ class VideoViewModel @Inject constructor(
                 copy(videos = (list + it).toImmutableList())
             }
         }.onFailure {
-            when (it) {
-                is ApiError -> {
-                    Log.e("에러", it.message)
-                }
-            }
+            handleError(it)
         }
     }
 
@@ -51,19 +47,66 @@ class VideoViewModel @Inject constructor(
         }
     }
 
-    fun bookmark(id: Int) {
-        intent {
-            val videos = uiState.value.videos.toList()
-            videos[videos.indexOfFirst { it.id.toInt() == id }].run {
-                copy(isBookmark = !isBookmark)
+    fun bookmark(id: Long) {
+        var originalBookmarkCount = 0
+        var originalIsBookmark = false
+        val videos = uiState.value.videos.toList().map { video ->
+            if (video.id == id) {
+                originalBookmarkCount = video.bookmarkCount
+                originalIsBookmark = video.isBookmark
+                video.copy(
+                    isBookmark = !video.isBookmark,
+                    bookmarkCount = if (originalIsBookmark) originalBookmarkCount - 1 else originalBookmarkCount + 1,
+                )
+            } else {
+                video
             }
-            copy(
-                videos = videos.toImmutableList(),
-            )
+        }
+        intent {
+            copy(videos = videos.toImmutableList())
+        }
+        viewModelScope.launch {
+            videoRepository.bookmark(id).onSuccess { response ->
+                updateBookmarkStatus(id, response, originalBookmarkCount)
+            }.onFailure {
+                revertBookmarkStatus(id, originalBookmarkCount, originalIsBookmark)
+            }
         }
     }
 
-    fun showDeleteDialog(id: Int) {
+    private fun updateBookmarkStatus(id: Long, response: Boolean, originalBookmarkCount: Int) {
+        val videos = uiState.value.videos.toList().map { video ->
+            if (video.id == id) {
+                video.copy(
+                    isBookmark = response,
+                    bookmarkCount = if (response) originalBookmarkCount + 1 else originalBookmarkCount - 1,
+                )
+            } else {
+                video
+            }
+        }
+        intent {
+            copy(videos = videos.toImmutableList())
+        }
+    }
+
+    private fun revertBookmarkStatus(id: Long, originalBookmarkCount: Int, originalIsBookmark: Boolean) {
+        val videos = uiState.value.videos.toList().map { video ->
+            if (video.id == id) {
+                video.copy(
+                    isBookmark = originalIsBookmark,
+                    bookmarkCount = originalBookmarkCount,
+                )
+            } else {
+                video
+            }
+        }
+        intent {
+            copy(videos = videos.toImmutableList())
+        }
+    }
+
+    fun showDeleteDialog(id: Long) {
         intent {
             copy(showDeleteDialog = true, deleteVideoId = id)
         }
@@ -76,22 +119,17 @@ class VideoViewModel @Inject constructor(
     }
 
     fun deleteVideo(id: Long) = viewModelScope.launch {
+        dismissDeleteDialog()
         videoCoreRepository.deleteVideo(id).onSuccess {
-            val list = uiState.value.videos.toList()
-            val firstSize = list.size
-            val newlist = list.filter { it.id != id }
-            val secondSize = newlist.size
-            val removeItemCount = firstSize - secondSize
-            postSideEffect(VideoSideEffect.MovePage(removeItemCount))
-            intent {
-                copy(videos = newlist.toImmutableList())
-            }
-        }.onFailure {
-            when (it) {
-                is ApiError -> {
-                    Log.e("실패", it.message)
-                }
-            }
+            val videos = uiState.value.videos.filter { it.id != id }.toImmutableList()
+            postSideEffect(VideoSideEffect.MovePage(uiState.value.videos.size - videos.size))
+            intent { copy(videos = videos) }
+        }.onFailure { handleError(it) }
+    }
+
+    private fun handleError(throwable: Throwable) {
+        if (throwable is ApiError) {
+            Log.e("에러", throwable.message)
         }
     }
 

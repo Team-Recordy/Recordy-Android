@@ -422,7 +422,7 @@ fun VideoPickerScreen(
         isSheetOpen = state.isSelectedVideoSheetOpen,
         onDismissRequest = hideIsSelectedVideoSheetOpen,
         galleyVideos = exampleVideoList,
-        setVideo = setVideo,
+        isSelectedVideo = setVideo,
         showSnackBar = showSnackBar,
     )
     DefinedContentBottomSheet(

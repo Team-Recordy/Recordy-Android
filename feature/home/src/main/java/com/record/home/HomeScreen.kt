@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,9 +53,11 @@ import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.video.model.VideoData
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.CollapsingToolbarScope
+import me.onebone.toolbar.ExperimentalToolbarApi
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
@@ -68,13 +71,14 @@ fun HomeRoute(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffectWithLifecycle {
+        viewModel.getVideos()
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 HomeSideEffect.navigateToUpload -> {
                 }
 
                 is HomeSideEffect.navigateToVideo -> {
-                    navigateToVideoDetail(sideEffect.type, sideEffect.index, sideEffect.keyword, 0)
+                    navigateToVideoDetail(sideEffect.type, sideEffect.id, sideEffect.keyword, 0)
                 }
             }
         }
@@ -191,7 +195,7 @@ fun CollapsingToolbar(
             ToolbarContent(toolbarState)
         },
     ) {
-        ChipRow(state.chipList, state.selectedChipIndex, onChipButtonClick)
+        ChipRow(toolbarState, state.chipList, state.selectedChipIndex, onChipButtonClick)
         Content(
             state = state,
             onVideoClick = onVideoClick,
@@ -246,12 +250,15 @@ fun CollapsingToolbarScope.ToolbarContent(toolbarState: CollapsingToolbarScaffol
     }
 }
 
+@OptIn(ExperimentalToolbarApi::class)
 @Composable
 fun ChipRow(
+    state: CollapsingToolbarScaffoldState,
     chipList: List<String>,
     selectedChip: Int?,
     onChipButtonClick: (Int) -> Unit,
 ) {
+    val coroutineScope = rememberCoroutineScope()
     LazyRow(
         modifier = Modifier
             .padding(bottom = 12.dp),
@@ -262,7 +269,12 @@ fun ChipRow(
             RecordyChipButton(
                 text = item,
                 isActive = selectedChip == i,
-                onClick = { onChipButtonClick(i) },
+                onClick = {
+                    onChipButtonClick(i)
+                    coroutineScope.launch {
+                        state.toolbarState.collapse(200)
+                    }
+                },
             )
         }
         item { Spacer(modifier = Modifier.width(8.dp)) }

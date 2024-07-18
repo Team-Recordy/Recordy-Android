@@ -4,6 +4,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -82,6 +84,13 @@ internal fun MainScreen(
 
                 profileNavGraph(
                     padding = innerPadding,
+                    navigateToVideoDetail = { type, videoId, userId ->
+                        navigator.navigateVideoDetail(
+                            videoType = type,
+                            videoId = videoId,
+                            userId = userId,
+                        )
+                    },
                 )
 
                 uploadNavGraph(
@@ -92,7 +101,8 @@ internal fun MainScreen(
                     padding = innerPadding,
                     onShowSnackBar = viewModel::onShowSnackbar,
                     navigateToMypage = { navigator.navigateMypage() },
-                    navigateToProfile = { navigator::navigateProfile },
+                    popBackStack = navigator::popBackStackIfNotHome,
+                    navigateToProfile = navigator::navigateProfile,
                 )
 
                 mypageNavGraph(
@@ -136,6 +146,8 @@ private fun MainBottomNavigationBar(
 ) {
     AnimatedVisibility(
         visible = visible,
+        enter = fadeIn(),
+        exit = fadeOut(),
     ) {
         Column {
             HorizontalDivider(

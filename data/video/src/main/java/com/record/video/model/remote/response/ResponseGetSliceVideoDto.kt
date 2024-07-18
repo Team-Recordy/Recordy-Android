@@ -11,7 +11,7 @@ data class ResponseGetSliceVideoDto(
     @SerialName("hasNext")
     val hasNext: Boolean,
     @SerialName("nextCursor")
-    val nextCursor: Int,
+    val nextCursor: Int?,
 )
 
 fun ResponseGetSliceVideoDto.toCore() = Cursor(

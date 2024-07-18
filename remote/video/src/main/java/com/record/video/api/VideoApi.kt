@@ -19,8 +19,8 @@ interface VideoApi {
     @GET("/api/v1/records/recent")
     suspend fun getRecentVideos(
         @Query("keywords") keywords: List<String>?,
-        @Query("pageNumber") pageNumber: Int,
-        @Query("pageSize") pageSize: Int,
+        @Query("cursorId") cursor: Long,
+        @Query("size") pageSize: Int,
     ): ResponseGetSliceVideoDto
 
     @GET("/api/v1/records/famous")

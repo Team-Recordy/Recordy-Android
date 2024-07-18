@@ -11,7 +11,7 @@ data class VideoState(
     val isAll: Boolean = true,
     val isPlaying: Boolean = false,
     val showDeleteDialog: Boolean = false,
-    val deleteVideoId: Int = 0,
+    val deleteVideoId: Long = 0,
     val allCursor: Long = 0,
     val followingCursor: Long = 0,
 ) : UiState
@@ -19,6 +19,6 @@ data class VideoState(
 sealed interface VideoSideEffect : SideEffect {
     data class ShowNetworkErrorSnackbar(val msg: String) : VideoSideEffect
     data object NavigateToMypage : VideoSideEffect
-    data class NavigateToUserProfile(val id: Int) : VideoSideEffect
+    data class NavigateToUserProfile(val id: Long) : VideoSideEffect
     data class MovePage(val index: Int) : VideoSideEffect
 }

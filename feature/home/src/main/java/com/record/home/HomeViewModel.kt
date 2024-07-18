@@ -8,8 +8,8 @@ import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel
 import com.record.video.repository.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
-import okhttp3.internal.toImmutableList
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,12 +17,6 @@ class HomeViewModel @Inject constructor(
     private val videoRepository: VideoRepository,
     private val keywordRepository: KeywordRepository,
 ) : BaseViewModel<HomeState, HomeSideEffect>(HomeState()) {
-
-    init {
-        getPreferenceKeywords()
-        getPopularVideos()
-        getRecentVideos()
-    }
 
     fun navigateToUpload() {
         postSideEffect(HomeSideEffect.navigateToUpload)
@@ -36,11 +30,17 @@ class HomeViewModel @Inject constructor(
         getRecentVideos()
     }
 
+    fun getVideos() {
+        getPreferenceKeywords()
+        getPopularVideos()
+        getRecentVideos()
+    }
+
     private fun getPreferenceKeywords() {
         viewModelScope.launch {
             keywordRepository.getKeywords().onSuccess {
                 intent {
-                    copy(chipList = it.keywords)
+                    copy(chipList = it.keywords.toImmutableList())
                 }
             }.onFailure {
                 when (it) {
@@ -58,7 +58,7 @@ class HomeViewModel @Inject constructor(
             val keyword = if (keyIndex != null) listOf(uiState.value.chipList[keyIndex]) else null
             videoRepository.getRecentVideos(
                 keywords = keyword,
-                pageNumber = 0,
+                cursor = 0,
                 pageSize = 10,
             ).onSuccess {
                 intent {
@@ -124,8 +124,8 @@ class HomeViewModel @Inject constructor(
 
             Log.e("반환값", updatedPopularList.toString())
             copy(
-                recentList = updatedRecentList,
-                popularList = updatedPopularList,
+                recentList = updatedRecentList.toImmutableList(),
+                popularList = updatedPopularList.toImmutableList(),
             )
         }
         viewModelScope.launch {
@@ -151,8 +151,8 @@ class HomeViewModel @Inject constructor(
                 Log.e("반환값", updatedPopularList1.toString())
                 intent {
                     copy(
-                        recentList = updatedRecentList1,
-                        popularList = updatedPopularList1,
+                        recentList = updatedRecentList1.toImmutableList(),
+                        popularList = updatedPopularList1.toImmutableList(),
                     )
                 }
             }.onFailure {

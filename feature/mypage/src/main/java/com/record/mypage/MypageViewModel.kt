@@ -9,6 +9,8 @@ import com.record.user.repository.UserRepository
 import com.record.video.repository.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -84,49 +86,128 @@ class MypageViewModel @Inject constructor(
         }
     }
 
-    fun fetchUserVideos() {
-        viewModelScope.launch {
-            userRepository.getUserId().onSuccess { userId ->
-                videoRepository.getUserVideos(
-                    userId,
-                    cursorId = 0,
-                    size = 40,
-                ).onSuccess { cursor ->
-                    intent {
-                        copy(
-                            myRecordList = cursor.data.toImmutableList(),
-                            recordVideoCount = myRecordList.size,
-                        )
-                    }
-                }.onFailure {
-                    when (it) {
-                        is ApiError -> {
-                            Log.e("error", it.message)
-                        }
-                    }
+    fun initialData() = viewModelScope.launch {
+        val myVideosResult = async {
+            videoRepository.getMyVideos(0, 10)
+        }
+        val bookmarkVideosResult = async {
+            videoRepository.getBookmarkVideos(0, 10)
+        }
+
+        val results = awaitAll(myVideosResult, bookmarkVideosResult)
+        val myVideoResult = results[0]
+        val bookmarkVideoResult = results[1]
+        if (myVideoResult.isSuccess && bookmarkVideoResult.isSuccess) {
+            val myVideo = myVideoResult.getOrThrow()
+            val bookmarkVideo = bookmarkVideoResult.getOrThrow()
+            intent {
+                copy(
+                    myRecordList = myVideo.data.toImmutableList(),
+                    myBookmarkList = bookmarkVideo.data.toImmutableList(),
+                    recordCursor = myVideo.nextCursor?.plus(1)?.toLong() ?: 0,
+                    bookmarkCursor = bookmarkVideo.nextCursor?.plus(1)?.toLong() ?: 0,
+                    recordVideoCount = myVideo.data.size,
+                    bookmarkVideoCount = bookmarkVideo.data.size,
+                    recordIsEnd = false,
+                    bookmarkIsEnd = false,
+                )
+            }
+        }
+    }
+
+    fun loadMoreUserVideos() = viewModelScope.launch {
+        Log.e("로드", "로드")
+        val list = uiState.value.myRecordList.toList()
+        if (uiState.value.recordIsEnd) return@launch
+        videoRepository.getMyVideos(uiState.value.recordCursor, 10).onSuccess {
+            intent {
+                copy(
+                    recordCursor = it.nextCursor?.plus(1)?.toLong() ?: 0,
+                    myRecordList = (list + it.data).toImmutableList(),
+                    recordVideoCount = (list + it.data).size,
+                )
+            }
+            if (!it.hasNext) {
+                intent {
+                    copy(recordIsEnd = true)
                 }
             }
         }
     }
 
-    fun fetchBookmarkVideos() {
+    fun loadMoreBookmarkVideos() = viewModelScope.launch {
+        Log.e("로드", "로드")
+        val list = uiState.value.myBookmarkList.toList()
+        if (uiState.value.bookmarkIsEnd) return@launch
+        videoRepository.getBookmarkVideos(uiState.value.bookmarkCursor, 10).onSuccess {
+            intent {
+                copy(
+                    bookmarkCursor = it.nextCursor?.plus(1)?.toLong() ?: 0,
+                    myBookmarkList = (list + it.data).toImmutableList(),
+                    bookmarkVideoCount = (list + it.data).size,
+                )
+            }
+            if (!it.hasNext) {
+                intent {
+                    copy(bookmarkIsEnd = true)
+                }
+            }
+        }
+    }
+    fun bookmark(id: Long) {
+        intent {
+            val updatedMyRecordList = uiState.value.myRecordList.map { video ->
+                if (video.id == id) {
+                    Log.e("태그", "변경")
+                    video.copy(isBookmark = !video.isBookmark)
+                } else {
+                    video
+                }
+            }
+
+            val updatedMyBookmarkList = uiState.value.myBookmarkList.map { video ->
+                if (video.id == id) {
+                    Log.e("태그", "변경")
+                    video.copy(isBookmark = !video.isBookmark)
+                } else {
+                    video
+                }
+            }
+
+            Log.e("반환값", updatedMyBookmarkList.toString())
+            copy(
+                myRecordList = updatedMyRecordList.toImmutableList(),
+                myBookmarkList = updatedMyBookmarkList.toImmutableList(),
+            )
+        }
         viewModelScope.launch {
-            videoRepository.getBookmarkVideos(
-                cursorId = 0,
-                size = 20,
-            ).onSuccess { cursor ->
+            videoRepository.bookmark(id).onSuccess {
+                val updatedMyRecordList = uiState.value.myRecordList.map { video ->
+                    if (video.id == id) {
+                        Log.e("태그", "변경")
+                        video.copy(isBookmark = it)
+                    } else {
+                        video
+                    }
+                }
+
+                val updatedMyBookmarkList = uiState.value.myBookmarkList.map { video ->
+                    if (video.id == id) {
+                        Log.e("태그", "변경")
+                        video.copy(isBookmark = it)
+                    } else {
+                        video
+                    }
+                }
+
+                Log.e("반환값", updatedMyBookmarkList.toString())
                 intent {
                     copy(
-                        myBookmarkList = cursor.data.toImmutableList(),
-                        bookmarkVideoCount = myBookmarkList.size,
+                        myRecordList = updatedMyRecordList.toImmutableList(),
+                        myBookmarkList = updatedMyBookmarkList.toImmutableList(),
                     )
                 }
             }.onFailure {
-                when (it) {
-                    is ApiError -> {
-                        Log.e("error", it.message)
-                    }
-                }
             }
         }
     }

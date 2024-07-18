@@ -68,12 +68,11 @@ fun MypageRoute(
     navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    viewModel.fetchUserProfile()
-    viewModel.fetchUserPreferences()
-    viewModel.fetchUserVideos()
-    viewModel.fetchBookmarkVideos()
 
-    LaunchedEffectWithLifecycle() {
+    LaunchedEffectWithLifecycle {
+        viewModel.fetchUserPreferences()
+        viewModel.fetchUserProfile()
+        viewModel.initialData()
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 MypageSideEffect.NavigateToFollower -> {
@@ -107,6 +106,9 @@ fun MypageRoute(
             onFollowerClick = viewModel::navigateToFollower,
             navigateToSetting = viewModel::navigateToSetting,
             navigateToVideo = viewModel::navigateToVideoDetail,
+            onLoadMoreBookmarks = viewModel::loadMoreBookmarkVideos,
+            onLoadMoreRecords = viewModel::loadMoreUserVideos,
+            onBookmarkClick = viewModel::bookmark,
         )
     }
 }
@@ -120,6 +122,9 @@ fun MypageScreen(
     onFollowerClick: () -> Unit,
     onFollowingClick: () -> Unit,
     navigateToVideo: (VideoType, Long) -> Unit,
+    onLoadMoreRecords: () -> Unit,
+    onLoadMoreBookmarks: () -> Unit,
+    onBookmarkClick: (Long) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
@@ -217,6 +222,8 @@ fun MypageScreen(
                             videoItems = state.myRecordList,
                             recordCount = state.recordVideoCount,
                             onItemClick = navigateToVideo,
+                            onLoadMore = onLoadMoreRecords,
+                            onBookmarkClick = onBookmarkClick,
                         )
                     }
 
@@ -225,6 +232,8 @@ fun MypageScreen(
                             videoItems = state.myBookmarkList,
                             recordCount = state.bookmarkVideoCount,
                             onItemClick = navigateToVideo,
+                            onLoadMore = onLoadMoreBookmarks,
+                            onBookmarkClick = onBookmarkClick,
                         )
                     }
                 }

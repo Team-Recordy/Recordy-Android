@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -21,6 +23,8 @@ import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.videoplayer.RecordyVideoText
 import com.record.designsystem.component.videoplayer.VideoPlayer
+import com.record.designsystem.theme.RecordyTheme
+import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.ui.scroll.onBottomReached
 import kotlinx.coroutines.flow.collectLatest
@@ -32,8 +36,9 @@ fun VideoDetailRoute(
     modifier: Modifier,
     viewModel: VideoDetailViewModel = hiltViewModel(),
     onShowSnackbar: (String, SnackBarType) -> Unit,
-    navigateToUserProfile: (Int) -> Unit,
+    navigateToUserProfile: (Long) -> Unit,
     navigateToMypage: () -> Unit,
+    popBackStack: () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(
@@ -62,6 +67,10 @@ fun VideoDetailRoute(
                 is VideoDetailSideEffect.MovePage -> {
                     pagerState.scrollToPage(pagerState.currentPage - sideEffect.index)
                 }
+
+                VideoDetailSideEffect.NavigateToBack -> {
+                    popBackStack()
+                }
             }
         }
     }
@@ -78,6 +87,8 @@ fun VideoDetailRoute(
         onPlayVideo = viewModel::watchVideo,
         onNickNameClick = viewModel::navigateToProfile,
         loadMoreVideos = viewModel::getVideos,
+        onBackButtonClick = viewModel::navigateToBack,
+        onDialogDeleteButtonClick = viewModel::deleteVideo,
     )
 }
 
@@ -88,12 +99,14 @@ fun VideoDetailScreen(
     modifier: Modifier = Modifier,
     state: VideoDetailState,
     onDeleteClick: (Long) -> Unit,
-    onBookmarkClick: (Int) -> Unit,
+    onBookmarkClick: (Long) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
-    onNickNameClick: (Int) -> Unit,
+    onNickNameClick: (Long) -> Unit,
     onError: (String) -> Unit,
     onPlayVideo: (Long) -> Unit,
     loadMoreVideos: () -> Unit,
+    onBackButtonClick: () -> Unit,
+    onDialogDeleteButtonClick: () -> Unit,
 ) {
     pagerState.onBottomReached(
         buffer = 3,
@@ -104,7 +117,7 @@ fun VideoDetailScreen(
     ) {
         VerticalPager(
             state = pagerState,
-            beyondBoundsPageCount = 1,
+            beyondBoundsPageCount = 0,
             modifier = Modifier.fillMaxSize(),
         ) { page ->
             Box {
@@ -124,16 +137,25 @@ fun VideoDetailScreen(
                             nickname = nickname,
                             content = content,
                             isBookmark = isBookmark,
-                            bookmarkCount = 123,
+                            bookmarkCount = bookmarkCount,
                             isMyVideo = isMine,
-                            onBookmarkClick = { onBookmarkClick(id.toInt()) },
+                            onBookmarkClick = { onBookmarkClick(id) },
                             onDeleteClick = { onDeleteClick(id) },
-                            onNicknameClick = { onNickNameClick(id.toInt()) },
+                            onNicknameClick = { onNickNameClick(uploaderId) },
                         )
                     }
                 }
             }
         }
+        Icon(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(start = 16.dp, top = 46.dp, end = 16.dp, bottom = 16.dp)
+                .customClickable(rippleEnabled = false) { onBackButtonClick() },
+            painter = painterResource(id = R.drawable.ic_angle_left_24),
+            contentDescription = "back",
+            tint = RecordyTheme.colors.white,
+        )
         if (state.showDeleteDialog) {
             RecordyDialog(
                 graphicAsset = R.drawable.img_trashcan,
@@ -142,7 +164,7 @@ fun VideoDetailScreen(
                 negativeButtonLabel = "취소",
                 positiveButtonLabel = "삭제",
                 onDismissRequest = { onDeleteDialogDismissRequest() },
-                onPositiveButtonClick = {},
+                onPositiveButtonClick = { onDialogDeleteButtonClick() },
             )
         }
     }

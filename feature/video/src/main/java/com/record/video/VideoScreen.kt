@@ -34,7 +34,7 @@ fun VideoRoute(
     viewModel: VideoViewModel = hiltViewModel(),
     onShowSnackbar: (String, SnackBarType) -> Unit,
     navigateToMypage: () -> Unit,
-    navigateToProfile: (Int) -> Unit,
+    navigateToProfile: (Long) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(
@@ -47,10 +47,14 @@ fun VideoRoute(
                 is VideoSideEffect.NavigateToUserProfile -> {
                     navigateToProfile(sideEffect.id)
                 }
+
                 VideoSideEffect.NavigateToMypage -> {
                     navigateToMypage()
                 }
-                is VideoSideEffect.ShowNetworkErrorSnackbar -> { onShowSnackbar(sideEffect.msg, SnackBarType.WARNING) }
+
+                is VideoSideEffect.ShowNetworkErrorSnackbar -> {
+                    onShowSnackbar(sideEffect.msg, SnackBarType.WARNING)
+                }
 
                 is VideoSideEffect.MovePage -> {
                     pagerState.scrollToPage(pagerState.currentPage - sideEffect.index)
@@ -72,6 +76,7 @@ fun VideoRoute(
         onPlayVideo = viewModel::watchVideo,
         onNicknameClick = viewModel::navigateToProfile,
         loadMoreVideos = viewModel::loadMoreVideos,
+        onDialogDeleteButtonClick = viewModel::deleteVideo,
     )
 }
 
@@ -82,13 +87,14 @@ fun VideoScreen(
     modifier: Modifier = Modifier,
     state: VideoState,
     onToggleClick: () -> Unit,
-    onDeleteClick: (Int) -> Unit,
-    onBookmarkClick: (Int) -> Unit,
-    onNicknameClick: (Int) -> Unit,
+    onDeleteClick: (Long) -> Unit,
+    onBookmarkClick: (Long) -> Unit,
+    onNicknameClick: (Long) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
     onError: (String) -> Unit,
     onPlayVideo: (Long) -> Unit,
     loadMoreVideos: () -> Unit,
+    onDialogDeleteButtonClick: (Long) -> Unit,
 ) {
     pagerState.onBottomReached(
         buffer = 3,
@@ -99,7 +105,7 @@ fun VideoScreen(
     ) {
         VerticalPager(
             state = pagerState,
-            beyondBoundsPageCount = 1,
+            beyondBoundsPageCount = 0,
             modifier = Modifier.fillMaxSize(),
         ) { page ->
             Box {
@@ -119,11 +125,11 @@ fun VideoScreen(
                             nickname = nickname,
                             content = content,
                             isBookmark = isBookmark,
-                            bookmarkCount = 123,
+                            bookmarkCount = bookmarkCount,
                             isMyVideo = isMine,
-                            onBookmarkClick = { onBookmarkClick(id.toInt()) },
-                            onDeleteClick = { onDeleteClick(id.toInt()) },
-                            onNicknameClick = { onNicknameClick(id.toInt()) },
+                            onBookmarkClick = { onBookmarkClick(id) },
+                            onDeleteClick = { onDeleteClick(id) },
+                            onNicknameClick = { onNicknameClick(uploaderId) },
                         )
                     }
                 }
@@ -144,7 +150,7 @@ fun VideoScreen(
                 negativeButtonLabel = "취소",
                 positiveButtonLabel = "삭제",
                 onDismissRequest = { onDeleteDialogDismissRequest() },
-                onPositiveButtonClick = {},
+                onPositiveButtonClick = { onDialogDeleteButtonClick(state.deleteVideoId) },
             )
         }
     }

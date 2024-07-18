@@ -57,3 +57,4 @@ include(":domain:keyword")
 include(":data:keyword")
 
 include(":local:user")
+include(":core:cache")

@@ -17,12 +17,14 @@ fun NavGraphBuilder.homeNavGraph(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     navigateToVideoDetail: (VideoType, Long, String?, Long) -> Unit,
+    navigateToUpload: () -> Unit = {},
 ) {
     composable(route = HomeRoute.route) {
         HomeRoute(
             padding = padding,
             modifier = modifier,
             navigateToVideoDetail = navigateToVideoDetail,
+            navigateToUpload = navigateToUpload
         )
     }
 }

@@ -84,6 +84,13 @@ internal fun MainScreen(
 
                 profileNavGraph(
                     padding = innerPadding,
+                    navigateToVideoDetail = { type, videoId, userId ->
+                        navigator.navigateVideoDetail(
+                            videoType = type,
+                            videoId = videoId,
+                            userId = userId,
+                        )
+                    },
                 )
 
                 uploadNavGraph(

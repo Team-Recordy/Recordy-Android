@@ -15,6 +15,7 @@ import com.record.model.VideoType
 import com.record.mypage.navigation.navigateMypage
 import com.record.mypage.navigation.navigateToFollower
 import com.record.mypage.navigation.navigateToFollowing
+import com.record.profile.navigation.ProfileRoute
 import com.record.profile.navigation.navigateProfile
 import com.record.setting.navigate.navigateSetting
 import com.record.video.navigation.navigateVideo
@@ -130,7 +131,9 @@ internal class MainNavigator(
     @Composable
     fun shouldShowBottomBar(): Boolean {
         val currentRoute = currentDestination?.route ?: return false
-        return currentRoute in MainNavTab || currentRoute in InMainNavTab || currentRoute.contains("detail")
+        return currentRoute in MainNavTab || currentRoute in InMainNavTab || currentRoute.contains("detail") || currentRoute.contains(
+            ProfileRoute.route,
+        )
     }
 }
 

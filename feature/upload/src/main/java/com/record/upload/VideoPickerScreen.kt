@@ -64,6 +64,7 @@ import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.button.RecordyChipButton
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.navbar.TopNavigationBar
+import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.textfield.RecordyBasicTextField
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
@@ -84,6 +85,7 @@ fun VideoPickerRoute(
     paddingValues: PaddingValues,
     viewModel: UploadViewModel = hiltViewModel(),
     popBackStack: () -> Unit,
+    onShowSnackBar: (String, SnackBarType) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -110,10 +112,12 @@ fun VideoPickerRoute(
                     awaitFrame()
                     locationFocusRequester.requestFocus()
                 }
-
                 is UploadSideEffect.FocusContent -> {
                     awaitFrame()
                     contentFocusRequester.requestFocus()
+                }
+                is UploadSideEffect.ShowSnackBar -> {
+                    onShowSnackBar(sideEffect.msg, sideEffect.type)
                 }
             }
         }
@@ -138,6 +142,7 @@ fun VideoPickerRoute(
         updateContentTextField = viewModel::updateContentTextField,
         locationFocusRequester = locationFocusRequester,
         contentFocusRequester = locationFocusRequester,
+        showSnackBar = viewModel::makeSnackBar,
     )
 }
 
@@ -158,13 +163,14 @@ fun VideoPickerScreen(
     hideIsSelectedVideoSheetOpen: () -> Unit = {},
     showIsSelectedDefinedContentSheetOpen: () -> Unit = {},
     hideIsSelectedDefinedContentSheetOpen: () -> Unit = {},
-    onClickContentChip: (String) -> Unit,
+    onClickContentChip: (List<String>) -> Unit,
     setVideo: (GalleryVideo) -> Unit,
     uploadVideoS3Bucket: (File) -> Unit,
     updateContentTextField: (String) -> Unit = {},
     updateLocationTextField: (String) -> Unit = {},
     locationFocusRequester: FocusRequester = remember { FocusRequester() },
     contentFocusRequester: FocusRequester = remember { FocusRequester() },
+    showSnackBar: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val cameraPermissionState = rememberPermissionState(
@@ -374,10 +380,10 @@ fun VideoPickerScreen(
         Box(modifier = Modifier.padding(16.dp)) {
             RecordyButton(
                 text = "키워드",
-                enabled = false,
+                enabled = state.selectedList.isNotEmpty() && state.locationTextValue.isNotEmpty() && state.video != null,
                 onClick = {
-                    if (state.video != null) {
-                        uploadVideoS3Bucket(File(state.video.filepath))
+                    if (state.selectedList.isNotEmpty() && state.locationTextValue.isNotEmpty() && state.video != null) {
+                        uploadVideoS3Bucket(File(state.video?.filepath))
 //                compressVideo(context, state.video.uri,state.video.name, onSuccess = onSuccess)
                     }
                 },
@@ -417,6 +423,7 @@ fun VideoPickerScreen(
         onDismissRequest = hideIsSelectedVideoSheetOpen,
         galleyVideos = exampleVideoList,
         setVideo = setVideo,
+        showSnackBar = showSnackBar,
     )
     DefinedContentBottomSheet(
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
@@ -424,7 +431,7 @@ fun VideoPickerScreen(
         onDismissRequest = hideIsSelectedDefinedContentSheetOpen,
         contentList = state.contentList,
         selectedList = state.selectedList,
-        onClickContentChip = onClickContentChip,
+        onClickDefinedContent = onClickContentChip,
     )
 }
 

@@ -69,19 +69,17 @@ fun getAllVideos(
                 val date = cursor.getString(dateColumn)
                 val contentUri = ContentUris.withAppendedId(uriExternal, id)
                 val duration = getVideoDuration(context, contentUri)
-                if (duration <= 15000) {
-                    galleryVideoList.add(
-                        GalleryVideo(
-                            id,
-                            filepath = filepath,
-                            uri = contentUri,
-                            name = name,
-                            date = date ?: "",
-                            size = size,
-                            duration = duration,
-                        ),
-                    )
-                }
+                galleryVideoList.add(
+                    GalleryVideo(
+                        id,
+                        filepath = filepath,
+                        uri = contentUri,
+                        name = name,
+                        date = date ?: "",
+                        size = size,
+                        duration = duration,
+                    ),
+                )
             } while (cursor.moveToNext())
         }
     }
@@ -103,6 +101,7 @@ fun getVideoDuration(context: Context, uri: Uri): Long {
         retriever.release()
     }
 }
+
 data class GalleryVideo(
     val id: Long,
     val filepath: String,
@@ -168,7 +167,12 @@ fun formatDuration(durationMillis: Long): String {
     return String.format("%d:%02d", minutes, seconds)
 }
 
-fun uploadFileToS3PresignedUrl(presignedUrl: String, thumbnailUrl: String, file: File, callback: (Boolean, String) -> Unit) {
+fun uploadFileToS3PresignedUrl(
+    presignedUrl: String,
+    thumbnailUrl: String,
+    file: File,
+    callback: (Boolean, String) -> Unit,
+) {
     val client = OkHttpClient()
     val mediaType = "application/octet-stream".toMediaTypeOrNull()
     val requestBody = RequestBody.create(mediaType, file)
@@ -194,7 +198,12 @@ fun uploadFileToS3PresignedUrl(presignedUrl: String, thumbnailUrl: String, file:
     )
 }
 
-fun uploadFileToS3ThumbnailPresignedUrl(context: Context, presignedUrl: String, file: File, callback: (Boolean, String) -> Unit) {
+fun uploadFileToS3ThumbnailPresignedUrl(
+    context: Context,
+    presignedUrl: String,
+    file: File,
+    callback: (Boolean, String) -> Unit,
+) {
     val videoPath = file.absolutePath
     val outputImagePath = File(context.cacheDir, file.name)
     getVideoFrameAt1Sec(videoPath, outputImagePath.absolutePath)
@@ -222,12 +231,14 @@ fun uploadFileToS3ThumbnailPresignedUrl(context: Context, presignedUrl: String, 
         },
     )
 }
+
 fun getVideoFrameAt1Sec(videoPath: String, outputImagePath: String) {
     val retriever = MediaMetadataRetriever()
     try {
         retriever.setDataSource(videoPath)
         val timeUs = 1 * 1000000
-        val bitmap: Bitmap? = retriever.getFrameAtTime(timeUs.toLong(), MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+        val bitmap: Bitmap? =
+            retriever.getFrameAtTime(timeUs.toLong(), MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
 
         if (bitmap != null) {
             saveBitmapAsJpeg(bitmap, outputImagePath)

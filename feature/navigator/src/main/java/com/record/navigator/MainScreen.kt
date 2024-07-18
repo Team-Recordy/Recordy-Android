@@ -84,7 +84,7 @@ internal fun MainScreen(
                 homeNavGraph(
                     padding = innerPadding,
                     navigateToVideoDetail = navigator::navigateVideoDetail,
-                    navigateToUpload = navigator::navigateToUpload
+                    navigateToUpload = navigator::navigateToUpload,
                 )
 
                 profileNavGraph(

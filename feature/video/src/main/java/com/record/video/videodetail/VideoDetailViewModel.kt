@@ -186,10 +186,12 @@ class VideoDetailViewModel @Inject constructor(
 
     fun deleteVideo() = viewModelScope.launch {
         val id = uiState.value.deleteVideoId
+        dismissDeleteDialog()
         videoCoreRepository.deleteVideo(id).onSuccess {
             val videos = uiState.value.videos.filter { it.id != id }.toImmutableList()
             postSideEffect(VideoDetailSideEffect.MovePage(uiState.value.videos.size - videos.size))
             intent { copy(videos = videos) }
+            navigateToBack()
         }.onFailure { handleError(it) }
     }
 

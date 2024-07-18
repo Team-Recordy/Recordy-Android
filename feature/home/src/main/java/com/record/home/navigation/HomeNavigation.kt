@@ -24,7 +24,7 @@ fun NavGraphBuilder.homeNavGraph(
             padding = padding,
             modifier = modifier,
             navigateToVideoDetail = navigateToVideoDetail,
-            navigateToUpload = navigateToUpload
+            navigateToUpload = navigateToUpload,
         )
     }
 }

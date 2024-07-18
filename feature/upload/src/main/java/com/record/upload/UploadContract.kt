@@ -17,6 +17,6 @@ data class UploadState(
     val thumbnailUrl: String = "",
 ) : UiState
 
-sealed interface UploadSideEffect : SideEffect{
+sealed interface UploadSideEffect : SideEffect {
     data object PopBackStack : UploadSideEffect
 }

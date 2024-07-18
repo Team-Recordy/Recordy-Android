@@ -1,58 +1,118 @@
 package com.record.mypage.follow
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.record.model.UserData
+import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel
+import com.record.user.model.User
+import com.record.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FollowViewModel @Inject constructor() : BaseViewModel<FollowState, FollowSideEffect>(
+class FollowViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+) : BaseViewModel<FollowState, FollowSideEffect>(
     FollowState(),
 ) {
+    init {
+        getFollowingList()
+        getFollowerList()
+    }
 
-    fun toggleFollow(user: UserData) {
-        intent {
-            val updatedFollowingList = updateUserList(uiState.value.followingList, user)
-            val updatedFollowerList = updateUserList(uiState.value.followerList, user)
+    fun getFollowingList() =
+        viewModelScope.launch {
+            userRepository.getFollowingList(
+                cursorId = uiState.value.followingCursor,
+                size = 10,
+            ).onSuccess { response ->
+                val updatedList = uiState.value.followingList.toList()
 
-            copy(
-                followingList = updatedFollowingList,
-                followerList = updatedFollowerList,
-            )
+                intent {
+                    copy(followingList = (updatedList + response.data).toImmutableList())
+                }
+            }.onFailure {
+                when (it) {
+                    is ApiError -> {
+                        Log.e("FollowViewModel", it.message)
+                    }
+                }
+            }
         }
 
+    fun loadMoreFollowing() {
+        if (uiState.value.isAll) {
+            intent {
+                copy(followingCursor = uiState.value.followingCursor + 1)
+            }
+            getFollowingList()
+        }
+    }
+
+    fun loadMoreFollower() {
+        if (uiState.value.isAll) {
+            intent {
+                copy(followerCursor = uiState.value.followerCursor + 1)
+            }
+            getFollowerList()
+        }
+    }
+
+    fun getFollowerList() {
         viewModelScope.launch {
-            if (user.isFollowing) {
-                postSideEffect(FollowSideEffect.UnFollowing)
-            } else {
-                postSideEffect(FollowSideEffect.Following)
+            userRepository.getFollowerList(
+                cursorId = uiState.value.followerCursor,
+                size = 10,
+            ).onSuccess { response ->
+                val updatedList = uiState.value.followerList.toList()
+
+                intent {
+                    copy(followerList = (updatedList + response.data).toImmutableList())
+                }
+            }.onFailure {
+                when (it) {
+                    is ApiError -> {
+                        Log.e("FollowViewModel", it.message)
+                    }
+                }
             }
         }
     }
 
-    private fun updateUserList(list: ImmutableList<UserData>, user: UserData): ImmutableList<UserData> {
+    fun toggleFollow(isFollowingScreen: Boolean, user: User) {
+        val updatedList = if (isFollowingScreen) {
+            updateUserList(uiState.value.followingList, user)
+        } else {
+            updateUserList(uiState.value.followerList, user)
+        }
+
+        intent {
+            if (isFollowingScreen) {
+                copy(followingList = updatedList)
+            } else {
+                copy(followerList = updatedList)
+            }
+        }
+
+        viewModelScope.launch {
+            userRepository.postFollow(user.id.toLong())
+        }
+    }
+
+    private fun updateUserList(list: ImmutableList<User>, user: User): ImmutableList<User> {
         val newList = list.toMutableList()
         val index = newList.indexOfFirst { it.id == user.id }
         if (index >= 0) {
             val updatedUser = newList[index].copy(isFollowing = !newList[index].isFollowing)
             newList[index] = updatedUser
         }
-        return newList.toPersistentList()
+        return newList.toImmutableList()
     }
 
-    fun updateFollowerList(newList: List<UserData>) {
-        intent {
-            copy(followerList = newList.toPersistentList())
-        }
-    }
-
-    fun updateFollowingList(newList: List<UserData>) {
-        intent {
-            copy(followingList = newList.toPersistentList())
-        }
+    fun navigateToProfile(id: Long) {
+        postSideEffect(FollowSideEffect.NavigateToUserProfile(id))
     }
 }

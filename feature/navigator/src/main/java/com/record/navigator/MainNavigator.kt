@@ -94,8 +94,8 @@ internal class MainNavigator(
         navController.navigateToFollower()
     }
 
-    fun navigateProfile(id: Int) {
-        navController.navigateProfile(navOptions { })
+    fun navigateProfile(id: Long) {
+        navController.navigateProfile(id)
     }
 
     fun navigateSetting() {

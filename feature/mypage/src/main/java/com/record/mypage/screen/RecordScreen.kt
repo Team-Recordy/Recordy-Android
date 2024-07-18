@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.VideoType
+import com.record.ui.scroll.OnBottomReached
 import com.record.video.model.VideoData
 import kotlinx.collections.immutable.ImmutableList
 
@@ -31,9 +33,14 @@ fun RecordScreen(
     videoItems: ImmutableList<VideoData>,
     recordCount: Int,
     onItemClick: (VideoType, Long) -> Unit,
+    onLoadMore: () -> Unit,
+    onBookmarkClick: (Long) -> Unit,
 ) {
     val videos = remember { mutableStateOf(videoItems) }
-
+    val lazyGridState = rememberLazyGridState()
+    lazyGridState.OnBottomReached {
+        onLoadMore()
+    }
     if (videos.value.isEmpty()) {
         EmptyDataScreen(
             imageRes = com.record.designsystem.R.drawable.img_camera,
@@ -45,6 +52,7 @@ fun RecordScreen(
         )
     } else {
         LazyVerticalGrid(
+            state = lazyGridState,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
@@ -72,7 +80,7 @@ fun RecordScreen(
                     isBookmarkable = true,
                     isBookmark = item.isBookmark,
                     onBookmarkClick = {
-                        //
+                        onBookmarkClick(item.id)
                     },
                     location = item.location,
                     onClick = {

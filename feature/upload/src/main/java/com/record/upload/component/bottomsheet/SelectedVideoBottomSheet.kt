@@ -77,7 +77,7 @@ fun SelectedVideoBottomSheet(
                     items(galleyVideos) { video ->
                         VideoThumbnail(
                             video = video,
-                            setVideo = {
+                            onVideoSelected = {
                                 if (video.duration > 15000) {
                                     showSnackBar()
                                 } else {

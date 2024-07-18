@@ -32,5 +32,5 @@ fun ResponseGetUserProfileDto.toDomain() = Profile(
     nickname = nickname,
     profileImageUrl = profileImageUrl,
     recordCount = recordCount,
-    bookmarkCount = bookmarkCount
+    bookmarkCount = bookmarkCount,
 )

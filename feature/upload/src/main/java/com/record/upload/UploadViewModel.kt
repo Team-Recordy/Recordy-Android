@@ -23,10 +23,11 @@ class UploadViewModel @Inject constructor(
 
     fun setSelectedList(selectedContent: String) = intent {
         val newSelectedList = selectedList.toMutableList()
-        if (newSelectedList.contains(selectedContent))
+        if (newSelectedList.contains(selectedContent)) {
             newSelectedList.remove(selectedContent)
-        else
+        } else {
             if (newSelectedList.size < 3) newSelectedList.add(selectedContent)
+        }
         copy(selectedList = newSelectedList)
     }
 
@@ -45,7 +46,7 @@ class UploadViewModel @Inject constructor(
             uploadFileToS3PresignedUrl(
                 uiState.value.bucketUrl,
                 uiState.value.thumbnailUrl,
-                file
+                file,
             ) { success, message ->
                 println(message)
                 a = removeQueryParameters(message)

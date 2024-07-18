@@ -111,7 +111,7 @@ class MypageViewModel @Inject constructor(
                     bookmarkIsEnd = false,
                 )
             }
-            Log.e("우상욱","우상욱1")
+            Log.e("우상욱", "우상욱1")
         }
     }
 

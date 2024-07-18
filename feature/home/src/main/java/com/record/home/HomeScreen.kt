@@ -63,7 +63,7 @@ fun HomeRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToVideoDetail: (VideoType, Int, String?, Long) -> Unit,
+    navigateToVideoDetail: (VideoType, Long, String?, Long) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -95,7 +95,7 @@ fun HomeScreen(
     state: HomeState,
     onUploadButtonClick: () -> Unit,
     onChipButtonClick: (Int) -> Unit,
-    onVideoClick: (Int, VideoType) -> Unit,
+    onVideoClick: (Long, VideoType) -> Unit,
     onBookmarkClick: (Long) -> Unit,
 ) {
     var boxSize by remember {
@@ -177,7 +177,7 @@ fun LoadingLottie() {
 fun CollapsingToolbar(
     state: HomeState,
     onChipButtonClick: (Int) -> Unit,
-    onVideoClick: (Int, VideoType) -> Unit,
+    onVideoClick: (Long, VideoType) -> Unit,
     onBookmarkClick: (Long) -> Unit,
 ) {
     val toolbarState = rememberCollapsingToolbarScaffoldState()
@@ -272,7 +272,7 @@ fun ChipRow(
 @Composable
 fun Content(
     state: HomeState,
-    onVideoClick: (Int, VideoType) -> Unit,
+    onVideoClick: (Long, VideoType) -> Unit,
     onBookmarkClick: (Long) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
@@ -309,7 +309,7 @@ fun Section(
     title: String,
     videoList: List<VideoData>,
     screenWidth: Dp,
-    onVideoClick: (Int, VideoType) -> Unit,
+    onVideoClick: (Long, VideoType) -> Unit,
     onBookmarkClick: (Long) -> Unit,
     videoType: VideoType,
 ) {
@@ -336,7 +336,7 @@ fun Section(
                     location = videoData.location,
                     isBookmarkable = true,
                     isBookmark = videoData.isBookmark,
-                    onClick = { onVideoClick(index, videoType) },
+                    onClick = { onVideoClick(videoData.id, videoType) },
                     onBookmarkClick = { onBookmarkClick(videoData.id) },
                 )
             }

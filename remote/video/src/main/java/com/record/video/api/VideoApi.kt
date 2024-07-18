@@ -44,7 +44,7 @@ interface VideoApi {
         @Query("size") size: Int,
     ): ResponseGetSliceVideoDto
 
-    @GET("/api/v1/records/bookmark")
+    @GET("/api/v1/records/bookmarks")
     suspend fun getBookmarkVideos(
         @Query("cursorId") cursorId: Long,
         @Query("size") size: Int,

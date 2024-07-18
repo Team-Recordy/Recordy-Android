@@ -46,8 +46,8 @@ fun NamingScreen(uiState: SignUpState, onTextChangeEvent: (String) -> Unit, onIn
     }
 
     LaunchedEffect(lastInputTime) {
-        delay(500)
-        if (System.currentTimeMillis() - lastInputTime >= 500) {
+        delay(300)
+        if (System.currentTimeMillis() - lastInputTime >= 300) {
             onInputComplete()
         }
     }

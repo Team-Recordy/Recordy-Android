@@ -6,6 +6,6 @@ data class Profile(
     val followingCount: Int,
     val isFollowing: Boolean,
     val nickname: String,
-    val profileImageUrl: String?,
+    val profileImageUrl: String,
     val recordCount: Int,
 )

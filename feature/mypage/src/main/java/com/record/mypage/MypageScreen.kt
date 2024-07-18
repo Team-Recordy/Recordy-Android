@@ -47,14 +47,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
-import com.record.model.SampleData
 import com.record.model.VideoType
 import com.record.mypage.follow.FollowingRoute
 import com.record.mypage.screen.BookmarkScreen
 import com.record.mypage.screen.RecordScreen
 import com.record.mypage.screen.TasteScreen
 import com.record.ui.extension.customClickable
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -65,9 +66,35 @@ fun MypageRoute(
     navigateToSetting: () -> Unit,
     navigateToFollower: () -> Unit,
     navigateToFollowing: () -> Unit,
-    navigateToVideo: (VideoType, Int) -> Unit,
+    navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    viewModel.fetchUserProfile()
+    viewModel.fetchUserPreferences()
+    viewModel.fetchUserVideos()
+    viewModel.fetchBookmarkVideos()
+
+    LaunchedEffectWithLifecycle() {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                MypageSideEffect.NavigateToFollower -> {
+                    navigateToFollower()
+                }
+
+                MypageSideEffect.NavigateToFollowing -> {
+                    navigateToFollowing()
+                }
+
+                MypageSideEffect.NavigateToSettings -> {
+                    navigateToSetting()
+                }
+
+                is MypageSideEffect.NavigateToVideoDetail -> {
+                    navigateToVideo(sideEffect.type, sideEffect.videoId)
+                }
+            }
+        }
+    }
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -77,10 +104,10 @@ fun MypageRoute(
         MypageScreen(
             state = uiState,
             onTabSelected = { viewModel.selectTab(it) },
-            onFollowingClick = navigateToFollowing,
-            onFollowerClick = navigateToFollower,
-            navigateToSetting = navigateToSetting,
-            navigateToVideo = navigateToVideo,
+            onFollowingClick = viewModel::navigateToFollowing,
+            onFollowerClick = viewModel::navigateToFollower,
+            navigateToSetting = viewModel::navigateToSetting,
+            navigateToVideo = viewModel::navigateToVideoDetail,
         )
     }
 }
@@ -93,7 +120,7 @@ fun MypageScreen(
     navigateToSetting: () -> Unit,
     onFollowerClick: () -> Unit,
     onFollowingClick: () -> Unit,
-    navigateToVideo: (VideoType, Int) -> Unit,
+    navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
@@ -182,24 +209,22 @@ fun MypageScreen(
                         Box(
                             modifier = Modifier.fillMaxSize(),
                         ) {
-                            TasteScreen(
-                                listOf(Pair("신나는", 72), Pair("활동적인", 20), Pair("북적북적한", 5)),
-                            )
+                            TasteScreen(dataAvailable = state.preferences)
                         }
                     }
 
                     MypageTab.RECORD.ordinal -> {
                         RecordScreen(
-                            videoItems = SampleData.sampleVideos,
-                            recordCount = SampleData.sampleVideos.size,
+                            videoItems = state.myRecordList,
+                            recordCount = state.recordVideoCount,
                             onItemClick = navigateToVideo,
                         )
                     }
 
                     MypageTab.BOOKMARK.ordinal -> {
                         BookmarkScreen(
-                            videoItems = SampleData.sampleVideos,
-                            recordCount = SampleData.sampleVideos.size,
+                            videoItems = state.myBookmarkList,
+                            recordCount = state.bookmarkVideoCount,
                             onItemClick = navigateToVideo,
                         )
                     }

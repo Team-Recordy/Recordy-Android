@@ -1,5 +1,7 @@
 package com.record.setting
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -15,7 +17,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -81,6 +85,7 @@ fun SettingScreen(
     logoutEvent: () -> Unit,
     deleteEvent: () -> Unit,
 ) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -97,10 +102,27 @@ fun SettingScreen(
             style = RecordyTheme.typography.title3,
             color = RecordyTheme.colors.gray01,
         )
-        SettingButtonWithIcon(text = "커뮤니티 가이드라인")
-        SettingButtonWithIcon(text = "서비스 이용약관")
-        SettingButtonWithIcon(text = "개인정보 취급취침")
-        SettingButtonWithIcon(text = "문의")
+        SettingButtonWithIcon(
+            text = "커뮤니티 가이드라인",
+            onClickEvent = {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/98d0fa7eac84431ab6f6dd63be0fb8ff?pvs=4"))
+                context.startActivity(intent)
+            },
+        )
+
+        SettingButtonWithIcon(text = "서비스 이용약관", onClickEvent = {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/e5c0a49d73474331a21b1594736ee0df?pvs=4"))
+            context.startActivity(intent)
+        },)
+        SettingButtonWithIcon(text = "개인정보 취급취침", onClickEvent = {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/c2bdf3572df1495c92aedd0437158cf0"))
+            context.startActivity(intent)
+        },)
+        SettingButtonWithIcon(text = "문의", onClickEvent = {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/46bdd724bf734cf79d34142a03ad52bc?pvs=4"))
+            context.startActivity(intent)
+        },)
+        Spacer(modifier = Modifier.height(12.dp))
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
@@ -136,7 +158,7 @@ fun SettingButtonWithIcon(
     text: String = "커뮤니티 가이드라인",
     onClickEvent: () -> Unit = {},
 ) {
-    Row(modifier = modifier.customClickable(rippleEnabled = false, onClick = onClickEvent)) {
+    Row(modifier = modifier.customClickable(rippleEnabled = false, onClick = onClickEvent), verticalAlignment = Alignment.CenterVertically) {
         Text(
             text = text,
             modifier = modifier
@@ -171,6 +193,7 @@ fun SettingButton(
         modifier = Modifier
             .fillMaxWidth()
             .customClickable(rippleEnabled = false, onClick = onClickEvent),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = text,

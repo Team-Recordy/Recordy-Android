@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -22,14 +22,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.theme.RecordyTheme
-import com.record.model.VideoData
 import com.record.model.VideoType
+import com.record.video.model.VideoData
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun RecordScreen(
-    videoItems: List<VideoData>,
+    videoItems: ImmutableList<VideoData>,
     recordCount: Int,
-    onItemClick: (VideoType, Int) -> Unit,
+    onItemClick: (VideoType, Long) -> Unit,
 ) {
     val videos = remember { mutableStateOf(videoItems) }
 
@@ -65,24 +66,18 @@ fun RecordScreen(
                     )
                 }
             }
-            itemsIndexed(videos.value) { index, item ->
-                val isBookmarked = remember { mutableStateOf(item.isBookmark) }
-
+            items(videoItems) { item ->
                 RecordyVideoThumbnail(
-                    imageUri = item.previewUri,
+                    imageUri = item.previewUrl,
                     isBookmarkable = true,
-                    isBookmark = isBookmarked.value,
+                    isBookmark = item.isBookmark,
                     onBookmarkClick = {
-                        isBookmarked.value = !isBookmarked.value
-                        val index = videos.value.indexOfFirst { it.id == item.id }
-                        if (index != -1) {
-                            videos.value = videos.value.toMutableList().apply {
-                                set(index, get(index).copy(isBookmark = isBookmarked.value))
-                            }
-                        }
+                        //
                     },
                     location = item.location,
-                    onClick = { onItemClick(VideoType.MY, index) },
+                    onClick = {
+                        onItemClick(VideoType.MY, item.id)
+                    },
                 )
             }
         }

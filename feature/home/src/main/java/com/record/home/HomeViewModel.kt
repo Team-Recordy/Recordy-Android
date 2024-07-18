@@ -96,10 +96,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun navigateToVideo(index: Int, type: VideoType) {
+    fun navigateToVideo(videoId: Long, type: VideoType) {
         val selectedIndex = uiState.value.selectedChipIndex
         val selectedKeyword = if (selectedIndex != null) uiState.value.chipList[selectedIndex] else null
-        postSideEffect(HomeSideEffect.navigateToVideo(index, type, selectedKeyword))
+        postSideEffect(HomeSideEffect.navigateToVideo(videoId, type, selectedKeyword))
     }
 
     fun bookmark(id: Long) {

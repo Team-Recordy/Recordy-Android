@@ -6,7 +6,7 @@ import com.record.video.model.remote.response.ResponseGetVideoDto
 
 interface RemoteVideoDataSource {
     suspend fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto>
-    suspend fun getRecentVideos(keywords: List<String>?, pageNumber: Int, pageSize: Int): ResponseGetSliceVideoDto
+    suspend fun getRecentVideos(keywords: List<String>?, cursor: Long, pageSize: Int): ResponseGetSliceVideoDto
     suspend fun getPopularVideos(keywords: List<String>?, pageNumber: Int, pageSize: Int): ResponseGetPagingVideoDto
     suspend fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto
     suspend fun getFollowingVideos(userId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto

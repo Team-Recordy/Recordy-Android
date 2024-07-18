@@ -27,6 +27,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -36,13 +38,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -70,6 +74,7 @@ import com.record.upload.component.bottomsheet.DefinedContentBottomSheet
 import com.record.upload.component.bottomsheet.SelectedVideoBottomSheet
 import com.record.upload.extension.GalleryVideo
 import com.record.upload.extension.getAllVideos
+import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -84,6 +89,8 @@ fun VideoPickerRoute(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val locationFocusRequester = remember { FocusRequester() }
+    val contentFocusRequester = remember { FocusRequester() }
 
     BackHandler(true) {
         coroutineScope.launch {
@@ -93,13 +100,21 @@ fun VideoPickerRoute(
 
     LaunchedEffectWithLifecycle {
         viewModel.getPresignedUrl()
-        viewModel.sideEffect.collectLatest { }
     }
 
     LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is UploadSideEffect.PopBackStack -> popBackStack()
+                is UploadSideEffect.FocusLocation -> {
+                    awaitFrame()
+                    locationFocusRequester.requestFocus()
+                }
+
+                is UploadSideEffect.FocusContent -> {
+                    awaitFrame()
+                    contentFocusRequester.requestFocus()
+                }
             }
         }
     }
@@ -119,6 +134,10 @@ fun VideoPickerRoute(
             viewModel.uploadVideoToS3Bucket(context, it)
         },
         onClickBackStack = viewModel::popBackStack,
+        updateLocationTextField = viewModel::updateLocationTextField,
+        updateContentTextField = viewModel::updateContentTextField,
+        locationFocusRequester = locationFocusRequester,
+        contentFocusRequester = locationFocusRequester,
     )
 }
 
@@ -142,6 +161,10 @@ fun VideoPickerScreen(
     onClickContentChip: (String) -> Unit,
     setVideo: (GalleryVideo) -> Unit,
     uploadVideoS3Bucket: (File) -> Unit,
+    updateContentTextField: (String) -> Unit = {},
+    updateLocationTextField: (String) -> Unit = {},
+    locationFocusRequester: FocusRequester = remember { FocusRequester() },
+    contentFocusRequester: FocusRequester = remember { FocusRequester() },
 ) {
     val context = LocalContext.current
     val cameraPermissionState = rememberPermissionState(
@@ -164,9 +187,6 @@ fun VideoPickerScreen(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
             ) == PackageManager.PERMISSION_GRANTED,
         )
-    }
-    var normalValue by remember {
-        mutableStateOf("")
     }
     val scope = rememberCoroutineScope()
     val imageLoader = ImageLoader.Builder(context)
@@ -322,12 +342,14 @@ fun VideoPickerScreen(
         )
         RecordyBasicTextField(
             modifier = Modifier
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .focusRequester(locationFocusRequester),
             placeholder = "영상 속 위치는 어디인가요?",
             maxLines = 1,
             maxLength = 10,
-            value = normalValue,
-            onValueChange = { normalValue = it },
+            value = state.locationTextValue,
+            onValueChange = updateLocationTextField,
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
         )
         Text(
             text = "내용",
@@ -342,11 +364,15 @@ fun VideoPickerScreen(
             maxLines = 20,
             maxLength = 300,
             minHeight = 148.dp,
-            value = normalValue,
+            value = state.contentTextValue,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 10.dp),
-            onValueChange = { normalValue = it },
+                .padding(bottom = 10.dp)
+                .focusRequester(contentFocusRequester),
+            onValueChange = updateContentTextField,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Done
+            )
         )
         Box(modifier = Modifier.padding(16.dp)) {
             RecordyButton(

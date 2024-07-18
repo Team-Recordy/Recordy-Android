@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.record.upload.SelectedVideoRoute
 import com.record.upload.VideoPickerRoute
 
 fun NavController.navigateToUpload() {
@@ -26,14 +25,8 @@ fun NavGraphBuilder.uploadNavGraph(
             popBackStack = popBackStack,
         )
     }
-    composable(route = UploadRoute.SELECTED_VIDEO) {
-        SelectedVideoRoute(
-            paddingValues = padding,
-        )
-    }
 }
 
 object UploadRoute {
     const val ROUTE = "upload"
-    const val SELECTED_VIDEO = "selected-video"
 }

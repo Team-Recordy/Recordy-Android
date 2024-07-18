@@ -14,47 +14,41 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 import java.net.URL
-import java.net.URLDecoder
 import javax.inject.Inject
 
 @HiltViewModel
 class UploadViewModel @Inject constructor(
     private val uploadRepository: UploadRepository,
-) :
-    BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+
     fun setSelectedList(selectedContent: String) = intent {
         val newSelectedList = selectedList.toMutableList()
-        if (newSelectedList.contains(selectedContent)) {
+        if (newSelectedList.contains(selectedContent))
             newSelectedList.remove(selectedContent)
-        } else {
+        else
             if (newSelectedList.size < 3) newSelectedList.add(selectedContent)
-        }
         copy(selectedList = newSelectedList)
     }
 
     suspend fun getPresignedUrl() = viewModelScope.launch {
         uploadRepository.getPresignedUrl().onSuccess {
-            Log.d("success", "$it")
             bucket(it.videoUrl, it.imageUrl)
         }.onFailure {
             Log.d("failure", "${it.message}")
         }
     }
 
-    private fun decodeBase64(encodedString: String): String? {
-        val decodedBytes = Base64.decode(encodedString, Base64.DEFAULT)
-        val decodedString = String(decodedBytes, Charsets.UTF_8)
-        return URLDecoder.decode(decodedString, "UTF-8")
-    }
-
     fun uploadVideoToS3Bucket(context: Context, file: File) =
         viewModelScope.launch {
             var a = ""
             var b = ""
-            uploadFileToS3PresignedUrl(uiState.value.bucketUrl, uiState.value.thumbnailUrl, file) { success, message ->
+            uploadFileToS3PresignedUrl(
+                uiState.value.bucketUrl,
+                uiState.value.thumbnailUrl,
+                file
+            ) { success, message ->
                 println(message)
                 a = removeQueryParameters(message)
-                Log.d("messageFile", "$message")
                 if (success) {
                     uploadFileToS3ThumbnailPresignedUrl(
                         context,
@@ -63,7 +57,6 @@ class UploadViewModel @Inject constructor(
                     ) { success, message ->
                         println(message)
                         b = removeQueryParameters(message)
-                        Log.d("messageThumbnail", "$message ")
                         uploadRecord(a, b)
                     }
                 }
@@ -85,16 +78,26 @@ class UploadViewModel @Inject constructor(
             }
         }
 
+    fun updateLocationTextField(locationValue: String) = intent {
+        copy(locationTextValue = locationValue)
+    }
+
+    fun updateContentTextField(contentValue: String) = intent {
+        copy(contentTextValue = contentValue)
+    }
+
     private fun encodingString(contentValue: String): String {
         val bytes = contentValue.toByteArray(Charsets.UTF_8)
         val encodedString = Base64.encodeToString(bytes, Base64.DEFAULT)
         return encodedString
     }
+
     fun removeQueryParameters(urlString: String): String {
         val url = URL(urlString)
         val cleanUrl = URL(url.protocol, url.host, url.port, url.path)
         return cleanUrl.toString()
     }
+
     fun setVideo(video: GalleryVideo) = intent {
         copy(video = video)
     }

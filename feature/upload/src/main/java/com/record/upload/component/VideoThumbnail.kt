@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,15 +29,17 @@ import com.record.upload.extension.formatDuration
 @Composable
 fun VideoThumbnail(
     video: GalleryVideo,
-    setVideo: (GalleryVideo) -> Unit,
+    onVideoSelected: (GalleryVideo) -> Unit,
 ) {
     val context = LocalContext.current
-    val imageLoader = ImageLoader.Builder(context)
-        .components {
-            add(VideoFrameDecoder.Factory())
-        }
-        .crossfade(true)
-        .build()
+    val imageLoader = remember {
+        ImageLoader.Builder(context)
+            .components {
+                add(VideoFrameDecoder.Factory())
+            }
+            .crossfade(true)
+            .build()
+    }
 
     val painter = rememberAsyncImagePainter(
         model = video.filepath,
@@ -54,7 +57,7 @@ fun VideoThumbnail(
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RectangleShape)
-                .customClickable { setVideo(video) },
+                .customClickable { onVideoSelected(video) },
         )
         Text(
             text = formatDuration(video.duration),

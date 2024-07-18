@@ -31,7 +31,6 @@ class UploadViewModel @Inject constructor(
         }
     }
     fun setSelectedList(selectedContent: List<String>) = intent {
-        Log.d("selectedContent", "$selectedContent")
         copy(selectedList = selectedContent)
     }
 
@@ -82,8 +81,9 @@ class UploadViewModel @Inject constructor(
                 Log.d("testUpload", "upload")
             }.onFailure {
             }
+            popBackStack()
         }
-//        popBackStack()
+
     }
     fun updateLocationTextField(locationValue: String) = intent {
         copy(locationTextValue = locationValue)

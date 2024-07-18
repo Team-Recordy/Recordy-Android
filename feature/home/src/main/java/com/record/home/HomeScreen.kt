@@ -67,6 +67,7 @@ fun HomeRoute(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToVideoDetail: (VideoType, Long, String?, Long) -> Unit,
+    navigateToUpload: () -> Unit = {},
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -74,9 +75,7 @@ fun HomeRoute(
         viewModel.getVideos()
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
-                HomeSideEffect.navigateToUpload -> {
-                }
-
+                HomeSideEffect.navigateToUpload -> navigateToUpload()
                 is HomeSideEffect.navigateToVideo -> {
                     navigateToVideoDetail(sideEffect.type, sideEffect.id, sideEffect.keyword, 0)
                 }

@@ -38,6 +38,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.record.designsystem.component.snackbar.RecordySnackBar
 import com.record.designsystem.theme.RecordyTheme
+import com.record.home.HomeSideEffect.navigateToUpload
 import com.record.home.navigation.homeNavGraph
 import com.record.login.navigation.loginNavGraph
 import com.record.mypage.navigation.mypageNavGraph
@@ -83,6 +84,7 @@ internal fun MainScreen(
                 homeNavGraph(
                     padding = innerPadding,
                     navigateToVideoDetail = navigator::navigateVideoDetail,
+                    navigateToUpload = navigator::navigateToUpload
                 )
 
                 profileNavGraph(
@@ -98,7 +100,6 @@ internal fun MainScreen(
 
                 uploadNavGraph(
                     padding = innerPadding,
-                    navigateSelectedVideo = navigator::navigateSelectedVideo,
                 )
 
                 videoNavGraph(

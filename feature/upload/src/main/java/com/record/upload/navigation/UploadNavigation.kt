@@ -11,8 +11,8 @@ import androidx.navigation.compose.composable
 import com.record.upload.SelectedVideoRoute
 import com.record.upload.VideoPickerRoute
 
-fun NavController.navigateUpload(navOptions: NavOptions) {
-    navigate(UploadRoute.ROUTE, navOptions)
+fun NavController.navigateToUpload() {
+    navigate(UploadRoute.ROUTE)
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)

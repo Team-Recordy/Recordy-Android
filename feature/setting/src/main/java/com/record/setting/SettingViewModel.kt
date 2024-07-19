@@ -13,16 +13,50 @@ class SettingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : BaseViewModel<SettingState, SettingSideEffect>(SettingState()) {
 
+    private fun showDialog() {
+        when (uiState.value.dialog) {
+            SettingDialog.NONE -> {
+                // No dialog to show
+            }
+
+            SettingDialog.DELETE -> {
+                intent {
+                    copy(
+                        dialog = SettingDialog.DELETE,
+                        dialogTitle = "정말 탈퇴하시겠어요?",
+                        dialogSubTitle = "소중한 기록들이 모두 사라져요.",
+                        negativeButtonLabel = "취소",
+                        positiveButtonLabel = "탈퇴",
+                    )
+                }
+            }
+
+            SettingDialog.LOGOUT -> {
+                intent {
+                    copy(
+                        dialog = SettingDialog.LOGOUT,
+                        dialogTitle = "로그아웃 하시겠어요?",
+                        dialogSubTitle = "버튼을 누르면 로그인 페이지로 이동합니다.",
+                        negativeButtonLabel = "취소",
+                        positiveButtonLabel = "로그아웃",
+                    )
+                }
+            }
+        }
+    }
+
     fun logout() {
         intent {
             copy(dialog = SettingDialog.LOGOUT)
         }
+        showDialog()
     }
 
     fun delete() {
         intent {
             copy(dialog = SettingDialog.DELETE)
         }
+        showDialog()
     }
 
     fun dismissDialog() {
@@ -31,19 +65,13 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    fun logoutInDialog() {
+    fun eventDialog() {
         viewModelScope.launch {
-            authRepository.logout()
+            if (uiState.value.dialog == SettingDialog.DELETE) authRepository.delete()
+            if (uiState.value.dialog == SettingDialog.LOGOUT) authRepository.logout()
             authRepository.saveLocalData(AuthEntity("", "", false))
             postSideEffect(SettingSideEffect.Restart)
         }
-    }
-
-    fun deleteInDialog() {
-        viewModelScope.launch {
-            authRepository.delete()
-            authRepository.saveLocalData(AuthEntity("", "", false))
-            postSideEffect(SettingSideEffect.Restart)
-        }
+        dismissDialog()
     }
 }

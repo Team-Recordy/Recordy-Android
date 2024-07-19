@@ -141,6 +141,7 @@ internal fun MainScreen(
                 message = state.snackBarMessage,
                 snackBarType = state.snackBarType,
                 bottomPadding = state.snackBarBottomPadding.dp,
+                onClick = viewModel::clickSnackbar
             )
         },
         bottomBar = {

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
+import com.record.ui.extension.customClickable
 
 @Composable
 fun RecordySnackBar(
@@ -30,8 +31,9 @@ fun RecordySnackBar(
     message: String,
     snackBarType: SnackBarType,
     bottomPadding: Dp,
+    onClick: () -> Unit,
 ) {
-    Popup() {
+    Popup {
         AnimatedVisibility(
             visible = visible,
             enter = fadeIn(),
@@ -39,7 +41,8 @@ fun RecordySnackBar(
         ) {
             Box(
                 modifier = modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .customClickable(rippleEnabled = false) { onClick() },
                 contentAlignment = Alignment.BottomCenter,
             ) {
                 RecordySnackBarContent(snackBarType = snackBarType, message = message, bottomPadding = bottomPadding)

@@ -15,4 +15,8 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainState, MainSideEff
         delay(3000L)
         intent { copy(snackBarVisible = false) }
     }
+
+    fun clickSnackbar() = viewModelScope.launch {
+        intent { copy(snackBarVisible = false) }
+    }
 }

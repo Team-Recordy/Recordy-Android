@@ -24,7 +24,7 @@ import com.record.designsystem.theme.RecordyTheme
 import com.record.mypage.R
 
 @Composable
-fun EmptyDataScreen(imageRes: Int, message: String, showButton: Boolean, onButtonClick: () -> Unit = {}) {
+fun EmptyDataScreen(imageRes: Int, message: String, showButton: Boolean, onButtonClick: () -> Unit = {},) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier

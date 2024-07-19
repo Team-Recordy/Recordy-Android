@@ -159,7 +159,7 @@ fun SignUpRoute(
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(alignment = Alignment.BottomCenter)) {
             RecordyButton(
-                text = "다음",
+                text = "완료",
                 enabled = uiState.btnEnable,
                 clickable = uiState.btnEnable,
                 onClick = {

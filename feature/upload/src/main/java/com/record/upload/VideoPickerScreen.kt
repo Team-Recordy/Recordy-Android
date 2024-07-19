@@ -46,6 +46,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -179,6 +180,7 @@ fun VideoPickerScreen(
     onClickBackStack: () -> Unit = {},
 ) {
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
     val scope = rememberCoroutineScope()
     val cameraPermissionState = rememberPermissionState(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -224,7 +226,10 @@ fun VideoPickerScreen(
         modifier = modifier
             .fillMaxSize()
             .background(Background)
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .customClickable {
+                focusManager.clearFocus()
+            },
     ) {
         TopNavigationBar(modifier = Modifier, title = "내용 작성", enableGradation = true)
         Text(
@@ -366,7 +371,7 @@ fun VideoPickerScreen(
                 .focusRequester(locationFocusRequester),
             placeholder = "영상 속 위치는 어디인가요?",
             maxLines = 1,
-            maxLength = 10,
+            maxLength = 20,
             value = state.locationTextValue,
             onValueChange = updateLocationTextField,
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),

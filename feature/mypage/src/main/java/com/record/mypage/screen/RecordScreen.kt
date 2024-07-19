@@ -33,6 +33,7 @@ fun RecordScreen(
     onItemClick: (VideoType, Long) -> Unit,
     onLoadMore: () -> Unit,
     onBookmarkClick: (Long) -> Unit,
+    navigateToUpload: () -> Unit,
 ) {
     val lazyGridState = rememberLazyGridState()
     lazyGridState.OnBottomReached(2) {
@@ -44,7 +45,7 @@ fun RecordScreen(
             message = "내 첫 번째 공간 기록을\n작성해 보세요",
             showButton = true,
             onButtonClick = {
-                // 기록 모달로 넘어가는 부분
+                navigateToUpload()
             },
         )
     } else {

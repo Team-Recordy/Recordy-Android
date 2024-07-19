@@ -9,4 +9,5 @@ android {
 dependencies {
     implementation(projects.domain.user)
     implementation(projects.domain.video)
+    implementation(projects.feature.upload)
 }

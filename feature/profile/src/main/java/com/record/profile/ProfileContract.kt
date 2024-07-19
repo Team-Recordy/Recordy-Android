@@ -18,6 +18,7 @@ data class ProfileState(
     val cursorId: Long = 0,
     val userVideos: ImmutableList<VideoData> = emptyList<VideoData>().toImmutableList(),
     val isEnd: Boolean = false,
+    val isSelectedVideoSheetOpen: Boolean = false,
 ) : UiState
 
 sealed class ProfileSideEffect : SideEffect {

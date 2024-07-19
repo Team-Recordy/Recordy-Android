@@ -33,21 +33,22 @@ fun RecordySnackBar(
     bottomPadding: Dp,
     onClick: () -> Unit,
 ) {
-    Popup(
-        onDismissRequest = onClick,
+    Box(
+        modifier = Modifier.customClickable { onClick() }
     ) {
-        AnimatedVisibility(
-            visible = visible,
-            enter = fadeIn(),
-            exit = fadeOut(),
-        ) {
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-                    .customClickable(rippleEnabled = false) { onClick() },
-                contentAlignment = Alignment.BottomCenter,
+        Popup {
+            AnimatedVisibility(
+                visible = visible,
+                enter = fadeIn(),
+                exit = fadeOut(),
             ) {
-                RecordySnackBarContent(snackBarType = snackBarType, message = message, bottomPadding = bottomPadding)
+                Box(
+                    modifier = modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.BottomCenter,
+                ) {
+                    RecordySnackBarContent(snackBarType = snackBarType, message = message, bottomPadding = bottomPadding)
+                }
             }
         }
     }

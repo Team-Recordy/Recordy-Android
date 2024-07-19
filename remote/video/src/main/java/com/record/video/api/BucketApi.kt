@@ -15,6 +15,7 @@ interface BucketApi {
         @Body requestBody: RequestBody,
         @Header("Content-Type") contentType: String = "application/octet-stream",
     ): Response<ResponseBody>
+
     @PUT
     suspend fun uploadThumbnailWithS3Video(
         @Url url: String,

@@ -33,7 +33,9 @@ fun RecordySnackBar(
     bottomPadding: Dp,
     onClick: () -> Unit,
 ) {
-    Popup {
+    Popup(
+        onDismissRequest = onClick,
+    ) {
         AnimatedVisibility(
             visible = visible,
             enter = fadeIn(),
@@ -106,6 +108,6 @@ fun RecordySnackBarContent(
 @Composable
 fun PreviewSnackBar() {
     RecordyTheme {
-        RecordySnackBar(visible = true, message = "아아아아아아아아아아아아아", snackBarType = SnackBarType.CHECK, bottomPadding = 40.dp)
+        RecordySnackBar(visible = true, message = "아아아아아아아아아아아아아", snackBarType = SnackBarType.CHECK, bottomPadding = 40.dp, onClick = {})
     }
 }

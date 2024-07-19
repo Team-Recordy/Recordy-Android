@@ -367,7 +367,7 @@ private fun buildFollowerFollowingRow(
             )
         }
         Text(
-            text = "|",
+            text = " | ",
             style = RecordyTheme.typography.body2M,
             color = RecordyTheme.colors.gray03,
         )

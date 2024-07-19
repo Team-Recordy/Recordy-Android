@@ -50,8 +50,8 @@ fun PolicyScreen(
             painter = painterResource(id = R.drawable.img_onboarding),
             contentDescription = null,
             modifier = Modifier
-                .width(84.dp)
-                .padding(start = 12.dp)
+                .width(120.dp)
+                .padding(start = 16.dp)
                 .aspectRatio(1f),
             contentScale = ContentScale.Crop,
         )
@@ -59,7 +59,7 @@ fun PolicyScreen(
         Text(
             text = "유영하러 오신 것을 \n환영합니다!",
             modifier = Modifier
-                .padding(start = 16.dp)
+                .padding(start = 10.dp)
                 .fillMaxWidth()
                 .padding(padding),
             style = RecordyTheme.typography.title1,
@@ -127,7 +127,7 @@ fun RecordyCheckBox(
                     contentDescription = null,
                     modifier = Modifier
                         .animateContentSize { _, _ -> }
-                        .height(24.dp)
+                        .height(20.dp)
                         .padding(vertical = 2.dp)
                         .aspectRatio(1f),
                     tint = if (checked) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray05,
@@ -135,7 +135,7 @@ fun RecordyCheckBox(
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = contentText,
-                    style = RecordyTheme.typography.caption1.copy(color = RecordyTheme.colors.gray01),
+                    style = RecordyTheme.typography.caption1.copy(color = RecordyTheme.colors.gray03),
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 if (moreUrl != null && onMoreClick != null) {
@@ -146,8 +146,9 @@ fun RecordyCheckBox(
                             onClick = { onMoreClick(moreUrl) },
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() },
-                        ),
-                        style = RecordyTheme.typography.caption1U.copy(color = RecordyTheme.colors.gray01),
+                        )
+                            .padding(end = 20.dp),
+                        style = RecordyTheme.typography.caption1U.copy(color = RecordyTheme.colors.gray03),
                     )
                 }
             }
@@ -167,7 +168,7 @@ fun RecordyCheckAllBox(
             .padding(padding)
             .fillMaxWidth()
             .height(48.dp)
-            .background(RecordyTheme.colors.gray04, RoundedCornerShape(8.dp))
+            .background(RecordyTheme.colors.gray09, RoundedCornerShape(8.dp))
             .clickable(onClick = onClickEvent, indication = null, interactionSource = remember { MutableInteractionSource() })
             .padding(start = 20.dp),
         contentAlignment = Alignment.Center,

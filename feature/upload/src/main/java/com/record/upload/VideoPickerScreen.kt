@@ -320,7 +320,7 @@ fun VideoPickerScreen(
         FlowRow(
             modifier = Modifier
                 .padding(vertical = 8.dp)
-                .padding(start = 8.dp, end = 12.dp)
+                .padding(start = 16.dp, end = 12.dp)
                 .customClickable(onClick = showIsSelectedDefinedContentSheetOpen),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(9.dp),

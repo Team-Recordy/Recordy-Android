@@ -8,10 +8,10 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 data class HomeState(
-    val chipList: ImmutableList<String> = emptyList<String>().toImmutableList(),
+    val chipList: ImmutableList<String> = listOf("전체").toImmutableList(),
     val popularList: ImmutableList<VideoData> = emptyList<VideoData>().toImmutableList(),
     val recentList: ImmutableList<VideoData> = emptyList<VideoData>().toImmutableList(),
-    val selectedChipIndex: Int? = null,
+    val selectedChipIndex: Int? = 0,
     val isLoading: Boolean = false,
 ) : UiState
 

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,39 +52,33 @@ fun SettingRoute(
         }
     }
 
-    if (uiState.dialog == SettingDialog.LOGOUT) {
-        RecordyDialog(
-            graphicAsset = R.drawable.img_alert,
-            title = "로그아웃 하시겠어요?",
-            subTitle = "버튼을 누르면 로그인 페이지로 이동합니다.",
-            negativeButtonLabel = "취소",
-            positiveButtonLabel = "로그아웃",
-            onDismissRequest = { viewModel.dismissDialog() },
-            onPositiveButtonClick = { viewModel.logoutInDialog() },
-        )
-    }
-    if (uiState.dialog == SettingDialog.DELETE) {
-        RecordyDialog(
-            graphicAsset = R.drawable.img_alert,
-            title = "정말 탈퇴하시겠어요?",
-            subTitle = "소중한 기록들이 모두 사라져요.",
-            negativeButtonLabel = "취소",
-            positiveButtonLabel = "탈퇴",
-            onDismissRequest = { viewModel.dismissDialog() },
-            onPositiveButtonClick = { viewModel.deleteInDialog() },
-        )
-    }
-    SettingScreen(padding, modifier, viewModel::logout, viewModel::delete)
+    SettingScreen(padding, modifier, uiState, viewModel::logout, viewModel::delete, viewModel::dismissDialog, viewModel::eventDialog)
 }
 
 @Composable
 fun SettingScreen(
     padding: PaddingValues = PaddingValues(),
     modifier: Modifier = Modifier,
+    uiState: SettingState,
     logoutEvent: () -> Unit,
     deleteEvent: () -> Unit,
+    dismissDialog: () -> Unit,
+    eventDialog: () -> Unit,
 ) {
     val context = LocalContext.current
+
+    if (uiState.dialog != SettingDialog.NONE) {
+        RecordyDialog(
+            graphicAsset = R.drawable.img_alert,
+            title = uiState.dialogTitle,
+            subTitle = uiState.dialogSubTitle,
+            negativeButtonLabel = uiState.negativeButtonLabel,
+            positiveButtonLabel = uiState.positiveButtonLabel,
+            onDismissRequest = { dismissDialog() },
+            onPositiveButtonClick = { eventDialog() },
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -110,18 +103,27 @@ fun SettingScreen(
             },
         )
 
-        SettingButtonWithIcon(text = "서비스 이용약관", onClickEvent = {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/e5c0a49d73474331a21b1594736ee0df?pvs=4"))
-            context.startActivity(intent)
-        },)
-        SettingButtonWithIcon(text = "개인정보 취급취침", onClickEvent = {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/c2bdf3572df1495c92aedd0437158cf0"))
-            context.startActivity(intent)
-        },)
-        SettingButtonWithIcon(text = "문의", onClickEvent = {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/46bdd724bf734cf79d34142a03ad52bc?pvs=4"))
-            context.startActivity(intent)
-        },)
+        SettingButtonWithIcon(
+            text = "서비스 이용약관",
+            onClickEvent = {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/e5c0a49d73474331a21b1594736ee0df?pvs=4"))
+                context.startActivity(intent)
+            },
+        )
+        SettingButtonWithIcon(
+            text = "개인정보 취급취침",
+            onClickEvent = {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/c2bdf3572df1495c92aedd0437158cf0"))
+                context.startActivity(intent)
+            },
+        )
+        SettingButtonWithIcon(
+            text = "문의",
+            onClickEvent = {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/46bdd724bf734cf79d34142a03ad52bc?pvs=4"))
+                context.startActivity(intent)
+            },
+        )
         Spacer(modifier = Modifier.height(12.dp))
         Spacer(
             modifier = Modifier
@@ -153,18 +155,19 @@ fun SettingScreen(
 
 @Composable
 fun SettingButtonWithIcon(
-    modifier: Modifier = Modifier
-        .height(48.dp),
+    modifier: Modifier = Modifier,
     text: String = "커뮤니티 가이드라인",
     onClickEvent: () -> Unit = {},
 ) {
-    Row(modifier = modifier.customClickable(rippleEnabled = false, onClick = onClickEvent), verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = modifier.customClickable(rippleColor = RecordyTheme.colors.white, onClick = onClickEvent),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Text(
             text = text,
             modifier = modifier
-                .fillMaxHeight()
                 .padding(start = 16.dp)
-                .padding(vertical = 12.dp),
+                .padding(vertical = 16.dp),
             style = RecordyTheme.typography.body1M,
             color = RecordyTheme.colors.gray01,
             textAlign = TextAlign.Center,
@@ -173,8 +176,7 @@ fun SettingButtonWithIcon(
         Icon(
             painter = painterResource(id = R.drawable.ic_angle_right_24),
             modifier = modifier
-                .padding(end = 16.dp)
-                .padding(vertical = 16.dp),
+                .padding(16.dp),
             contentDescription = "",
             tint = RecordyTheme.colors.gray03,
         )
@@ -183,8 +185,7 @@ fun SettingButtonWithIcon(
 
 @Composable
 fun SettingButton(
-    modifier: Modifier = Modifier
-        .height(48.dp),
+    modifier: Modifier = Modifier,
     text: String = "로그인 연동",
     kakao: Boolean = false,
     onClickEvent: () -> Unit = {},
@@ -192,15 +193,15 @@ fun SettingButton(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .customClickable(rippleEnabled = false, onClick = onClickEvent),
+            .customClickable(rippleColor = RecordyTheme.colors.white, onClick = onClickEvent),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = text,
             modifier = modifier
-                .fillMaxHeight()
                 .padding(start = 16.dp)
-                .padding(vertical = 12.dp),
+                .padding(vertical = 16.dp)
+                .align(Alignment.CenterVertically),
             style = RecordyTheme.typography.body1M,
             color = RecordyTheme.colors.gray01,
             textAlign = TextAlign.Center,
@@ -222,6 +223,12 @@ fun SettingButton(
 @Composable
 fun PreviewSettingScreen() {
     RecordyTheme {
-        SettingScreen(logoutEvent = {}, deleteEvent = {})
+        SettingScreen(
+            uiState = SettingState(),
+            logoutEvent = {},
+            deleteEvent = {},
+            dismissDialog = {},
+            eventDialog = {},
+        )
     }
 }

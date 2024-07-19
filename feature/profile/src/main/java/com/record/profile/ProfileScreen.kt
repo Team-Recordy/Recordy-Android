@@ -107,6 +107,7 @@ fun ProfileScreen(
         TopNavigationBar(
             title = "프로필",
             modifier = Modifier.fillMaxWidth(),
+            enableGradation = false
         )
 
         Row(

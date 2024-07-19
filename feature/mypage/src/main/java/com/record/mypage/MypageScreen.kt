@@ -112,7 +112,7 @@ fun MypageRoute(
             onLoadMoreBookmarks = viewModel::loadMoreBookmarkVideos,
             onLoadMoreRecords = viewModel::loadMoreUserVideos,
             onBookmarkClick = viewModel::bookmark,
-            navigateToUpload = navigateToUplaod
+            navigateToUpload = navigateToUplaod,
         )
     }
 }
@@ -228,7 +228,7 @@ fun MypageScreen(
                             onItemClick = navigateToVideo,
                             onLoadMore = onLoadMoreRecords,
                             onBookmarkClick = onBookmarkClick,
-                            navigateToUpload = navigateToUpload
+                            navigateToUpload = navigateToUpload,
                         )
                     }
 

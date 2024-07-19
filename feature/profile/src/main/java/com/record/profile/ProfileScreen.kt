@@ -153,21 +153,21 @@ fun ProfileScreen(
         if (state.userVideos.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize().padding(top = 171.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Image(
                     painter = painterResource(id = com.record.designsystem.R.drawable.img_empty_video),
-                    contentDescription = null
+                    contentDescription = null,
                 )
                 Text(
                     text = "아직 기록이 없어요.",
                     style = RecordyTheme.typography.title3,
                     color = RecordyTheme.colors.gray01,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top=18.dp)
+                    modifier = Modifier.padding(top = 18.dp),
                 )
             }
-        }else {
+        } else {
             LazyVerticalGrid(
                 state = lazyGridState,
                 modifier = Modifier

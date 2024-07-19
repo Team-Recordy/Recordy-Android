@@ -426,7 +426,7 @@ fun VideoPickerScreen(
 
     if (state.showExitUploadDialog) {
         RecordyDialog(
-            graphicAsset = R.drawable.img_allow,
+            graphicAsset = R.drawable.img_pen,
             title = "화면을 나가시겠어요?",
             subTitle = "지금까지 작성하신 내용이 모두 사라져요.",
             negativeButtonLabel = "취소",

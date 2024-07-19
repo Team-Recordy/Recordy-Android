@@ -26,10 +26,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.record.designsystem.R
 import com.record.designsystem.component.badge.RecordyLocationBadge
+import com.record.designsystem.component.icon.ShadowIcon
 import com.record.designsystem.theme.Black
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
-import com.record.ui.icon.ShadowIcon
 
 @Composable
 fun RecordyVideoThumbnail(

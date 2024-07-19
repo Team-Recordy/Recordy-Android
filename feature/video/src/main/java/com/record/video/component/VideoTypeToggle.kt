@@ -33,7 +33,7 @@ fun VideoTypeToggle(
     Box(
         modifier = modifier
             .background(
-                color = RecordyTheme.colors.black30,
+                color = RecordyTheme.colors.black20,
                 shape = RoundedCornerShape(40.dp),
             )
             .clickable(

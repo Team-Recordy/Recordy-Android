@@ -46,11 +46,11 @@ fun RecordyDialog(
             graphicAsset?.let {
                 Image(
                     modifier = Modifier
-                        .size(80.dp),
+                        .size(72.dp),
                     painter = painterResource(id = it),
                     contentDescription = "graphicAsset",
                 )
-                Spacer(modifier = Modifier.height(18.dp))
+                Spacer(modifier = Modifier.height(26.dp))
             }
             title?.let {
                 Text(
@@ -62,7 +62,7 @@ fun RecordyDialog(
             }
             if (subTitle != null) {
                 Text(
-                    modifier = Modifier.padding(top = 4.dp, bottom = 20.dp),
+                    modifier = Modifier.padding(top = 4.dp, bottom = 16.dp),
                     text = subTitle,
                     style = RecordyTheme.typography.caption1,
                     color = RecordyTheme.colors.gray01,

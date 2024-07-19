@@ -46,21 +46,6 @@ class UploadRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun uploadVideoToS3Bucket(url: String, file: File): Result<Unit> = runCatching {
-        val requestFile = file.asRequestBody("video/mp4".toMediaTypeOrNull())
-        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        remoteUploadDataSource.uploadVideoToS3Bucket(url = url, body)
-    }.recoverCatching { exception: Throwable ->
-        when (exception) {
-            is HttpException -> {
-                throw ApiError(exception.message())
-            }
-            else -> {
-                throw exception
-            }
-        }
-    }
-
     override suspend fun uploadVideoToS3Bucket(url: String, file: File): Result<String> =
         runCatching {
             remoteUploadDataSource.uploadVideoToS3Bucket(url, file)

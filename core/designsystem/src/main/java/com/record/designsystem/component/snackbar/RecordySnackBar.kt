@@ -34,7 +34,7 @@ fun RecordySnackBar(
     onClick: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.customClickable { onClick() }
+        modifier = Modifier.customClickable { onClick() },
     ) {
         Popup {
             AnimatedVisibility(

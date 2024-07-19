@@ -151,6 +151,18 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.width(16.dp))
             }
         }
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.CenterEnd,
+        ) {
+            Text(
+                text = buildRecordCountText(state.recordCount),
+                style = RecordyTheme.typography.body2M,
+                color = RecordyTheme.colors.gray01,
+                modifier = Modifier
+                    .padding(end = 16.dp, bottom = 8.dp),
+            )
+        }
         if (state.userVideos.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize().padding(top = 171.dp),
@@ -179,20 +191,20 @@ fun ProfileScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.CenterEnd,
-                    ) {
-                        Text(
-                            text = buildRecordCountText(state.recordCount),
-                            style = RecordyTheme.typography.body2M,
-                            color = RecordyTheme.colors.gray01,
-                            modifier = Modifier
-                                .padding(end = 16.dp, bottom = 8.dp),
-                        )
-                    }
-                }
+//                item(span = { GridItemSpan(maxLineSpan) }) {
+//                    Box(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        contentAlignment = Alignment.CenterEnd,
+//                    ) {
+//                        Text(
+//                            text = buildRecordCountText(state.recordCount),
+//                            style = RecordyTheme.typography.body2M,
+//                            color = RecordyTheme.colors.gray01,
+//                            modifier = Modifier
+//                                .padding(end = 16.dp, bottom = 8.dp),
+//                        )
+//                    }
+//                }
                 items(state.userVideos) { item ->
                     RecordyVideoThumbnail(
                         imageUri = item.previewUrl,

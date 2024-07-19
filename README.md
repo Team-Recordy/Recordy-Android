@@ -26,24 +26,65 @@
 
 ## 📹 시연 영상
 
+
 **전체 영상**
 
-|<img src="" width=70% />|<img src="" width=70% />|<img src="" width=70% />|<img src="" width=70%>|
-|:---------:|:---------:|:---------:|:---------:|
-|스플래시|회원가입|로그인|홈|  
-
-|<img src="" width=70% />|<img src="" width=70% />|<img src="" width=70% />|<img src="" width=70%>|
-|:---------:|:---------:|:---------:|:---------:|
-|키워드 칩|인기 기록|최근 기록|홈 북마크|  
-
-|<img src="" width=70% />|<img src="" width=70% />|<img src="" width=70% />|<img src="" width=70%>|
-|:---------:|:---------:|:---------:|:---------:|
-|프로필(내 취향)|프로필(내 기록)|프로필(북마크)|팔로잉/ 팔로워| 
-
-|<img src="" width=70% />|<img src="" width=70% />|<img src="" width=70% />|<img src="" width=70%>|
-|:---------:|:---------:|:---------:|:---------:|
-|상대 프로필|영상 디테일|환경 설정|로그아웃/ 탈퇴|  
-
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/8f21add5-ad0a-49b6-aace-d363fe7ab1eb" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/7587f54e-777b-4ef7-847f-83d864379a56" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/6d473eae-a7a3-4a75-b00f-c4693fab278a" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/1fe1f862-1897-4f6a-bfb6-9737ae4a418a" width="300" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>스플래시</b></td>
+    <td align="center"><b>카카오</b></td>
+    <td align="center"><b>홈 키워드</b></td>
+    <td align="center"><b>홈 북마크</b></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/90cfa627-b459-4e23-b426-b231bf9ce5df" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/8b400de8-9cd5-4dc2-a992-84c96b25bbe7" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/66dca5fd-6bf6-4a88-88eb-1d5d46f0cbf9" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/332076f4-123a-4678-9163-b2773117a01e" width="300" /></td>
+  </tr>
+  <tr>
+    <td salign="center"><b>업로드</b></td>
+    <td align="center"><b>인기 기록></b></td>
+    <td align="center"><b>최신 기록</b></td>
+    <td align="center"><b>내 영상 삭제</b></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/7329a8a0-49d8-4930-8f65-b2c546ebe880" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/c35ee99b-bd4a-4f87-b42b-a3aa33c9b2c6" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/d7b57f10-3f45-48a5-a500-48565137828e" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/9b37f230-f42a-48c0-9c7e-296e1eff820b" width="300" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>프로필(내 취향)</b></td>
+    <td align="center"><b>프로필(내 기록)</b></td>
+    <td align="center"><b>프로필(북마크)</b></td>
+    <td align="center"><b>팔로잉/팔로워</b></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/d355fd60-e628-4040-9605-a0e937b09de0" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/09a476e7-bd5d-495d-b735-66b7d3ba4267" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/3934a171-af2f-478c-b01b-ea7b8aa593ef" width="300" /></td>
+    <td><img src="https://github.com/user-attachments/assets/4464c652-f162-4a6b-9675-f2c71396416c" width="300" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>상대 프로필</b></td>
+    <td align="center"><b>영상 디테일</b></td>
+    <td align="center"><b>환경 설정</b></td>
+    <td align="center"><b>로그아웃/탈퇴</b></td>
+  </tr>
+</table>
 </br>
 
 ## ⚙️ 기술 및 아키텍쳐 선정

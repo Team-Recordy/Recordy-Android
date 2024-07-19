@@ -10,7 +10,7 @@ interface VideoRepository {
     suspend fun getPopularVideos(keywords: List<String>?, pageNumber: Int, pageSize: Int): Result<Page<VideoData>>
     suspend fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): Result<Cursor<VideoData>>
     suspend fun getMyVideos(cursorId: Long, size: Int): Result<Cursor<VideoData>>
-    suspend fun getFollowingVideos(userId: Long, cursorId: Long, size: Int): Result<Cursor<VideoData>>
+    suspend fun getFollowingVideos(cursorId: Long, size: Int): Result<Cursor<VideoData>>
     suspend fun getBookmarkVideos(cursorId: Long, size: Int): Result<Cursor<VideoData>>
     suspend fun bookmark(videoId: Long): Result<Boolean>
 }

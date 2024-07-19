@@ -26,8 +26,8 @@ class RemoteVideoDataSourceImpl @Inject constructor(
     override suspend fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto =
         videoApi.getUserVideos(otherUserId, cursorId, size)
 
-    override suspend fun getFollowingVideos(userId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto =
-        videoApi.getFollowingVideos(userId, cursorId, size)
+    override suspend fun getFollowingVideos(cursorId: Long, size: Int): ResponseGetSliceVideoDto =
+        videoApi.getFollowingVideos(cursorId, size)
 
     override suspend fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetBookmarkSliceVideoDto = videoApi.getBookmarkVideos(cursorId, size)
 

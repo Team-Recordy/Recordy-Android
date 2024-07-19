@@ -7,15 +7,8 @@ import com.record.upload.repository.UploadRepository
 import com.record.video.model.remote.request.toData
 import com.record.video.model.remote.response.toCore
 import com.record.video.source.remote.RemoteUploadDataSource
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
 import java.io.File
-import java.io.IOException
 import javax.inject.Inject
 
 class UploadRepositoryImpl @Inject constructor(
@@ -44,28 +37,24 @@ class UploadRepositoryImpl @Inject constructor(
             is HttpException -> {
                 throw ApiError(exception.message())
             }
+
             else -> {
                 throw exception
             }
         }
     }
 
-    override suspend fun uploadVideoToS3Bucket(url: String, file: File): Result<String> = runCatching {
-        val client = OkHttpClient()
-        val mediaType = "application/octet-stream".toMediaTypeOrNull()
-        val requestBody = RequestBody.create(mediaType, file)
-
-        val request = Request.Builder()
-            .url(url)
-            .put(requestBody)
-            .build()
-
-        client.newCall(request).execute().use { response ->
-            if (response.isSuccessful) {
-                response.request.url.toString()
-            } else {
-                throw IOException("Upload failed: ${response.message}")
+    override suspend fun uploadVideoToS3Bucket(url: String, file: File): Result<String> =
+        runCatching {
+            remoteUploadDataSource.uploadVideoToS3Bucket(url, file)
+        }.recoverCatching { exception ->
+            when (exception) {
+                is HttpException -> {
+                    throw ApiError(exception.message())
+                }
+                else -> {
+                    throw exception
+                }
             }
         }
-    }
 }

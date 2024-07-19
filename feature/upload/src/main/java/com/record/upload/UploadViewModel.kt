@@ -13,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,7 +20,7 @@ class UploadViewModel @Inject constructor(
     private val uploadRepository: UploadRepository,
     private val keywordRepository: KeywordRepository,
 
-    ) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
     fun getKeyWordList() = viewModelScope.launch {
         keywordRepository.getKeywords().onSuccess {
             intent { copy(contentList = it.keywords) }
@@ -38,35 +37,7 @@ class UploadViewModel @Inject constructor(
             Log.d("failure", "${it.message}")
         }
     }
-    fun removeQueryParameters(urlString: String): String {
-        val url = URL(urlString)
-        val cleanUrl = URL(url.protocol, url.host, url.port, url.path)
-        return cleanUrl.toString()
-    }
 
-    //    fun uploadVideoToS3Bucket(context: Context, file: File) =
-//        viewModelScope.launch {
-//            var a = ""
-//            var b = ""
-//            uploadFileToS3PresignedUrl(
-//                uiState.value.bucketUrl,
-//                file
-//            ) { success, message ->
-//                println(message)
-//                a = removeQueryParameters(message)
-//                if (success) {
-//                    uploadFileToS3ThumbnailPresignedUrl(
-//                        context,
-//                        uiState.value.thumbnailUrl,
-//                        file,
-//                    ) { success, message ->
-//                        println(message)
-//                        b = removeQueryParameters(message)
-//                        uploadRecord(a, b)
-//                    }
-//                }
-//            }
-//        }
     fun uploadVideoToS3Bucket(file: File) = viewModelScope.launch(Dispatchers.IO) {
         uploadRepository.uploadVideoToS3Bucket(
             uiState.value.bucketUrl,
@@ -76,7 +47,7 @@ class UploadViewModel @Inject constructor(
                 uiState.value.thumbnailUrl,
                 file,
             ).onSuccess { thumbNailUrl ->
-                uploadRecord(removeQueryParameters(videoUrl), thumbNailUrl)
+                uploadRecord(videoUrl, thumbNailUrl)
             }
         }.onFailure {
         }

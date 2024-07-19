@@ -26,7 +26,7 @@ fun RecordyButton(
     modifier: Modifier = Modifier,
     text: String,
     textStyle: TextStyle = RecordyTheme.typography.button1,
-    shape: Shape = RoundedCornerShape(6.dp),
+    shape: Shape = RoundedCornerShape(12.dp),
     enabled: Boolean = true,
     clickable: Boolean = true,
     onClick: () -> Unit = {},

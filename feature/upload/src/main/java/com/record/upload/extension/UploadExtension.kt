@@ -2,7 +2,6 @@ package com.record.upload.extension
 
 import android.content.ContentUris
 import android.content.Context
-import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.provider.MediaStore
@@ -16,13 +15,6 @@ import com.abedelazizshe.lightcompressorlibrary.config.SharedStorageConfiguratio
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 fun getAllVideos(
     loadSize: Int,
@@ -33,10 +25,10 @@ fun getAllVideos(
     val uriExternal: Uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
     val projection = arrayOf(
         MediaStore.Video.VideoColumns.DATA,
-        MediaStore.Video.VideoColumns.DISPLAY_NAME, // 이름
-        MediaStore.Video.VideoColumns.SIZE, // 크기
+        MediaStore.Video.VideoColumns.DISPLAY_NAME,
+        MediaStore.Video.VideoColumns.SIZE,
         MediaStore.Video.VideoColumns.DATE_TAKEN,
-        MediaStore.Video.VideoColumns.DATE_ADDED, // 추가된 날짜
+        MediaStore.Video.VideoColumns.DATE_ADDED,
         MediaStore.Video.VideoColumns._ID,
     )
     val resolver = context.contentResolver
@@ -101,6 +93,13 @@ fun getVideoDuration(context: Context, uri: Uri): Long {
         retriever.release()
     }
 }
+
+fun formatDuration(durationMillis: Long): String {
+    val minutes = (durationMillis / 1000) / 60
+    val seconds = (durationMillis / 1000) % 60
+    return String.format("%d:%02d", minutes, seconds)
+}
+
 data class GalleryVideo(
     val id: Long,
     val filepath: String,
@@ -157,98 +156,5 @@ fun compressVideo(context: Context, videoUri: Uri, name: String, onSuccess: (Str
                 }
             },
         )
-    }
-}
-
-fun formatDuration(durationMillis: Long): String {
-    val minutes = (durationMillis / 1000) / 60
-    val seconds = (durationMillis / 1000) % 60
-    return String.format("%d:%02d", minutes, seconds)
-}
-
-fun uploadFileToS3PresignedUrl(presignedUrl: String, thumbnailUrl: String, file: File, callback: (Boolean, String) -> Unit) {
-    val client = OkHttpClient()
-    val mediaType = "application/octet-stream".toMediaTypeOrNull()
-    val requestBody = RequestBody.create(mediaType, file)
-
-    val request = Request.Builder()
-        .url(presignedUrl)
-        .put(requestBody)
-        .build()
-    client.newCall(request).enqueue(
-        object : okhttp3.Callback {
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
-                callback(false, "Upload failed: ${e.message}")
-            }
-
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                if (response.isSuccessful) {
-                    callback(true, "${response.request.url}")
-                } else {
-                    callback(false, "Upload failed: ${response.message}")
-                }
-            }
-        },
-    )
-}
-
-fun uploadFileToS3ThumbnailPresignedUrl(context: Context, presignedUrl: String, file: File, callback: (Boolean, String) -> Unit) {
-    val videoPath = file.absolutePath
-    val outputImagePath = File(context.cacheDir, file.name)
-    getVideoFrameAt1Sec(videoPath, outputImagePath.absolutePath)
-    val client = OkHttpClient()
-    val mediaType = "application/octet-stream".toMediaTypeOrNull()
-    val requestBody = RequestBody.create(mediaType, outputImagePath)
-
-    val request = Request.Builder()
-        .url(presignedUrl)
-        .put(requestBody)
-        .build()
-    client.newCall(request).enqueue(
-        object : okhttp3.Callback {
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
-                callback(false, "Upload failed: ${e.message}")
-            }
-
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                if (response.isSuccessful) {
-                    callback(true, "${response.request.url}")
-                } else {
-                    callback(false, "Upload failed: ${response.message}")
-                }
-            }
-        },
-    )
-}
-fun getVideoFrameAt1Sec(videoPath: String, outputImagePath: String) {
-    val retriever = MediaMetadataRetriever()
-    try {
-        retriever.setDataSource(videoPath)
-        val timeUs = 1 * 1000000
-        val bitmap: Bitmap? = retriever.getFrameAtTime(timeUs.toLong(), MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
-
-        if (bitmap != null) {
-            saveBitmapAsJpeg(bitmap, outputImagePath)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    } finally {
-        retriever.release()
-    }
-}
-
-fun saveBitmapAsJpeg(bitmap: Bitmap, outputPath: String) {
-    var out: FileOutputStream? = null
-    try {
-        out = FileOutputStream(outputPath)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
-    } catch (e: IOException) {
-        e.printStackTrace()
-    } finally {
-        try {
-            out?.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
     }
 }

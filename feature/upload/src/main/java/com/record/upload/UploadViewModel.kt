@@ -1,34 +1,33 @@
 package com.record.upload
 
-import android.content.Context
-import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.record.common.util.encodingString
+import com.record.designsystem.component.snackbar.SnackBarType
+import com.record.keyword.repository.KeywordRepository
 import com.record.ui.base.BaseViewModel
 import com.record.upload.extension.GalleryVideo
-import com.record.upload.extension.uploadFileToS3PresignedUrl
-import com.record.upload.extension.uploadFileToS3ThumbnailPresignedUrl
 import com.record.upload.model.VideoInfo
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
 class UploadViewModel @Inject constructor(
     private val uploadRepository: UploadRepository,
-) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+    private val keywordRepository: KeywordRepository,
 
-    fun setSelectedList(selectedContent: String) = intent {
-        val newSelectedList = selectedList.toMutableList()
-        if (newSelectedList.contains(selectedContent)) {
-            newSelectedList.remove(selectedContent)
-        } else {
-            if (newSelectedList.size < 3) newSelectedList.add(selectedContent)
+) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+    fun getKeyWordList() = viewModelScope.launch {
+        keywordRepository.getKeywords().onSuccess {
+            intent { copy(contentList = it.keywords) }
         }
-        copy(selectedList = newSelectedList)
+    }
+    fun setSelectedList(selectedContent: List<String>) = intent {
+        copy(selectedList = selectedContent)
     }
 
     suspend fun getPresignedUrl() = viewModelScope.launch {
@@ -39,64 +38,45 @@ class UploadViewModel @Inject constructor(
         }
     }
 
-    fun uploadVideoToS3Bucket(context: Context, file: File) =
-        viewModelScope.launch {
-            var a = ""
-            var b = ""
-            uploadFileToS3PresignedUrl(
-                uiState.value.bucketUrl,
+    fun uploadVideoToS3Bucket(file: File) = viewModelScope.launch(Dispatchers.IO) {
+        uploadRepository.uploadVideoToS3Bucket(
+            uiState.value.bucketUrl,
+            file,
+        ).onSuccess { videoUrl ->
+            uploadRepository.uploadThumbnailToS3Bucket(
                 uiState.value.thumbnailUrl,
                 file,
-            ) { success, message ->
-                println(message)
-                a = removeQueryParameters(message)
-                if (success) {
-                    uploadFileToS3ThumbnailPresignedUrl(
-                        context,
-                        uiState.value.thumbnailUrl,
-                        file,
-                    ) { success, message ->
-                        println(message)
-                        b = removeQueryParameters(message)
-                        uploadRecord(a, b)
-                    }
-                }
+            ).onSuccess { thumbNailUrl ->
+                uploadRecord(videoUrl, thumbNailUrl)
             }
+        }.onFailure {
         }
+    }
 
-    fun uploadRecord(a: String, b: String) =
+    fun uploadRecord(videoS3Url: String, thumbnailS3Url: String) {
         viewModelScope.launch {
             uploadRepository.uploadRecord(
                 videoInfo = VideoInfo(
-                    location = "test",
-                    content = "test",
-                    keywords = encodingString("감각적인,강렬한,귀여운").trim(),
-                    videoUrl = a,
-                    previewUrl = b,
+                    location = uiState.value.locationTextValue,
+                    content = uiState.value.contentTextValue,
+                    keywords = encodingString(uiState.value.selectedList.joinToString(separator = ",")).trim(),
+                    videoUrl = videoS3Url,
+                    previewUrl = thumbnailS3Url,
                 ),
             ).onSuccess {
-                popBackStack()
+                Log.d("testUpload", "upload")
+            }.onFailure {
             }
+            popBackStack()
         }
 
+    }
     fun updateLocationTextField(locationValue: String) = intent {
         copy(locationTextValue = locationValue)
     }
 
     fun updateContentTextField(contentValue: String) = intent {
         copy(contentTextValue = contentValue)
-    }
-
-    private fun encodingString(contentValue: String): String {
-        val bytes = contentValue.toByteArray(Charsets.UTF_8)
-        val encodedString = Base64.encodeToString(bytes, Base64.DEFAULT)
-        return encodedString
-    }
-
-    fun removeQueryParameters(urlString: String): String {
-        val url = URL(urlString)
-        val cleanUrl = URL(url.protocol, url.host, url.port, url.path)
-        return cleanUrl.toString()
     }
 
     fun setVideo(video: GalleryVideo) = intent {
@@ -141,5 +121,8 @@ class UploadViewModel @Inject constructor(
 
     fun popBackStack() {
         postSideEffect(UploadSideEffect.PopBackStack)
+    }
+    fun makeSnackBar() = viewModelScope.launch {
+        postSideEffect(UploadSideEffect.ShowSnackBar("기준에 맞는 영상을 선택해 주세요.", SnackBarType.WARNING))
     }
 }

@@ -1,7 +1,5 @@
 package com.record.upload.component.bottomsheet
 
-import android.content.Context
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,10 +15,8 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.bottomsheet.RecordyBottomSheet
@@ -30,7 +26,6 @@ import com.record.designsystem.theme.Gray03
 import com.record.designsystem.theme.RecordyTheme
 import com.record.upload.component.VideoThumbnail
 import com.record.upload.extension.GalleryVideo
-import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,10 +34,9 @@ fun SelectedVideoBottomSheet(
     isSheetOpen: Boolean,
     onDismissRequest: () -> Unit,
     galleyVideos: List<GalleryVideo>,
-    setVideo: (GalleryVideo) -> Unit,
+    isSelectedVideo: (GalleryVideo) -> Unit,
+    showSnackBar: () -> Unit,
 ) {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
     RecordyBottomSheet(
         isSheetOpen = isSheetOpen,
         sheetState = sheetState,
@@ -74,23 +68,20 @@ fun SelectedVideoBottomSheet(
                     verticalArrangement = Arrangement.spacedBy(1.dp),
                 ) {
                     items(galleyVideos) { video ->
-                        VideoThumbnail(video = video, setVideo = {
-                            onDismissRequest()
-                            setVideo(video)
-                        },)
+                        VideoThumbnail(
+                            video = video,
+                            onVideoSelected = {
+                                if (video.duration > 15000) {
+                                    showSnackBar()
+                                } else {
+                                    onDismissRequest()
+                                    isSelectedVideo(video)
+                                }
+                            },
+                        )
                     }
                 }
             }
         }
     }
-}
-
-fun copyFileToTemp(context: Context, sourceUri: Uri, fileName: String): File {
-    val tempFile = File(context.cacheDir, fileName)
-    context.contentResolver.openInputStream(sourceUri).use { inputStream ->
-        tempFile.outputStream().use { outputStream ->
-            inputStream?.copyTo(outputStream)
-        }
-    }
-    return tempFile
 }

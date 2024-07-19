@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 
@@ -30,17 +31,19 @@ fun RecordySnackBar(
     snackBarType: SnackBarType,
     bottomPadding: Dp,
 ) {
-    AnimatedVisibility(
-        visible = visible,
-        enter = fadeIn(),
-        exit = fadeOut(),
-    ) {
-        Box(
-            modifier = modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.BottomCenter,
+    Popup() {
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(),
+            exit = fadeOut(),
         ) {
-            RecordySnackBarContent(snackBarType = snackBarType, message = message, bottomPadding = bottomPadding)
+            Box(
+                modifier = modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.BottomCenter,
+            ) {
+                RecordySnackBarContent(snackBarType = snackBarType, message = message, bottomPadding = bottomPadding)
+            }
         }
     }
 }

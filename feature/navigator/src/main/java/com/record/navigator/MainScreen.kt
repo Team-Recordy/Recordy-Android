@@ -15,6 +15,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -141,8 +142,7 @@ internal fun MainScreen(
                 visible = state.snackBarVisible,
                 message = state.snackBarMessage,
                 snackBarType = state.snackBarType,
-                bottomPadding = state.snackBarBottomPadding.dp,
-                onClick = viewModel::clickSnackbar,
+                bottomPadding = state.snackBarBottomPadding.dp+innerPadding.calculateBottomPadding(),
             )
         },
         bottomBar = {

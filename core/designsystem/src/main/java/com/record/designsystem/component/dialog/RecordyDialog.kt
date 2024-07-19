@@ -62,7 +62,7 @@ fun RecordyDialog(
             }
             if (subTitle != null) {
                 Text(
-                    modifier = Modifier.padding(top = 4.dp, bottom = 16.dp),
+                    modifier = Modifier.padding(top = 6.dp, bottom = 20.dp),
                     text = subTitle,
                     style = RecordyTheme.typography.caption1,
                     color = RecordyTheme.colors.gray01,

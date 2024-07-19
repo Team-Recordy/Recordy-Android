@@ -43,6 +43,8 @@ import com.record.login.singup.screen.NamingScreen
 import com.record.login.singup.screen.PolicyScreen
 import com.record.login.singup.screen.SignUpSuccessScreen
 import com.record.ui.extension.customClickable
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -74,6 +76,19 @@ fun SignUpRoute(
         }
     }
 
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                SignUpEffect.ClearFocus -> {
+                    focusManager.clearFocus()
+                }
+                SignUpEffect.NavigateToHome -> {
+                    navigateToHome()
+                }
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -87,7 +102,7 @@ fun SignUpRoute(
                     endY = columnSize.height.toFloat() * 0.3f,
                 ),
             )
-            .customClickable(rippleEnabled = false) { focusManager.clearFocus() },
+            .customClickable(rippleEnabled = false) { viewModel.clearFocus() },
     ) {
         Box(
             modifier = Modifier
@@ -157,8 +172,8 @@ fun SignUpRoute(
                             ),
                         )
                     }
-                    if (pagerState.currentPage == 2) navigateToHome()
-                    focusManager.clearFocus()
+                    if (pagerState.currentPage == 2) viewModel.navigateToHome()
+                    viewModel.clearFocus()
                     viewModel.navScreen(pagerState.currentPage + 1)
                 },
                 modifier = Modifier

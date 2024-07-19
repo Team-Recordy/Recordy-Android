@@ -20,4 +20,5 @@ data class SignUpState(
 
 sealed interface SignUpEffect : SideEffect {
     data object NavigateToHome : SignUpEffect
+    data object ClearFocus : SignUpEffect
 }

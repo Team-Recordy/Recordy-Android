@@ -27,6 +27,14 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    fun clearFocus() {
+        postSideEffect(SignUpEffect.ClearFocus)
+    }
+
+    fun navigateToHome() {
+        postSideEffect(SignUpEffect.NavigateToHome)
+    }
+
     fun checkServiceEvent() {
         intent {
             copy(serviceTermsChecked = !serviceTermsChecked)

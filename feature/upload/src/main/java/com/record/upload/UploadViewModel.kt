@@ -42,7 +42,8 @@ class UploadViewModel @Inject constructor(
     }
 
     fun uploadVideoToS3Bucket(context: Context, file: File) =
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
+            Log.d("testUploadStart", "$")
             var a = ""
             var b = ""
             uploadRepository.uploadVideoToS3Bucket(
@@ -50,15 +51,18 @@ class UploadViewModel @Inject constructor(
                 file,
             ).onSuccess {
                 a = removeQueryParameters(it)
+                Log.d("testUpload", "$a")
                 uploadFileToS3ThumbnailPresignedUrl(
                     context,
                     uiState.value.thumbnailUrl,
                     file,
                 ) { success, message ->
-                    println(message)
                     b = removeQueryParameters(message)
+                    Log.d("testUploadthumbnailUrl", "$b")
                     uploadRecord(a, b)
                 }
+            }.onFailure {
+                Log.d("testUploadFail", "$b")
             }
         }
 

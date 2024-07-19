@@ -26,6 +26,7 @@ class HomeViewModel @Inject constructor(
         intent {
             copy(selectedChipIndex = categoryIndex)
         }
+        postSideEffect(HomeSideEffect.collapseToolbar)
         getPopularVideos()
         getRecentVideos()
     }

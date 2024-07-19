@@ -61,6 +61,7 @@ import me.onebone.toolbar.ExperimentalToolbarApi
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
+@OptIn(ExperimentalToolbarApi::class)
 @Composable
 fun HomeRoute(
     padding: PaddingValues,
@@ -70,7 +71,8 @@ fun HomeRoute(
     navigateToUpload: () -> Unit = {},
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-
+    val toolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
     LaunchedEffectWithLifecycle {
         viewModel.getVideos()
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -79,12 +81,19 @@ fun HomeRoute(
                 is HomeSideEffect.navigateToVideo -> {
                     navigateToVideoDetail(sideEffect.type, sideEffect.id, sideEffect.keyword, 0)
                 }
+
+                HomeSideEffect.collapseToolbar -> {
+                    coroutineScope.launch {
+                        toolbarScaffoldState.toolbarState.collapse(500)
+                    }
+                }
             }
         }
     }
     HomeScreen(
         modifier = modifier.padding(bottom = padding.calculateBottomPadding()),
         state = state,
+        toolbarState = toolbarScaffoldState,
         onUploadButtonClick = viewModel::navigateToUpload,
         onChipButtonClick = viewModel::selectCategory,
         onVideoClick = viewModel::navigateToVideo,
@@ -95,6 +104,7 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    toolbarState: CollapsingToolbarScaffoldState,
     state: HomeState,
     onUploadButtonClick: () -> Unit,
     onChipButtonClick: (Int) -> Unit,
@@ -120,6 +130,7 @@ fun HomeScreen(
     ) {
         BackgroundAnimation()
         CollapsingToolbar(
+            toolbarState = toolbarState,
             state = state,
             onChipButtonClick = onChipButtonClick,
             onVideoClick = onVideoClick,
@@ -178,12 +189,12 @@ fun LoadingLottie() {
 
 @Composable
 fun CollapsingToolbar(
+    toolbarState: CollapsingToolbarScaffoldState,
     state: HomeState,
     onChipButtonClick: (Int) -> Unit,
     onVideoClick: (Long, VideoType) -> Unit,
     onBookmarkClick: (Long) -> Unit,
 ) {
-    val toolbarState = rememberCollapsingToolbarScaffoldState()
     CollapsingToolbarScaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -257,7 +268,6 @@ fun ChipRow(
     selectedChip: Int?,
     onChipButtonClick: (Int) -> Unit,
 ) {
-    val coroutineScope = rememberCoroutineScope()
     LazyRow(
         modifier = Modifier
             .padding(bottom = 12.dp),
@@ -270,9 +280,6 @@ fun ChipRow(
                 isActive = selectedChip == i,
                 onClick = {
                     onChipButtonClick(i)
-                    coroutineScope.launch {
-                        state.toolbarState.collapse(200)
-                    }
                 },
             )
         }

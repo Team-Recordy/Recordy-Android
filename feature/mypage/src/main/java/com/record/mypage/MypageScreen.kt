@@ -1,6 +1,8 @@
 package com.record.mypage
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -202,7 +204,6 @@ fun MypageScreen(
                 pagerState = pagerState,
                 coroutineScope = coroutineScope,
             )
-            Spacer(modifier = Modifier.height(10.dp))
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.fillMaxWidth(),
@@ -256,8 +257,10 @@ fun CustomTabRow(
     var indicatorWidth by remember { mutableStateOf(0.dp) }
     var indicatorOffset by remember { mutableStateOf(0.dp) }
 
-    val animatedIndicatorWidth by animateDpAsState(targetValue = indicatorWidth)
-    val animatedIndicatorOffset by animateDpAsState(targetValue = indicatorOffset)
+    var animateIndicator by remember { mutableStateOf(false) }
+
+    val animatedIndicatorWidth by animateDpAsState(targetValue = indicatorWidth, animationSpec = if (animateIndicator) tween(200) else snap())
+    val animatedIndicatorOffset by animateDpAsState(targetValue = indicatorOffset, animationSpec = if (animateIndicator) tween(200) else snap())
 
     val density = LocalDensity.current
 
@@ -290,6 +293,7 @@ fun CustomTabRow(
                         .clickable {
                             onTabSelected(tab)
                             coroutineScope.launch {
+                                animateIndicator = true
                                 pagerState.animateScrollToPage(index)
                             }
                         }
@@ -325,7 +329,6 @@ fun CustomTabRow(
                     .background(color = RecordyTheme.colors.gray01),
             )
         }
-        Spacer(modifier = Modifier.height(18.dp))
     }
 }
 

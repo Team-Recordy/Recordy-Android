@@ -12,8 +12,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
@@ -36,12 +34,11 @@ fun RecordScreen(
     onLoadMore: () -> Unit,
     onBookmarkClick: (Long) -> Unit,
 ) {
-    val videos = remember { mutableStateOf(videoItems) }
     val lazyGridState = rememberLazyGridState()
     lazyGridState.OnBottomReached(2) {
         onLoadMore()
     }
-    if (videos.value.isEmpty()) {
+    if (recordCount == 0) {
         EmptyDataScreen(
             imageRes = com.record.designsystem.R.drawable.img_camera,
             message = "내 첫 번째 공간 기록을\n작성해 보세요",
@@ -64,7 +61,7 @@ fun RecordScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 12.dp),
+                        .padding(top = 28.dp, bottom = 12.dp),
                     contentAlignment = Alignment.TopEnd,
                 ) {
                     Text(

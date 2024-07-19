@@ -38,7 +38,7 @@ internal fun Project.configureKotlinAndroid(
             }
 
             getByName("release") {
-                isMinifyEnabled = true
+                isMinifyEnabled = false
                 proguardFiles(
                     getDefaultProguardFile("proguard-android.txt"),
                     "proguard-rules.pro",

@@ -37,6 +37,7 @@ fun FollowerRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffectWithLifecycle {
+        viewModel.getFollowerList()
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is FollowSideEffect.NavigateToUserProfile -> {

@@ -12,6 +12,7 @@ data class FollowState(
     val followingCursor: Long = 0,
     val followerCursor: Long = 0,
     val isAll: Boolean = true,
+    val isEnd: Boolean = false,
 ) : UiState
 
 sealed interface FollowSideEffect : SideEffect {

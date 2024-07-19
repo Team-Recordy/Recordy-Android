@@ -18,27 +18,30 @@ class FollowViewModel @Inject constructor(
 ) : BaseViewModel<FollowState, FollowSideEffect>(
     FollowState(),
 ) {
-    init {
-        getFollowingList()
-        getFollowerList()
-    }
-
     fun getFollowingList() =
         viewModelScope.launch {
+            if (uiState.value.isEnd) return@launch
             userRepository.getFollowingList(
                 cursorId = uiState.value.followingCursor,
                 size = 10,
             ).onSuccess { response ->
                 val updatedList = uiState.value.followingList.toList()
+                val addedList = response.data.filter { it.nickname != "" }
 
                 intent {
-                    copy(followingList = (updatedList + response.data).toImmutableList())
+                    copy(followingList = (updatedList + addedList).toImmutableList())
+                }
+                if (!response.hasNext) {
+                    intent {
+                        copy(isEnd = true)
+                    }
                 }
             }.onFailure {
                 when (it) {
                     is ApiError -> {
                         Log.e("FollowViewModel", it.message)
                     }
+
                     else -> {
                         Log.e("으악", it.message.toString())
                     }

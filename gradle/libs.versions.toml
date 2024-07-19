@@ -1,6 +1,10 @@
 [versions]
 # SDK Versions
+accompanistInsets = "0.24.13-rc"
+accompanistPermissions = "0.34.0"
+awsAndroidSdkMobileClient = "2.13.5"
 compileSdk = "34"
+lightcompressor = "1.3.2"
 minSdk = "28"
 targetSdk = "34"
 jdkVersion = "17"
@@ -129,6 +133,7 @@ kotlinx-collections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collect
 
 # Testing Libraries
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+lightcompressor = { module = "com.github.AbedElazizShe:LightCompressor", version.ref = "lightcompressor" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric"}
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -205,6 +210,14 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-remoteConfig = { group = "com.google.firebase", name = "firebase-config-ktx" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database-ktx" }
+accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanistInsets" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistPermissions" }
+
+# AWS
+aws-android-sdk-cognito = { module = "com.amazonaws:aws-android-sdk-cognito", version.ref = "awsAndroidSdkMobileClient" }
+aws-android-sdk-mobile-client = { module = "com.amazonaws:aws-android-sdk-mobile-client", version.ref = "awsAndroidSdkMobileClient" }
+aws-android-sdk-s3 = { module = "com.amazonaws:aws-android-sdk-s3", version.ref = "awsAndroidSdkMobileClient" }
 
 # Timber
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
@@ -231,5 +244,6 @@ datastore = ["androidx-datastore-core", "androidx-datastore-preferences"]
 compose = ["ui", "ui-graphics", "ui-tooling-preview", "material3-compose", "coil-compose", "coil-video", "ui-foundation", "activity-compose", "lifecycle-compose", "navigation-compose", "hilt-navigation-compose"]
 compose-debug = ["ui-tooling", "ui-test-manifest"]
 media3 = ["androidx-media3-exoplayer", "androidx-media3-exoplayer-dash", "androidx-media3-ui" ]
-
+accompanist = ["accompanist-insets", "accompanist-permissions", "accompanist-systemuicontroller"]
+aws = ["aws-android-sdk-s3", "aws-android-sdk-cognito", "aws-android-sdk-mobile-client"]
 orbit = ["orbit-core", "orbit-viewmodel", "orbit-compose"]

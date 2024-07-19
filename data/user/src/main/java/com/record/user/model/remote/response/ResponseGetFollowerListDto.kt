@@ -29,7 +29,7 @@ fun ResponseGetFollowerListDto.toCore() = Cursor(
     data = content.map {
         User(
             id = it.userInfo.id,
-            nickname = it.userInfo.nickname ?: "유영",
+            nickname = it.userInfo.nickname ?: "",
             isFollowing = it.following,
             profileImageUri = it.userInfo.profileImageUrl ?: "",
         )

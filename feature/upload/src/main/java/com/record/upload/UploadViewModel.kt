@@ -8,11 +8,9 @@ import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
 import com.record.ui.base.BaseViewModel
 import com.record.upload.extension.GalleryVideo
-import com.record.upload.extension.uploadFileToS3ThumbnailPresignedUrl
 import com.record.upload.model.VideoInfo
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 import java.net.URL
@@ -55,7 +53,7 @@ class UploadViewModel @Inject constructor(
                 uploadRepository.uploadThumbnailToS3Bucket(
                     uiState.value.thumbnailUrl,
                     file,
-                ) .onSuccess{
+                ).onSuccess {
                     b = removeQueryParameters(it)
                     Log.d("testUploadthumbnailUrl", "$b")
                     uploadRecord(a, b)

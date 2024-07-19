@@ -18,7 +18,7 @@ import javax.inject.Inject
 class RemoteUploadDataSourceImpl @Inject constructor(
     private val uploadApi: UploadApi,
     private val bucketApi: BucketApi,
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ) : RemoteUploadDataSource {
     override suspend fun getUploadUrl(): ResponseGetPresignedUrlDto =
         uploadApi.getPresignedUploadUrl()
@@ -27,13 +27,13 @@ class RemoteUploadDataSourceImpl @Inject constructor(
         requestPostVideoDto: RequestPostVideoDto,
     ) = uploadApi.postRecord(requestPostVideoDto)
 
-    override suspend fun uploadVideoToS3Bucket(url: String, file: File): String  {
+    override suspend fun uploadVideoToS3Bucket(url: String, file: File): String {
         val videoPath = file.absolutePath
         val mediaType = "application/octet-stream".toMediaTypeOrNull()
         val requestBody = RequestBody.create(mediaType, videoPath)
         val url = URL(bucketApi.uploadVideoWithS3Video(url, requestBody).raw().request.url.toString())
-        Log.d("testUrl","$url")
-       return URL(url.protocol, url.host, url.port, url.path).toString()
+        Log.d("testUrl", "$url")
+        return URL(url.protocol, url.host, url.port, url.path).toString()
     }
 
     override suspend fun uploadThumbnailToS3Bucket(url: String, file: File): String {
@@ -43,8 +43,7 @@ class RemoteUploadDataSourceImpl @Inject constructor(
         val mediaType = "application/octet-stream".toMediaTypeOrNull()
         val requestBody = RequestBody.create(mediaType, outputImagePath)
         val url = URL(bucketApi.uploadVideoWithS3Video(url, requestBody).raw().request.url.toString())
-        Log.d("testUrl2","$url")
+        Log.d("testUrl2", "$url")
         return URL(url.protocol, url.host, url.port, url.path).toString()
-
     }
 }

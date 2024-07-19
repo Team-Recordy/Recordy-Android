@@ -167,11 +167,11 @@ fun formatDuration(durationMillis: Long): String {
     return String.format("%d:%02d", minutes, seconds)
 }
 
-//fun uploadFileToS3PresignedUrl(
+// fun uploadFileToS3PresignedUrl(
 //    presignedUrl: String,
 //    file: File,
 //    callback: (Boolean, String) -> Unit,
-//) {
+// ) {
 //    val client = OkHttpClient()
 //    val mediaType = "application/octet-stream".toMediaTypeOrNull()
 //    val requestBody = RequestBody.create(mediaType, file)
@@ -195,7 +195,7 @@ fun formatDuration(durationMillis: Long): String {
 //            }
 //        },
 //    )
-//}
+// }
 
 fun uploadFileToS3ThumbnailPresignedUrl(
     context: Context,

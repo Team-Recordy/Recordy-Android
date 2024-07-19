@@ -1,6 +1,10 @@
 [versions]
 # SDK Versions
+accompanistInsets = "0.24.13-rc"
+accompanistPermissions = "0.34.0"
+awsAndroidSdkMobileClient = "2.13.5"
 compileSdk = "34"
+lightcompressor = "1.3.2"
 minSdk = "28"
 targetSdk = "34"
 jdkVersion = "17"
@@ -80,6 +84,7 @@ jsoup = "1.17.2"
 kakao-login = "2.19.0"
 process-pheonix = "3.0.0"
 preference = "1.2.1"
+collapsing-toolbar = "2.3.5"
 
 [plugins]
 # Gradle Plugins
@@ -106,6 +111,8 @@ recordy-android-hilt = { id = "recordy.android.hilt", version = "unspecified"}
 recordy-java-library = { id = "recordy.java.library", version = "unspecified" }
 recordy-feature = { id = "recordy.feature", version = "unspecified" }
 recordy-data = { id = "recordy.data", version = "unspecified" }
+recordy-local = { id = "recordy.local", version = "unspecified" }
+recordy-remote = { id = "recordy.remote", version = "unspecified" }
 recordy-plugin-android-test = { id = "recordy.plugin.android.test", version = "unspecified" }
 recordy-plugin-test = { id = "recordy.plugin.test", version = "unspecified" }
 recordy-plugin-build-config = { id = "recordy.plugin.build.config", version = "unspecified" }
@@ -126,6 +133,7 @@ kotlinx-collections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collect
 
 # Testing Libraries
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+lightcompressor = { module = "com.github.AbedElazizShe:LightCompressor", version.ref = "lightcompressor" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric"}
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -168,6 +176,7 @@ ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 ui-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 material3-compose = { group = "androidx.compose.material3", name = "material3" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil-video = { group = "io.coil-kt", name = "coil-video", version.ref = "coil" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-ktx" }
 lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigation" }
@@ -201,6 +210,14 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-remoteConfig = { group = "com.google.firebase", name = "firebase-config-ktx" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database-ktx" }
+accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanistInsets" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistPermissions" }
+
+# AWS
+aws-android-sdk-cognito = { module = "com.amazonaws:aws-android-sdk-cognito", version.ref = "awsAndroidSdkMobileClient" }
+aws-android-sdk-mobile-client = { module = "com.amazonaws:aws-android-sdk-mobile-client", version.ref = "awsAndroidSdkMobileClient" }
+aws-android-sdk-s3 = { module = "com.amazonaws:aws-android-sdk-s3", version.ref = "awsAndroidSdkMobileClient" }
 
 # Timber
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
@@ -212,9 +229,11 @@ itlab-detekt-plugin-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-
 # Miscellaneous Libraries
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
 kakao-login = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-login" }
 process-phoenix = { module = "com.jakewharton:process-phoenix", version.ref = "process-pheonix" }
+collapsing-toolbar = { group = "me.onebone", name = "toolbar-compose", version.ref = "collapsing-toolbar" }
 
 [bundles]
 firebase = ["firebase-analytics", "firebase-database", "firebase-messaging", "firebase-remoteConfig"]
@@ -222,8 +241,9 @@ androidx-lifecycle = ["androidx-lifecycle-runtime-ktx", "androidx-lifecycle-view
 androidx-navigation = ["navigation-fragment-ktx", "navigation-ui-ktx"]
 coroutine = ["kotlinx-coroutines-android", "kotlinx-coroutines-core"]
 datastore = ["androidx-datastore-core", "androidx-datastore-preferences"]
-compose = ["ui", "ui-graphics", "ui-tooling-preview", "material3-compose", "coil-compose", "ui-foundation", "activity-compose", "lifecycle-compose", "navigation-compose", "hilt-navigation-compose"]
+compose = ["ui", "ui-graphics", "ui-tooling-preview", "material3-compose", "coil-compose", "coil-video", "ui-foundation", "activity-compose", "lifecycle-compose", "navigation-compose", "hilt-navigation-compose"]
 compose-debug = ["ui-tooling", "ui-test-manifest"]
 media3 = ["androidx-media3-exoplayer", "androidx-media3-exoplayer-dash", "androidx-media3-ui" ]
-
+accompanist = ["accompanist-insets", "accompanist-permissions", "accompanist-systemuicontroller"]
+aws = ["aws-android-sdk-s3", "aws-android-sdk-cognito", "aws-android-sdk-mobile-client"]
 orbit = ["orbit-core", "orbit-viewmodel", "orbit-compose"]

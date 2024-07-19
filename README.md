@@ -55,8 +55,7 @@
 ## 🪽 의존성 그래프
 <img src="https://github.com/user-attachments/assets/174dcaf5-1be6-40b2-b4b1-db560b67c92e" alt="img_module_graph" style="width: 100%;"></br>
 
-
-## 📂 폴더링
+## 🗂️ 폴더링
 
 ```bash
 ├── Recordy
@@ -65,13 +64,6 @@
 │   ├── 📁 convention
 ├── 📁:core
 │   ├── 🗂️ buildconfig
-│   ├── 🗂️ cache
-│   ├── 🗂️ common
-│   ├── 🗂️ datastore
-│   ├── 🗂️ model
-│   ├── 🗂️ network
-│   ├── 🗂️ ui
-│   ├── 🗂️ designsystem
 ├── 📁:data
 │   ├── 🗂️ auth
 │   ├── 🗂️ keyword

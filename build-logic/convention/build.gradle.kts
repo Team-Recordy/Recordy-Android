@@ -67,5 +67,15 @@ gradlePlugin {
             id = "recordy.data"
             implementationClass = "RecordyDataPlugin"
         }
+
+        register("recordyLocal") {
+            id = "recordy.local"
+            implementationClass = "RecordyLocalPlugin"
+        }
+
+        register("recordyRemote") {
+            id = "recordy.remote"
+            implementationClass = "RecordyRemotePlugin"
+        }
     }
 }

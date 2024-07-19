@@ -10,22 +10,37 @@ import androidx.navigation.navOptions
 import com.record.home.navigation.HomeRoute
 import com.record.home.navigation.navigateHome
 import com.record.login.navigation.LoginRoute
+import com.record.login.navigation.SignupRoute
+import com.record.model.VideoType
 import com.record.mypage.navigation.navigateMypage
-import com.record.upload.navigation.navigateUpload
+import com.record.mypage.navigation.navigateToFollower
+import com.record.mypage.navigation.navigateToFollowing
+import com.record.profile.navigation.ProfileRoute
+import com.record.profile.navigation.navigateProfile
+import com.record.setting.navigate.navigateSetting
+import com.record.upload.navigation.navigateToUpload
 import com.record.video.navigation.navigateVideo
+import com.record.video.navigation.navigateVideoDetail
 
 internal class MainNavigator(
     val navController: NavHostController,
 ) {
-    val startDestination = HomeRoute.route
+    val startDestination = LoginRoute.route
     private val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
+    private var _currentTab: MainNavTab? = null
+
     val currentTab: MainNavTab?
-        @Composable get() = currentDestination
-            ?.route
-            ?.let(MainNavTab::find)
+        @Composable get() {
+            val currentRoute = currentDestination?.route
+            val mainTab = currentRoute?.let(MainNavTab::find)
+            if (mainTab != null) {
+                _currentTab = mainTab
+            }
+            return _currentTab
+        }
 
     fun navigate(tab: MainNavTab) {
         val navOptions = navOptions {
@@ -33,12 +48,15 @@ internal class MainNavigator(
                 saveState = true
             }
             launchSingleTop = true
-            restoreState = true
+            restoreState = when (tab) {
+                MainNavTab.HOME -> false
+                MainNavTab.VIDEO -> false
+                MainNavTab.MYPAGE -> true
+            }
         }
 
         when (tab) {
             MainNavTab.HOME -> navController.navigateHome(navOptions)
-            MainNavTab.UPLOAD -> navController.navigateUpload(navOptions)
             MainNavTab.VIDEO -> navController.navigateVideo(navOptions)
             MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
         }
@@ -60,6 +78,46 @@ internal class MainNavigator(
         }
     }
 
+    fun navigateSignUp() {
+        navController.navigate(SignupRoute.route) {
+            popUpTo(navController.graph.id) {
+                inclusive = true
+            }
+        }
+    }
+
+    fun navigateMypage() {
+        navController.navigateMypage(navOptions { })
+    }
+
+    fun navigateVideoDetail(videoType: VideoType, videoId: Long, keyword: String? = "all", userId: Long = 0) {
+        navController.navigateVideoDetail(
+            videoType = videoType,
+            videoId = videoId,
+            keyword = keyword,
+            userId = userId,
+        )
+    }
+    fun navigateToUpload() {
+        navController.navigateToUpload()
+    }
+
+    fun navigateToFollowing() {
+        navController.navigateToFollowing()
+    }
+
+    fun navigateToFollower() {
+        navController.navigateToFollower()
+    }
+
+    fun navigateProfile(id: Long) {
+        navController.navigateProfile(id)
+    }
+
+    fun navigateSetting() {
+        navController.navigateSetting(navOptions { })
+    }
+
     fun popBackStackIfNotHome() {
         if (!isSameCurrentDestination(HomeRoute.route)) {
             navController.popBackStack()
@@ -72,7 +130,9 @@ internal class MainNavigator(
     @Composable
     fun shouldShowBottomBar(): Boolean {
         val currentRoute = currentDestination?.route ?: return false
-        return currentRoute in MainNavTab
+        return currentRoute in MainNavTab || currentRoute in InMainNavTab || currentRoute.contains("detail") || currentRoute.contains(
+            ProfileRoute.route,
+        )
     }
 }
 

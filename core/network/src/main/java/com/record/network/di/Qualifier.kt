@@ -9,3 +9,7 @@ annotation class NoneAuth
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class Auth
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class S3

@@ -5,3 +5,8 @@ plugins {
 android {
     namespace = "com.record.mypage"
 }
+
+dependencies {
+    implementation(projects.domain.user)
+    implementation(projects.domain.video)
+}

@@ -1,34 +1,36 @@
 name: Android Pull Request CI
 on:
-  pull_request:
-    branches: [ develop ]
+    pull_request:
+        branches: [ develop ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v4
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout the code
+                uses: actions/checkout@v4
 
-      - name: Setup JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'corretto'
-          java-version: '17'
+            -   name: Setup JDK 17
+                uses: actions/setup-java@v4
+                with:
+                    distribution: 'corretto'
+                    java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+            -   name: Setup Android SDK
+                uses: android-actions/setup-android@v3
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+            -   name: Grant execute permission for gradlew
+                run: chmod +x gradlew
 
-      - name: Add Local Properties
-        env:
-            BASE_URL: ${{ secrets.BASE_URL }}
-            KAKAO_NATIVE_KEY: ${{ secrets.KAKAO_NATIVE_KEY }}
-        run: |
-            echo base.url=\"$BASE_URL\" >> ./local.properties
+            -   name: Add Local Properties
+                env:
+                    BASE_URL: ${{ secrets.BASE_URL }}
+                    KAKAO_NATIVE_KEY: ${{ secrets.KAKAO_NATIVE_KEY }}
+                run: |
+                    echo base.url=\"$BASE_URL\" >> ./local.properties
+                    echo kakao.native.key=\"KAKAO_NATIVE_KEY\" >> ./local.properties
+                    echo kakaoNativeKey=\"$KAKAO_NATIVE_KEY\" >> ./local.properties
 
-      - name: Run ktlint
-        run: ./gradlew ktlintCheck
+            -   name: Run ktlint
+                run: ./gradlew ktlintCheck
 

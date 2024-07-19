@@ -5,3 +5,8 @@ plugins {
 android {
     namespace = "com.record.login"
 }
+dependencies {
+    implementation(projects.domain.oauth)
+    implementation(projects.domain.auth)
+    implementation(projects.domain.user)
+}

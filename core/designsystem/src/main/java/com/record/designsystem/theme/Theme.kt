@@ -23,11 +23,16 @@ class RecordyColors(
     gray03: Color,
     gray04: Color,
     gray05: Color,
+    gray06: Color,
     gray08: Color,
     gray09: Color,
     white: Color,
     black: Color,
     background: Color,
+    black20: Color,
+    black30: Color,
+    black50: Color,
+    black70: Color,
 ) {
     var main by mutableStateOf(main)
         private set
@@ -47,6 +52,8 @@ class RecordyColors(
         private set
     var gray05 by mutableStateOf(gray05)
         private set
+    var gray06 by mutableStateOf(gray06)
+        private set
     var gray08 by mutableStateOf(gray08)
         private set
     var gray09 by mutableStateOf(gray09)
@@ -56,6 +63,14 @@ class RecordyColors(
     var black by mutableStateOf(black)
         private set
     var background by mutableStateOf(background)
+        private set
+    var black20 by mutableStateOf(black20)
+        private set
+    var black30 by mutableStateOf(black30)
+        private set
+    var black50 by mutableStateOf(black50)
+        private set
+    var black70 by mutableStateOf(black70)
         private set
 
     fun copy(): RecordyColors = RecordyColors(
@@ -68,11 +83,16 @@ class RecordyColors(
         gray03,
         gray04,
         gray05,
+        gray06,
         gray08,
         gray09,
         white,
         black,
         background,
+        black20,
+        black30,
+        black50,
+        black70,
     )
 
     fun update(other: RecordyColors) {
@@ -85,11 +105,16 @@ class RecordyColors(
         gray03 = other.gray03
         gray04 = other.gray04
         gray05 = other.gray05
+        gray06 = other.gray06
         gray08 = other.gray08
         gray09 = other.gray09
         white = other.white
         black = other.black
         background = other.background
+        black20 = other.black20
+        black30 = other.black30
+        black50 = other.black50
+        black70 = other.black70
     }
 }
 
@@ -103,11 +128,16 @@ fun RecordyDarkColor(
     gray03: Color = Gray03,
     gray04: Color = Gray04,
     gray05: Color = Gray05,
+    gray06: Color = Gray06,
     gray08: Color = Gray08,
     gray09: Color = Gray09,
     white: Color = White,
     black: Color = Black,
     background: Color = Background,
+    black20: Color = Black20,
+    black30: Color = Black30,
+    black50: Color = Black50,
+    black70: Color = Black70,
 ) = RecordyColors(
     main,
     sub01,
@@ -118,11 +148,16 @@ fun RecordyDarkColor(
     gray03,
     gray04,
     gray05,
+    gray06,
     gray08,
     gray09,
     white,
     black,
     background,
+    black20,
+    black30,
+    black50,
+    black70,
 )
 
 private val LocalRecordyColors =

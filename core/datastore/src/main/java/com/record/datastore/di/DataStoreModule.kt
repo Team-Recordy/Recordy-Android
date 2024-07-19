@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import com.record.datastore.RecordyLocalData
-import com.record.datastore.RecordyLocalDataSerializer
+import com.record.datastore.token.AuthToken
+import com.record.datastore.token.TokenDataSerializer
+import com.record.datastore.user.UserData
+import com.record.datastore.user.UserDataSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,13 +20,25 @@ import javax.inject.Singleton
 object DataStoreModule {
     @Provides
     @Singleton
-    fun providesUserDataStore(
+    fun providesTokenDataStore(
         @ApplicationContext context: Context,
-        recordyLocalDataSerializer: RecordyLocalDataSerializer,
-    ): DataStore<RecordyLocalData> =
+        tokenDataSerializer: TokenDataSerializer,
+    ): DataStore<AuthToken> =
         DataStoreFactory.create(
-            serializer = recordyLocalDataSerializer,
+            serializer = tokenDataSerializer,
         ) {
-            context.dataStoreFile("recordydata.json")
+            context.dataStoreFile("token.json")
+        }
+
+    @Provides
+    @Singleton
+    fun provideUserDataStore(
+        @ApplicationContext context: Context,
+        userDataSerializer: UserDataSerializer,
+    ): DataStore<UserData> =
+        DataStoreFactory.create(
+            serializer = userDataSerializer,
+        ) {
+            context.dataStoreFile("user.json")
         }
 }

@@ -15,7 +15,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoViewModel @UnstableApi
+@UnstableApi
+class VideoViewModel
 @Inject constructor(
     private val videoRepository: VideoRepository,
     private val videoCoreRepository: VideoCoreRepository,

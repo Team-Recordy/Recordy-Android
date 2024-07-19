@@ -14,3 +14,9 @@ fun toUTF8(input: String): String {
 
     return base64EncodedString
 }
+
+fun encodingString(contentValue: String): String {
+    val bytes = contentValue.toByteArray(Charsets.UTF_8)
+    val encodedString = android.util.Base64.encodeToString(bytes, android.util.Base64.DEFAULT)
+    return encodedString
+}

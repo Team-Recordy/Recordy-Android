@@ -25,10 +25,10 @@ fun getAllVideos(
     val uriExternal: Uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
     val projection = arrayOf(
         MediaStore.Video.VideoColumns.DATA,
-        MediaStore.Video.VideoColumns.DISPLAY_NAME, // 이름
-        MediaStore.Video.VideoColumns.SIZE, // 크기
+        MediaStore.Video.VideoColumns.DISPLAY_NAME,
+        MediaStore.Video.VideoColumns.SIZE,
         MediaStore.Video.VideoColumns.DATE_TAKEN,
-        MediaStore.Video.VideoColumns.DATE_ADDED, // 추가된 날짜
+        MediaStore.Video.VideoColumns.DATE_ADDED,
         MediaStore.Video.VideoColumns._ID,
     )
     val resolver = context.contentResolver
@@ -94,6 +94,12 @@ fun getVideoDuration(context: Context, uri: Uri): Long {
     }
 }
 
+fun formatDuration(durationMillis: Long): String {
+    val minutes = (durationMillis / 1000) / 60
+    val seconds = (durationMillis / 1000) % 60
+    return String.format("%d:%02d", minutes, seconds)
+}
+
 data class GalleryVideo(
     val id: Long,
     val filepath: String,
@@ -151,10 +157,4 @@ fun compressVideo(context: Context, videoUri: Uri, name: String, onSuccess: (Str
             },
         )
     }
-}
-
-fun formatDuration(durationMillis: Long): String {
-    val minutes = (durationMillis / 1000) / 60
-    val seconds = (durationMillis / 1000) % 60
-    return String.format("%d:%02d", minutes, seconds)
 }

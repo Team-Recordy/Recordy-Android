@@ -13,6 +13,7 @@ dependencies {
     implementation("com.github.AbedElazizShe:LightCompressor:1.3.2")
     implementation(projects.domain.upload)
     implementation(projects.domain.keyword)
+    implementation(projects.core.common)
     implementation("com.amazonaws:aws-android-sdk-mobile-client:2.13.5")
     implementation("com.amazonaws:aws-android-sdk-cognito:2.13.5")
     implementation("com.amazonaws:aws-android-sdk-s3:2.13.5")

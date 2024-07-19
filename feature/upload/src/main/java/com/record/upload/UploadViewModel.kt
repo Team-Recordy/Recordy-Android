@@ -1,8 +1,8 @@
 package com.record.upload
 
-import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.record.common.util.encodingString
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
 import com.record.ui.base.BaseViewModel
@@ -12,7 +12,6 @@ import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
-import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,15 +53,15 @@ class UploadViewModel @Inject constructor(
             }
         }
 
-    fun uploadRecord(a: String, b: String) {
+    fun uploadRecord(videoS3Url: String, thumbnailS3Url: String) {
         viewModelScope.launch {
             uploadRepository.uploadRecord(
                 videoInfo = VideoInfo(
                     location = uiState.value.locationTextValue,
                     content = uiState.value.contentTextValue,
                     keywords = encodingString(uiState.value.selectedList.joinToString(separator = ",")).trim(),
-                    videoUrl = a,
-                    previewUrl = b,
+                    videoUrl = videoS3Url,
+                    previewUrl = thumbnailS3Url,
                 ),
             ).onSuccess {
                 Log.d("testUpload", "upload")
@@ -78,18 +77,6 @@ class UploadViewModel @Inject constructor(
 
     fun updateContentTextField(contentValue: String) = intent {
         copy(contentTextValue = contentValue)
-    }
-
-    private fun encodingString(contentValue: String): String {
-        val bytes = contentValue.toByteArray(Charsets.UTF_8)
-        val encodedString = Base64.encodeToString(bytes, Base64.DEFAULT)
-        return encodedString
-    }
-
-    fun removeQueryParameters(urlString: String): String {
-        val url = URL(urlString)
-        val cleanUrl = URL(url.protocol, url.host, url.port, url.path)
-        return cleanUrl.toString()
     }
 
     fun setVideo(video: GalleryVideo) = intent {

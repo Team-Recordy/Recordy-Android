@@ -1,8 +1,11 @@
 package com.record.video.videodetail
 
 import android.util.Log
+import androidx.annotation.OptIn
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.cache.Cache
 import com.record.model.Cursor
 import com.record.model.Page
 import com.record.model.VideoType
@@ -18,9 +21,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoDetailViewModel @Inject constructor(
+class VideoDetailViewModel @OptIn(UnstableApi::class)
+@Inject constructor(
     private val videoRepository: VideoRepository,
     private val videoCoreRepository: VideoCoreRepository,
+    val simpleCache: Cache,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<VideoDetailState, VideoDetailSideEffect>(VideoDetailState()) {
     private val videoTypeString = savedStateHandle.get<String>(VideoRoute.VIDEO_TYPE_ARG_NAME)

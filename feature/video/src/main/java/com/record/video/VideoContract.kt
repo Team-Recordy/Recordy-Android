@@ -7,13 +7,15 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 data class VideoState(
-    val videos: ImmutableList<VideoData> = emptyList<VideoData>().toImmutableList(),
-    val isAll: Boolean = true,
+    val allVideos: ImmutableList<VideoData> = emptyList<VideoData>().toImmutableList(),
+    val followingVideos: ImmutableList<VideoData> = emptyList<VideoData>().toImmutableList(),
+    val isAll: Boolean = false,
     val isPlaying: Boolean = false,
     val showDeleteDialog: Boolean = false,
     val deleteVideoId: Long = 0,
-    val allCursor: Long = 0,
+    val allIndex: Long = 0,
     val followingCursor: Long = 0,
+    val followingIndex: Long = 0,
 ) : UiState
 
 sealed interface VideoSideEffect : SideEffect {

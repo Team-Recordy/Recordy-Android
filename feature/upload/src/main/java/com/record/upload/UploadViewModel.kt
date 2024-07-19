@@ -52,12 +52,11 @@ class UploadViewModel @Inject constructor(
             ).onSuccess {
                 a = removeQueryParameters(it)
                 Log.d("testUpload", "$a")
-                uploadFileToS3ThumbnailPresignedUrl(
-                    context,
+                uploadRepository.uploadThumbnailToS3Bucket(
                     uiState.value.thumbnailUrl,
                     file,
-                ) { success, message ->
-                    b = removeQueryParameters(message)
+                ) .onSuccess{
+                    b = removeQueryParameters(it)
                     Log.d("testUploadthumbnailUrl", "$b")
                     uploadRecord(a, b)
                 }

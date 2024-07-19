@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation(projects.data.video)
+    implementation(projects.core.common)
 }

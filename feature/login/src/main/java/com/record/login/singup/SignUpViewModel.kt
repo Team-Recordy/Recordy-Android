@@ -27,6 +27,14 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    fun clearFocus() {
+        postSideEffect(SignUpEffect.ClearFocus)
+    }
+
+    fun navigateToHome() {
+        postSideEffect(SignUpEffect.NavigateToHome)
+    }
+
     fun checkServiceEvent() {
         intent {
             copy(serviceTermsChecked = !serviceTermsChecked)
@@ -89,6 +97,9 @@ class SignUpViewModel @Inject constructor(
             ).onSuccess {
                 intent {
                     copy(btnEnable = true)
+                }
+                authRepository.getLocalData().onSuccess {
+                    authRepository.saveLocalData(it.copy(isSignedUp = true))
                 }
             }.onFailure {
             }

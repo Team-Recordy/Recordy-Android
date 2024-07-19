@@ -74,7 +74,7 @@ internal class MainNavigator(
 
     fun navigateLogin() {
         navController.navigate(LoginRoute.route) {
-            popUpTo(navController.graph.startDestinationId) {
+            popUpTo(navController.graph.id) {
                 inclusive = true
             }
         }

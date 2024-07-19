@@ -57,4 +57,18 @@ class UploadRepositoryImpl @Inject constructor(
                 }
             }
         }
+
+    override suspend fun uploadThumbnailToS3Bucket(url: String, file: File): Result<String> =
+    runCatching {
+        remoteUploadDataSource.uploadThumbnailToS3Bucket(url, file)
+    }.recoverCatching { exception ->
+        when (exception) {
+            is HttpException -> {
+                throw ApiError(exception.message())
+            }
+            else -> {
+                throw exception
+            }
+        }
+    }
 }

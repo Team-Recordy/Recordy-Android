@@ -90,6 +90,9 @@ class SignUpViewModel @Inject constructor(
                 intent {
                     copy(btnEnable = true)
                 }
+                authRepository.getLocalData().onSuccess {
+                    authRepository.saveLocalData(it.copy(isSignedUp = true))
+                }
             }.onFailure {
             }
         }

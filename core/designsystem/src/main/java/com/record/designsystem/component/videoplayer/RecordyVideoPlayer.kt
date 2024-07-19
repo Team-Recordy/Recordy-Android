@@ -2,6 +2,7 @@ package com.record.designsystem.component.videoplayer
 
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -134,7 +135,7 @@ fun VideoPlayer(videoId: Long, videoUrl: String, pagerState: PagerState, page: I
         }
     }
     AndroidView(
-        modifier = Modifier,
+        modifier = Modifier.fillMaxSize(),
         factory = { viewContext ->
             PlayerView(viewContext).apply {
                 useController = false

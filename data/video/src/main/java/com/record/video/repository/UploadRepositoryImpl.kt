@@ -7,9 +7,6 @@ import com.record.upload.repository.UploadRepository
 import com.record.video.model.remote.request.toData
 import com.record.video.model.remote.response.toCore
 import com.record.video.source.remote.RemoteUploadDataSource
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
 import java.io.File
 import javax.inject.Inject

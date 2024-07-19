@@ -215,9 +215,7 @@ class VideoDetailViewModel
     }
 
     fun navigateToProfile(id: Long, isMine: Boolean) {
-        if (isMine && uiState.value.videoType != VideoType.MY) {
-            postSideEffect(VideoDetailSideEffect.NavigateToMypage)
-        }
+        if (isMine && uiState.value.videoType == VideoType.MY) return
         if (uiState.value.videoType == VideoType.PROFILE) return
         postSideEffect(VideoDetailSideEffect.NavigateToUserProfile(id))
     }

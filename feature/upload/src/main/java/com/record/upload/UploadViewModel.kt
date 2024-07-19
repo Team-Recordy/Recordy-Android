@@ -69,7 +69,6 @@ class UploadViewModel @Inject constructor(
             }
             popBackStack()
         }
-
     }
     fun updateLocationTextField(locationValue: String) = intent {
         copy(locationTextValue = locationValue)

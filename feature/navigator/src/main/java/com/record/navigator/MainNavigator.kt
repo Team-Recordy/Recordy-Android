@@ -15,6 +15,7 @@ import com.record.model.VideoType
 import com.record.mypage.navigation.navigateMypage
 import com.record.mypage.navigation.navigateToFollower
 import com.record.mypage.navigation.navigateToFollowing
+import com.record.profile.navigation.ProfileRoute
 import com.record.profile.navigation.navigateProfile
 import com.record.setting.navigate.navigateSetting
 import com.record.upload.navigation.navigateToUpload
@@ -29,10 +30,17 @@ internal class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
+    private var _currentTab: MainNavTab? = null
+
     val currentTab: MainNavTab?
-        @Composable get() = currentDestination
-            ?.route
-            ?.let(MainNavTab::find)
+        @Composable get() {
+            val currentRoute = currentDestination?.route
+            val mainTab = currentRoute?.let(MainNavTab::find)
+            if (mainTab != null) {
+                _currentTab = mainTab
+            }
+            return _currentTab
+        }
 
     fun navigate(tab: MainNavTab) {
         val navOptions = navOptions {
@@ -40,7 +48,11 @@ internal class MainNavigator(
                 saveState = true
             }
             launchSingleTop = true
-            restoreState = true
+            restoreState = when (tab) {
+                MainNavTab.HOME -> false
+                MainNavTab.VIDEO -> false
+                MainNavTab.MYPAGE -> true
+            }
         }
 
         when (tab) {
@@ -118,7 +130,9 @@ internal class MainNavigator(
     @Composable
     fun shouldShowBottomBar(): Boolean {
         val currentRoute = currentDestination?.route ?: return false
-        return currentRoute in MainNavTab
+        return currentRoute in MainNavTab || currentRoute in InMainNavTab || currentRoute.contains("detail") || currentRoute.contains(
+            ProfileRoute.route,
+        )
     }
 }
 

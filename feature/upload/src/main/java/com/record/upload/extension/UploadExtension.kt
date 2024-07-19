@@ -15,12 +15,13 @@ import com.abedelazizshe.lightcompressorlibrary.config.SharedStorageConfiguratio
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-fun getAllVideos(
+suspend fun getAllVideos(
     loadSize: Int,
     currentLocation: String?,
     context: Context,
-): MutableList<GalleryVideo> {
+): MutableList<GalleryVideo> = withContext(Dispatchers.IO) {
     val galleryVideoList = mutableListOf<GalleryVideo>()
     val uriExternal: Uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
     val projection = arrayOf(
@@ -76,7 +77,7 @@ fun getAllVideos(
         }
     }
 
-    return galleryVideoList
+    return@withContext galleryVideoList
 }
 
 fun getVideoDuration(context: Context, uri: Uri): Long {

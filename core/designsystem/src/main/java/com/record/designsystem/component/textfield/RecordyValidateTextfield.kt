@@ -117,7 +117,7 @@ fun RecordyValidateTextfield(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp),
+                .padding(top = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(

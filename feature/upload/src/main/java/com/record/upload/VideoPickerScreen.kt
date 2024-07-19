@@ -398,7 +398,7 @@ fun VideoPickerScreen(
         )
         Box(modifier = Modifier.padding(16.dp)) {
             RecordyButton(
-                text = "키워드",
+                text = "업로드",
                 enabled = state.selectedList.isNotEmpty() && state.locationTextValue.isNotEmpty() && state.video != null,
                 onClick = {
                     if (state.selectedList.isNotEmpty() && state.locationTextValue.isNotEmpty() && state.video != null) {

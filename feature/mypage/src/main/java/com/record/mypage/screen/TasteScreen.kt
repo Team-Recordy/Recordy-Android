@@ -1,7 +1,6 @@
 package com.record.mypage.screen
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -40,7 +39,6 @@ import kotlinx.coroutines.flow.filter
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun BoxScope.TasteScreen(dataAvailable: ImmutableList<Pair<String, Int>> = emptyList<Pair<String, Int>>().toImmutableList()) {
-    Log.d("TasteScreen", "Data available: $dataAvailable")
     val circleCoords = listOf(
         Pair(258, 327),
         Pair(456, 170),
@@ -66,7 +64,6 @@ fun BoxScope.TasteScreen(dataAvailable: ImmutableList<Pair<String, Int>> = empty
                 message = "다양한 영상을 기록하면\n취향을 분석해 드려요",
                 showButton = true,
                 onButtonClick = {
-                    // 기록 모달창 띄우기
                 },
             )
         } else {

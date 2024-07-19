@@ -2,7 +2,6 @@ package com.record.navigator
 
 import android.app.Activity
 import android.os.Build
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
@@ -68,8 +67,6 @@ internal fun MainScreen(
     LaunchedEffect(Unit) {
         val intent = (context as Activity).intent
         val test = intent.getStringExtra("message")
-        Log.d("testExtra", "$test")
-//            viewModel.onShowSnackbar()
     }
 
     Scaffold(

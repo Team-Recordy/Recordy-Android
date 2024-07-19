@@ -2,7 +2,6 @@ package com.record.upload.extension
 
 import android.content.ContentUris
 import android.content.Context
-import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.provider.MediaStore
@@ -16,13 +15,6 @@ import com.abedelazizshe.lightcompressorlibrary.config.SharedStorageConfiguratio
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 fun getAllVideos(
     loadSize: Int,
@@ -166,4 +158,3 @@ fun formatDuration(durationMillis: Long): String {
     val seconds = (durationMillis / 1000) % 60
     return String.format("%d:%02d", minutes, seconds)
 }
-

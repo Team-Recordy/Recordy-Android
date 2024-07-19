@@ -26,6 +26,7 @@ fun FollowingRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffectWithLifecycle {
+        viewModel.getFollowingList()
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is FollowSideEffect.NavigateToUserProfile -> {

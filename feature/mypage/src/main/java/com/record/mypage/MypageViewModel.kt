@@ -10,7 +10,6 @@ import com.record.video.repository.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -73,6 +72,8 @@ class MypageViewModel @Inject constructor(
                             nickname = mine.nickname,
                             followerNum = mine.followerCount,
                             followingNum = mine.followingCount,
+                            bookmarkVideoCount = mine.bookmarkCount,
+                            recordVideoCount = mine.recordCount,
                         )
                     }
                 }.onFailure {
@@ -94,24 +95,23 @@ class MypageViewModel @Inject constructor(
             videoRepository.getBookmarkVideos(0, 10)
         }
 
-        val results = awaitAll(myVideosResult, bookmarkVideosResult)
-        val myVideoResult = results[0]
-        val bookmarkVideoResult = results[1]
-        if (myVideoResult.isSuccess && bookmarkVideoResult.isSuccess) {
-            val myVideo = myVideoResult.getOrThrow()
-            val bookmarkVideo = bookmarkVideoResult.getOrThrow()
+        val myVideoRes = myVideosResult.await()
+        val bookmarkVideoRes = bookmarkVideosResult.await()
+
+        if (myVideoRes.isSuccess && bookmarkVideoRes.isSuccess) {
+            val myVideo = myVideoRes.getOrThrow()
+            val bookmarkVideo = bookmarkVideoRes.getOrThrow()
             intent {
                 copy(
                     myRecordList = myVideo.data.toImmutableList(),
                     myBookmarkList = bookmarkVideo.data.toImmutableList(),
-                    recordCursor = myVideo.nextCursor?.plus(1)?.toLong() ?: 0,
-                    bookmarkCursor = bookmarkVideo.nextCursor?.plus(1)?.toLong() ?: 0,
-                    recordVideoCount = myVideo.data.size,
-                    bookmarkVideoCount = bookmarkVideo.data.size,
+                    recordCursor = myVideo.nextCursor?.toLong() ?: 0,
+                    bookmarkCursor = bookmarkVideo.nextCursor?.toLong() ?: 0,
                     recordIsEnd = false,
                     bookmarkIsEnd = false,
                 )
             }
+            Log.e("우상욱", "우상욱1")
         }
     }
 
@@ -122,9 +122,8 @@ class MypageViewModel @Inject constructor(
         videoRepository.getMyVideos(uiState.value.recordCursor, 10).onSuccess {
             intent {
                 copy(
-                    recordCursor = it.nextCursor?.plus(1)?.toLong() ?: 0,
+                    recordCursor = it.nextCursor?.toLong() ?: 0,
                     myRecordList = (list + it.data).toImmutableList(),
-                    recordVideoCount = (list + it.data).size,
                 )
             }
             if (!it.hasNext) {
@@ -142,9 +141,8 @@ class MypageViewModel @Inject constructor(
         videoRepository.getBookmarkVideos(uiState.value.bookmarkCursor, 10).onSuccess {
             intent {
                 copy(
-                    bookmarkCursor = it.nextCursor?.plus(1)?.toLong() ?: 0,
+                    bookmarkCursor = it.nextCursor?.toLong() ?: 0,
                     myBookmarkList = (list + it.data).toImmutableList(),
-                    bookmarkVideoCount = (list + it.data).size,
                 )
             }
             if (!it.hasNext) {
@@ -154,6 +152,7 @@ class MypageViewModel @Inject constructor(
             }
         }
     }
+
     fun bookmark(id: Long) {
         intent {
             val updatedMyRecordList = uiState.value.myRecordList.map { video ->

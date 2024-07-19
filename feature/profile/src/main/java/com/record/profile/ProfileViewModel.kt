@@ -27,7 +27,6 @@ class ProfileViewModel @Inject constructor(
             copy(id = userId?.toLong() ?: 0)
         }
         getProfile()
-        initialData()
     }
 
     fun getProfile() = viewModelScope.launch {
@@ -57,7 +56,7 @@ class ProfileViewModel @Inject constructor(
             intent {
                 copy(
                     userVideos = it.data.toImmutableList(),
-                    cursorId = it.nextCursor?.plus(1)?.toLong() ?: 0,
+                    cursorId = it.nextCursor?.toLong() ?: 0,
                     isEnd = !it.hasNext,
                 )
             }
@@ -69,7 +68,7 @@ class ProfileViewModel @Inject constructor(
         val list = uiState.value.userVideos.toList()
         videoRepository.getUserVideos(uiState.value.id, uiState.value.cursorId, 10).onSuccess {
             intent {
-                copy(userVideos = (list + it.data).toImmutableList(), cursorId = (it.nextCursor?.plus(1))?.toLong() ?: 0)
+                copy(userVideos = (list + it.data).toImmutableList(), cursorId = (it.nextCursor?.toLong() ?: 0))
             }
             if (!it.hasNext) {
                 intent {
@@ -86,7 +85,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun toggleFollow() {
-        val originalIsFollowing = uiState.value.isFollowing
+        val originalIsFollowing = uiState.value.isFollowing ?: false
         val originalFollowerCount = uiState.value.followerCount
         viewModelScope.launch {
             intent {

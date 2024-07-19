@@ -3,6 +3,8 @@ package com.record.video.videodetail
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.cache.Cache
 import com.record.model.Cursor
 import com.record.model.Page
 import com.record.model.VideoType
@@ -18,9 +20,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoDetailViewModel @Inject constructor(
+@UnstableApi
+class VideoDetailViewModel
+@Inject constructor(
     private val videoRepository: VideoRepository,
     private val videoCoreRepository: VideoCoreRepository,
+    val simpleCache: Cache,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<VideoDetailState, VideoDetailSideEffect>(VideoDetailState()) {
     private val videoTypeString = savedStateHandle.get<String>(VideoRoute.VIDEO_TYPE_ARG_NAME)
@@ -38,7 +43,7 @@ class VideoDetailViewModel @Inject constructor(
                 videoType = videoTypeEnum ?: VideoType.MY,
                 observingId = videoId ?: 0,
                 page = 0,
-                cursor = videoId ?: 0,
+                cursor = videoId?.plus(1) ?: 0,
                 keyword = realKeyword,
                 userId = otherUserId ?: 0,
             )
@@ -70,22 +75,22 @@ class VideoDetailViewModel @Inject constructor(
     private suspend fun getRecentVideos() {
         val videos = uiState.value.videos.toList()
         val keyword = uiState.value.keyword.takeIf { it.isNotBlank() }?.let { listOf(it) }
-        videoRepository.getRecentVideos(keyword, uiState.value.cursor + 1, 10).handleCursorResponse(videos)
+        videoRepository.getRecentVideos(keyword, uiState.value.cursor, 10).handleCursorResponse(videos)
     }
 
     private suspend fun getMyVideos() {
         val videos = uiState.value.videos.toList()
-        videoRepository.getMyVideos(uiState.value.cursor + 1, 10).handleCursorResponse(videos)
+        videoRepository.getMyVideos(uiState.value.cursor, 10).handleCursorResponse(videos)
     }
 
     private suspend fun getUserVideos() {
         val videos = uiState.value.videos.toList()
-        videoRepository.getUserVideos(uiState.value.userId, uiState.value.cursor + 1, 10).handleCursorResponse(videos)
+        videoRepository.getUserVideos(uiState.value.userId, uiState.value.cursor, 10).handleCursorResponse(videos)
     }
 
     private suspend fun getBookmarkVideos() {
         val videos = uiState.value.videos.toList()
-        videoRepository.getBookmarkVideos(uiState.value.cursor + 1, 10).handleCursorResponse(videos)
+        videoRepository.getBookmarkVideos(uiState.value.cursor, 10).handleCursorResponse(videos)
     }
 
     private fun Result<Cursor<VideoData>>.handleCursorResponse(existingVideos: List<VideoData>) {
@@ -209,7 +214,9 @@ class VideoDetailViewModel @Inject constructor(
         postSideEffect(VideoDetailSideEffect.ShowNetworkErrorSnackbar(msg))
     }
 
-    fun navigateToProfile(id: Long) {
+    fun navigateToProfile(id: Long, isMine: Boolean) {
+        if (isMine && uiState.value.videoType == VideoType.MY) return
+        if (uiState.value.videoType == VideoType.PROFILE) return
         postSideEffect(VideoDetailSideEffect.NavigateToUserProfile(id))
     }
 

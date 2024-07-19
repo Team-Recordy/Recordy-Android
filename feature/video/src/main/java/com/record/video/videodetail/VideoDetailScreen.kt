@@ -17,6 +17,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.cache.Cache
 import com.record.designsystem.R
 import com.record.designsystem.component.badge.RecordyLocationBadge
 import com.record.designsystem.component.dialog.RecordyDialog
@@ -89,9 +91,11 @@ fun VideoDetailRoute(
         loadMoreVideos = viewModel::getVideos,
         onBackButtonClick = viewModel::navigateToBack,
         onDialogDeleteButtonClick = viewModel::deleteVideo,
+        simpleCache = viewModel.simpleCache,
     )
 }
 
+@androidx.annotation.OptIn(UnstableApi::class)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoDetailScreen(
@@ -101,12 +105,13 @@ fun VideoDetailScreen(
     onDeleteClick: (Long) -> Unit,
     onBookmarkClick: (Long) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
-    onNickNameClick: (Long) -> Unit,
+    onNickNameClick: (Long, Boolean) -> Unit,
     onError: (String) -> Unit,
     onPlayVideo: (Long) -> Unit,
     loadMoreVideos: () -> Unit,
     onBackButtonClick: () -> Unit,
     onDialogDeleteButtonClick: () -> Unit,
+    simpleCache: Cache,
 ) {
     pagerState.onBottomReached(
         buffer = 3,
@@ -123,16 +128,18 @@ fun VideoDetailScreen(
             Box {
                 if (page in state.videos.indices) {
                     state.videos[page].run {
-                        VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo)
-                        RecordyLocationBadge(
-                            modifier = Modifier
-                                .align(Alignment.TopStart)
-                                .padding(
-                                    top = 102.dp,
-                                    start = 16.dp,
-                                ),
-                            location = location,
-                        )
+                        VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo, simpleCache)
+                        if (location.isNotEmpty()) {
+                            RecordyLocationBadge(
+                                modifier = Modifier
+                                    .align(Alignment.TopStart)
+                                    .padding(
+                                        top = 102.dp,
+                                        start = 16.dp,
+                                    ),
+                                location = location,
+                            )
+                        }
                         RecordyVideoText(
                             nickname = nickname,
                             content = content,
@@ -141,7 +148,7 @@ fun VideoDetailScreen(
                             isMyVideo = isMine,
                             onBookmarkClick = { onBookmarkClick(id) },
                             onDeleteClick = { onDeleteClick(id) },
-                            onNicknameClick = { onNickNameClick(uploaderId) },
+                            onNicknameClick = { onNickNameClick(uploaderId, isMine) },
                         )
                     }
                 }

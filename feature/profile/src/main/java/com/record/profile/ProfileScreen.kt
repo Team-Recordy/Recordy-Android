@@ -54,6 +54,7 @@ fun ProfileRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffectWithLifecycle {
+        viewModel.initialData()
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is ProfileSideEffect.navigateToVideoDetail -> {

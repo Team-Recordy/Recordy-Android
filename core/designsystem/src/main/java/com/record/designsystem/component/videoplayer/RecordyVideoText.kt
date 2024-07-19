@@ -89,6 +89,7 @@ fun RecordyVideoText(
                 Spacer(modifier = Modifier.height(12.dp))
                 Box(
                     modifier = Modifier
+                        .fillMaxWidth()
                         .animateContentSize()
                         .height(if (expanded) 160.dp else 40.dp)
                         .verticalScroll(scrollState)

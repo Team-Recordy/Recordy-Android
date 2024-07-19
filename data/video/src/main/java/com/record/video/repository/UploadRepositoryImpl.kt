@@ -37,7 +37,6 @@ class UploadRepositoryImpl @Inject constructor(
             is HttpException -> {
                 throw ApiError(exception.message())
             }
-
             else -> {
                 throw exception
             }

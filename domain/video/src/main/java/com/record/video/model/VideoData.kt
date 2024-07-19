@@ -1,6 +1,7 @@
 package com.record.video.model
 
 data class VideoData(
+    val bookmarkId: Long,
     val id: Long,
     val isBookmark: Boolean,
     val bookmarkCount: Int,

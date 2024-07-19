@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.cache.Cache
 import com.record.designsystem.R
 import com.record.designsystem.component.badge.RecordyLocationBadge
 import com.record.designsystem.component.dialog.RecordyDialog
@@ -37,10 +39,23 @@ fun VideoRoute(
     navigateToProfile: (Long) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val pagerState = rememberPagerState(
+    val allPagerState = rememberPagerState(
         initialPage = 0,
-        pageCount = { state.videos.size },
+        pageCount = { state.allVideos.size },
     )
+    val followingPagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = { state.followingVideos.size },
+    )
+    allPagerState.onBottomReached(
+        buffer = 3,
+        onLoadMore = { viewModel.getAllVideos() },
+    )
+    followingPagerState.onBottomReached(
+        buffer = 3,
+        onLoadMore = { viewModel.getFollowingVideos() },
+    )
+    val pagerState = if (state.isAll) allPagerState else followingPagerState
     LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
@@ -57,7 +72,7 @@ fun VideoRoute(
                 }
 
                 is VideoSideEffect.MovePage -> {
-                    pagerState.scrollToPage(pagerState.currentPage - sideEffect.index)
+                    allPagerState.scrollToPage(allPagerState.currentPage - sideEffect.index)
                 }
             }
         }
@@ -75,11 +90,12 @@ fun VideoRoute(
         onError = viewModel::showNetworkErrorSnackbar,
         onPlayVideo = viewModel::watchVideo,
         onNicknameClick = viewModel::navigateToProfile,
-        loadMoreVideos = viewModel::loadMoreVideos,
         onDialogDeleteButtonClick = viewModel::deleteVideo,
+        simpleCache = viewModel.simpleCache,
     )
 }
 
+@androidx.annotation.OptIn(UnstableApi::class)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoScreen(
@@ -93,13 +109,9 @@ fun VideoScreen(
     onDeleteDialogDismissRequest: () -> Unit,
     onError: (String) -> Unit,
     onPlayVideo: (Long) -> Unit,
-    loadMoreVideos: () -> Unit,
     onDialogDeleteButtonClick: (Long) -> Unit,
+    simpleCache: Cache,
 ) {
-    pagerState.onBottomReached(
-        buffer = 3,
-        onLoadMore = { loadMoreVideos() },
-    )
     Box(
         modifier = modifier,
     ) {
@@ -107,20 +119,31 @@ fun VideoScreen(
             state = pagerState,
             beyondBoundsPageCount = 0,
             modifier = Modifier.fillMaxSize(),
+            key = { page ->
+                val videos = if (state.isAll) state.allVideos else state.followingVideos
+                if (page in videos.indices) {
+                    videos[page].id
+                } else {
+                    -1
+                }
+            },
         ) { page ->
+            val videos = if (state.isAll) state.allVideos else state.followingVideos
             Box {
-                if (page in state.videos.indices) {
-                    state.videos[page].run {
-                        VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo)
-                        RecordyLocationBadge(
-                            modifier = Modifier
-                                .align(Alignment.TopStart)
-                                .padding(
-                                    top = 102.dp,
-                                    start = 16.dp,
-                                ),
-                            location = location,
-                        )
+                if (page in videos.indices) {
+                    videos[page].run {
+                        VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo, simpleCache)
+                        if (location.isNotEmpty()) {
+                            RecordyLocationBadge(
+                                modifier = Modifier
+                                    .align(Alignment.TopStart)
+                                    .padding(
+                                        top = 102.dp,
+                                        start = 16.dp,
+                                    ),
+                                location = location,
+                            )
+                        }
                         RecordyVideoText(
                             nickname = nickname,
                             content = content,

@@ -33,8 +33,7 @@ class VideoRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRecentVideos(keywords: List<String>?, cursor: Long, pageSize: Int): Result<Cursor<VideoData>> = runCatching {
-        val encodedKeywords = keywords?.map { it.replace(" ", "_") }?.map { toUTF8(it) }
-
+        val encodedKeywords = if (keywords?.first() == "전체") null else keywords?.map { it.replace(" ", "_") }?.map { toUTF8(it) }
         remoteVideoDataSource.getRecentVideos(encodedKeywords, cursor, pageSize)
     }.mapCatching {
         it.toCore()
@@ -51,7 +50,7 @@ class VideoRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPopularVideos(keywords: List<String>?, pageNumber: Int, pageSize: Int): Result<Page<VideoData>> = runCatching {
-        val encodedKeywords = keywords?.map { it.replace(" ", "_") }?.map { toUTF8(it) }
+        val encodedKeywords = if (keywords?.first() == "전체") null else keywords?.map { it.replace(" ", "_") }?.map { toUTF8(it) }
         remoteVideoDataSource.getPopularVideos(encodedKeywords, pageNumber, pageSize)
     }.mapCatching {
         it.toCore()
@@ -103,8 +102,8 @@ class VideoRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFollowingVideos(userId: Long, cursorId: Long, size: Int): Result<Cursor<VideoData>> = runCatching {
-        remoteVideoDataSource.getFollowingVideos(userId, cursorId, size)
+    override suspend fun getFollowingVideos(cursorId: Long, size: Int): Result<Cursor<VideoData>> = runCatching {
+        remoteVideoDataSource.getFollowingVideos(cursorId, size)
     }.mapCatching {
         it.toCore()
     }.recoverCatching { exception ->

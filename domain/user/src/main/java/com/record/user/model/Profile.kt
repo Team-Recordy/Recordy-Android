@@ -8,4 +8,5 @@ data class Profile(
     val nickname: String,
     val profileImageUrl: String,
     val recordCount: Int,
+    val bookmarkCount: Int,
 )

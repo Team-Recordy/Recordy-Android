@@ -11,7 +11,7 @@ data class ProfileState(
     val id: Long = 0,
     val followerCount: Int = 0,
     val followingCount: Int = 0,
-    val isFollowing: Boolean = false,
+    val isFollowing: Boolean? = null,
     val nickname: String = "",
     val profileImageUrl: String = "",
     val recordCount: Int = 0,

@@ -6,12 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -34,24 +35,27 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         uploadResultReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                intent?.let {
-                    val message = it.getStringExtra("message")
-                    message?.let { msg ->
-                        if (msg=="success") viewModel.onShowSnackbar("업로드가 완료되었습니다.",SnackBarType.CHECK)
-                        else  viewModel.onShowSnackbar("업로드가 실패했습니다.",SnackBarType.WARNING)
-                    }
+            override fun onReceive(context: Context, intent: Intent) {
+                intent.getStringExtra("message")?.let { msg ->
+                    val snackBarType = if (msg == "success") SnackBarType.CHECK else SnackBarType.WARNING
+                    viewModel.onShowSnackbar("업로드가 ${if (msg == "success") "완료" else "실패"}되었습니다.", snackBarType)
                 }
             }
         }
         val filter = IntentFilter("com.example.UPLOAD_RESULT")
-        registerReceiver(uploadResultReceiver, filter)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(uploadResultReceiver, filter, RECEIVER_NOT_EXPORTED)
+        } else {
+            registerReceiver(uploadResultReceiver, filter)
+        }
+
         enableEdgeToEdge()
         setContent {
             RecordyTheme {
@@ -73,5 +77,10 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(uploadResultReceiver)
     }
 }

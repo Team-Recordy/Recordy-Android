@@ -13,24 +13,26 @@ import com.record.designsystem.theme.RecordyTheme
 
 @Composable
 fun FollowButton(
-    isFollowing: Boolean,
+    isFollowing: Boolean? = null,
     onClick: () -> Unit,
 ) {
-    val colors = getButtonAndTextColor(isFollowing)
+    if (isFollowing != null) {
+        val colors = getButtonAndTextColor(isFollowing)
 
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = colors.first,
-        ),
-        shape = RoundedCornerShape(8.dp),
-        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp),
-    ) {
-        Text(
-            text = if (isFollowing) "팔로잉" else "팔로우",
-            color = colors.second,
-            style = RecordyTheme.typography.button2,
-        )
+        Button(
+            onClick = onClick,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colors.first,
+            ),
+            shape = RoundedCornerShape(8.dp),
+            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp),
+        ) {
+            Text(
+                text = if (isFollowing) "팔로잉" else "팔로우",
+                color = colors.second,
+                style = RecordyTheme.typography.button2,
+            )
+        }
     }
 }
 

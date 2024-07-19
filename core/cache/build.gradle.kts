@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "com.record.cache"
 }
+
+dependencies {
+    implementation(libs.bundles.media3)
+}

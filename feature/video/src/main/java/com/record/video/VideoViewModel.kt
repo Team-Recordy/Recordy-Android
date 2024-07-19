@@ -2,8 +2,11 @@ package com.record.video
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.cache.Cache
 import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel
+import com.record.video.model.VideoData
 import com.record.video.repository.VideoCoreRepository
 import com.record.video.repository.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,12 +15,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoViewModel @Inject constructor(
+@UnstableApi
+class VideoViewModel
+@Inject constructor(
     private val videoRepository: VideoRepository,
     private val videoCoreRepository: VideoCoreRepository,
+    val simpleCache: Cache,
 ) : BaseViewModel<VideoState, VideoSideEffect>(VideoState()) {
+
     init {
+        fetchInitialVideos()
+    }
+
+    private fun fetchInitialVideos() {
         getAllVideos()
+        getFollowingVideos()
     }
 
     fun updateToggleState() {
@@ -26,83 +38,61 @@ class VideoViewModel @Inject constructor(
         }
     }
 
+    private fun List<VideoData>.updateVideo(id: Long, update: (VideoData) -> VideoData): List<VideoData> {
+        return map { video ->
+            if (video.id == id) update(video) else video
+        }
+    }
+
+    private fun updateVideos(id: Long, update: (VideoData) -> VideoData) {
+        intent {
+            copy(
+                allVideos = uiState.value.allVideos.updateVideo(id, update).toImmutableList(),
+                followingVideos = uiState.value.followingVideos.updateVideo(id, update).toImmutableList(),
+            )
+        }
+    }
+
     fun getAllVideos() = viewModelScope.launch {
-        videoRepository.getAllVideos(
-            cursorId = uiState.value.allCursor,
-            pageSize = 10,
-        ).onSuccess {
-            val list = uiState.value.videos.toList()
+        videoRepository.getAllVideos(cursorId = 0, pageSize = 10).onSuccess { videos ->
             intent {
-                copy(videos = (list + it).toImmutableList())
+                copy(allVideos = (uiState.value.allVideos + videos).toImmutableList())
             }
         }.onFailure {
             handleError(it)
         }
     }
 
-    fun loadMoreVideos() {
-        if (uiState.value.isAll) {
-            intent { copy(allCursor = uiState.value.allCursor + 10) }
-            getAllVideos()
+    fun getFollowingVideos() = viewModelScope.launch {
+        videoRepository.getFollowingVideos(cursorId = uiState.value.followingCursor, size = 10).onSuccess { cursor ->
+            val videos = cursor.data
+            val nextCursor = cursor.nextCursor?.toLong() ?: 0
+            intent {
+                copy(
+                    followingVideos = (uiState.value.followingVideos + videos).toImmutableList(),
+                    followingCursor = nextCursor,
+                )
+            }
+        }.onFailure {
+            handleError(it)
         }
     }
 
     fun bookmark(id: Long) {
-        var originalBookmarkCount = 0
-        var originalIsBookmark = false
-        val videos = uiState.value.videos.toList().map { video ->
-            if (video.id == id) {
-                originalBookmarkCount = video.bookmarkCount
-                originalIsBookmark = video.isBookmark
-                video.copy(
-                    isBookmark = !video.isBookmark,
-                    bookmarkCount = if (originalIsBookmark) originalBookmarkCount - 1 else originalBookmarkCount + 1,
-                )
-            } else {
-                video
-            }
+        val toggleBookmark: (VideoData) -> VideoData = { video ->
+            video.copy(
+                isBookmark = !video.isBookmark,
+                bookmarkCount = video.bookmarkCount + if (video.isBookmark) -1 else 1,
+            )
         }
-        intent {
-            copy(videos = videos.toImmutableList())
-        }
+
+        updateVideos(id, toggleBookmark)
         viewModelScope.launch {
             videoRepository.bookmark(id).onSuccess { response ->
-                updateBookmarkStatus(id, response, originalBookmarkCount)
+                updateVideos(id) { it.copy(isBookmark = response, bookmarkCount = it.bookmarkCount) }
             }.onFailure {
-                revertBookmarkStatus(id, originalBookmarkCount, originalIsBookmark)
+                updateVideos(id, toggleBookmark) // Revert on failure
             }
-        }
-    }
-
-    private fun updateBookmarkStatus(id: Long, response: Boolean, originalBookmarkCount: Int) {
-        val videos = uiState.value.videos.toList().map { video ->
-            if (video.id == id) {
-                video.copy(
-                    isBookmark = response,
-                    bookmarkCount = if (response) originalBookmarkCount + 1 else originalBookmarkCount - 1,
-                )
-            } else {
-                video
-            }
-        }
-        intent {
-            copy(videos = videos.toImmutableList())
-        }
-    }
-
-    private fun revertBookmarkStatus(id: Long, originalBookmarkCount: Int, originalIsBookmark: Boolean) {
-        val videos = uiState.value.videos.toList().map { video ->
-            if (video.id == id) {
-                video.copy(
-                    isBookmark = originalIsBookmark,
-                    bookmarkCount = originalBookmarkCount,
-                )
-            } else {
-                video
-            }
-        }
-        intent {
-            copy(videos = videos.toImmutableList())
         }
     }
 
@@ -121,15 +111,15 @@ class VideoViewModel @Inject constructor(
     fun deleteVideo(id: Long) = viewModelScope.launch {
         dismissDeleteDialog()
         videoCoreRepository.deleteVideo(id).onSuccess {
-            val videos = uiState.value.videos.filter { it.id != id }.toImmutableList()
-            postSideEffect(VideoSideEffect.MovePage(uiState.value.videos.size - videos.size))
-            intent { copy(videos = videos) }
+            val videos = uiState.value.allVideos.filterNot { it.id == id }.toImmutableList()
+            postSideEffect(VideoSideEffect.MovePage(uiState.value.allVideos.size - videos.size))
+            intent { copy(allVideos = videos) }
         }.onFailure { handleError(it) }
     }
 
     private fun handleError(throwable: Throwable) {
         if (throwable is ApiError) {
-            Log.e("에러", throwable.message)
+            Log.e("Error", throwable.message)
         }
     }
 

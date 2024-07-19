@@ -26,6 +26,7 @@ class HomeViewModel @Inject constructor(
         intent {
             copy(selectedChipIndex = categoryIndex)
         }
+        postSideEffect(HomeSideEffect.collapseToolbar)
         getPopularVideos()
         getRecentVideos()
     }
@@ -38,9 +39,10 @@ class HomeViewModel @Inject constructor(
 
     private fun getPreferenceKeywords() {
         viewModelScope.launch {
+            val newList = listOf("전체")
             keywordRepository.getKeywords().onSuccess {
                 intent {
-                    copy(chipList = it.keywords.toImmutableList())
+                    copy(chipList = (newList + it.keywords).toImmutableList())
                 }
             }.onFailure {
                 when (it) {

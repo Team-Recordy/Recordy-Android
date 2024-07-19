@@ -33,10 +33,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -181,8 +183,12 @@ fun VideoPickerScreen(
     val cameraPermissionState = rememberPermissionState(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
     )
-    val exampleVideoList = getAllVideos(10, null, context)
+    var exampleVideoList by remember { mutableStateOf<List<GalleryVideo>>(emptyList()) }
 
+    var isGranted by remember { mutableStateOf(false) }
+    LaunchedEffect(isGranted) {
+        exampleVideoList = getAllVideos(10, null, context)
+    }
     val permissionState = remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
@@ -245,6 +251,7 @@ fun VideoPickerScreen(
                     .customClickable(
                         onClick = {
                             if (cameraPermissionState.status.isGranted) {
+                                isGranted = true
                                 showIsSelectedVideoSheetOpen()
                                 return@customClickable
                             }
@@ -423,7 +430,6 @@ fun VideoPickerScreen(
             onPositiveButtonClick = onClickBackStack,
         )
     }
-
     SelectedVideoBottomSheet(
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         isSheetOpen = state.isSelectedVideoSheetOpen,
@@ -432,6 +438,7 @@ fun VideoPickerScreen(
         isSelectedVideo = onClickVideo,
         showSnackBar = showSnackBar,
     )
+
     DefinedContentBottomSheet(
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         isSheetOpen = state.isSelectedDefinedContentSheetOpen,

@@ -106,7 +106,7 @@ internal fun MainScreen(
                 videoNavGraph(
                     padding = innerPadding,
                     onShowSnackBar = viewModel::onShowSnackbar,
-                    navigateToMypage = { navigator.navigateMypage() },
+                    navigateToMypage = navigator::navigateMypage,
                     popBackStack = navigator::popBackStackIfNotHome,
                     navigateToProfile = navigator::navigateProfile,
                 )

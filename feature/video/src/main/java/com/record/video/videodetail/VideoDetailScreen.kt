@@ -105,7 +105,7 @@ fun VideoDetailScreen(
     onDeleteClick: (Long) -> Unit,
     onBookmarkClick: (Long) -> Unit,
     onDeleteDialogDismissRequest: () -> Unit,
-    onNickNameClick: (Long) -> Unit,
+    onNickNameClick: (Long, Boolean) -> Unit,
     onError: (String) -> Unit,
     onPlayVideo: (Long) -> Unit,
     loadMoreVideos: () -> Unit,
@@ -148,7 +148,7 @@ fun VideoDetailScreen(
                             isMyVideo = isMine,
                             onBookmarkClick = { onBookmarkClick(id) },
                             onDeleteClick = { onDeleteClick(id) },
-                            onNicknameClick = { onNickNameClick(uploaderId) },
+                            onNicknameClick = { onNickNameClick(uploaderId, isMine) },
                         )
                     }
                 }

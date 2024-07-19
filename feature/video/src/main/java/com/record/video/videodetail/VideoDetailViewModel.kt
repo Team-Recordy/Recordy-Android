@@ -1,7 +1,6 @@
 package com.record.video.videodetail
 
 import android.util.Log
-import androidx.annotation.OptIn
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.UnstableApi
@@ -21,7 +20,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoDetailViewModel @OptIn(UnstableApi::class)
+@UnstableApi
+class VideoDetailViewModel
 @Inject constructor(
     private val videoRepository: VideoRepository,
     private val videoCoreRepository: VideoCoreRepository,
@@ -214,7 +214,11 @@ class VideoDetailViewModel @OptIn(UnstableApi::class)
         postSideEffect(VideoDetailSideEffect.ShowNetworkErrorSnackbar(msg))
     }
 
-    fun navigateToProfile(id: Long) {
+    fun navigateToProfile(id: Long, isMine: Boolean) {
+        if (isMine && uiState.value.videoType != VideoType.MY) {
+            postSideEffect(VideoDetailSideEffect.NavigateToMypage)
+        }
+        if (uiState.value.videoType == VideoType.PROFILE) return
         postSideEffect(VideoDetailSideEffect.NavigateToUserProfile(id))
     }
 

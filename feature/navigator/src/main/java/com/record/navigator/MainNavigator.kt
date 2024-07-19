@@ -51,7 +51,7 @@ internal class MainNavigator(
             restoreState = when (tab) {
                 MainNavTab.HOME -> false
                 MainNavTab.VIDEO -> false
-                MainNavTab.MYPAGE -> true
+                MainNavTab.MYPAGE -> false
             }
         }
 

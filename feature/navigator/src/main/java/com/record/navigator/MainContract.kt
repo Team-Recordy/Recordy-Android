@@ -8,7 +8,7 @@ data class MainState(
     val snackBarVisible: Boolean = false,
     val snackBarType: SnackBarType = SnackBarType.CHECK,
     val snackBarMessage: String = "",
-    val snackBarBottomPadding: Int = 40,
+    val snackBarBottomPadding: Int = 20,
 ) : UiState
 
 sealed interface MainSideEffect : SideEffect

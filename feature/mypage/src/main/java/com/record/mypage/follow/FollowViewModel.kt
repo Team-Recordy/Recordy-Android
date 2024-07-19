@@ -1,6 +1,5 @@
 package com.record.mypage.follow
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel

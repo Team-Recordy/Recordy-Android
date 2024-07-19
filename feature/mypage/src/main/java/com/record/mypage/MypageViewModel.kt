@@ -111,12 +111,10 @@ class MypageViewModel @Inject constructor(
                     bookmarkIsEnd = false,
                 )
             }
-            Log.e("우상욱", "우상욱1")
         }
     }
 
     fun loadMoreUserVideos() = viewModelScope.launch {
-        Log.e("로드", "로드")
         val list = uiState.value.myRecordList.toList()
         if (uiState.value.recordIsEnd) return@launch
         videoRepository.getMyVideos(uiState.value.recordCursor, 10).onSuccess {
@@ -135,7 +133,6 @@ class MypageViewModel @Inject constructor(
     }
 
     fun loadMoreBookmarkVideos() = viewModelScope.launch {
-        Log.e("로드", "로드")
         val list = uiState.value.myBookmarkList.toList()
         if (uiState.value.bookmarkIsEnd) return@launch
         videoRepository.getBookmarkVideos(uiState.value.bookmarkCursor, 10).onSuccess {
@@ -157,7 +154,6 @@ class MypageViewModel @Inject constructor(
         intent {
             val updatedMyRecordList = uiState.value.myRecordList.map { video ->
                 if (video.id == id) {
-                    Log.e("태그", "변경")
                     video.copy(isBookmark = !video.isBookmark)
                 } else {
                     video
@@ -166,14 +162,12 @@ class MypageViewModel @Inject constructor(
 
             val updatedMyBookmarkList = uiState.value.myBookmarkList.map { video ->
                 if (video.id == id) {
-                    Log.e("태그", "변경")
                     video.copy(isBookmark = !video.isBookmark)
                 } else {
                     video
                 }
             }
 
-            Log.e("반환값", updatedMyBookmarkList.toString())
             copy(
                 myRecordList = updatedMyRecordList.toImmutableList(),
                 myBookmarkList = updatedMyBookmarkList.toImmutableList(),
@@ -183,7 +177,6 @@ class MypageViewModel @Inject constructor(
             videoRepository.bookmark(id).onSuccess {
                 val updatedMyRecordList = uiState.value.myRecordList.map { video ->
                     if (video.id == id) {
-                        Log.e("태그", "변경")
                         video.copy(isBookmark = it)
                     } else {
                         video
@@ -192,14 +185,12 @@ class MypageViewModel @Inject constructor(
 
                 val updatedMyBookmarkList = uiState.value.myBookmarkList.map { video ->
                     if (video.id == id) {
-                        Log.e("태그", "변경")
                         video.copy(isBookmark = it)
                     } else {
                         video
                     }
                 }
 
-                Log.e("반환값", updatedMyBookmarkList.toString())
                 intent {
                     copy(
                         myRecordList = updatedMyRecordList.toImmutableList(),

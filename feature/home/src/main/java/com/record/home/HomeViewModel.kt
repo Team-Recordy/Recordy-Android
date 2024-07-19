@@ -108,7 +108,6 @@ class HomeViewModel @Inject constructor(
         intent {
             val updatedRecentList = uiState.value.recentList.map { video ->
                 if (video.id == id) {
-                    Log.e("태그", "변경")
                     video.copy(isBookmark = !video.isBookmark)
                 } else {
                     video
@@ -117,14 +116,11 @@ class HomeViewModel @Inject constructor(
 
             val updatedPopularList = uiState.value.popularList.map { video ->
                 if (video.id == id) {
-                    Log.e("태그", "변경")
                     video.copy(isBookmark = !video.isBookmark)
                 } else {
                     video
                 }
             }
-
-            Log.e("반환값", updatedPopularList.toString())
             copy(
                 recentList = updatedRecentList.toImmutableList(),
                 popularList = updatedPopularList.toImmutableList(),
@@ -134,7 +130,6 @@ class HomeViewModel @Inject constructor(
             videoRepository.bookmark(id).onSuccess {
                 val updatedRecentList1 = uiState.value.recentList.map { video ->
                     if (video.id == id) {
-                        Log.e("태그", "변경")
                         video.copy(isBookmark = it)
                     } else {
                         video
@@ -143,14 +138,12 @@ class HomeViewModel @Inject constructor(
 
                 val updatedPopularList1 = uiState.value.popularList.map { video ->
                     if (video.id == id) {
-                        Log.e("태그", "변경")
                         video.copy(isBookmark = it)
                     } else {
                         video
                     }
                 }
 
-                Log.e("반환값", updatedPopularList1.toString())
                 intent {
                     copy(
                         recentList = updatedRecentList1.toImmutableList(),

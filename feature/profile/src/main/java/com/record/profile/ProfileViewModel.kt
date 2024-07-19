@@ -124,7 +124,6 @@ class ProfileViewModel @Inject constructor(
         intent {
             val updatedMyRecordList = uiState.value.userVideos.map { video ->
                 if (video.id == id) {
-                    Log.e("태그", "변경")
                     video.copy(isBookmark = !video.isBookmark)
                 } else {
                     video
@@ -139,7 +138,6 @@ class ProfileViewModel @Inject constructor(
             videoRepository.bookmark(id).onSuccess {
                 val updatedMyRecordList = uiState.value.userVideos.map { video ->
                     if (video.id == id) {
-                        Log.e("태그", "변경")
                         video.copy(isBookmark = it)
                     } else {
                         video

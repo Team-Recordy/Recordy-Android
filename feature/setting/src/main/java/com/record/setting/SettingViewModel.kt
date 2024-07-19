@@ -16,7 +16,6 @@ class SettingViewModel @Inject constructor(
     private fun showDialog() {
         when (uiState.value.dialog) {
             SettingDialog.NONE -> {
-                // No dialog to show
             }
 
             SettingDialog.DELETE -> {

@@ -39,11 +39,9 @@ class FollowViewModel @Inject constructor(
             }.onFailure {
                 when (it) {
                     is ApiError -> {
-                        Log.e("FollowViewModel", it.message)
                     }
 
                     else -> {
-                        Log.e("으악", it.message.toString())
                     }
                 }
             }
@@ -81,7 +79,6 @@ class FollowViewModel @Inject constructor(
             }.onFailure {
                 when (it) {
                     is ApiError -> {
-                        Log.e("FollowViewModel", it.message)
                     }
                 }
             }

@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -82,7 +81,6 @@ fun ProfileRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     state: ProfileState,
@@ -190,20 +188,6 @@ fun ProfileScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-//                item(span = { GridItemSpan(maxLineSpan) }) {
-//                    Box(
-//                        modifier = Modifier.fillMaxWidth(),
-//                        contentAlignment = Alignment.CenterEnd,
-//                    ) {
-//                        Text(
-//                            text = buildRecordCountText(state.recordCount),
-//                            style = RecordyTheme.typography.body2M,
-//                            color = RecordyTheme.colors.gray01,
-//                            modifier = Modifier
-//                                .padding(end = 16.dp, bottom = 8.dp),
-//                        )
-//                    }
-//                }
                 items(state.userVideos) { item ->
                     RecordyVideoThumbnail(
                         imageUri = item.previewUrl,

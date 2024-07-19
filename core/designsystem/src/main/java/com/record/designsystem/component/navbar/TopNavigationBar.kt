@@ -31,13 +31,22 @@ fun TopNavigationBar(
         ),
     )
     Box(
-        modifier = modifier
-            .background(brush = Brush.verticalGradient(listOf(Color(0x339babfb), Color(0x00000000))))
+        modifier = if (enableGradation)
+            modifier
+            .background( brush = Brush.verticalGradient(listOf(Color(0x339babfb), Color(0x00000000))))
             .fillMaxWidth()
             .padding(
                 top = 45.dp,
                 bottom = 15.dp,
-            ),
+            )
+        else
+            modifier
+                .background(Background)
+                .fillMaxWidth()
+                .padding(
+                    top = 45.dp,
+                    bottom = 15.dp,
+                )
     ) {
         Text(
             modifier = Modifier.align(Alignment.Center),
@@ -60,7 +69,7 @@ fun RecordyTopNavigationBarPreview() {
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 TopNavigationBar(title = "Title", enableGradation = true)
-                TopNavigationBar(title = "Title")
+                TopNavigationBar(title = "Title", enableGradation = false)
             }
         }
     }

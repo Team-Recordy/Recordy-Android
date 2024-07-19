@@ -19,4 +19,6 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainState, MainSideEff
     fun clickSnackbar() = viewModelScope.launch {
         intent { copy(snackBarVisible = false) }
     }
+
+    fun dismissSnackbar() = intent { copy(snackBarVisible = false) }
 }

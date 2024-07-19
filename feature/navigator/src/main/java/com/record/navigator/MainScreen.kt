@@ -41,7 +41,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.record.designsystem.component.snackbar.RecordySnackBar
 import com.record.designsystem.theme.RecordyTheme
-import com.record.home.HomeSideEffect.navigateToUpload
 import com.record.home.navigation.homeNavGraph
 import com.record.login.navigation.loginNavGraph
 import com.record.mypage.navigation.mypageNavGraph
@@ -142,6 +141,7 @@ internal fun MainScreen(
                 message = state.snackBarMessage,
                 snackBarType = state.snackBarType,
                 bottomPadding = state.snackBarBottomPadding.dp + innerPadding.calculateBottomPadding(),
+                onClick = viewModel::dismissSnackbar,
             )
         },
         bottomBar = {

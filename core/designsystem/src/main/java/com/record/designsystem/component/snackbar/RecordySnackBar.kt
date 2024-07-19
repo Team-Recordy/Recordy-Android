@@ -33,22 +33,19 @@ fun RecordySnackBar(
     bottomPadding: Dp,
     onClick: () -> Unit,
 ) {
-    Box(
-        modifier = Modifier.customClickable { onClick() },
-    ) {
-        Popup {
-            AnimatedVisibility(
-                visible = visible,
-                enter = fadeIn(),
-                exit = fadeOut(),
+    Popup() {
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(),
+            exit = fadeOut(),
+        ) {
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .customClickable { onClick() },
+                contentAlignment = Alignment.BottomCenter,
             ) {
-                Box(
-                    modifier = modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.BottomCenter,
-                ) {
-                    RecordySnackBarContent(snackBarType = snackBarType, message = message, bottomPadding = bottomPadding)
-                }
+                RecordySnackBarContent(snackBarType = snackBarType, message = message, bottomPadding = bottomPadding)
             }
         }
     }
@@ -109,6 +106,6 @@ fun RecordySnackBarContent(
 @Composable
 fun PreviewSnackBar() {
     RecordyTheme {
-        RecordySnackBar(visible = true, message = "아아아아아아아아아아아아아", snackBarType = SnackBarType.CHECK, bottomPadding = 40.dp, onClick = {})
+        RecordySnackBar(visible = true, message = "아아아아아아아아아아아아아", snackBarType = SnackBarType.CHECK, bottomPadding = 40.dp)
     }
 }

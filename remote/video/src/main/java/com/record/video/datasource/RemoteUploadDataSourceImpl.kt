@@ -32,7 +32,6 @@ class RemoteUploadDataSourceImpl @Inject constructor(
         val mediaType = "application/octet-stream".toMediaTypeOrNull()
         val requestBody = RequestBody.create(mediaType, videoPath)
         val url = URL(bucketApi.uploadVideoWithS3Video(url, requestBody).raw().request.url.toString())
-        Log.d("testUrl", "$url")
         return URL(url.protocol, url.host, url.port, url.path).toString()
     }
 
@@ -42,8 +41,7 @@ class RemoteUploadDataSourceImpl @Inject constructor(
         getVideoFrameAt1Sec(videoPath, outputImagePath.absolutePath)
         val mediaType = "application/octet-stream".toMediaTypeOrNull()
         val requestBody = RequestBody.create(mediaType, outputImagePath)
-        val url = URL(bucketApi.uploadVideoWithS3Video(url, requestBody).raw().request.url.toString())
-        Log.d("testUrl2", "$url")
+        val url = URL(bucketApi.uploadThumbnailWithS3Video(url, requestBody).raw().request.url.toString())
         return URL(url.protocol, url.host, url.port, url.path).toString()
     }
 }

@@ -12,9 +12,16 @@ import com.abedelazizshe.lightcompressorlibrary.VideoQuality
 import com.abedelazizshe.lightcompressorlibrary.config.Configuration
 import com.abedelazizshe.lightcompressorlibrary.config.SaveLocation
 import com.abedelazizshe.lightcompressorlibrary.config.SharedStorageConfiguration
+import com.record.common.util.getVideoFrameAt1Sec
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import java.io.File
+import java.io.IOException
 
 fun getAllVideos(
     loadSize: Int,
@@ -93,7 +100,59 @@ fun getVideoDuration(context: Context, uri: Uri): Long {
         retriever.release()
     }
 }
+fun uploadFileToS3PresignedUrl(presignedUrl: String, file: File, callback: (Boolean, String) -> Unit) {
+    val client = OkHttpClient()
+    val mediaType = "application/octet-stream".toMediaTypeOrNull()
+    val requestBody = RequestBody.create(mediaType, file)
 
+    val request = Request.Builder()
+        .url(presignedUrl)
+        .put(requestBody)
+        .build()
+    client.newCall(request).enqueue(
+        object : okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                callback(false, "Upload failed: ${e.message}")
+            }
+
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                if (response.isSuccessful) {
+                    callback(true, "${response.request.url}")
+                } else {
+                    callback(false, "Upload failed: ${response.message}")
+                }
+            }
+        },
+    )
+}
+fun uploadFileToS3ThumbnailPresignedUrl(context: Context, presignedUrl: String, file: File, callback: (Boolean, String) -> Unit) {
+    val videoPath = file.absolutePath
+    val outputImagePath = File(context.cacheDir, file.name)
+    getVideoFrameAt1Sec(videoPath, outputImagePath.absolutePath)
+    val client = OkHttpClient()
+    val mediaType = "application/octet-stream".toMediaTypeOrNull()
+    val requestBody = RequestBody.create(mediaType, outputImagePath)
+
+    val request = Request.Builder()
+        .url(presignedUrl)
+        .put(requestBody)
+        .build()
+    client.newCall(request).enqueue(
+        object : okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                callback(false, "Upload failed: ${e.message}")
+            }
+
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                if (response.isSuccessful) {
+                    callback(true, "${response.request.url}")
+                } else {
+                    callback(false, "Upload failed: ${response.message}")
+                }
+            }
+        },
+    )
+}
 fun formatDuration(durationMillis: Long): String {
     val minutes = (durationMillis / 1000) / 60
     val seconds = (durationMillis / 1000) % 60

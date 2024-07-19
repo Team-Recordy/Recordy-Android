@@ -130,7 +130,7 @@ fun VideoPickerRoute(
         state = state,
         onClickContentChip = viewModel::setSelectedList,
         onClickVideo = viewModel::setVideo,
-        uploadVideoS3Bucket = viewModel::uploadVideoToS3Bucket,
+        uploadVideoS3Bucket = { viewModel.uploadVideoToS3Bucket(context,it) },
         locationFocusRequester = locationFocusRequester,
         contentFocusRequester = locationFocusRequester,
         updateLocationTextField = viewModel::updateLocationTextField,

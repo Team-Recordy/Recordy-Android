@@ -42,6 +42,7 @@ import com.record.designsystem.theme.RecordyTheme
 import com.record.login.singup.screen.NamingScreen
 import com.record.login.singup.screen.PolicyScreen
 import com.record.login.singup.screen.SignUpSuccessScreen
+import com.record.ui.extension.customClickable
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -85,7 +86,8 @@ fun SignUpRoute(
                     startY = columnSize.height.toFloat() * 0f,
                     endY = columnSize.height.toFloat() * 0.3f,
                 ),
-            ),
+            )
+            .customClickable(rippleEnabled = false) { focusManager.clearFocus() },
     ) {
         Box(
             modifier = Modifier

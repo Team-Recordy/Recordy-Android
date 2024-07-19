@@ -1,6 +1,5 @@
 package com.record.upload
 
-import android.content.Context
 import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -39,27 +38,19 @@ class UploadViewModel @Inject constructor(
         }
     }
 
-    fun uploadVideoToS3Bucket(context: Context, file: File) =
+    fun uploadVideoToS3Bucket(file: File) =
         viewModelScope.launch {
-            Log.d("testUploadStart", "$")
-            var a = ""
-            var b = ""
             uploadRepository.uploadVideoToS3Bucket(
                 uiState.value.bucketUrl,
                 file,
-            ).onSuccess {
-                a = removeQueryParameters(it)
-                Log.d("testUpload", "$a")
+            ).onSuccess { videoUrl ->
                 uploadRepository.uploadThumbnailToS3Bucket(
                     uiState.value.thumbnailUrl,
                     file,
-                ).onSuccess {
-                    b = removeQueryParameters(it)
-                    Log.d("testUploadthumbnailUrl", "$b")
-                    uploadRecord(a, b)
+                ).onSuccess { thumbNailUrl ->
+                    uploadRecord(videoUrl, thumbNailUrl)
                 }
             }.onFailure {
-                Log.d("testUploadFail", "$b")
             }
         }
 

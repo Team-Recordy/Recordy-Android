@@ -167,36 +167,35 @@ fun formatDuration(durationMillis: Long): String {
     return String.format("%d:%02d", minutes, seconds)
 }
 
-fun uploadFileToS3PresignedUrl(
-    presignedUrl: String,
-    thumbnailUrl: String,
-    file: File,
-    callback: (Boolean, String) -> Unit,
-) {
-    val client = OkHttpClient()
-    val mediaType = "application/octet-stream".toMediaTypeOrNull()
-    val requestBody = RequestBody.create(mediaType, file)
-
-    val request = Request.Builder()
-        .url(presignedUrl)
-        .put(requestBody)
-        .build()
-    client.newCall(request).enqueue(
-        object : okhttp3.Callback {
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
-                callback(false, "Upload failed: ${e.message}")
-            }
-
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                if (response.isSuccessful) {
-                    callback(true, "${response.request.url}")
-                } else {
-                    callback(false, "Upload failed: ${response.message}")
-                }
-            }
-        },
-    )
-}
+//fun uploadFileToS3PresignedUrl(
+//    presignedUrl: String,
+//    file: File,
+//    callback: (Boolean, String) -> Unit,
+//) {
+//    val client = OkHttpClient()
+//    val mediaType = "application/octet-stream".toMediaTypeOrNull()
+//    val requestBody = RequestBody.create(mediaType, file)
+//
+//    val request = Request.Builder()
+//        .url(presignedUrl)
+//        .put(requestBody)
+//        .build()
+//    client.newCall(request).enqueue(
+//        object : okhttp3.Callback {
+//            override fun onFailure(call: okhttp3.Call, e: IOException) {
+//                callback(false, "Upload failed: ${e.message}")
+//            }
+//
+//            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+//                if (response.isSuccessful) {
+//                    callback(true, "${response.request.url}")
+//                } else {
+//                    callback(false, "Upload failed: ${response.message}")
+//                }
+//            }
+//        },
+//    )
+//}
 
 fun uploadFileToS3ThumbnailPresignedUrl(
     context: Context,

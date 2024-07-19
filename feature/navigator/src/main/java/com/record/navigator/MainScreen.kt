@@ -15,7 +15,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -130,7 +129,7 @@ internal fun MainScreen(
                     navigateToFollower = { navigator.navigateToFollower() },
                     navigateToVideo = navigator::navigateVideoDetail,
                     navigateToProfile = navigator::navigateProfile,
-                    navigateToUpload = navigator::navigateToUpload
+                    navigateToUpload = navigator::navigateToUpload,
                 )
 
                 settingNavGraph(
@@ -142,7 +141,7 @@ internal fun MainScreen(
                 visible = state.snackBarVisible,
                 message = state.snackBarMessage,
                 snackBarType = state.snackBarType,
-                bottomPadding = state.snackBarBottomPadding.dp+innerPadding.calculateBottomPadding(),
+                bottomPadding = state.snackBarBottomPadding.dp + innerPadding.calculateBottomPadding(),
             )
         },
         bottomBar = {

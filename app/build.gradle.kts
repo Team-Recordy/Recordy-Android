@@ -24,6 +24,7 @@ dependencies {
     implementation(projects.data.keyword)
     implementation(projects.local.auth)
     implementation(projects.local.user)
+    implementation(projects.local.video)
     implementation(projects.remote.auth)
     implementation(projects.remote.user)
     implementation(projects.remote.video)

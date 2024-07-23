@@ -13,6 +13,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -47,6 +48,9 @@ object NetworkModule {
         OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .addInterceptor(loggingInterceptor)
+            .readTimeout(300, TimeUnit.SECONDS)
+            .writeTimeout(300, TimeUnit.SECONDS)
+            .connectTimeout(300, TimeUnit.SECONDS)
             .build()
 
     @Provides

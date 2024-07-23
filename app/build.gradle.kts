@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.core.datastore)
     implementation(projects.core.network)
     implementation(projects.core.cache)
+    implementation(projects.core.workmanager)
     implementation(projects.core.security)
     implementation(projects.data.auth)
     implementation(projects.data.oauth)
@@ -29,4 +30,7 @@ dependencies {
     implementation(projects.remote.keyword)
     implementation(projects.feature.navigator)
     implementation(libs.kakao.login)
+    implementation(libs.hilt.androidx.common)
+    implementation(libs.hilt.androidx.work)
+    implementation(libs.androidx.workmanager)
 }

@@ -59,4 +59,5 @@ include(":data:keyword")
 
 include(":local:user")
 include(":core:cache")
+include(":core:workmanager")
 include(":core:security")

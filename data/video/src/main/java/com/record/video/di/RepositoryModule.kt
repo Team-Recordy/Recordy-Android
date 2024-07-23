@@ -1,13 +1,13 @@
 package com.record.video.di
 
 import com.record.upload.repository.UploadRepository
-import com.record.workmanager.upload.UploadTask
 import com.record.video.repository.UploadRepositoryImpl
 import com.record.video.repository.UploadTaskImpl
 import com.record.video.repository.VideoCoreRepository
 import com.record.video.repository.VideoCoreRepositoryImpl
 import com.record.video.repository.VideoRepository
 import com.record.video.repository.VideoRepositoryImpl
+import com.record.workmanager.upload.UploadTask
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

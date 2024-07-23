@@ -1,7 +1,7 @@
 package com.record.video.repository
 
 import com.record.model.exception.ApiError
-import com.record.upload.model.GallercyVideo
+import com.record.upload.model.GalleryVideo
 import com.record.upload.model.RecordInfo
 import com.record.upload.repository.UploadRepository
 import com.record.video.model.local.toDomain
@@ -18,7 +18,7 @@ class UploadRepositoryImpl @Inject constructor(
         uploadEnqueuer.enqueueUploadWork(recordInfo.videoPath, recordInfo.location, recordInfo.keywords, recordInfo.content)
     }
 
-    override suspend fun getVideosFromGallery(page: Int, loadSize: Int, currentLocation: String?): Result<List<GallercyVideo>> = runCatching {
+    override suspend fun getVideosFromGallery(page: Int, loadSize: Int, currentLocation: String?): Result<List<GalleryVideo>> = runCatching {
         localVideoDataSource.getVideosFromGallery(page, loadSize, currentLocation)
     }.mapCatching {
         it.map { it.toDomain() }

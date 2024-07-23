@@ -1,6 +1,6 @@
 package com.record.upload.repository
 
-import com.record.upload.model.GallercyVideo
+import com.record.upload.model.GalleryVideo
 import com.record.upload.model.RecordInfo
 
 interface UploadRepository {
@@ -10,5 +10,5 @@ interface UploadRepository {
         page: Int,
         loadSize: Int,
         currentLocation: String?,
-    ): Result<List<GallercyVideo>>
+    ): Result<List<GalleryVideo>>
 }

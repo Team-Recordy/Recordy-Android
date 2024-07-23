@@ -1,7 +1,9 @@
 package com.record.video.di
 
 import com.record.upload.repository.UploadRepository
+import com.record.workmanager.upload.UploadTask
 import com.record.video.repository.UploadRepositoryImpl
+import com.record.video.repository.UploadTaskImpl
 import com.record.video.repository.VideoCoreRepository
 import com.record.video.repository.VideoCoreRepositoryImpl
 import com.record.video.repository.VideoRepository
@@ -26,4 +28,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindsVideoRepository(videoRepositoryImpl: VideoRepositoryImpl): VideoRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsUploadTask(uploadTaskImpl: UploadTaskImpl): UploadTask
 }

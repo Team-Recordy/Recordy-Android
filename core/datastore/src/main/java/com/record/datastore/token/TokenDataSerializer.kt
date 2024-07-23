@@ -1,7 +1,7 @@
 package com.record.datastore.token
 
 import androidx.datastore.core.Serializer
-import com.record.common.security.SecurityInterface
+import com.record.common.security.CryptoManager
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
@@ -9,7 +9,7 @@ import java.io.OutputStream
 import javax.inject.Inject
 
 class TokenDataSerializer @Inject constructor(
-    private val securityManager: SecurityInterface,
+    private val cryptoManager: CryptoManager,
 ) : Serializer<AuthToken> {
     private val securityKeyAlias = "data-store"
     override val defaultValue: AuthToken
@@ -22,7 +22,7 @@ class TokenDataSerializer @Inject constructor(
         }
         val iv = encryptedDataWithIv.copyOfRange(0, 12)
         val encryptedData = encryptedDataWithIv.copyOfRange(12, encryptedDataWithIv.size)
-        val decryptedBytes = securityManager.decryptData(securityKeyAlias, encryptedData, iv)
+        val decryptedBytes = cryptoManager.decryptData(securityKeyAlias, encryptedData, iv)
         return try {
             Json.decodeFromString(
                 deserializer = AuthToken.serializer(),
@@ -35,7 +35,7 @@ class TokenDataSerializer @Inject constructor(
     }
 
     override suspend fun writeTo(t: AuthToken, output: OutputStream) {
-        securityManager.encryptData(
+        cryptoManager.encryptData(
             securityKeyAlias,
             Json.encodeToString(
                 serializer = AuthToken.serializer(),

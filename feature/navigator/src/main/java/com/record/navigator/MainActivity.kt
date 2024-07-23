@@ -26,9 +26,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import com.record.navigator.broadcastreceiver.ProgressBroadcastReceiver
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.theme.RecordyTheme
+import com.record.navigator.broadcastreceiver.ProgressBroadcastReceiver
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

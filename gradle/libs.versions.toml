@@ -54,6 +54,7 @@ androidx-media3 = "1.3.1"
 androidx-splashscreen = "1.0.1"
 androix-room = "2.6.1"
 androidx-hilt-navigation-compose = "1.2.0"
+androidx-workmanager = "2.9.0"
 
 # Google Libraries Versions
 google-service = "4.4.2"
@@ -70,6 +71,7 @@ compose-stable-marker = "1.0.3"
 
 # Hilt Versions
 hilt = "2.51.1"
+hilt-androidx = "1.2.0"
 
 # Other Libraries Versions
 javax = "1"
@@ -164,6 +166,7 @@ androidx-datastore-preferences = { group = "androidx.datastore", name = "datasto
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androix-room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androix-room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androix-room" }
+androidx-workmanager = { group = "androidx.work", name = "work-runtime", version.ref = "androidx-workmanager" }
 
 # Compose Libraries
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -189,6 +192,9 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 hilt-testing-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt_androidx_common = { module = "androidx.hilt:hilt-common", version.ref = "hilt_androidx" }
+hilt_androidx_work = { module = "androidx.hilt:hilt-work", version.ref = "hilt_androidx" }
+hilt_androidx_compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt_androidx" }
 javax-inject = {group = "javax.inject", name = "javax.inject", version.ref = "javax" }
 
 # Orbit

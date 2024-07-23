@@ -142,7 +142,7 @@ internal fun MainScreen(
                 onClick = viewModel::dismissSnackbar,
             )
             if (state.isUploading) {
-                Text(
+                /*Text(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(40.dp),
@@ -150,7 +150,7 @@ internal fun MainScreen(
                     color = RecordyTheme.colors.white,
                     style = RecordyTheme.typography.title1,
                     textAlign = TextAlign.End,
-                )
+                )*/
             }
         },
         bottomBar = {

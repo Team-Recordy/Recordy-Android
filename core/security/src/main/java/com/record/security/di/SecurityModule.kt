@@ -1,7 +1,7 @@
-package com.record.common.di
+package com.record.security.di
 
-import com.record.common.security.SecurityInterface
-import com.record.common.security.SecurityUtil
+import com.record.common.security.CryptoManager
+import com.record.security.CryptoManagerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,5 +13,5 @@ import javax.inject.Singleton
 abstract class SecurityModule {
     @Singleton
     @Binds
-    abstract fun bindsSecurityUtil(securityUtil: SecurityUtil): SecurityInterface
+    abstract fun bindsCryptoManager(cryptoManagerImpl: CryptoManagerImpl): CryptoManager
 }

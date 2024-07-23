@@ -5,10 +5,12 @@ import com.record.common.util.encodingString
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
 import com.record.ui.base.BaseViewModel
-import com.record.upload.extension.GalleryVideo
+import com.record.upload.model.GalleryVideo
 import com.record.upload.model.RecordInfo
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,6 +40,22 @@ class UploadViewModel @Inject constructor(
         )
         uploadRepository.upload(recordInfo)
         popBackStack()
+    }
+
+    fun onLoadMore() = viewModelScope.launch(Dispatchers.IO) {
+        val list = uiState.value.galleryList
+        intent {
+            copy(isItemLoading = true)
+        }
+        uploadRepository.getVideosFromGallery(uiState.value.galleryPage, 20, null).onSuccess {
+            intent {
+                copy(galleryList = (list + it).toImmutableList(), galleryPage = uiState.value.galleryPage + 1, isItemLoading = false)
+            }
+        }.onFailure {
+            intent {
+                copy(isItemLoading = false)
+            }
+        }
     }
 
     fun updateLocationTextField(locationValue: String) = intent {

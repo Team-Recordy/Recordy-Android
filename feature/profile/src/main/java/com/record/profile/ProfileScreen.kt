@@ -47,7 +47,6 @@ import com.record.designsystem.theme.RecordyTheme
 import com.record.model.VideoType
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.ui.scroll.OnBottomReached
-import com.record.upload.extension.GalleryVideo
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -92,7 +91,6 @@ fun ProfileScreen(
     onVideoClick: (VideoType, Long) -> Unit,
 ) {
     val lazyGridState = rememberLazyGridState()
-    var exampleVideoList by remember { mutableStateOf<List<GalleryVideo>>(emptyList()) }
     lazyGridState.OnBottomReached {
         onLoadMore()
     }

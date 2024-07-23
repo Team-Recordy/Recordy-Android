@@ -75,8 +75,7 @@ import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.upload.component.bottomsheet.DefinedContentBottomSheet
 import com.record.upload.component.bottomsheet.SelectedVideoBottomSheet
-import com.record.upload.extension.GalleryVideo
-import com.record.upload.extension.getAllVideos
+import com.record.upload.model.GalleryVideo
 import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -145,6 +144,7 @@ fun VideoPickerRoute(
         hideIsSelectedDefinedContentSheetOpen = viewModel::hideIsSelectedDefinedContentSheetOpen,
         showSnackBar = viewModel::makeSnackBar,
         onClickBackStack = viewModel::popBackStack,
+        onLoadMore = viewModel::onLoadMore,
     )
 }
 
@@ -173,6 +173,7 @@ fun VideoPickerScreen(
     updateLocationTextField: (String) -> Unit = {},
     showSnackBar: () -> Unit = {},
     onClickBackStack: () -> Unit = {},
+    onLoadMore: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -180,11 +181,10 @@ fun VideoPickerScreen(
     val cameraPermissionState = rememberPermissionState(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
     )
-    var exampleVideoList by remember { mutableStateOf<List<GalleryVideo>>(emptyList()) }
 
     var isGranted by remember { mutableStateOf(false) }
     LaunchedEffect(isGranted) {
-        exampleVideoList = getAllVideos(10, null, context)
+        onLoadMore()
     }
     val permissionState = remember {
         mutableStateOf(
@@ -434,9 +434,10 @@ fun VideoPickerScreen(
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         isSheetOpen = state.isSelectedVideoSheetOpen,
         onDismissRequest = hideIsSelectedVideoSheetOpen,
-        galleyVideos = exampleVideoList,
+        galleyVideos = state.galleryList,
         isSelectedVideo = onClickVideo,
         showSnackBar = showSnackBar,
+        onLoadMore = onLoadMore,
     )
 
     DefinedContentBottomSheet(

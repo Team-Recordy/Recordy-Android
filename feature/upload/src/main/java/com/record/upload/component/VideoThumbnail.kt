@@ -1,6 +1,5 @@
 package com.record.upload.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -19,12 +18,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import coil.decode.VideoFrameDecoder
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.record.designsystem.theme.White
 import com.record.ui.extension.customClickable
-import com.record.upload.extension.GalleryVideo
 import com.record.upload.extension.formatDuration
+import com.record.upload.model.GalleryVideo
 
 @Composable
 fun VideoThumbnail(
@@ -38,20 +39,28 @@ fun VideoThumbnail(
                 add(VideoFrameDecoder.Factory())
             }
             .crossfade(true)
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .memoryCachePolicy(CachePolicy.ENABLED)
             .build()
     }
 
-    val painter = rememberAsyncImagePainter(
-        model = video.filepath,
-        imageLoader = imageLoader,
-    )
+    val request = remember(video.filepath) {
+        ImageRequest.Builder(context)
+            .data(video.filepath)
+            .crossfade(true)
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .build()
+    }
+
     Box(
         modifier = Modifier
             .width(100.dp)
             .height(100.dp),
     ) {
-        Image(
-            painter = painter,
+        AsyncImage(
+            model = request,
+            imageLoader = imageLoader,
             contentDescription = "Video Thumbnail",
             contentScale = ContentScale.Crop,
             modifier = Modifier

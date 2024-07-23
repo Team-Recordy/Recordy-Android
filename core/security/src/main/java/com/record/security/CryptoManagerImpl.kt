@@ -1,4 +1,4 @@
-package com.record.common.security
+package com.record.security
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties.BLOCK_MODE_GCM
@@ -6,6 +6,7 @@ import android.security.keystore.KeyProperties.ENCRYPTION_PADDING_NONE
 import android.security.keystore.KeyProperties.KEY_ALGORITHM_AES
 import android.security.keystore.KeyProperties.PURPOSE_DECRYPT
 import android.security.keystore.KeyProperties.PURPOSE_ENCRYPT
+import com.record.common.security.CryptoManager
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -13,7 +14,7 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 import javax.inject.Inject
 
-class SecurityUtil @Inject constructor() : SecurityInterface {
+class CryptoManagerImpl @Inject constructor() : CryptoManager {
     private val provider = "AndroidKeyStore"
     private val cipher by lazy {
         Cipher.getInstance("AES/GCM/NoPadding")

@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.core.datastore)
     implementation(projects.core.network)
     implementation(projects.core.cache)
+    implementation(projects.core.security)
     implementation(projects.data.auth)
     implementation(projects.data.oauth)
     implementation(projects.data.video)

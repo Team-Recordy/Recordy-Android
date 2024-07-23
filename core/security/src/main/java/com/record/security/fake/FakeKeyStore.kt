@@ -1,4 +1,4 @@
-package com.record.common.security.fake
+package com.record.security.fake
 
 import java.io.InputStream
 import java.io.OutputStream

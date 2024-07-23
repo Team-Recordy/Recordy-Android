@@ -24,7 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import com.record.navigator.broadcastreceiver.ProgressBroadcastReceiver
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.theme.RecordyTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var uploadResultReceiver: BroadcastReceiver
-
+    private lateinit var uploadProgressReceiver: ProgressBroadcastReceiver
     private val viewModel by viewModels<MainViewModel>()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -50,11 +52,16 @@ class MainActivity : ComponentActivity() {
             }
         }
         val filter = IntentFilter("com.example.UPLOAD_RESULT")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(uploadResultReceiver, filter, RECEIVER_NOT_EXPORTED)
-        } else {
-            registerReceiver(uploadResultReceiver, filter)
-        }
+        ContextCompat.registerReceiver(this, uploadResultReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+
+        uploadProgressReceiver = ProgressBroadcastReceiver(
+            onProgressUpdate = viewModel::updateProgress,
+            onUploadStop = viewModel::stopUpload,
+            onUploadStart = viewModel::startUpload,
+            onUploadSuccess = viewModel::successUpload,
+            onUploadFailure = viewModel::failUpload,
+        )
+        ProgressBroadcastReceiver.register(this, uploadProgressReceiver)
 
         enableEdgeToEdge()
         setContent {
@@ -82,5 +89,6 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(uploadResultReceiver)
+        ProgressBroadcastReceiver.unregister(this, uploadProgressReceiver)
     }
 }

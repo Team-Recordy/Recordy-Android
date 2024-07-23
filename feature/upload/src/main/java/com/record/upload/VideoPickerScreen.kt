@@ -81,7 +81,6 @@ import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.File
 
 @Composable
 fun VideoPickerRoute(
@@ -103,7 +102,6 @@ fun VideoPickerRoute(
     }
 
     LaunchedEffectWithLifecycle {
-        viewModel.getPresignedUrl()
         viewModel.getKeyWordList()
     }
 
@@ -133,10 +131,7 @@ fun VideoPickerRoute(
         state = state,
         onClickContentChip = viewModel::setSelectedList,
         onClickVideo = viewModel::setVideo,
-        uploadVideoS3Bucket = {
-//            viewModel.uploadVideoToS3Bucket(context,it)
-            viewModel.uploadVideoToS3Bucket(it)
-        },
+        onClickUpload = viewModel::upload,
         locationFocusRequester = locationFocusRequester,
         contentFocusRequester = locationFocusRequester,
         updateLocationTextField = viewModel::updateLocationTextField,
@@ -164,7 +159,7 @@ fun VideoPickerScreen(
     state: UploadState = UploadState(),
     onClickContentChip: (List<String>) -> Unit,
     onClickVideo: (GalleryVideo) -> Unit,
-    uploadVideoS3Bucket: (File) -> Unit,
+    onClickUpload: () -> Unit,
     showShouldShowRationaleDialog: () -> Unit = {},
     hideShouldShowRationaleDialog: () -> Unit = {},
     hideExitUploadDialog: () -> Unit = {},
@@ -402,7 +397,7 @@ fun VideoPickerScreen(
                 enabled = state.selectedList.isNotEmpty() && state.locationTextValue.isNotEmpty() && state.video != null,
                 onClick = {
                     if (state.selectedList.isNotEmpty() && state.locationTextValue.isNotEmpty() && state.video != null) {
-                        uploadVideoS3Bucket(File(state.video?.filepath))
+                        onClickUpload()
 //                compressVideo(context, state.video.uri,state.video.name, onSuccess = onSuccess)
                     }
                 },
@@ -461,7 +456,7 @@ fun VideoPickerScreenPreview() {
         VideoPickerScreen(
             onClickContentChip = {},
             onClickVideo = {},
-            uploadVideoS3Bucket = {},
+            onClickUpload = {},
         )
     }
 }

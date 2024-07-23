@@ -30,22 +30,26 @@ fun RecordySnackBar(
     visible: Boolean,
     message: String,
     snackBarType: SnackBarType,
-    bottomPadding: Dp = 0.dp,
     onClick: () -> Unit = {},
 ) {
-    Popup() {
-        AnimatedVisibility(
-            visible = visible,
-            enter = fadeIn(),
-            exit = fadeOut(),
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(),
+        exit = fadeOut(),
+    ) {
+        Box(
+            modifier = modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter,
         ) {
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-                    .customClickable { onClick() },
-                contentAlignment = Alignment.BottomCenter,
-            ) {
-                RecordySnackBarContent(snackBarType = snackBarType, message = message, bottomPadding = bottomPadding)
+            Popup(
+                alignment = Alignment.BottomCenter
+            ){
+                RecordySnackBarContent(
+                    modifier = Modifier.customClickable { onClick() },
+                    snackBarType = snackBarType,
+                    message = message,
+                )
             }
         }
     }
@@ -56,7 +60,6 @@ fun RecordySnackBarContent(
     modifier: Modifier = Modifier,
     snackBarType: SnackBarType,
     message: String,
-    bottomPadding: Dp,
 ) {
     Row(
         modifier = modifier
@@ -65,7 +68,7 @@ fun RecordySnackBarContent(
                 horizontal = 16.dp,
             )
             .padding(
-                bottom = bottomPadding,
+                bottom = 16.dp
             )
             .background(
                 color = RecordyTheme.colors.sub01,

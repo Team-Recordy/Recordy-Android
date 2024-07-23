@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -134,12 +135,23 @@ internal fun MainScreen(
                 )
             }
             RecordySnackBar(
+                modifier = Modifier.padding(innerPadding),
                 visible = state.snackBarVisible,
                 message = state.snackBarMessage,
                 snackBarType = state.snackBarType,
-                bottomPadding = state.snackBarBottomPadding.dp + innerPadding.calculateBottomPadding(),
                 onClick = viewModel::dismissSnackbar,
             )
+            if (state.isUploading) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(40.dp),
+                    text = state.uploadProgress.toString(),
+                    color = RecordyTheme.colors.white,
+                    style = RecordyTheme.typography.title1,
+                    textAlign = TextAlign.End,
+                )
+            }
         },
         bottomBar = {
             MainBottomNavigationBar(

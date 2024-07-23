@@ -43,6 +43,7 @@ internal class MainNavigator(
         }
 
     fun navigate(tab: MainNavTab) {
+        _currentTab = tab
         val navOptions = navOptions {
             popUpTo(HomeRoute.route) {
                 saveState = true
@@ -51,7 +52,7 @@ internal class MainNavigator(
             restoreState = when (tab) {
                 MainNavTab.HOME -> false
                 MainNavTab.VIDEO -> false
-                MainNavTab.MYPAGE -> false
+                MainNavTab.MYPAGE -> true
             }
         }
 

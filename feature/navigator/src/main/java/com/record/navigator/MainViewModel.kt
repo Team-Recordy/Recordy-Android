@@ -21,4 +21,32 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainState, MainSideEff
     }
 
     fun dismissSnackbar() = intent { copy(snackBarVisible = false) }
+    fun updateProgress(percentage: Int) = viewModelScope.launch {
+        intent {
+            copy(uploadProgress = percentage)
+        }
+    }
+    fun startUpload() = viewModelScope.launch {
+        intent {
+            copy(isUploading = true)
+        }
+    }
+    fun stopUpload() = viewModelScope.launch {
+        intent {
+            copy(isUploading = false)
+        }
+    }
+    fun successUpload() = viewModelScope.launch {
+        intent {
+            copy(isUploading = false)
+        }
+        onShowSnackbar("업로드를 성공했습니다.", SnackBarType.CHECK)
+    }
+
+    fun failUpload() = viewModelScope.launch {
+        intent {
+            copy(isUploading = false)
+        }
+        onShowSnackbar("업로드를 실패했습니다.", SnackBarType.WARNING)
+    }
 }

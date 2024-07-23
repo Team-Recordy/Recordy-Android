@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.record.designsystem.R
@@ -43,8 +42,8 @@ fun RecordySnackBar(
             contentAlignment = Alignment.BottomCenter,
         ) {
             Popup(
-                alignment = Alignment.BottomCenter
-            ){
+                alignment = Alignment.BottomCenter,
+            ) {
                 RecordySnackBarContent(
                     modifier = Modifier.customClickable { onClick() },
                     snackBarType = snackBarType,
@@ -68,7 +67,7 @@ fun RecordySnackBarContent(
                 horizontal = 16.dp,
             )
             .padding(
-                bottom = 16.dp
+                bottom = 16.dp,
             )
             .background(
                 color = RecordyTheme.colors.sub01,

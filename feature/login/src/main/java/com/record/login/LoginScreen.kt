@@ -244,7 +244,7 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.weight(0.3f))
     }
-    if(isLoading){
+    if (isLoading) {
         LoadingIndicator()
     }
 }

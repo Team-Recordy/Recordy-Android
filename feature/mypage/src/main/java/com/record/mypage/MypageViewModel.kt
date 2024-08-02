@@ -57,6 +57,13 @@ class MypageViewModel @Inject constructor(
                     is ApiError -> {
                         Log.e("error", it.message)
                     }
+                    is IndexOutOfBoundsException -> {
+                        intent {
+                            copy(
+                                preferences = emptyList<Pair<String,Int>>().toImmutableList()
+                            )
+                        }
+                    }
                 }
             }
         }

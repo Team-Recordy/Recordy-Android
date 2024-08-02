@@ -13,6 +13,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException.ERROR_CODE_DECODING_FAILED
+import androidx.media3.common.PlaybackException.ERROR_CODE_DECODING_FORMAT_UNSUPPORTED
 import androidx.media3.common.PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_FAILED
 import androidx.media3.common.PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT
 import androidx.media3.common.Player
@@ -21,6 +23,7 @@ import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.Cache
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.exoplayer.DefaultLoadControl
+import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.AspectRatioFrameLayout
@@ -65,8 +68,12 @@ fun rememberExoPlayer(context: Context, videoUrl: String, simpleCache: Cache): E
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
 
         val mediaSourceFactory = DefaultMediaSourceFactory(cacheDataSourceFactory)
-
+        val renderersFactory = DefaultRenderersFactory(context).apply {
+            setEnableDecoderFallback(true)
+            setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER)
+        }
         ExoPlayer.Builder(context)
+            .setRenderersFactory(renderersFactory)
             .setLoadControl(loadControl)
             .setMediaSourceFactory(mediaSourceFactory)
             .build()
@@ -120,15 +127,19 @@ fun VideoPlayer(videoId: Long, videoUrl: String, pagerState: PagerState, page: I
             Player.EVENT_PLAYER_ERROR -> {
                 when (exoPlayer.playerError?.errorCode) {
                     ERROR_CODE_IO_NETWORK_CONNECTION_FAILED -> {
-                        onError("네트워크 연결 실패")
+                        onError("네트워크 연결에 실패했습니다.")
                     }
 
                     ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT -> {
-                        onError("네트워크 타임아웃")
+                        onError("네트워크 연결에 실패했습니다.")
+                    }
+
+                    in ERROR_CODE_DECODING_FAILED..ERROR_CODE_DECODING_FORMAT_UNSUPPORTED -> {
+                        onError("기기에서 지원하지 않는 타입의 동영상 입니다.")
                     }
 
                     else -> {
-                        onError("알 수 없는 오류")
+                        onError("알 수 없는 오류입니다.")
                     }
                 }
             }

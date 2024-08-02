@@ -13,4 +13,5 @@ dependencies {
     implementation(projects.domain.upload)
     implementation(projects.domain.keyword)
     implementation(projects.core.common)
+    implementation(libs.lottie.compose)
 }

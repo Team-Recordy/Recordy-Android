@@ -38,7 +38,10 @@ import kotlinx.coroutines.flow.filter
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun BoxScope.TasteScreen(dataAvailable: ImmutableList<Pair<String, Int>> = emptyList<Pair<String, Int>>().toImmutableList()) {
+fun BoxScope.TasteScreen(
+    dataAvailable: ImmutableList<Pair<String, Int>> = emptyList<Pair<String, Int>>().toImmutableList(),
+    navigateToUpload: () -> Unit,
+) {
     val circleCoords = listOf(
         Pair(258, 327),
         Pair(456, 170),
@@ -63,8 +66,7 @@ fun BoxScope.TasteScreen(dataAvailable: ImmutableList<Pair<String, Int>> = empty
                 imageRes = com.record.designsystem.R.drawable.img_question,
                 message = "다양한 영상을 기록하면\n취향을 분석해 드려요",
                 showButton = true,
-                onButtonClick = {
-                },
+                onButtonClick = navigateToUpload,
             )
         } else {
             Box(
@@ -75,10 +77,10 @@ fun BoxScope.TasteScreen(dataAvailable: ImmutableList<Pair<String, Int>> = empty
                         brush = Brush.verticalGradient(
                             colors = listOf(Color(0x00000000), Color(0x339BABFB)),
 
-                        ),
+                            ),
                     ),
 
-            ) {
+                ) {
                 Image(
                     painter = painterResource(id = com.record.designsystem.R.drawable.img_bg_bubble),
                     contentDescription = null,

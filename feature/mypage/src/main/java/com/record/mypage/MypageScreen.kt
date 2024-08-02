@@ -217,7 +217,10 @@ fun MypageScreen(
                         Box(
                             modifier = Modifier.fillMaxSize(),
                         ) {
-                            TasteScreen(dataAvailable = state.preferences)
+                            TasteScreen(
+                                dataAvailable = state.preferences,
+                                navigateToUpload = navigateToUpload,
+                            )
                         }
                     }
 

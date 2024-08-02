@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.R
+import com.record.designsystem.component.indicator.LoadingIndicator
 import com.record.designsystem.theme.Kakao
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
@@ -118,6 +119,7 @@ fun LoginRoute(
             modifier = modifier,
             onLogInClick = { viewModel.startKakaoLogin() },
             alpha = alpha,
+            isLoading = uiState.isLoading,
         )
     }
 }
@@ -176,6 +178,7 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     onLogInClick: () -> Unit,
     alpha: Float = 1f,
+    isLoading: Boolean = false,
 ) {
     var columnSize by remember {
         mutableStateOf(IntSize.Zero)
@@ -214,7 +217,9 @@ fun LoginScreen(
 
             Text(
                 text = "내 취향의 공간 발견하는 곳",
-                modifier = Modifier.height(24.dp).alpha(alpha),
+                modifier = Modifier
+                    .height(24.dp)
+                    .alpha(alpha),
                 textAlign = TextAlign.Center,
                 style = RecordyTheme.typography.body1M,
                 color = RecordyTheme.colors.main,
@@ -238,6 +243,9 @@ fun LoginScreen(
         }
 
         Spacer(modifier = Modifier.weight(0.3f))
+    }
+    if(isLoading){
+        LoadingIndicator()
     }
 }
 

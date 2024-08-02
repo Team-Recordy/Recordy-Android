@@ -5,6 +5,7 @@ import com.record.ui.base.UiState
 
 data class LoginState(
     var splash: Boolean = true,
+    val isLoading: Boolean = false,
 ) : UiState
 
 sealed interface LoginSideEffect : SideEffect {

@@ -34,6 +34,9 @@ class LoginViewModel @Inject constructor(
 
     fun signIn(socialToken: String) {
         viewModelScope.launch {
+            intent {
+                copy(isLoading = true)
+            }
             authRepository.getLocalData().onSuccess {
                 if (it.isSignedUp) postSideEffect(LoginSideEffect.LoginSuccess)
             }
@@ -47,12 +50,18 @@ class LoginViewModel @Inject constructor(
                     } else {
                         postSideEffect(LoginSideEffect.LoginToSignUp)
                     }
+                    intent {
+                        copy(isLoading = false)
+                    }
                 }.onFailure {
                     when (it) {
                         is ApiError -> Log.e("실패", it.message)
                         else -> Log.e("실패", it.message.toString())
                     }
                     postSideEffect(LoginSideEffect.LoginError(errorMessage = it.message.toString()))
+                    intent {
+                        copy(isLoading = false)
+                    }
                 }
         }
     }

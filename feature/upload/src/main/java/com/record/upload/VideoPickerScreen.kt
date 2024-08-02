@@ -438,6 +438,7 @@ fun VideoPickerScreen(
         isSelectedVideo = onClickVideo,
         showSnackBar = showSnackBar,
         onLoadMore = onLoadMore,
+        isLoading = state.isItemLoading,
     )
 
     DefinedContentBottomSheet(

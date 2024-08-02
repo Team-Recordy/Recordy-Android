@@ -27,15 +27,15 @@ class UploadTaskImpl @Inject constructor(
                         uploadBroadCaster.sendUploadProgress(percentage)
                     }
                 },
-            ).let {
-                remoteUploadDataSource.uploadThumbnailToS3Bucket(previewUrl, File(videoPath)).let {
+            ).let { videoUri ->
+                remoteUploadDataSource.uploadThumbnailToS3Bucket(previewUrl, File(videoPath)).let { previewUri ->
                     remoteUploadDataSource.uploadRecord(
                         VideoInfo(
                             location = location,
                             content = content,
                             keywords = keywords,
-                            videoUrl = videoUrl,
-                            previewUrl = previewUrl,
+                            videoUrl = videoUri,
+                            previewUrl = previewUri,
                         ).toData(),
                     )
                 }

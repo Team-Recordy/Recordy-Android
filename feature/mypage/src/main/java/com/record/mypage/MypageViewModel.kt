@@ -60,7 +60,7 @@ class MypageViewModel @Inject constructor(
                     is IndexOutOfBoundsException -> {
                         intent {
                             copy(
-                                preferences = emptyList<Pair<String,Int>>().toImmutableList()
+                                preferences = emptyList<Pair<String, Int>>().toImmutableList(),
                             )
                         }
                     }

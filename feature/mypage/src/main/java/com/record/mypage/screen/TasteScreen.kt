@@ -77,10 +77,10 @@ fun BoxScope.TasteScreen(
                         brush = Brush.verticalGradient(
                             colors = listOf(Color(0x00000000), Color(0x339BABFB)),
 
-                            ),
+                        ),
                     ),
 
-                ) {
+            ) {
                 Image(
                     painter = painterResource(id = com.record.designsystem.R.drawable.img_bg_bubble),
                     contentDescription = null,

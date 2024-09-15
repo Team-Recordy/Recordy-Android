@@ -200,7 +200,7 @@ fun RecordyTypography(): RecordyTypography {
             fontSize = 26.sp,
             lineHeight = 38.sp,
             letterSpacing = (-0.5).sp,
-            color = ViskitYellow500
+            color = ViskitYellow500,
         ),
         title1 = TextStyle(
             fontFamily = PretendardBold,

@@ -70,7 +70,7 @@ fun RecordySnackBarContent(
                 bottom = 16.dp,
             )
             .background(
-                color = RecordyTheme.colors.sub01,
+                color = RecordyTheme.colors.background,
                 shape = RoundedCornerShape(8.dp),
             ),
         verticalAlignment = Alignment.CenterVertically,
@@ -82,7 +82,7 @@ fun RecordySnackBarContent(
                         .padding(start = 16.dp, top = 10.dp, bottom = 10.dp, end = 4.dp),
                     painter = painterResource(id = R.drawable.ic_exclamation_24),
                     contentDescription = "warning",
-                    tint = RecordyTheme.colors.alert,
+                    tint = RecordyTheme.colors.alert01,
                 )
             }
 
@@ -92,7 +92,7 @@ fun RecordySnackBarContent(
                         .padding(start = 16.dp, top = 10.dp, bottom = 10.dp, end = 4.dp),
                     painter = painterResource(id = R.drawable.ic_check_small_24),
                     contentDescription = "check",
-                    tint = RecordyTheme.colors.main,
+                    tint = RecordyTheme.colors.viskitYellow500,
                 )
             }
         }

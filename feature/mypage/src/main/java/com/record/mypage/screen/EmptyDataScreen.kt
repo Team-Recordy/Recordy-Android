@@ -81,7 +81,7 @@ fun EmptyDataScreen(imageRes: Int, message: String, showButton: Boolean, onButto
                 Text(
                     text = "서로 다른 키워드 3개를 입력하면 그래프가 보여요",
                     color = RecordyTheme.colors.gray03,
-                    style = RecordyTheme.typography.caption1,
+                    style = RecordyTheme.typography.caption1R,
                     modifier = Modifier.padding(bottom = 22.dp),
                 )
             }

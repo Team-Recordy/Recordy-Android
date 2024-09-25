@@ -292,7 +292,7 @@ fun CustomTabRow(
         ) {
             MypageTab.entries.forEachIndexed { index, tab ->
                 val selected = index == selectedTabIndex
-                val textColor = if (selected) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray04
+                val textColor = if (selected) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray06
                 val textStyle = if (selected) RecordyTheme.typography.body2L else RecordyTheme.typography.body2M
 
                 Column(

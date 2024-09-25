@@ -32,14 +32,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.theme.Alert
+import com.record.designsystem.theme.Alert01
 import com.record.designsystem.theme.Black
 import com.record.designsystem.theme.Gray01
 import com.record.designsystem.theme.Gray03
-import com.record.designsystem.theme.Gray04
+import com.record.designsystem.theme.Gray06
 import com.record.designsystem.theme.Gray08
-import com.record.designsystem.theme.Main
 import com.record.designsystem.theme.RecordyTheme
+import com.record.designsystem.theme.ViskitYellow500
+
 /**
  * design system small text field / Large text field 2가지 타입 구현 가능
  * */
@@ -65,14 +66,14 @@ fun RecordyBasicTextField(
     val isFocused by interactionSource.collectIsFocusedAsState()
 
     val borderLineColor = when {
-        isError -> Alert
-        isFocused -> Main
+        isError -> Alert01
+        isFocused -> ViskitYellow500
         value.isEmpty() -> Color.Transparent
         else -> Color.Transparent
     }
 
     val labelTextColor = when {
-        isError -> Alert
+        isError -> Alert01
         else -> Gray03
     }
 
@@ -87,7 +88,7 @@ fun RecordyBasicTextField(
         maxLines = if (minLines > maxLines) minLines else maxLines,
         minLines = minLines,
         interactionSource = interactionSource,
-        cursorBrush = SolidColor(Main),
+        cursorBrush = SolidColor(ViskitYellow500),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         visualTransformation = visualTransformation,
@@ -113,7 +114,7 @@ fun RecordyBasicTextField(
                     if (value.isEmpty()) {
                         Text(
                             text = placeholder,
-                            color = Gray04,
+                            color = Gray06,
                             style = RecordyTheme.typography.body2M,
                             maxLines = 1,
                             overflow = TextOverflow.Clip,
@@ -130,14 +131,14 @@ fun RecordyBasicTextField(
                         text = labelText,
                         modifier = Modifier.align(Alignment.CenterStart),
                         color = labelTextColor,
-                        style = RecordyTheme.typography.caption2,
+                        style = RecordyTheme.typography.caption2R,
                         maxLines = 1,
                     )
                     Text(
                         text = "${value.length} / $maxLength",
                         modifier = Modifier.align(Alignment.CenterEnd),
-                        color = Gray04,
-                        style = RecordyTheme.typography.caption2,
+                        color = Gray06,
+                        style = RecordyTheme.typography.caption2R,
                         maxLines = 1,
                     )
                 }

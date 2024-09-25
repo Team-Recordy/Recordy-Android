@@ -39,7 +39,7 @@ fun SignUpSuccessScreen() {
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             "지금 영상을 둘러보고 나만의 공간 취향을 발견해 보세요.",
-            style = RecordyTheme.typography.caption2,
+            style = RecordyTheme.typography.caption2R,
             color = RecordyTheme.colors.gray03,
         )
     }

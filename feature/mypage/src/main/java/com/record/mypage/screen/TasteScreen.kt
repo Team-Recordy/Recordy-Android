@@ -123,9 +123,9 @@ fun BoxScope.TasteScreen(
                         Text(
                             text = "${pair.second}%",
                             style = when (index) {
-                                0 -> RecordyTheme.typography.number1
-                                1 -> RecordyTheme.typography.number2
-                                else -> RecordyTheme.typography.number3
+                                0 -> RecordyTheme.typography.caption1R
+                                1 -> RecordyTheme.typography.caption1R
+                                else -> RecordyTheme.typography.caption1R
                             },
                             color = RecordyTheme.colors.gray01,
                         )

@@ -9,7 +9,6 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,10 +40,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.record.designsystem.component.snackbar.RecordySnackBar
 import com.record.designsystem.theme.RecordyTheme
+import com.record.detail.navigation.detailNavGraph
 import com.record.home.navigation.homeNavGraph
 import com.record.login.navigation.loginNavGraph
 import com.record.mypage.navigation.mypageNavGraph
 import com.record.profile.navigation.profileNavGraph
+import com.record.search.navigation.searchNavGraph
 import com.record.setting.navigate.settingNavGraph
 import com.record.upload.navigation.uploadNavGraph
 import com.record.video.navigation.videoNavGraph
@@ -132,6 +134,14 @@ internal fun MainScreen(
                     padding = innerPadding,
                     navigateToLogin = { navigator.navigateLogin() },
                 )
+
+                searchNavGraph(
+                    padding = innerPadding,
+                )
+
+                detailNavGraph(
+                    padding = innerPadding,
+                )
             }
             RecordySnackBar(
                 modifier = Modifier.padding(innerPadding),
@@ -191,7 +201,6 @@ private fun MainBottomNavigationBar(
                             selected = tab == currentTab,
                             label = stringResource(id = titleId),
                             iconId = iconId,
-                            selectedIconId = selectedIconId,
                             onClick = { onClickItem(tab) },
                         )
                     }
@@ -207,7 +216,6 @@ fun RowScope.NavItem(
     selected: Boolean,
     label: String,
     @DrawableRes iconId: Int,
-    @DrawableRes selectedIconId: Int,
     onClick: () -> Unit,
 ) {
     Column(
@@ -218,16 +226,16 @@ fun RowScope.NavItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        val icon = if (selected) selectedIconId else iconId
-        Image(
+        Icon(
             modifier = modifier.padding(bottom = 2.dp),
-            painter = painterResource(id = icon),
+            painter = painterResource(id = iconId),
             contentDescription = label,
+            tint = if (selected) RecordyTheme.colors.viskitYellow500 else RecordyTheme.colors.gray06,
         )
         Text(
             text = label,
-            color = if (selected) RecordyTheme.colors.main else RecordyTheme.colors.gray04,
-            style = RecordyTheme.typography.caption1,
+            color = if (selected) RecordyTheme.colors.viskitYellow500 else RecordyTheme.colors.gray06,
+            style = RecordyTheme.typography.caption1R,
         )
     }
 }

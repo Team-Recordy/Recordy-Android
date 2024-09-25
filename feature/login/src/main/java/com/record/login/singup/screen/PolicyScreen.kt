@@ -135,7 +135,7 @@ fun RecordyCheckBox(
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = contentText,
-                    style = RecordyTheme.typography.caption1.copy(color = RecordyTheme.colors.gray03),
+                    style = RecordyTheme.typography.caption1R.copy(color = RecordyTheme.colors.gray03),
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 if (moreUrl != null && onMoreClick != null) {

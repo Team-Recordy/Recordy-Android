@@ -14,5 +14,7 @@ dependencies {
     implementation(projects.feature.upload)
     implementation(projects.feature.video)
     implementation(projects.feature.setting)
+    implementation(projects.feature.search)
+    implementation(projects.feature.detail)
     implementation(projects.core.common)
 }

@@ -5,29 +5,37 @@ import androidx.annotation.StringRes
 import com.record.designsystem.R
 import com.record.home.navigation.HomeRoute
 import com.record.mypage.navigation.MypageRoute
+import com.record.search.navigation.SearchRoute
+import com.record.upload.navigation.UploadRoute
 import com.record.video.navigation.VideoRoute
 
 enum class MainNavTab(
     @DrawableRes val iconId: Int,
-    @DrawableRes val selectedIconId: Int,
     @StringRes val titleId: Int,
     val route: String,
 ) {
     HOME(
-        iconId = R.drawable.ic_tab_place_28,
-        selectedIconId = R.drawable.ic_tab_place_pressed_28,
+        iconId = R.drawable.ic_tab_home,
         titleId = R.string.home,
         route = HomeRoute.route,
     ),
+    SEARCH(
+        iconId = R.drawable.ic_tab_search,
+        titleId = R.string.search,
+        route = SearchRoute.route,
+    ),
+    UPLOAD(
+        iconId = R.drawable.ic_tab_upload,
+        titleId = R.string.upload,
+        route = UploadRoute.ROUTE,
+    ),
     VIDEO(
-        iconId = R.drawable.ic_tab_video_28,
-        selectedIconId = R.drawable.ic_tab_video_pressed_28,
+        iconId = R.drawable.ic_tab_video,
         titleId = R.string.video,
         route = VideoRoute.route,
     ),
     MYPAGE(
-        iconId = R.drawable.ic_tab_profile_28,
-        selectedIconId = R.drawable.ic_tab_profile_pressed_28,
+        iconId = R.drawable.ic_tab_mypage,
         titleId = R.string.profile,
         route = MypageRoute.route,
     ),

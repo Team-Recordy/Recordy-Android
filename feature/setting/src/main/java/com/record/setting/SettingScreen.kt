@@ -147,8 +147,8 @@ fun SettingScreen(
             modifier = Modifier
                 .padding(start = 16.dp)
                 .padding(top = 4.dp),
-            style = RecordyTheme.typography.caption2,
-            color = RecordyTheme.colors.gray04,
+            style = RecordyTheme.typography.caption2R,
+            color = RecordyTheme.colors.gray06,
         )
     }
 }

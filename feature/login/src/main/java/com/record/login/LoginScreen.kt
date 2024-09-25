@@ -41,7 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.R
 import com.record.designsystem.component.indicator.LoadingIndicator
-import com.record.designsystem.theme.Kakao
+import com.record.designsystem.theme.Kakaoyellow
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import dagger.hilt.android.EntryPointAccessors
@@ -222,7 +222,7 @@ fun LoginScreen(
                     .alpha(alpha),
                 textAlign = TextAlign.Center,
                 style = RecordyTheme.typography.body1M,
-                color = RecordyTheme.colors.main,
+                color = RecordyTheme.colors.viskitYellow500,
             )
         }
 
@@ -235,7 +235,7 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .height(48.dp)
                 .padding(horizontal = 16.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Kakao),
+            colors = ButtonDefaults.buttonColors(containerColor = Kakaoyellow),
             shape = RoundedCornerShape(10.dp),
         ) {
             Image(painterResource(id = R.drawable.ic_kakao_16), null, modifier = Modifier.padding(end = 8.dp))

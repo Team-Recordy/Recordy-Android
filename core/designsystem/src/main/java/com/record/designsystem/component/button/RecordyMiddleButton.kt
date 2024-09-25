@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.theme.Black
-import com.record.designsystem.theme.Main
 import com.record.designsystem.theme.RecordyTheme
+import com.record.designsystem.theme.ViskitYellow500
 import timber.log.Timber
 
 @Composable
@@ -30,7 +30,7 @@ fun RecordyMiddleButton(
     enabled: Boolean = true,
     clickable: Boolean = true,
     onClick: () -> Unit = {},
-    backgroundColor: Color = Main,
+    backgroundColor: Color = ViskitYellow500,
     textColor: Color = RecordyTheme.colors.gray09,
     borderWidth: Dp = 0.dp,
     borderColor: Color = Color.Transparent,
@@ -44,7 +44,7 @@ fun RecordyMiddleButton(
         onClick = onClick,
         backgroundColor = if (enabled) backgroundColor else RecordyTheme.colors.gray08,
         rippleColor = rippleColor,
-        textColor = if (enabled) textColor else RecordyTheme.colors.gray04,
+        textColor = if (enabled) textColor else RecordyTheme.colors.gray06,
         clickable = clickable,
         padding = PaddingValues(vertical = 12.dp, horizontal = 38.dp),
         textStyle = textStyle,

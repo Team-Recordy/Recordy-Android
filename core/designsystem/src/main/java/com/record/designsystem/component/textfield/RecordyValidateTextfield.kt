@@ -71,9 +71,9 @@ fun RecordyValidateTextfield(
                     width = 1.dp,
                     color = if (isFocused) {
                         if (errorState == ValidateResult.OverlapError || errorState == ValidateResult.ValidationError) {
-                            RecordyTheme.colors.alert
+                            RecordyTheme.colors.alert01
                         } else {
-                            RecordyTheme.colors.main
+                            RecordyTheme.colors.viskitYellow500
                         }
                     } else {
                         Color.Transparent
@@ -106,7 +106,7 @@ fun RecordyValidateTextfield(
                     if (value.isEmpty() && !isFocused) {
                         Text(
                             text = placeholder,
-                            style = RecordyTheme.typography.body2M.copy(color = RecordyTheme.colors.gray04),
+                            style = RecordyTheme.typography.body2M.copy(color = RecordyTheme.colors.gray06),
                         )
                     }
                     innerTextField()
@@ -128,16 +128,16 @@ fun RecordyValidateTextfield(
                     ValidateResult.Inputting -> inputtingMessage
                 },
                 color = when (errorState) {
-                    ValidateResult.OverlapError, ValidateResult.ValidationError -> RecordyTheme.colors.alert
+                    ValidateResult.OverlapError, ValidateResult.ValidationError -> RecordyTheme.colors.alert01
                     ValidateResult.Success -> RecordyTheme.colors.gray03
                     ValidateResult.Inputting -> RecordyTheme.colors.gray03
                 },
-                style = RecordyTheme.typography.caption2,
+                style = RecordyTheme.typography.caption2R,
             )
             Text(
                 text = "${value.length} / $maxLength",
-                style = RecordyTheme.typography.caption2,
-                color = RecordyTheme.colors.gray04,
+                style = RecordyTheme.typography.caption2R,
+                color = RecordyTheme.colors.gray06,
             )
         }
     }

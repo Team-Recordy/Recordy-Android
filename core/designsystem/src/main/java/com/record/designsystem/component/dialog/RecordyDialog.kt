@@ -64,7 +64,7 @@ fun RecordyDialog(
                 Text(
                     modifier = Modifier.padding(top = 6.dp, bottom = 20.dp),
                     text = subTitle,
-                    style = RecordyTheme.typography.caption1,
+                    style = RecordyTheme.typography.caption1R,
                     color = RecordyTheme.colors.gray01,
                     textAlign = TextAlign.Center,
                 )

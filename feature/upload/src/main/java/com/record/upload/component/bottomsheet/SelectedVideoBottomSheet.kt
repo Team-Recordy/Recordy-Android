@@ -77,7 +77,7 @@ fun SelectedVideoBottomSheet(
                 Text(
                     text = "ⓘ 1080p 이하의 최대 15초 영상을 올려주세요.",
                     color = Gray03,
-                    style = RecordyTheme.typography.caption2,
+                    style = RecordyTheme.typography.caption2R,
                     maxLines = 1,
                     modifier = Modifier
                         .fillMaxWidth()

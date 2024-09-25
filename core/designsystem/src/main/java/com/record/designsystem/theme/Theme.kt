@@ -14,15 +14,15 @@ import androidx.compose.ui.graphics.Color
 
 @Stable
 class RecordyColors(
-    ViskitYellow500: Color,
-    ViskitYellow400: Color,
-    ViskitYellow300: Color,
-    ViskitYellow200: Color,
-    ViskitYellow100: Color,
-    ViskitYellow80: Color,
-    ViskitYellow60: Color,
-    ViskitYellow40: Color,
-    ViskitYellow20: Color,
+    viskitYellow500: Color,
+    viskitYellow400: Color,
+    viskitYellow300: Color,
+    viskitYellow200: Color,
+    viskitYellow100: Color,
+    viskitYellow80: Color,
+    viskitYellow60: Color,
+    viskitYellow40: Color,
+    viskitYellow20: Color,
     alert01: Color,
     alert02: Color,
     kakaoyellow: Color,
@@ -45,23 +45,23 @@ class RecordyColors(
     black50: Color,
     black70: Color,
 ) {
-    var ViskitYellow500 by mutableStateOf(ViskitYellow500)
+    var viskitYellow500 by mutableStateOf(ViskitYellow500)
         private set
-    var ViskitYellow400 by mutableStateOf(ViskitYellow400)
+    var viskitYellow400 by mutableStateOf(ViskitYellow400)
         private set
-    var ViskitYellow300 by mutableStateOf(ViskitYellow300)
+    var viskitYellow300 by mutableStateOf(ViskitYellow300)
         private set
-    var ViskitYellow200 by mutableStateOf(ViskitYellow200)
+    var viskitYellow200 by mutableStateOf(ViskitYellow200)
         private set
-    var ViskitYellow100 by mutableStateOf(ViskitYellow100)
+    var viskitYellow100 by mutableStateOf(ViskitYellow100)
         private set
-    var ViskitYellow80 by mutableStateOf(ViskitYellow80)
+    var viskitYellow80 by mutableStateOf(ViskitYellow80)
         private set
-    var ViskitYellow60 by mutableStateOf(ViskitYellow60)
+    var viskitYellow60 by mutableStateOf(ViskitYellow60)
         private set
-    var ViskitYellow40 by mutableStateOf(ViskitYellow40)
+    var viskitYellow40 by mutableStateOf(ViskitYellow40)
         private set
-    var ViskitYellow20 by mutableStateOf(ViskitYellow20)
+    var viskitYellow20 by mutableStateOf(ViskitYellow20)
         private set
     var alert01 by mutableStateOf(alert01)
         private set
@@ -140,15 +140,15 @@ class RecordyColors(
     )
 
     fun update(other: RecordyColors) {
-        ViskitYellow500 = other.ViskitYellow500
-        ViskitYellow400 = other.ViskitYellow400
-        ViskitYellow300 = other.ViskitYellow300
-        ViskitYellow200 = other.ViskitYellow200
-        ViskitYellow100 = other.ViskitYellow100
-        ViskitYellow80 = other.ViskitYellow80
-        ViskitYellow60 = other.ViskitYellow60
-        ViskitYellow40 = other.ViskitYellow40
-        ViskitYellow20 = other.ViskitYellow20
+        viskitYellow500 = other.viskitYellow500
+        viskitYellow400 = other.viskitYellow400
+        viskitYellow300 = other.viskitYellow300
+        viskitYellow200 = other.viskitYellow200
+        viskitYellow100 = other.viskitYellow100
+        viskitYellow80 = other.viskitYellow80
+        viskitYellow60 = other.viskitYellow60
+        viskitYellow40 = other.viskitYellow40
+        viskitYellow20 = other.viskitYellow20
         alert01 = other.alert01
         alert02 = other.alert02
         kakaoyellow = other.kakaoyellow

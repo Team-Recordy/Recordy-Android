@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.record.detail.navigation.navigateDetail
 import com.record.home.navigation.HomeRoute
 import com.record.home.navigation.navigateHome
 import com.record.login.navigation.LoginRoute
@@ -17,7 +18,9 @@ import com.record.mypage.navigation.navigateToFollower
 import com.record.mypage.navigation.navigateToFollowing
 import com.record.profile.navigation.ProfileRoute
 import com.record.profile.navigation.navigateProfile
+import com.record.search.navigation.navigateSearch
 import com.record.setting.navigate.navigateSetting
+import com.record.upload.navigation.UploadRoute
 import com.record.upload.navigation.navigateToUpload
 import com.record.video.navigation.navigateVideo
 import com.record.video.navigation.navigateVideoDetail
@@ -53,6 +56,8 @@ internal class MainNavigator(
                 MainNavTab.HOME -> false
                 MainNavTab.VIDEO -> false
                 MainNavTab.MYPAGE -> true
+                MainNavTab.SEARCH -> true
+                MainNavTab.UPLOAD -> true
             }
         }
 
@@ -60,6 +65,8 @@ internal class MainNavigator(
             MainNavTab.HOME -> navController.navigateHome(navOptions)
             MainNavTab.VIDEO -> navController.navigateVideo(navOptions)
             MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
+            MainNavTab.SEARCH -> navController.navigateSearch(navOptions)
+            MainNavTab.UPLOAD -> navController.navigateToUpload()
         }
     }
 
@@ -119,6 +126,14 @@ internal class MainNavigator(
         navController.navigateSetting(navOptions { })
     }
 
+    fun navigateDetail() {
+        navController.navigateDetail(navOptions { })
+    }
+
+    fun navigateSearch() {
+        navController.navigateSearch(navOptions { })
+    }
+
     fun popBackStackIfNotHome() {
         if (!isSameCurrentDestination(HomeRoute.route)) {
             navController.popBackStack()
@@ -131,6 +146,7 @@ internal class MainNavigator(
     @Composable
     fun shouldShowBottomBar(): Boolean {
         val currentRoute = currentDestination?.route ?: return false
+        if (currentRoute == UploadRoute.ROUTE) return false
         return currentRoute in MainNavTab || currentRoute in InMainNavTab || currentRoute.contains("detail") || currentRoute.contains(
             ProfileRoute.route,
         )

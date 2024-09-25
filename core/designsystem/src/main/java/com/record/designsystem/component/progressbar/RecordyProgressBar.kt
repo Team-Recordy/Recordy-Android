@@ -60,13 +60,13 @@ fun RecordyProgressBar(
                 .fillMaxWidth()
                 .height(4.dp)
                 .align(Alignment.Center)
-                .background(RecordyTheme.colors.sub01),
+                .background(RecordyTheme.colors.gray01),
         )
         Box(
             modifier = Modifier
                 .fillMaxWidth(size)
                 .height(6.dp)
-                .background(RecordyTheme.colors.main)
+                .background(RecordyTheme.colors.viskitYellow500)
                 .animateContentSize(),
         )
     }

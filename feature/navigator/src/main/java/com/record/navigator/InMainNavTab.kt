@@ -7,7 +7,7 @@ import com.record.video.navigation.VideoRoute
 enum class InMainNavTab(
     val route: String,
 ) {
-    VIDEO_DETAIL(VideoRoute.detailRoute),
+    VIDEO_DETAIL(VideoRoute.videoDetailRoute),
     FOLLOWING(MypageRoute.followingRoute),
     FOLLOWER(MypageRoute.followerRoute),
     PROFILE(ProfileRoute.route),

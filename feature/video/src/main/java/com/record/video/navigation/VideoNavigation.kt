@@ -61,6 +61,6 @@ object VideoRoute {
     const val VIDEO_INDEX = "video-index"
     const val VIDEO_KEYWORD = "video-keyword"
     const val VIDEO_USER_ID = "video-user-id"
-    const val detailRoute = "detail"
-    fun detailRoute(type: String, id: String, keyword: String?, userId: String) = "$detailRoute/$type/$id/${keyword ?: "all"}/$userId"
+    const val videoDetailRoute = "video-detail"
+    fun detailRoute(type: String, id: String, keyword: String?, userId: String) = "$videoDetailRoute/$type/$id/${keyword ?: "all"}/$userId"
 }

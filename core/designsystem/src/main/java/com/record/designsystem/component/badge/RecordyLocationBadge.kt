@@ -53,7 +53,7 @@ fun RecordyLocationBadge(
                 text = location,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = RecordyTheme.typography.caption1,
+                style = RecordyTheme.typography.caption1R,
                 color = RecordyTheme.colors.white,
                 textAlign = TextAlign.Center,
             )

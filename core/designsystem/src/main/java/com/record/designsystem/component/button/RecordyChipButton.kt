@@ -22,8 +22,8 @@ import com.record.designsystem.theme.Gray01
 import com.record.designsystem.theme.Gray03
 import com.record.designsystem.theme.Gray08
 import com.record.designsystem.theme.Gray09
-import com.record.designsystem.theme.Main
 import com.record.designsystem.theme.RecordyTheme
+import com.record.designsystem.theme.ViskitYellow500
 import com.record.ui.extension.customClickable
 import timber.log.Timber
 
@@ -42,13 +42,13 @@ fun RecordyChipButton(
     onClick: () -> Unit = {},
 ) {
     val (borderLineColor, contentColor, backGroundColor) = if (isActive) {
-        if (isCheckSmall) Triple(Gray01, Gray09, Gray01) else Triple(Main, Main, Gray08)
+        if (isCheckSmall) Triple(Gray01, Gray09, Gray01) else Triple(ViskitYellow500, ViskitYellow500, Gray08)
     } else {
         Triple(Color.Transparent, Gray03, if (isCheckSmall) Gray09 else Gray08)
     }
 
     val textStyle = when {
-        isCheckSmall -> RecordyTheme.typography.caption1
+        isCheckSmall -> RecordyTheme.typography.caption1R
         isActive -> RecordyTheme.typography.button2
         else -> RecordyTheme.typography.body2M
     }

@@ -71,7 +71,7 @@ fun DefinedContentBottomSheet(
             )
             Text(
                 text = "키워드 1~3개 선택 시, 프로필에서 취향을 분석해 드립니다.",
-                style = RecordyTheme.typography.caption1,
+                style = RecordyTheme.typography.caption1R,
                 color = RecordyTheme.colors.gray03,
             )
             FlowRow(

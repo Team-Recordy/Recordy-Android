@@ -230,7 +230,7 @@ fun VideoPickerScreen(
         Text(
             text = "ⓘ 주제와 무관한 기록은 무통보로 삭제될 수 있습니다",
             color = RecordyTheme.colors.gray03,
-            style = RecordyTheme.typography.caption2,
+            style = RecordyTheme.typography.caption2R,
             maxLines = 1,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,

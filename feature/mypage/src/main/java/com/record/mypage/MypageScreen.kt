@@ -64,6 +64,7 @@ fun MypageRoute(
     navigateToFollower: () -> Unit,
     navigateToFollowing: () -> Unit,
     navigateToUplaod: () -> Unit,
+    navigateToHome: () -> Unit,
     navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -108,6 +109,7 @@ fun MypageRoute(
             onLoadMoreRecords = viewModel::loadMoreUserVideos,
             onBookmarkClick = viewModel::bookmark,
             navigateToUpload = navigateToUplaod,
+            navigateToHome = navigateToHome,
         )
     }
 }
@@ -122,6 +124,7 @@ fun MypageScreen(
     onFollowingClick: () -> Unit,
     navigateToVideo: (VideoType, Long) -> Unit,
     navigateToUpload: () -> Unit,
+    navigateToHome: () -> Unit,
     onLoadMoreRecords: () -> Unit,
     onLoadMoreBookmarks: () -> Unit,
     onBookmarkClick: (Long) -> Unit,
@@ -226,6 +229,7 @@ fun MypageScreen(
                             onItemClick = navigateToVideo,
                             onLoadMore = onLoadMoreBookmarks,
                             onBookmarkClick = onBookmarkClick,
+                            navigateToHome = navigateToHome,
                         )
                     }
                 }

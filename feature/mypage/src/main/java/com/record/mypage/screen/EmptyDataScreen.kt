@@ -28,11 +28,11 @@ fun EmptyDataScreen(
     message: String,
     showButton: Boolean,
     selectedTab: MypageTab,
-    onButtonClick: () -> Unit = {}
+    onButtonClick: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -82,4 +82,3 @@ fun EmptyDataScreen(
         }
     }
 }
-

@@ -251,19 +251,19 @@ fun CustomTabRow(
 
     val animatedIndicatorOffset by animateDpAsState(
         targetValue = indicatorOffset,
-        animationSpec = tween(200)
+        animationSpec = tween(200),
     )
 
     val animatedIndicatorWidth by animateDpAsState(
         targetValue = tabWidth - 12.dp,
-        animationSpec = tween(200)
+        animationSpec = tween(200),
     )
 
     val density = LocalDensity.current
 
     LaunchedEffect(selectedTabIndex) {
         if (tabWidth > 0.dp) {
-            indicatorOffset = ( tabWidth * selectedTabIndex ) + 6.dp
+            indicatorOffset = (tabWidth * selectedTabIndex) + 6.dp
         }
     }
 
@@ -297,7 +297,7 @@ fun CustomTabRow(
                         .onGloballyPositioned { layoutCoordinates ->
                             tabWidth = with(density) { layoutCoordinates.size.width.toDp() }
                         },
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = tab.displayName,

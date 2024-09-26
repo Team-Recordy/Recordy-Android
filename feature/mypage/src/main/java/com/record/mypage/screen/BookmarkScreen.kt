@@ -1,4 +1,4 @@
-   package com.record.mypage.screen
+package com.record.mypage.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

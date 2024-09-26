@@ -1,7 +1,8 @@
-package com.record.mypage.screen
+   package com.record.mypage.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.VideoType
+import com.record.mypage.MypageTab
 import com.record.ui.scroll.OnBottomReached
 import com.record.video.model.VideoData
 import kotlinx.collections.immutable.ImmutableList
@@ -34,12 +36,37 @@ fun BookmarkScreen(
     lazyGridState.OnBottomReached(2) {
         onLoadMore()
     }
+
     if (recordCount == 0) {
-        EmptyDataScreen(
-            imageRes = com.record.designsystem.R.drawable.img_bookmark,
-            message = "자유롭게 취향을 북마크해 보세요",
-            showButton = false,
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                contentAlignment = Alignment.TopEnd,
+            ) {
+                Text(
+                    text = buildRecordCountText(recordCount),
+                    style = RecordyTheme.typography.body2M,
+                    color = RecordyTheme.colors.gray01,
+                )
+            }
+
+            EmptyDataScreen(
+                imageRes = com.record.designsystem.R.drawable.img_camera,
+                message = "북마크한 영상이 없어요.\n영상을 둘러보고 저장해 보세요!",
+                showButton = true,
+                selectedTab = MypageTab.BOOKMARK,
+                onButtonClick = {
+                    // Home? 둘러보기 연결
+                },
+            )
+        }
     } else {
         LazyVerticalGrid(
             state = lazyGridState,

@@ -2,6 +2,7 @@ package com.record.mypage.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.VideoType
+import com.record.mypage.MypageTab
 import com.record.ui.scroll.OnBottomReached
 import com.record.video.model.VideoData
 import kotlinx.collections.immutable.ImmutableList
@@ -40,14 +42,35 @@ fun RecordScreen(
         onLoadMore()
     }
     if (recordCount == 0) {
-        EmptyDataScreen(
-            imageRes = com.record.designsystem.R.drawable.img_camera,
-            message = "내 첫 번째 공간 기록을\n작성해 보세요",
-            showButton = true,
-            onButtonClick = {
-                navigateToUpload()
-            },
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                contentAlignment = Alignment.TopEnd,
+            ) {
+                Text(
+                    text = buildRecordCountText(recordCount),
+                    style = RecordyTheme.typography.body2M,
+                    color = RecordyTheme.colors.gray01,
+                )
+            }
+
+            EmptyDataScreen(
+                imageRes = com.record.designsystem.R.drawable.img_camera,
+                message = "직접 방문한 공간 영상을\n공유해 보세요!",
+                showButton = true,
+                selectedTab = MypageTab.RECORD,
+                onButtonClick = {
+                    navigateToUpload()
+                },
+            )
+        }
     } else {
         LazyVerticalGrid(
             state = lazyGridState,

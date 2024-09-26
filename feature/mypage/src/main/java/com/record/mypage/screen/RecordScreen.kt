@@ -56,8 +56,7 @@ fun RecordScreen(
             ) {
                 Text(
                     text = buildRecordCountText(recordCount),
-                    style = RecordyTheme.typography.body2M,
-                    color = RecordyTheme.colors.gray01,
+                    style = RecordyTheme.typography.caption1R,
                 )
             }
 
@@ -85,13 +84,12 @@ fun RecordScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 28.dp, bottom = 12.dp),
+                        .padding(top = 16.dp, bottom = 10.dp),
                     contentAlignment = Alignment.TopEnd,
                 ) {
                     Text(
                         text = buildRecordCountText(recordCount),
-                        style = RecordyTheme.typography.body2M,
-                        color = RecordyTheme.colors.gray01,
+                        style = RecordyTheme.typography.caption1R,
                     )
                 }
             }

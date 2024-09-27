@@ -63,7 +63,7 @@ fun EmptyDataScreen(
                         onClick = onButtonClick,
                     )
                 }
-                Spacer(modifier = Modifier.weight(2.2f))
+                Spacer(modifier = Modifier.weight(5f))
             }
         }
     }

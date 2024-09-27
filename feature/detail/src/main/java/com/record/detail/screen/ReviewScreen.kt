@@ -2,6 +2,7 @@ package com.record.detail.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,13 +42,33 @@ fun ReviewScreen(
         onLoadMore()
     }
     if (reviewCount == 0) {
-        EmptyDataScreen(
-            message = "아직 후기가 없어요.\n첫 번째로 후기를 공유해 보세요!",
-            showButton = true,
-            onButtonClick = {
-                navigateToUpload()
-            },
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 30.dp)
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                contentAlignment = Alignment.TopEnd,
+            ) {
+                Text(
+                    text = buildCountText(reviewCount),
+                    style = RecordyTheme.typography.caption1R,
+                )
+            }
+
+            EmptyDataScreen(
+                message = "아직 후기가 없어요.\n첫 번째로 후기를 공유해 보세요!",
+                showButton = true,
+                onButtonClick = {
+                    navigateToUpload()
+                },
+            )
+        }
     } else {
         LazyVerticalGrid(
             state = lazyGridState,
@@ -66,7 +87,7 @@ fun ReviewScreen(
                     contentAlignment = Alignment.TopEnd,
                 ) {
                     Text(
-                        text = buildRecordCountText(reviewCount),
+                        text = buildCountText(reviewCount),
                         style = RecordyTheme.typography.body2M,
                         color = RecordyTheme.colors.gray01,
                     )
@@ -91,7 +112,7 @@ fun ReviewScreen(
 }
 
 @Composable
-fun buildRecordCountText(recordCount: Int): AnnotatedString {
+fun buildCountText(recordCount: Int): AnnotatedString {
     return buildAnnotatedString {
         withStyle(style = SpanStyle(color = RecordyTheme.colors.white)) {
             append("• $recordCount")

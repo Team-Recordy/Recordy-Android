@@ -7,6 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.record.detail.DetailRoute
+import com.record.model.VideoType
 
 fun NavController.navigateDetail(navOptions: NavOptions) {
     navigate(DetailRoute.route, navOptions)
@@ -15,9 +16,17 @@ fun NavController.navigateDetail(navOptions: NavOptions) {
 fun NavGraphBuilder.detailNavGraph(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
+    navigateToUpload: () -> Unit,
+    navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     composable(route = DetailRoute.route) {
-        DetailRoute(modifier = modifier)
+        DetailRoute(
+            padding = padding,
+            modifier = modifier,
+            navigateToVideo = navigateToVideo,
+            navigateToUplaod = navigateToUpload,
+        )
+
     }
 }
 

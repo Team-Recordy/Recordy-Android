@@ -37,18 +37,15 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.record.designsystem.component.button.BasicButton
-import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
+import com.record.detail.screen.ListScreen
+import com.record.detail.screen.ReviewScreen
 import com.record.model.VideoType
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.record.detail.screen.ReviewScreen
-import com.record.detail.screen.EmptyDataScreen
-import com.record.detail.screen.ListScreen
 
 @Composable
 fun DetailRoute(
@@ -161,7 +158,6 @@ fun DetailpageScreen(
                     }
                 }
             }
-
             Spacer(modifier = Modifier.height(54.dp))
 
             CustomTabRow(

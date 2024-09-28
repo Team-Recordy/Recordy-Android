@@ -1,6 +1,5 @@
 package com.record.detail
 
-
 import com.record.model.VideoType
 import com.record.ui.base.SideEffect
 import com.record.ui.base.UiState

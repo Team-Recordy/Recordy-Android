@@ -5,3 +5,6 @@ plugins {
 android {
     namespace = "com.record.detail"
 }
+dependencies {
+    implementation(projects.domain.video)
+}

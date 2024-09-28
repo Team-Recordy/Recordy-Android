@@ -2,10 +2,10 @@ package com.record.detail.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -41,33 +41,35 @@ fun ReviewScreen(
     lazyGridState.OnBottomReached(2) {
         onLoadMore()
     }
+
     if (reviewCount == 0) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 30.dp)
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
-                contentAlignment = Alignment.TopEnd,
-            ) {
-                Text(
-                    text = buildCountText(reviewCount),
-                    style = RecordyTheme.typography.caption1R,
-                )
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 30.dp),
+                    contentAlignment = Alignment.TopEnd,
+                ) {
+                    Text(
+                        text = buildCountText(reviewCount),
+                        style = RecordyTheme.typography.caption1R,
+                    )
+                }
             }
 
-            EmptyDataScreen(
-                message = "아직 후기가 없어요.\n첫 번째로 후기를 공유해 보세요!",
-                showButton = true,
-                onButtonClick = {
-                    navigateToUpload()
-                },
-            )
+            item {
+                EmptyDataScreen(
+                    message = "아직 후기가 없어요.\n첫 번째로 후기를 공유해 보세요!",
+                    showButton = true,
+                    onButtonClick = { navigateToUpload() },
+                )
+            }
         }
     } else {
         LazyVerticalGrid(
@@ -83,7 +85,7 @@ fun ReviewScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 28.dp, bottom = 12.dp),
+                        .padding(top = 30.dp, bottom = 12.dp),
                     contentAlignment = Alignment.TopEnd,
                 ) {
                     Text(
@@ -93,18 +95,15 @@ fun ReviewScreen(
                     )
                 }
             }
+
             items(videoItems) { item ->
                 RecordyVideoThumbnail(
                     imageUri = item.previewUrl,
                     isBookmarkable = true,
                     isBookmark = item.isBookmark,
-                    onBookmarkClick = {
-                        onBookmarkClick(item.id)
-                    },
+                    onBookmarkClick = { onBookmarkClick(item.id) },
                     location = item.location,
-                    onClick = {
-                        onItemClick(VideoType.MY, item.id)
-                    },
+                    onClick = { onItemClick(VideoType.MY, item.id) },
                 )
             }
         }

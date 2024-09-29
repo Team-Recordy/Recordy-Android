@@ -53,7 +53,7 @@ fun ReviewScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 30.dp),
+                        .padding(top = 36.dp),
                     contentAlignment = Alignment.TopEnd,
                 ) {
                     Text(

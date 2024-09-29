@@ -1,21 +1,36 @@
 package com.record.detail.screen
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.record.designsystem.component.button.RecordyChipButton
 import com.record.designsystem.theme.RecordyTheme
 import com.record.model.VideoType
 import kotlinx.collections.immutable.ImmutableList
@@ -25,23 +40,34 @@ import java.util.Date
 fun ListScreen(
     exhibitionItems: ImmutableList<Pair<String, Date>>,
     exhibitionCount: Int,
-    onItemClick: (VideoType, Long) -> Unit,
+    selectedChip: ChipTab,
+    onChipSelected: (ChipTab) -> Unit,
+    onItemClick: (String) -> Unit
 ) {
     val lazyGridState = rememberLazyGridState()
 
-    if (exhibitionCount == 0) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
         ) {
-            item {
+            Box(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 24.dp),
+            ) {
+                ChipRow(
+                    chipTabs = ChipTab.entries,
+                    selectedChip = selectedChip,
+                    onChipSelected = onChipSelected
+                )
+
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 30.dp),
-                    contentAlignment = Alignment.TopEnd,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 12.dp),
+                    contentAlignment = Alignment.TopEnd
                 ) {
                     Text(
                         text = buildCountText(exhibitionCount),
@@ -49,42 +75,94 @@ fun ListScreen(
                     )
                 }
             }
-
-            item {
-                EmptyDataScreen(
-                    message = "\n진행 중인 전시가 없어요.",
-                    showButton = false,
-                )
-            }
         }
-    } else {
-        LazyVerticalGrid(
-            state = lazyGridState,
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            item(span = { GridItemSpan(maxCurrentLineSpan) }) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 30.dp, bottom = 12.dp),
-                    contentAlignment = Alignment.TopEnd,
-                ) {
-                    Text(
-                        text = buildCountText(exhibitionCount),
-                        style = RecordyTheme.typography.body2M,
-                        color = RecordyTheme.colors.gray01,
+            if (exhibitionCount == 0) {
+                item {
+                    EmptyDataScreen(
+                        message = "\n진행 중인 전시가 없어요.",
+                        showButton = false,
                     )
                 }
-            }
-
-            items(exhibitionItems) { exhibition ->
-
+            } else {
+                items(exhibitionItems) { item ->
+                    val (name, date) = item
+                    ExhibitionItem(name = name, date = date, onButtonClick = { })
+                }
             }
         }
+    }
+}
+
+@Composable
+fun ExhibitionItem(name: String, date: Date, onButtonClick: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp, horizontal = 16.dp)
+            .background(RecordyTheme.colors.white)
+            .padding(16.dp)
+    ) {
+        Text(
+            text = name,
+            style = RecordyTheme.typography.subtitle,
+            color = RecordyTheme.colors.gray01,
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "마감: ${date}", // 수정
+            style = RecordyTheme.typography.caption1M,
+            color = RecordyTheme.colors.gray05,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+    }
+}
+
+@Composable
+fun ChipRow(
+    chipTabs: List<ChipTab>,
+    selectedChip: ChipTab,
+    onChipSelected: (ChipTab) -> Unit
+) {
+    LazyRow(
+        modifier = Modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(chipTabs) { chipTab ->
+            Chip(
+                text = chipTab.displayName,
+                isSelected = chipTab == selectedChip,
+                onClick = { onChipSelected(chipTab) }
+            )
+        }
+    }
+}
+
+@Composable
+fun Chip(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(30.dp))
+            .background(if (isSelected) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray09)
+            .clickable { onClick() }
+            .padding(horizontal = 10.dp, vertical = 8.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            color = if (isSelected) RecordyTheme.colors.background else RecordyTheme.colors.gray03,
+            style = RecordyTheme.typography.caption1R
+        )
     }
 }

@@ -39,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.component.button.BasicButton
 import com.record.designsystem.theme.RecordyTheme
+import com.record.detail.screen.ChipTab
 import com.record.detail.screen.ListScreen
 import com.record.detail.screen.ReviewScreen
 import com.record.model.VideoType
@@ -102,6 +103,7 @@ fun DetailpageScreen(
     )
     val coroutineScope = rememberCoroutineScope()
 
+    val selectedChipState = remember { mutableStateOf(ChipTab.ALL) }
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -140,7 +142,7 @@ fun DetailpageScreen(
                             textColor = RecordyTheme.colors.background,
                             backgroundColor = RecordyTheme.colors.gray01,
                             shape = RoundedCornerShape(8.dp),
-                            onClick = { /* 길찾기 로직 */ },
+                            onClick = { },
                             padding = PaddingValues(horizontal = 19.dp, vertical = 8.dp),
                             modifier = Modifier,
                         )
@@ -151,7 +153,7 @@ fun DetailpageScreen(
                             textColor = RecordyTheme.colors.background,
                             backgroundColor = RecordyTheme.colors.gray01,
                             shape = RoundedCornerShape(8.dp),
-                            onClick = { /* 구글 리뷰 로직 */ },
+                            onClick = {  },
                             padding = PaddingValues(horizontal = 19.dp, vertical = 8.dp),
                             modifier = Modifier,
                         )
@@ -176,7 +178,11 @@ fun DetailpageScreen(
                         ListScreen(
                             exhibitionItems = state.exhibitionList,
                             exhibitionCount = state.exhibitionCount,
-                            onItemClick = navigateToVideo,
+                            selectedChip = selectedChipState.value,
+                            onItemClick = {},
+                            onChipSelected = { selectedChip ->
+                                selectedChipState.value = selectedChip
+                            }
                         )
                     }
 

@@ -18,6 +18,7 @@ fun NavGraphBuilder.loginNavGraph(
     modifier: Modifier = Modifier,
     navigateToHome: () -> Unit,
     navigateToSignUp: () -> Unit,
+    navigateToLogin: () -> Unit,
 ) {
     composable(route = LoginRoute.route) {
         LoginRoute(
@@ -30,7 +31,9 @@ fun NavGraphBuilder.loginNavGraph(
 
     composable(route = SignupRoute.route) {
         SignUpRoute(
+            padding = padding,
             navigateToHome = navigateToHome,
+            navigateLogin = navigateToLogin,
         )
     }
 }

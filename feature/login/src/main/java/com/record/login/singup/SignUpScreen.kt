@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,19 +27,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.component.button.RecordyButton
-import com.record.designsystem.component.progressbar.RecordyProgressBar
 import com.record.designsystem.theme.RecordyTheme
+import com.record.login.R
 import com.record.login.singup.screen.NamingScreen
 import com.record.login.singup.screen.PolicyScreen
 import com.record.login.singup.screen.SignUpSuccessScreen
@@ -50,9 +52,10 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SignUpRoute(
-    padding: PaddingValues = PaddingValues(horizontal = 16.dp),
+    padding: PaddingValues,
     viewModel: SignUpViewModel = hiltViewModel(),
     navigateToHome: () -> Unit,
+    navigateLogin: () -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { 3 })
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -68,8 +71,8 @@ fun SignUpRoute(
             pagerState.animateScrollToPage(
                 pagerState.currentPage - 1,
                 animationSpec = tween(
-                    durationMillis = 500,
-                    delayMillis = 300,
+                    durationMillis = 200,
+                    delayMillis = 100,
                 ),
             )
             viewModel.navScreen(pagerState.currentPage - 1)
@@ -82,8 +85,13 @@ fun SignUpRoute(
                 SignUpEffect.ClearFocus -> {
                     focusManager.clearFocus()
                 }
+
                 SignUpEffect.NavigateToHome -> {
                     navigateToHome()
+                }
+
+                SignUpEffect.NavigateToLogin -> {
+                    navigateLogin()
                 }
             }
         }
@@ -91,28 +99,47 @@ fun SignUpRoute(
 
     Column(
         modifier = Modifier
+            .padding(padding)
+            .padding(horizontal = 16.dp)
             .fillMaxSize()
             .onGloballyPositioned { layoutCoordinates ->
                 columnSize = layoutCoordinates.size
             }
             .background(
-                brush = Brush.verticalGradient(
-                    listOf(Color(0x339babfb), Color(0x00000000)),
-                    startY = columnSize.height.toFloat() * 0f,
-                    endY = columnSize.height.toFloat() * 0.3f,
-                ),
+                color = RecordyTheme.colors.background,
             )
             .customClickable(rippleEnabled = false) { viewModel.clearFocus() },
     ) {
         Box(
             modifier = Modifier
                 .background(color = Color.Transparent)
-                .fillMaxWidth()
-                .padding(
-                    top = 45.dp,
-                    bottom = 15.dp,
-                ),
+                .fillMaxWidth(),
         ) {
+            Icon(
+                ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_angle_left_24),
+                contentDescription = "뒤로가기",
+                tint = RecordyTheme.colors.gray01,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(start = 20.dp)
+                    .customClickable {
+                        coroutineScope.launch {
+                            if (pagerState.currentPage > 0) {
+                                val previousPage = pagerState.currentPage - 1
+                                viewModel.navScreen(previousPage)
+                                pagerState.animateScrollToPage(
+                                    previousPage,
+                                    animationSpec = tween(
+                                        durationMillis = 200,
+                                        delayMillis = 100,
+                                    ),
+                                )
+                            } else {
+                                viewModel.navigateToLogin()
+                            }
+                        }
+                    },
+            )
             Text(
                 modifier = Modifier.align(Alignment.Center),
                 text = uiState.title,
@@ -120,12 +147,6 @@ fun SignUpRoute(
                 style = RecordyTheme.typography.title3,
             )
         }
-        Spacer(modifier = Modifier.height(12.dp))
-        RecordyProgressBar(
-            completionRatioNumerator = pagerState.currentPage + 1,
-            completionRatioDenominator = pagerState.pageCount,
-        )
-
         HorizontalPager(
             state = pagerState,
             userScrollEnabled = false,
@@ -156,6 +177,7 @@ fun SignUpRoute(
             }
         }
     }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(alignment = Alignment.BottomCenter)) {
             RecordyButton(
@@ -193,7 +215,7 @@ fun PreviewSignUp(
 ) {
     RecordyTheme {
         Box(modifier = Modifier.background(color = RecordyTheme.colors.background)) {
-            SignUpRoute(padding = padding, viewModel = viewModel, navigateToHome = {})
+            SignUpRoute(padding = padding, viewModel = viewModel, navigateToHome = {}, navigateLogin = {})
         }
     }
 }

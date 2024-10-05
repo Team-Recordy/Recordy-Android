@@ -35,6 +35,8 @@ class SignUpViewModel @Inject constructor(
         postSideEffect(SignUpEffect.NavigateToHome)
     }
 
+    fun navigateToLogin() = postSideEffect(SignUpEffect.NavigateToLogin)
+
     fun checkServiceEvent() {
         intent {
             copy(serviceTermsChecked = !serviceTermsChecked)

@@ -17,7 +17,7 @@ data class DetailpageState(
     val reviewCursor: Long = 0,
     val reviewIsEnd: Boolean = false,
     val detailpageTab: DetailpageTab = DetailpageTab.LIST,
-    val exhibitionList: ImmutableList<Pair<String, Date>> = getSampleExhibitionData().toImmutableList(),
+    val exhibitionList: ImmutableList<Triple<String, Date, Date>> = getSampleExhibitionData().toImmutableList(),
     val reviewList: ImmutableList<VideoData> = emptyList<VideoData>().toImmutableList(),
 ) : UiState
 

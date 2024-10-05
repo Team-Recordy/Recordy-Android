@@ -26,7 +26,6 @@ fun NavGraphBuilder.detailNavGraph(
             navigateToVideo = navigateToVideo,
             navigateToUplaod = navigateToUpload,
         )
-
     }
 }
 

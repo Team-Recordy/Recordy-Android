@@ -27,7 +27,6 @@ import com.record.ui.scroll.OnBottomReached
 import com.record.video.model.VideoData
 import kotlinx.collections.immutable.ImmutableList
 
-
 @Composable
 fun ReviewScreen(
     videoItems: ImmutableList<VideoData>,

@@ -36,7 +36,7 @@ fun ListScreen(
     exhibitionCount: Int,
     selectedChip: ChipTab,
     onChipSelected: (ChipTab) -> Unit,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -59,14 +59,14 @@ fun ListScreen(
                         ChipRow(
                             chipTabs = ChipTab.entries,
                             selectedChip = selectedChip,
-                            onChipSelected = onChipSelected
+                            onChipSelected = onChipSelected,
                         )
 
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 12.dp),
-                            contentAlignment = Alignment.TopEnd
+                            contentAlignment = Alignment.TopEnd,
                         ) {
                             Text(
                                 text = buildCountText(exhibitionCount),
@@ -92,7 +92,7 @@ fun ListScreen(
                             name = name,
                             startDate = startDate,
                             endDate = endDate,
-                            onButtonClick = { }
+                            onButtonClick = { },
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                     }
@@ -102,7 +102,6 @@ fun ListScreen(
     }
 }
 
-
 @Composable
 fun ExhibitionItem(name: String, startDate: Date, endDate: Date, onButtonClick: () -> Unit) {
     Box(
@@ -110,13 +109,13 @@ fun ExhibitionItem(name: String, startDate: Date, endDate: Date, onButtonClick: 
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .background(RecordyTheme.colors.gray10)
-            .padding(vertical = 12.dp, horizontal = 16.dp)
+            .padding(vertical = 12.dp, horizontal = 16.dp),
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
                     text = name,
@@ -132,20 +131,18 @@ fun ExhibitionItem(name: String, startDate: Date, endDate: Date, onButtonClick: 
             }
             Row(
                 modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.End,
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_more_informations),
                     contentDescription = null,
                     modifier = Modifier
-                        .clickable { onButtonClick() }
+                        .clickable { onButtonClick() },
                 )
             }
         }
     }
 }
-
-
 
 fun formatDate(startDate: Date, endDate: Date): String {
     val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
@@ -156,17 +153,17 @@ fun formatDate(startDate: Date, endDate: Date): String {
 fun ChipRow(
     chipTabs: List<ChipTab>,
     selectedChip: ChipTab,
-    onChipSelected: (ChipTab) -> Unit
+    onChipSelected: (ChipTab) -> Unit,
 ) {
     LazyRow(
         modifier = Modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(chipTabs) { chipTab ->
             Chip(
                 text = chipTab.displayName,
                 isSelected = chipTab == selectedChip,
-                onClick = { onChipSelected(chipTab) }
+                onClick = { onChipSelected(chipTab) },
             )
         }
     }
@@ -176,7 +173,7 @@ fun ChipRow(
 fun Chip(
     text: String,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -184,12 +181,12 @@ fun Chip(
             .background(if (isSelected) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray09)
             .clickable { onClick() }
             .padding(horizontal = 10.dp, vertical = 8.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
             color = if (isSelected) RecordyTheme.colors.background else RecordyTheme.colors.gray03,
-            style = RecordyTheme.typography.caption1R
+            style = RecordyTheme.typography.caption1R,
         )
     }
 }

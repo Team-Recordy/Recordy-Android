@@ -99,7 +99,7 @@ fun DetailpageScreen(
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.detailpageTab.ordinal,
-        pageCount = {2},
+        pageCount = { 2 },
     )
     val coroutineScope = rememberCoroutineScope()
 
@@ -115,23 +115,23 @@ fun DetailpageScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
+                    .padding(horizontal = 20.dp),
             ) {
                 Column(
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
                 ) {
                     Text(
                         text = state.placeName,
                         style = RecordyTheme.typography.title1,
                         color = RecordyTheme.colors.white,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = state.placeAddress,
                         style = RecordyTheme.typography.body2M,
                         color = RecordyTheme.colors.gray03,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
                     )
                     Spacer(modifier = Modifier.height(24.dp))
 
@@ -153,7 +153,7 @@ fun DetailpageScreen(
                             textColor = RecordyTheme.colors.background,
                             backgroundColor = RecordyTheme.colors.gray01,
                             shape = RoundedCornerShape(8.dp),
-                            onClick = {  },
+                            onClick = { },
                             padding = PaddingValues(horizontal = 19.dp, vertical = 8.dp),
                             modifier = Modifier,
                         )
@@ -182,7 +182,7 @@ fun DetailpageScreen(
                             onItemClick = {},
                             onChipSelected = { selectedChip ->
                                 selectedChipState.value = selectedChip
-                            }
+                            },
                         )
                     }
 
@@ -201,6 +201,7 @@ fun DetailpageScreen(
         }
     }
 }
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CustomTabRow(

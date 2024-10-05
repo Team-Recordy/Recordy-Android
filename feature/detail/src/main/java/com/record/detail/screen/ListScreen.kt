@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,8 +17,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.SegmentedButtonDefaults.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,8 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.theme.RecordyTheme
 import com.record.designsystem.R
+import com.record.designsystem.theme.RecordyTheme
 import kotlinx.collections.immutable.ImmutableList
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -42,48 +39,45 @@ fun ListScreen(
     onChipSelected: (ChipTab) -> Unit,
     onItemClick: (String) -> Unit
 ) {
-    val lazyGridState = rememberLazyGridState()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
     ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp),
-            ) {
-                ChipRow(
-                    chipTabs = ChipTab.entries,
-                    selectedChip = selectedChip,
-                    onChipSelected = onChipSelected
-                )
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 12.dp),
-                    contentAlignment = Alignment.TopEnd
-                ) {
-                    Text(
-                        text = buildCountText(exhibitionCount),
-                        style = RecordyTheme.typography.caption1R,
-                    )
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .fillMaxWidth(),
         ) {
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
+                    ) {
+                        ChipRow(
+                            chipTabs = ChipTab.entries,
+                            selectedChip = selectedChip,
+                            onChipSelected = onChipSelected
+                        )
+
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 12.dp),
+                            contentAlignment = Alignment.TopEnd
+                        ) {
+                            Text(
+                                text = buildCountText(exhibitionCount),
+                                style = RecordyTheme.typography.caption1R,
+                            )
+                        }
+                    }
+                }
+            }
+            item { Spacer(modifier = Modifier.height(16.dp)) }
             if (exhibitionCount == 0) {
                 item {
                     EmptyDataScreen(
@@ -93,18 +87,23 @@ fun ListScreen(
                 }
             } else {
                 items(exhibitionItems) { item ->
-                    val (name, startDate, endDate) = item // Using Triple
-                    ExhibitionItem(
-                        name = name,
-                        startDate = startDate,
-                        endDate = endDate,
-                        onButtonClick = { }
-                    )
+                    val (name, startDate, endDate) = item
+
+                    Column {
+                        ExhibitionItem(
+                            name = name,
+                            startDate = startDate,
+                            endDate = endDate,
+                            onButtonClick = { }
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun ExhibitionItem(name: String, startDate: Date, endDate: Date, onButtonClick: () -> Unit) {
@@ -152,7 +151,7 @@ fun ExhibitionItem(name: String, startDate: Date, endDate: Date, onButtonClick: 
 
 fun formatDate(startDate: Date, endDate: Date): String {
     val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
-    return "${dateFormat.format(startDate)} ~ ${dateFormat.format(endDate)}"
+    return "${dateFormat.format(startDate)}~${dateFormat.format(endDate)}"
 }
 
 @Composable

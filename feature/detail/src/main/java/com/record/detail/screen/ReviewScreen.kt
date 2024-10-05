@@ -85,13 +85,12 @@ fun ReviewScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 30.dp, bottom = 12.dp),
+                        .padding(top = 36.dp, bottom = 12.dp),
                     contentAlignment = Alignment.TopEnd,
                 ) {
                     Text(
                         text = buildCountText(reviewCount),
-                        style = RecordyTheme.typography.body2M,
-                        color = RecordyTheme.colors.gray01,
+                        style = RecordyTheme.typography.caption1R,
                     )
                 }
             }

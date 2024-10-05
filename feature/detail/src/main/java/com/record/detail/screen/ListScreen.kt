@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -88,7 +87,6 @@ fun ListScreen(
             } else {
                 items(exhibitionItems) { item ->
                     val (name, startDate, endDate) = item
-
                     Column {
                         ExhibitionItem(
                             name = name,

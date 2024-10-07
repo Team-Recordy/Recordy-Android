@@ -28,8 +28,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -137,11 +135,7 @@ fun SplashScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                brush = Brush.verticalGradient(
-                    listOf(Color(0x339babfb), Color(0x00000000)),
-                    startY = columnSize.height.toFloat() * 0.1f,
-                    endY = columnSize.height.toFloat() * 0.6f,
-                ),
+                color = RecordyTheme.colors.background,
             ),
     ) {
     }
@@ -157,7 +151,7 @@ fun SplashScreen(
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
-            painterResource(id = R.drawable.ic_recordy_logo),
+            painterResource(id = R.drawable.img_viskit_logo),
             null,
             modifier = Modifier
                 .fillMaxWidth(0.3f)
@@ -190,11 +184,7 @@ fun LoginScreen(
                 columnSize = layoutCoordinates.size
             }
             .background(
-                brush = Brush.verticalGradient(
-                    listOf(Color(0x339babfb), Color(0x00000000)),
-                    startY = columnSize.height.toFloat() * 0.1f,
-                    endY = columnSize.height.toFloat() * 0.6f,
-                ),
+                color = RecordyTheme.colors.background,
             )
             .padding(padding),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -206,23 +196,20 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painterResource(id = R.drawable.ic_recordy_logo),
+                painterResource(id = R.drawable.img_viskit_logo),
                 null,
                 modifier = Modifier
-                    .fillMaxWidth(0.3f)
+                    .fillMaxWidth(0.28f)
                     .aspectRatio(1f),
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
+            Spacer(modifier = Modifier.height(36.dp))
             Text(
-                text = "내 취향의 공간 발견하는 곳",
+                text = "내가 찾던 공간을 먼저 만나는 곳",
                 modifier = Modifier
-                    .height(24.dp)
-                    .alpha(alpha),
+                    .height(24.dp),
                 textAlign = TextAlign.Center,
                 style = RecordyTheme.typography.body1M,
-                color = RecordyTheme.colors.viskitYellow500,
+                color = RecordyTheme.colors.white,
             )
         }
 

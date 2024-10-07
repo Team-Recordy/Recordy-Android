@@ -43,17 +43,16 @@ fun PolicyScreen(
     onMoreClick: (String) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
-        Spacer(modifier = Modifier.height(54.dp))
+        Spacer(modifier = Modifier.height(60.dp))
         Text(
             text = "비스킷 이용을 위해 \n필수 약관에 동의해 주세요.",
             modifier = Modifier
                 .padding(start = 10.dp)
-                .fillMaxWidth()
-                .padding(padding),
+                .fillMaxWidth(),
             style = RecordyTheme.typography.title1,
             color = RecordyTheme.colors.gray01,
         )
-        Spacer(modifier = Modifier.height(33.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         RecordyCheckAllBox(
             "전체 동의",
             padding = padding,

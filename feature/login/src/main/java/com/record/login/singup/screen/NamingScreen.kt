@@ -2,8 +2,10 @@ package com.record.login.singup.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -30,8 +32,10 @@ fun NamingScreen(uiState: SignUpState, onTextChangeEvent: (String) -> Unit, onIn
     ) {
         Spacer(modifier = Modifier.height(55.dp))
         Text(
-            text = "당신의 첫 번째 기록, \n닉네임을 설정해주세요.",
-            modifier = Modifier.padding(start = 16.dp),
+            text = "비스킷에서 사용할 \n닉네임을 작성해 주세요.",
+            modifier = Modifier
+                .padding(start = 10.dp)
+                .fillMaxWidth(),
             style = RecordyTheme.typography.title1,
             color = RecordyTheme.colors.gray01,
         )
@@ -42,6 +46,7 @@ fun NamingScreen(uiState: SignUpState, onTextChangeEvent: (String) -> Unit, onIn
                 onTextChangeEvent(text)
                 lastInputTime = System.currentTimeMillis()
             },
+            padding = PaddingValues(),
         )
     }
 

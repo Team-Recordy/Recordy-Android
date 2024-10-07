@@ -6,17 +6,23 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -34,13 +41,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.theme.RecordyTheme
-import com.record.login.R
 import com.record.login.singup.screen.NamingScreen
 import com.record.login.singup.screen.PolicyScreen
 import com.record.login.singup.screen.SignUpSuccessScreen
@@ -115,31 +122,25 @@ fun SignUpRoute(
                 .background(color = Color.Transparent)
                 .fillMaxWidth(),
         ) {
-            Icon(
-                ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_angle_left_24),
-                contentDescription = "뒤로가기",
-                tint = RecordyTheme.colors.gray01,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 20.dp)
-                    .customClickable {
-                        coroutineScope.launch {
-                            if (pagerState.currentPage > 0) {
-                                val previousPage = pagerState.currentPage - 1
-                                viewModel.navScreen(previousPage)
-                                pagerState.animateScrollToPage(
-                                    previousPage,
-                                    animationSpec = tween(
-                                        durationMillis = 200,
-                                        delayMillis = 100,
-                                    ),
-                                )
-                            } else {
-                                viewModel.navigateToLogin()
+            if (pagerState.currentPage != 2) {
+                Icon(
+                    ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_angle_left_24),
+                    contentDescription = "뒤로가기",
+                    tint = RecordyTheme.colors.gray01,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .customClickable {
+                            coroutineScope.launch {
+                                if (pagerState.currentPage > 0) {
+                                    viewModel.navScreen(pagerState.currentPage - 1)
+                                    pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                                } else {
+                                    viewModel.navigateToLogin()
+                                }
                             }
-                        }
-                    },
-            )
+                        },
+                )
+            }
             Text(
                 modifier = Modifier.align(Alignment.Center),
                 text = uiState.title,
@@ -173,15 +174,16 @@ fun SignUpRoute(
                     onInputComplete = viewModel::checkValidateNickName,
                 )
 
-                SignUpScreen.Success -> SignUpSuccessScreen()
+                SignUpScreen.Success -> SignUpSuccessScreen(name = uiState.nicknameText)
             }
         }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.align(alignment = Alignment.BottomCenter)) {
+            RecordyHorizontalPagerIndicator(modifier = Modifier.fillMaxWidth(), pagerState = pagerState)
             RecordyButton(
-                text = "완료",
+                text = if (pagerState.currentPage == 3) "완료" else "다음",
                 enabled = uiState.btnEnable,
                 clickable = uiState.btnEnable,
                 onClick = {
@@ -211,11 +213,14 @@ fun SignUpRoute(
 @Composable
 fun PreviewSignUp(
     padding: PaddingValues = PaddingValues(horizontal = 16.dp),
-    viewModel: SignUpViewModel = hiltViewModel(),
 ) {
     RecordyTheme {
-        Box(modifier = Modifier.background(color = RecordyTheme.colors.background)) {
-            SignUpRoute(padding = padding, viewModel = viewModel, navigateToHome = {}, navigateLogin = {})
+        Box(
+            modifier = Modifier
+                .background(color = RecordyTheme.colors.background)
+                .fillMaxSize(),
+        ) {
+//                SignUpRoute(padding = padding, viewModel = viewModel, navigateToHome = {}, navigateLogin = {})
         }
     }
 }
@@ -230,5 +235,44 @@ enum class SignUpScreen(val screenNumber: Int) {
         fun fromScreenNumber(screenNumber: Int): SignUpScreen {
             return entries.firstOrNull { it.screenNumber == screenNumber } ?: Success
         }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun RecordyHorizontalPagerIndicator(
+    pagerState: PagerState,
+    pageCount: Int = pagerState.pageCount,
+    modifier: Modifier = Modifier,
+    activeColor: Color = RecordyTheme.colors.viskitYellow500,
+    inactiveColor: Color = RecordyTheme.colors.gray08,
+    indicatorWidth: Dp = 6.dp,
+    indicatorHeight: Dp = indicatorWidth,
+    indicatorNotSelectedWidth: Dp = 6.dp,
+    indicatorNotSelectedHeight: Dp = indicatorNotSelectedWidth,
+    spacing: Dp = indicatorWidth,
+    indicatorShape: RoundedCornerShape = CircleShape,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+        horizontalArrangement = Arrangement.spacedBy(spacing),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Spacer(modifier = Modifier.weight(1f))
+        repeat(pageCount) { page ->
+            val isSelected = page == pagerState.currentPage
+            Box(
+                modifier = Modifier
+                    .size(
+                        width = if (isSelected) indicatorWidth else indicatorNotSelectedWidth,
+                        height = if (isSelected) indicatorHeight else indicatorNotSelectedHeight,
+                    )
+                    .clip(indicatorShape)
+                    .background(if (isSelected) activeColor else inactiveColor),
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
     }
 }

@@ -183,7 +183,7 @@ fun SignUpRoute(
         Column(modifier = Modifier.align(alignment = Alignment.BottomCenter)) {
             RecordyHorizontalPagerIndicator(modifier = Modifier.fillMaxWidth(), pagerState = pagerState)
             RecordyButton(
-                text = if (pagerState.currentPage == 3) "완료" else "다음",
+                text = if (pagerState.currentPage == 2) "완료" else "다음",
                 enabled = uiState.btnEnable,
                 clickable = uiState.btnEnable,
                 onClick = {

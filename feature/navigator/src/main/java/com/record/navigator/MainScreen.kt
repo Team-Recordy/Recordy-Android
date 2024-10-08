@@ -128,6 +128,7 @@ internal fun MainScreen(
                     navigateToVideo = navigator::navigateVideoDetail,
                     navigateToProfile = navigator::navigateProfile,
                     navigateToUpload = navigator::navigateToUpload,
+                    navigateToHome = navigator::navigateHome,
                 )
 
                 settingNavGraph(

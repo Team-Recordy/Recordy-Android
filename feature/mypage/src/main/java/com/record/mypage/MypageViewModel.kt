@@ -41,34 +41,6 @@ class MypageViewModel @Inject constructor(
         postSideEffect(MypageSideEffect.NavigateToVideoDetail(type, videoId))
     }
 
-    fun fetchUserPreferences() {
-        viewModelScope.launch {
-            userRepository.getUserPreference().onSuccess { preferences ->
-                val preferenceList = preferences.toList().map {
-                    Pair(it.keyword, it.percentage)
-                }.toImmutableList()
-                intent {
-                    copy(
-                        preferences = preferenceList,
-                    )
-                }
-            }.onFailure {
-                when (it) {
-                    is ApiError -> {
-                        Log.e("error", it.message)
-                    }
-                    is IndexOutOfBoundsException -> {
-                        intent {
-                            copy(
-                                preferences = emptyList<Pair<String, Int>>().toImmutableList(),
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     fun fetchUserProfile() {
         viewModelScope.launch {
             userRepository.getUserId().onSuccess { userId ->

@@ -1,7 +1,6 @@
 package com.record.mypage
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -29,7 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,7 +38,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -52,7 +49,6 @@ import com.record.designsystem.theme.RecordyTheme
 import com.record.model.VideoType
 import com.record.mypage.screen.BookmarkScreen
 import com.record.mypage.screen.RecordScreen
-import com.record.mypage.screen.TasteScreen
 import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.CoroutineScope
@@ -68,12 +64,12 @@ fun MypageRoute(
     navigateToFollower: () -> Unit,
     navigateToFollowing: () -> Unit,
     navigateToUplaod: () -> Unit,
+    navigateToHome: () -> Unit,
     navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffectWithLifecycle {
-        viewModel.fetchUserPreferences()
         viewModel.fetchUserProfile()
         viewModel.initialData()
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -113,6 +109,7 @@ fun MypageRoute(
             onLoadMoreRecords = viewModel::loadMoreUserVideos,
             onBookmarkClick = viewModel::bookmark,
             navigateToUpload = navigateToUplaod,
+            navigateToHome = navigateToHome,
         )
     }
 }
@@ -127,13 +124,14 @@ fun MypageScreen(
     onFollowingClick: () -> Unit,
     navigateToVideo: (VideoType, Long) -> Unit,
     navigateToUpload: () -> Unit,
+    navigateToHome: () -> Unit,
     onLoadMoreRecords: () -> Unit,
     onLoadMoreBookmarks: () -> Unit,
     onBookmarkClick: (Long) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
-        pageCount = { 3 },
+        pageCount = { 2 },
     )
     val coroutineScope = rememberCoroutineScope()
 
@@ -166,7 +164,7 @@ fun MypageScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 10.dp),
                 contentAlignment = Alignment.CenterStart,
             ) {
                 Row(
@@ -189,7 +187,7 @@ fun MypageScreen(
                             color = RecordyTheme.colors.white,
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        buildFollowerFollowingRow(
+                        BuildFollowerFollowingRow(
                             followerNum = state.followerNum,
                             followingNum = state.followingNum,
                             onFollowerClick = onFollowerClick,
@@ -199,7 +197,7 @@ fun MypageScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             CustomTabRow(
                 selectedTabIndex = state.mypageTab.ordinal,
@@ -213,17 +211,6 @@ fun MypageScreen(
                 userScrollEnabled = false,
             ) { page ->
                 when (page) {
-                    MypageTab.TASTE.ordinal -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                        ) {
-                            TasteScreen(
-                                dataAvailable = state.preferences,
-                                navigateToUpload = navigateToUpload,
-                            )
-                        }
-                    }
-
                     MypageTab.RECORD.ordinal -> {
                         RecordScreen(
                             videoItems = state.myRecordList,
@@ -242,6 +229,7 @@ fun MypageScreen(
                             onItemClick = navigateToVideo,
                             onLoadMore = onLoadMoreBookmarks,
                             onBookmarkClick = onBookmarkClick,
+                            navigateToHome = navigateToHome,
                         )
                     }
                 }
@@ -258,23 +246,24 @@ fun CustomTabRow(
     pagerState: PagerState,
     coroutineScope: CoroutineScope,
 ) {
-    val tabWidths = remember { mutableStateListOf(0f, 0f, 0f) }
-    val tabOffsets = remember { mutableStateListOf(0f, 0f, 0f) }
-
-    var indicatorWidth by remember { mutableStateOf(0.dp) }
+    var tabWidth by remember { mutableStateOf(0.dp) }
     var indicatorOffset by remember { mutableStateOf(0.dp) }
 
-    var animateIndicator by remember { mutableStateOf(false) }
+    val animatedIndicatorOffset by animateDpAsState(
+        targetValue = indicatorOffset,
+        animationSpec = tween(200),
+    )
 
-    val animatedIndicatorWidth by animateDpAsState(targetValue = indicatorWidth, animationSpec = if (animateIndicator) tween(200) else snap())
-    val animatedIndicatorOffset by animateDpAsState(targetValue = indicatorOffset, animationSpec = if (animateIndicator) tween(200) else snap())
+    val animatedIndicatorWidth by animateDpAsState(
+        targetValue = tabWidth - 12.dp,
+        animationSpec = tween(200),
+    )
 
     val density = LocalDensity.current
 
     LaunchedEffect(selectedTabIndex) {
-        if (selectedTabIndex in tabWidths.indices) {
-            indicatorWidth = with(density) { tabWidths[selectedTabIndex].toDp() }
-            indicatorOffset = with(density) { tabOffsets[selectedTabIndex].toDp() }
+        if (tabWidth > 0.dp) {
+            indicatorOffset = (tabWidth * selectedTabIndex) + 6.dp
         }
     }
 
@@ -290,29 +279,25 @@ fun CustomTabRow(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.Bottom,
         ) {
-            MypageTab.entries.forEachIndexed { index, tab ->
+            MypageTab.entries.take(2).forEachIndexed { index, tab ->
                 val selected = index == selectedTabIndex
-                val textColor = if (selected) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray06
-                val textStyle = if (selected) RecordyTheme.typography.body2L else RecordyTheme.typography.body2M
+                val textColor = if (selected) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray05
+                val textStyle = if (selected) RecordyTheme.typography.body2B else RecordyTheme.typography.body2M
 
-                Column(
+                Box(
                     modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
                         .clickable {
                             onTabSelected(tab)
                             coroutineScope.launch {
-                                animateIndicator = true
                                 pagerState.animateScrollToPage(index)
                             }
                         }
                         .onGloballyPositioned { layoutCoordinates ->
-                            val width = layoutCoordinates.size.width.toFloat()
-                            val offset = layoutCoordinates.positionInParent().x
-
-                            tabWidths[index] = width
-                            tabOffsets[index] = offset
+                            tabWidth = with(density) { layoutCoordinates.size.width.toDp() }
                         },
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = tab.displayName,
@@ -322,7 +307,6 @@ fun CustomTabRow(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(6.dp))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -348,7 +332,7 @@ fun formatNumber(number: Int): String {
 }
 
 @Composable
-private fun buildFollowerFollowingRow(
+private fun BuildFollowerFollowingRow(
     followerNum: Int,
     followingNum: Int,
     onFollowerClick: () -> Unit,

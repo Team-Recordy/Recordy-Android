@@ -1,3 +1,5 @@
+package com.record.search.component
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,7 +20,7 @@ import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 
 @Composable
-fun SearchContainerBtn(
+fun SearchingContainerBtn(
     modifier: Modifier = Modifier
 ){
     Box(
@@ -70,6 +72,6 @@ fun SearchContainerBtn(
 @Composable
 fun ContainerView(){
     RecordyTheme{
-        SearchContainerBtn(modifier = Modifier.fillMaxWidth())
+        SearchingContainerBtn(modifier = Modifier.fillMaxWidth())
     }
 }

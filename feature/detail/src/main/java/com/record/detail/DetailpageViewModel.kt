@@ -3,15 +3,15 @@ package com.record.detail
 import androidx.lifecycle.viewModelScope
 import com.record.model.VideoType
 import com.record.ui.base.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import com.record.video.repository.VideoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailpageViewModel @Inject constructor (
+class DetailpageViewModel @Inject constructor(
     private val videoRepository: VideoRepository,
 ) : BaseViewModel<DetailpageState, DetailpageSideEffect>(DetailpageState()) {
 

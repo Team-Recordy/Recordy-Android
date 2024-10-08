@@ -23,7 +23,7 @@ import com.record.designsystem.theme.RecordyTheme
 fun EmptyDataScreen(
     message: String,
     showButton: Boolean,
-    onButtonClick: () -> Unit = {}
+    onButtonClick: () -> Unit = {},
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -38,7 +38,6 @@ fun EmptyDataScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize(),
             ) {
-
                 Text(
                     text = message,
                     style = RecordyTheme.typography.title3SB,

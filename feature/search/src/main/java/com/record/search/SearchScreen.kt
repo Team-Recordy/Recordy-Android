@@ -11,16 +11,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 import com.record.search.component.SearchBox
@@ -28,21 +27,33 @@ import com.record.search.component.SearchingContainerBtn
 
 @Composable
 fun SearchRoute(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
-    val exampleItems = List(10) { "Item $it" }
-    SearchScreen(modifier = modifier, items = exampleItems)
+    val query by viewModel.query.collectAsState()
+    val filteredItems by viewModel.filteredItems.collectAsState()
+
+    SearchScreen(
+        modifier = modifier,
+        query = query,
+        onQueryChange = viewModel::onQueryChanged,
+        items = filteredItems
+    )
 }
+
 
 @Composable
 fun SearchScreen(
     modifier: Modifier,
-    items: List<String>
+    query: String,
+    onQueryChange: (String) -> Unit,
+    items: List<Exhibition>
 ) {
-    var query by remember { mutableStateOf("") }
 
-    val filteredItems = items.filter {
-        it.contains(query, ignoreCase = true)
+    val filteredItems = items.filter { exhibition ->
+        exhibition.exhibitionName.contains(query, ignoreCase = true) ||
+            exhibition.location.contains(query, ignoreCase = true) ||
+            exhibition.venue.contains(query, ignoreCase = true)
     }
 
     Column(
@@ -54,9 +65,7 @@ fun SearchScreen(
                 .fillMaxWidth()
                 .padding(vertical = 28.dp, horizontal = 16.dp),
             query = query,
-            onQueryChange = { newQuery ->
-                query = newQuery
-            }
+            onQueryChange = onQueryChange
         )
 
         if (query.isEmpty()) {
@@ -129,10 +138,12 @@ fun SearchScreen(
             }
         } else {
             LazyColumn {
-                items(filteredItems) { item ->
+                items(items) { item ->
                     SearchingContainerBtn(
-                        modifier = Modifier
-                            .fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        exhibitionName = item.exhibitionName,
+                        location = item.location,
+                        venue = item.venue
                     )
                 }
             }

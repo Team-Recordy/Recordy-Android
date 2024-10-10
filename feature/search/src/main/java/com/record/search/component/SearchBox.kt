@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
@@ -25,13 +23,14 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 import kotlinx.coroutines.delay
 
 @Composable
 fun SearchBox(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     query: String,
     onQueryChange: (String) -> Unit,
     onImageClick: () -> Unit,
@@ -62,7 +61,6 @@ fun SearchBox(
             painter = painterResource(id = R.drawable.ic_search_24),
             contentDescription = "Search Icon",
             modifier = Modifier
-                .wrapContentSize()
                 .clickable {
                     onImageClick()
                     keyboardController?.hide()
@@ -72,7 +70,7 @@ fun SearchBox(
         BasicTextField(
             value = query,
             onValueChange = onQueryChange,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(start = 8.dp)
                 .focusRequester(focusRequester),
@@ -96,6 +94,7 @@ fun SearchBox(
 fun SearchBoxPreview() {
     RecordyTheme {
         SearchBox(
+            modifier = Modifier.fillMaxWidth(),
             query = "",
             onQueryChange = {},
             onImageClick = {},

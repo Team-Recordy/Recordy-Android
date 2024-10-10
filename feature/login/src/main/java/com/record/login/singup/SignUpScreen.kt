@@ -120,7 +120,9 @@ fun SignUpRoute(
         Box(
             modifier = Modifier
                 .background(color = Color.Transparent)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .height(54.dp)
+                .padding(vertical = 15.dp),
         ) {
             if (pagerState.currentPage != 2) {
                 Icon(
@@ -156,7 +158,6 @@ fun SignUpRoute(
         ) { page ->
             when (SignUpScreen.fromScreenNumber(page)) {
                 SignUpScreen.Policy -> PolicyScreen(
-                    padding = padding,
                     uiState = uiState,
                     onCheckAllClick = viewModel::allCheckEvent,
                     onCheckServiceClick = viewModel::checkServiceEvent,

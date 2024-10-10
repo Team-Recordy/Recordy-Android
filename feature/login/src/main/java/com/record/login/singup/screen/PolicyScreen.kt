@@ -1,6 +1,5 @@
 package com.record.login.singup.screen
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -43,16 +42,17 @@ fun PolicyScreen(
     onMoreClick: (String) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
-        Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.height(54.dp))
         Text(
             text = "비스킷 이용을 위해 \n필수 약관에 동의해 주세요.",
             modifier = Modifier
                 .padding(start = 10.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(padding),
             style = RecordyTheme.typography.title1,
             color = RecordyTheme.colors.gray01,
         )
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         RecordyCheckAllBox(
             "전체 동의",
             padding = padding,
@@ -101,8 +101,8 @@ fun RecordyCheckBox(
                 .fillMaxWidth()
                 .height(40.dp)
                 .clickable(onClick = onClickEvent, indication = null, interactionSource = remember { MutableInteractionSource() })
-                .padding(start = 20.dp),
-            contentAlignment = Alignment.Center,
+                .padding(start = 20.dp)
+                .padding(vertical = 11.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -113,9 +113,8 @@ fun RecordyCheckBox(
                     ImageVector.vectorResource(id = R.drawable.ic_check_16),
                     contentDescription = null,
                     modifier = Modifier
-                        .animateContentSize { _, _ -> }
-                        .height(20.dp)
-                        .padding(vertical = 2.dp)
+                        .height(16.dp)
+                        .padding(vertical = 1.dp)
                         .aspectRatio(1f),
                     tint = if (checked) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray08,
                 )

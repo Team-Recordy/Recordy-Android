@@ -38,7 +38,7 @@ import com.record.model.ValidateResult
 fun RecordyValidateTextfield(
     modifier: Modifier = Modifier,
     errorState: ValidateResult = ValidateResult.Inputting,
-    placeholder: String = "EX) 레코디둥이들",
+    placeholder: String = "닉네임 (한글, 숫자, 밑줄 및 마침표만 사용 가능)",
     maxLines: Int = 1,
     maxLength: Int = 10,
     textStyle: TextStyle = RecordyTheme.typography.body2M,
@@ -46,9 +46,9 @@ fun RecordyValidateTextfield(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Default),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     padding: PaddingValues = PaddingValues(horizontal = 16.dp),
-    overlapErrorMessage: String = "이미 사용중인 닉네임이에요",
+    overlapErrorMessage: String = "ⓘ 이미 사용중인 닉네임이에요",
     validationErrorMessage: String = "ⓘ 한글, 숫자, 밑줄 및 마침표만 사용할 수 있어요",
-    successMessage: String = "ⓘ 사용 가능한 닉네임이에요",
+    successMessage: String = "사용 가능한 닉네임이에요!",
     inputtingMessage: String = "",
 ) {
     var value by remember { mutableStateOf("") }
@@ -129,7 +129,7 @@ fun RecordyValidateTextfield(
                 },
                 color = when (errorState) {
                     ValidateResult.OverlapError, ValidateResult.ValidationError -> RecordyTheme.colors.alert01
-                    ValidateResult.Success -> RecordyTheme.colors.gray03
+                    ValidateResult.Success -> RecordyTheme.colors.viskitYellow80
                     ValidateResult.Inputting -> RecordyTheme.colors.gray03
                 },
                 style = RecordyTheme.typography.caption2R,

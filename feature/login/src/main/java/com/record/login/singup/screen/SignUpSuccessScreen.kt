@@ -13,15 +13,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 
 @Composable
-fun SignUpSuccessScreen() {
+fun SignUpSuccessScreen(name: String) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Spacer(modifier = Modifier.height(174.dp))
+        Spacer(modifier = Modifier.height(188.dp))
         Image(
             painter = painterResource(id = R.drawable.img_bubble_checked),
             contentDescription = null,
@@ -30,18 +31,15 @@ fun SignUpSuccessScreen() {
                 .aspectRatio(1f),
             contentScale = ContentScale.Crop,
         )
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
-            "회원가입이 완료되었어요!",
+            "${name}님,\n" +
+                "가입이 완료되었어요!",
             style = RecordyTheme.typography.title1,
             color = RecordyTheme.colors.gray01,
+            textAlign = TextAlign.Center,
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            "지금 영상을 둘러보고 나만의 공간 취향을 발견해 보세요.",
-            style = RecordyTheme.typography.caption2R,
-            color = RecordyTheme.colors.gray03,
-        )
+        Spacer(modifier = Modifier.height(188.dp))
     }
 }
 
@@ -49,6 +47,6 @@ fun SignUpSuccessScreen() {
 @Composable
 fun PreviewSignUpSuccessScreen() {
     RecordyTheme {
-        SignUpSuccessScreen()
+        SignUpSuccessScreen(name = "test")
     }
 }

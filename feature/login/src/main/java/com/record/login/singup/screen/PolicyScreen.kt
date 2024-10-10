@@ -1,7 +1,5 @@
 package com.record.login.singup.screen
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -25,10 +23,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
@@ -45,19 +42,9 @@ fun PolicyScreen(
     onMoreClick: (String) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
-        Spacer(modifier = Modifier.height(33.dp))
-        Image(
-            painter = painterResource(id = R.drawable.img_onboarding),
-            contentDescription = null,
-            modifier = Modifier
-                .width(120.dp)
-                .padding(start = 16.dp)
-                .aspectRatio(1f),
-            contentScale = ContentScale.Crop,
-        )
-        Spacer(modifier = Modifier.height(9.dp))
+        Spacer(modifier = Modifier.height(54.dp))
         Text(
-            text = "유영하러 오신 것을 \n환영합니다!",
+            text = "비스킷 이용을 위해 \n필수 약관에 동의해 주세요.",
             modifier = Modifier
                 .padding(start = 10.dp)
                 .fillMaxWidth()
@@ -65,13 +52,14 @@ fun PolicyScreen(
             style = RecordyTheme.typography.title1,
             color = RecordyTheme.colors.gray01,
         )
-        Spacer(modifier = Modifier.height(33.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         RecordyCheckAllBox(
             "전체 동의",
             padding = padding,
             checked = uiState.allChecked,
             onClickEvent = { onCheckAllClick() },
         )
+        Spacer(modifier = Modifier.height(8.dp))
         RecordyCheckBox(
             "(필수) 서비스 이용약관 동의",
             padding = padding,
@@ -107,15 +95,14 @@ fun RecordyCheckBox(
     onMoreClick: ((String) -> Unit)? = null,
 ) {
     Column {
-        Spacer(modifier = Modifier.height(9.dp))
         Box(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxWidth()
                 .height(40.dp)
                 .clickable(onClick = onClickEvent, indication = null, interactionSource = remember { MutableInteractionSource() })
-                .padding(start = 20.dp),
-            contentAlignment = Alignment.Center,
+                .padding(start = 20.dp)
+                .padding(vertical = 11.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -126,29 +113,30 @@ fun RecordyCheckBox(
                     ImageVector.vectorResource(id = R.drawable.ic_check_16),
                     contentDescription = null,
                     modifier = Modifier
-                        .animateContentSize { _, _ -> }
-                        .height(20.dp)
-                        .padding(vertical = 2.dp)
+                        .height(16.dp)
+                        .padding(vertical = 1.dp)
                         .aspectRatio(1f),
-                    tint = if (checked) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray05,
+                    tint = if (checked) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray08,
                 )
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(20.dp))
                 Text(
                     text = contentText,
-                    style = RecordyTheme.typography.caption1R.copy(color = RecordyTheme.colors.gray03),
+                    style = RecordyTheme.typography.caption1R,
+                    color = RecordyTheme.colors.gray02,
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 if (moreUrl != null && onMoreClick != null) {
                     Text(
                         text = "더보기",
                         textAlign = TextAlign.End,
-                        modifier = Modifier.clickable(
-                            onClick = { onMoreClick(moreUrl) },
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() },
-                        )
+                        modifier = Modifier
+                            .clickable(
+                                onClick = { onMoreClick(moreUrl) },
+                                indication = null,
+                                interactionSource = remember { MutableInteractionSource() },
+                            )
                             .padding(end = 20.dp),
-                        style = RecordyTheme.typography.caption1U.copy(color = RecordyTheme.colors.gray03),
+                        style = RecordyTheme.typography.caption1U.copy(color = RecordyTheme.colors.gray05),
                     )
                 }
             }
@@ -167,7 +155,7 @@ fun RecordyCheckAllBox(
         modifier = Modifier
             .padding(padding)
             .fillMaxWidth()
-            .height(48.dp)
+            .height(54.dp)
             .background(RecordyTheme.colors.gray09, RoundedCornerShape(8.dp))
             .clickable(onClick = onClickEvent, indication = null, interactionSource = remember { MutableInteractionSource() })
             .padding(start = 20.dp),
@@ -185,13 +173,25 @@ fun RecordyCheckAllBox(
                     .height(24.dp)
                     .padding(vertical = 2.dp)
                     .aspectRatio(1f),
-                tint = if (checked) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray05,
+                tint = if (checked) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray08,
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = contentText,
-                style = RecordyTheme.typography.subtitle.copy(color = RecordyTheme.colors.gray01),
+                style = RecordyTheme.typography.subtitle,
+                color = RecordyTheme.colors.white,
             )
+        }
+    }
+}
+
+@Preview()
+@Composable()
+fun PreviewPolicyScreen() {
+    RecordyTheme {
+        Box(modifier = Modifier.background(color = RecordyTheme.colors.background)) {
+            PolicyScreen(uiState = SignUpState(), onCheckAllClick = { /*TODO*/ }, onCheckServiceClick = { /*TODO*/ }, onCheckPolicyClick = { /*TODO*/ }, onCheckAgeClick = { /*TODO*/ }) {
+            }
         }
     }
 }

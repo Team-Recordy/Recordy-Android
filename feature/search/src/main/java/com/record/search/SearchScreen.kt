@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -69,12 +71,11 @@ fun SearchScreen(
     Column(
         modifier = modifier
             .background(color = RecordyTheme.colors.black)
+            .padding(horizontal = 16.dp, vertical = 28.dp)
     ) {
         SearchBox(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 28.dp)
-                .padding(horizontal = 16.dp)
                 .onFocusChanged { focusState ->
                     if (focusState.isFocused) {
                         showSearchedContainer = false
@@ -94,13 +95,21 @@ fun SearchScreen(
         if (showSearchedContainer) {
             LazyColumn {
                 items(filteredItems) { item ->
-                    SearchedContainerBtn(
-                        modifier = Modifier.fillMaxWidth(),
-                        exhibitionName = item.exhibitionName,
-                        location = item.location,
-                        venue = item.venue,
-                        type = item.listOf
-                    )
+                    Column {
+                        SearchedContainerBtn(
+                            modifier = Modifier.fillMaxWidth(),
+                            exhibitionName = item.exhibitionName,
+                            location = item.location,
+                            venue = item.venue,
+                            type = item.listOf
+                        )
+                        HorizontalDivider(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            color = RecordyTheme.colors.gray09
+                        )
+                    }
                 }
                 if (filteredItems.isEmpty()) {
                     item {
@@ -130,14 +139,14 @@ fun SearchScreen(
     }
 }
 
+
 @Composable
 fun EmptySearchResult(showSearchedContainer: Boolean) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = RecordyTheme.colors.black)
-            .wrapContentSize(Alignment.Center)
-            .padding(top = 106.dp),
+            .wrapContentSize(Alignment.Center),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -148,7 +157,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
                 .padding(bottom = 18.dp),
         )
 
-        if(showSearchedContainer) {
+        if (showSearchedContainer) {
             Text(
                 text = "검색 결과가 없어요.",
                 style = RecordyTheme.typography.title2,
@@ -156,8 +165,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
                 modifier = Modifier.padding(horizontal = 51.dp),
                 textAlign = TextAlign.Center
             )
-        }
-        else {
+        } else {
             Text(
                 text = "검색 결과가 없어요.\n검색어가 정확한지 확인해주세요!",
                 style = RecordyTheme.typography.title2,
@@ -169,12 +177,13 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
     }
 }
 
+
 @Composable
 fun DefaultSearchUI() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 28.dp, horizontal = 20.dp),
+            .padding(top = 28.dp)
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_tab_record_pressed_28),
@@ -213,7 +222,6 @@ fun DefaultSearchUI() {
         }
     }
 }
-
 
 
 @Preview

@@ -70,3 +70,13 @@ fun SearchingContainerBtn(
         }
     }
 }
+
+@Preview
+@Composable
+fun SearchingContainerBtnPreview() {
+    SearchingContainerBtn(
+        exhibitionName = "전시회명",
+        location = "서울",
+        venue = "예술의 전당",
+    )
+}

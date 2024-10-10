@@ -15,7 +15,8 @@ import com.record.designsystem.theme.RecordyTheme
 
 @Composable
 fun ExhibitionTitle(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    type: String
 ) {
     Box(
         modifier = modifier
@@ -24,6 +25,6 @@ fun ExhibitionTitle(
             .fillMaxWidth()
             .padding(vertical = 12.dp, horizontal = 16.dp)
     ) {
-        Text(text = "전시회장", style = RecordyTheme.typography.caption1R, color = RecordyTheme.colors.gray03)
+        Text(text = type, style = RecordyTheme.typography.caption1R, color = RecordyTheme.colors.gray03)
     }
 }

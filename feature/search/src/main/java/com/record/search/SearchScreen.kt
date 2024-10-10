@@ -6,12 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -71,11 +70,11 @@ fun SearchScreen(
     Column(
         modifier = modifier
             .background(color = RecordyTheme.colors.black)
+            .systemBarsPadding()
             .padding(horizontal = 16.dp, vertical = 28.dp)
     ) {
         SearchBox(
             modifier = modifier
-                .fillMaxWidth()
                 .onFocusChanged { focusState ->
                     if (focusState.isFocused) {
                         showSearchedContainer = false
@@ -97,16 +96,15 @@ fun SearchScreen(
                 items(filteredItems) { item ->
                     Column {
                         SearchedContainerBtn(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = modifier.fillMaxWidth(),
                             exhibitionName = item.exhibitionName,
                             location = item.location,
                             venue = item.venue,
                             type = item.listOf
                         )
                         HorizontalDivider(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
+                            modifier = modifier
+                                .fillMaxWidth(),
                             color = RecordyTheme.colors.gray09
                         )
                     }
@@ -125,7 +123,7 @@ fun SearchScreen(
                 LazyColumn {
                     items(filteredItems) { item ->
                         SearchingContainerBtn(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = modifier.fillMaxWidth(),
                             exhibitionName = item.exhibitionName,
                             location = item.location,
                             venue = item.venue

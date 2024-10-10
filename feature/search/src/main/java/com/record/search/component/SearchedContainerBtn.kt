@@ -39,7 +39,7 @@ fun SearchedContainerBtn(
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                    .padding(vertical = 10.dp),
             ) {
                 Column(
                     modifier = modifier
@@ -75,10 +75,10 @@ fun SearchedContainerBtn(
             }
 
             Column(
-                modifier = Modifier.padding(horizontal = 24.dp)
+                modifier = modifier.padding(horizontal = 8.dp)
             ) {
                 type.take(3).forEachIndexed { index, title ->
-                    if (index > 0) Spacer(modifier = Modifier.height(8.dp))
+                    if (index > 0) Spacer(modifier = modifier.height(8.dp))
                     ExhibitionTitle(type = title)
                 }
             }

@@ -36,7 +36,7 @@ fun SearchingContainerBtn(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(horizontal = 16.dp, vertical = 10.dp),
+                .padding(top = 20.dp),
         ) {
             Column(
                 modifier = Modifier.weight(1f)
@@ -74,9 +74,11 @@ fun SearchingContainerBtn(
 @Preview
 @Composable
 fun SearchingContainerBtnPreview() {
-    SearchingContainerBtn(
-        exhibitionName = "전시회명",
-        location = "서울",
-        venue = "예술의 전당",
-    )
+    RecordyTheme {
+        SearchingContainerBtn(
+            exhibitionName = "전시회명",
+            location = "서울",
+            venue = "예술의 전당",
+        )
+    }
 }

@@ -4,5 +4,5 @@ data class Exhibition(
     val exhibitionName: String,
     val location: String,
     val venue: String,
-    val listOf: List<String>
+    val listOf: List<String>,
 )

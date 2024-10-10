@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -37,7 +36,7 @@ import com.record.search.component.SearchingContainerBtn
 @Composable
 fun SearchRoute(
     modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val query by viewModel.query.collectAsState()
     val filteredItems by viewModel.filteredItems.collectAsState()
@@ -46,7 +45,7 @@ fun SearchRoute(
         modifier = modifier,
         query = query,
         onQueryChange = viewModel::onQueryChanged,
-        items = filteredItems
+        items = filteredItems,
     )
 }
 
@@ -55,7 +54,7 @@ fun SearchScreen(
     modifier: Modifier,
     query: String,
     onQueryChange: (String) -> Unit,
-    items: List<Exhibition>
+    items: List<Exhibition>,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -71,7 +70,7 @@ fun SearchScreen(
         modifier = modifier
             .background(color = RecordyTheme.colors.black)
             .systemBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 28.dp)
+            .padding(horizontal = 16.dp, vertical = 28.dp),
     ) {
         SearchBox(
             modifier = modifier
@@ -100,12 +99,12 @@ fun SearchScreen(
                             exhibitionName = item.exhibitionName,
                             location = item.location,
                             venue = item.venue,
-                            type = item.listOf
+                            type = item.listOf,
                         )
                         HorizontalDivider(
                             modifier = modifier
                                 .fillMaxWidth(),
-                            color = RecordyTheme.colors.gray09
+                            color = RecordyTheme.colors.gray09,
                         )
                     }
                 }
@@ -113,7 +112,6 @@ fun SearchScreen(
                     item {
                         EmptySearchResult(true)
                     }
-
                 }
             }
         } else if (query.isNotEmpty()) {
@@ -126,7 +124,7 @@ fun SearchScreen(
                             modifier = modifier.fillMaxWidth(),
                             exhibitionName = item.exhibitionName,
                             location = item.location,
-                            venue = item.venue
+                            venue = item.venue,
                         )
                     }
                 }
@@ -137,7 +135,6 @@ fun SearchScreen(
     }
 }
 
-
 @Composable
 fun EmptySearchResult(showSearchedContainer: Boolean) {
     Column(
@@ -145,7 +142,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
             .fillMaxWidth()
             .background(color = RecordyTheme.colors.black)
             .wrapContentSize(Alignment.Center),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_recordy_logo),
@@ -161,7 +158,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
                 style = RecordyTheme.typography.title2,
                 color = RecordyTheme.colors.gray01,
                 modifier = Modifier.padding(horizontal = 51.dp),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         } else {
             Text(
@@ -169,19 +166,18 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
                 style = RecordyTheme.typography.title2,
                 color = RecordyTheme.colors.gray01,
                 modifier = Modifier.padding(horizontal = 51.dp),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     }
 }
-
 
 @Composable
 fun DefaultSearchUI() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 28.dp)
+            .padding(top = 28.dp),
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_tab_record_pressed_28),
@@ -189,38 +185,37 @@ fun DefaultSearchUI() {
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.CenterVertically)
-                .padding(end = 12.dp)
+                .padding(end = 12.dp),
         )
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             Text(
                 text = "공간뿐만 아니라 원하는 전시회를 찾고 싶다면?",
                 style = RecordyTheme.typography.caption1M,
-                color = RecordyTheme.colors.gray05
+                color = RecordyTheme.colors.gray05,
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 2.dp)
+                    .padding(bottom = 2.dp),
             ) {
                 Text(
                     text = "\'전시회명\'",
                     style = RecordyTheme.typography.subtitle,
-                    color = RecordyTheme.colors.viskitYellow300
+                    color = RecordyTheme.colors.viskitYellow300,
                 )
 
                 Text(
                     text = "을 검색해 보세요!",
                     style = RecordyTheme.typography.subtitle,
-                    color = RecordyTheme.colors.gray01
+                    color = RecordyTheme.colors.gray01,
                 )
             }
         }
     }
 }
-
 
 @Preview
 @Composable

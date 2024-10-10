@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -64,7 +63,7 @@ fun SearchBox(
                 .clickable {
                     onImageClick()
                     keyboardController?.hide()
-                }
+                },
         )
 
         BasicTextField(
@@ -80,11 +79,11 @@ fun SearchBox(
                     Text(
                         text = "어떤 공간을 원하시나요?",
                         style = RecordyTheme.typography.body1M,
-                        color = RecordyTheme.colors.gray05
+                        color = RecordyTheme.colors.gray05,
                     )
                 }
                 innerTextField()
-            }
+            },
         )
     }
 }

@@ -24,13 +24,13 @@ fun SearchingContainerBtn(
     modifier: Modifier = Modifier,
     exhibitionName: String,
     location: String,
-    venue: String
+    venue: String,
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.black),
     ) {
         Row(
             modifier = Modifier
@@ -39,12 +39,12 @@ fun SearchingContainerBtn(
                 .padding(top = 20.dp),
         ) {
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 2.dp)
+                        .padding(bottom = 2.dp),
                 ) {
                     Text(text = venue, style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
                     Image(
@@ -53,7 +53,7 @@ fun SearchingContainerBtn(
                         modifier = Modifier
                             .wrapContentSize()
                             .align(Alignment.CenterVertically)
-                            .padding(horizontal = 4.dp)
+                            .padding(horizontal = 4.dp),
                     )
                     Text(text = location, style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
                 }
@@ -65,7 +65,7 @@ fun SearchingContainerBtn(
                 contentDescription = "Arrow Icon",
                 modifier = Modifier
                     .wrapContentSize()
-                    .align(Alignment.CenterVertically)
+                    .align(Alignment.CenterVertically),
             )
         }
     }

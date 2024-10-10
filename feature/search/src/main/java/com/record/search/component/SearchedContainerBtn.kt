@@ -77,7 +77,6 @@ fun SearchedContainerBtn(
             Column(
                 modifier = Modifier.padding(horizontal = 24.dp)
             ) {
-                // 리스트 크기에 따라 최대 3개의 ExhibitionTitle만 보여줍니다.
                 type.take(3).forEachIndexed { index, title ->
                     if (index > 0) Spacer(modifier = Modifier.height(8.dp))
                     ExhibitionTitle(type = title)

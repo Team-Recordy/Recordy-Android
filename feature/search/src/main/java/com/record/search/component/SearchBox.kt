@@ -2,9 +2,12 @@ package com.record.search.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,7 +33,8 @@ import kotlinx.coroutines.delay
 fun SearchBox(
     modifier: Modifier = Modifier,
     query: String,
-    onQueryChange: (String) -> Unit
+    onQueryChange: (String) -> Unit,
+    onImageClick: () -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
@@ -46,14 +50,23 @@ fun SearchBox(
             .clip(RoundedCornerShape(8.dp))
             .background(color = RecordyTheme.colors.gray10)
             .fillMaxWidth()
-            .padding(vertical = 14.dp, horizontal = 16.dp),
+            .padding(vertical = 14.dp, horizontal = 16.dp)
+            .clickable {
+                focusRequester.requestFocus()
+                keyboardController?.show()
+            },
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_search_24),
             contentDescription = "Search Icon",
-            modifier = Modifier.wrapContentSize()
+            modifier = Modifier
+                .wrapContentSize()
+                .clickable {
+                    onImageClick()
+                    keyboardController?.hide()
+                }
         )
 
         BasicTextField(
@@ -78,15 +91,14 @@ fun SearchBox(
     }
 }
 
-
-
 @Preview
 @Composable
 fun SearchBoxPreview() {
     RecordyTheme {
         SearchBox(
             query = "",
-            onQueryChange = {}
+            onQueryChange = {},
+            onImageClick = {},
         )
     }
 }

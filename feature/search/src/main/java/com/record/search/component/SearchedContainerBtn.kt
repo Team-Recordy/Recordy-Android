@@ -23,7 +23,11 @@ import com.record.designsystem.theme.RecordyTheme
 
 @Composable
 fun SearchedContainerBtn(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    exhibitionName: String,
+    location: String,
+    venue: String,
+    type: List<String>
 ) {
     Box(
         modifier = modifier
@@ -33,19 +37,21 @@ fun SearchedContainerBtn(
     ) {
         Column {
             Row(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 10.dp),
             ) {
                 Column(
-                    modifier = Modifier.weight(1f)
+                    modifier = modifier
+                        .weight(1f)
                 ) {
+                    Spacer(modifier = modifier.padding(top = 16.dp))
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 2.dp)
                     ) {
-                        Text(text = "전시회장", style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
+                        Text(text = venue, style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
                         Image(
                             painter = painterResource(id = R.drawable.ic_eclipse_16),
                             contentDescription = "Circle Icon",
@@ -54,9 +60,9 @@ fun SearchedContainerBtn(
                                 .align(Alignment.CenterVertically)
                                 .padding(horizontal = 4.dp)
                         )
-                        Text(text = "서울 종로구", style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
+                        Text(text = location, style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
                     }
-                    Text(text = "국립현대미술관", style = RecordyTheme.typography.subtitle, color = RecordyTheme.colors.gray01)
+                    Text(text = exhibitionName, style = RecordyTheme.typography.subtitle, color = RecordyTheme.colors.gray01)
                 }
 
                 Image(
@@ -69,14 +75,16 @@ fun SearchedContainerBtn(
             }
 
             Column(
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 24.dp)
             ) {
-                ExhibitionTitle()
-                Spacer(modifier = Modifier.height(8.dp))
-                ExhibitionTitle()
-                Spacer(modifier = Modifier.height(8.dp))
-                ExhibitionTitle()
+                // 리스트 크기에 따라 최대 3개의 ExhibitionTitle만 보여줍니다.
+                type.take(3).forEachIndexed { index, title ->
+                    if (index > 0) Spacer(modifier = Modifier.height(8.dp))
+                    ExhibitionTitle(type = title)
+                }
             }
+
+            Spacer(modifier = modifier.height(24.dp))
         }
     }
 }
@@ -86,6 +94,11 @@ fun SearchedContainerBtn(
 @Composable
 fun SearchedContainerBtnPreview() {
     RecordyTheme {
-        SearchedContainerBtn()
+        SearchedContainerBtn(
+            exhibitionName = "전시회명",
+            location = "위치",
+            venue = "장소",
+            type = listOf("전시회", "공간", "장소")
+        )
     }
 }

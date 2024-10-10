@@ -27,13 +27,13 @@ fun SearchedContainerBtn(
     exhibitionName: String,
     location: String,
     venue: String,
-    type: List<String>
+    type: List<String>,
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.black),
     ) {
         Column {
             Row(
@@ -43,13 +43,13 @@ fun SearchedContainerBtn(
             ) {
                 Column(
                     modifier = modifier
-                        .weight(1f)
+                        .weight(1f),
                 ) {
                     Spacer(modifier = modifier.padding(top = 16.dp))
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 2.dp)
+                            .padding(bottom = 2.dp),
                     ) {
                         Text(text = venue, style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
                         Image(
@@ -58,7 +58,7 @@ fun SearchedContainerBtn(
                             modifier = Modifier
                                 .wrapContentSize()
                                 .align(Alignment.CenterVertically)
-                                .padding(horizontal = 4.dp)
+                                .padding(horizontal = 4.dp),
                         )
                         Text(text = location, style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
                     }
@@ -70,12 +70,12 @@ fun SearchedContainerBtn(
                     contentDescription = "Arrow Icon",
                     modifier = Modifier
                         .wrapContentSize()
-                        .align(Alignment.CenterVertically)
+                        .align(Alignment.CenterVertically),
                 )
             }
 
             Column(
-                modifier = modifier.padding(horizontal = 8.dp)
+                modifier = modifier.padding(horizontal = 8.dp),
             ) {
                 type.take(3).forEachIndexed { index, title ->
                     if (index > 0) Spacer(modifier = modifier.height(8.dp))
@@ -88,7 +88,6 @@ fun SearchedContainerBtn(
     }
 }
 
-
 @Preview
 @Composable
 fun SearchedContainerBtnPreview() {
@@ -97,7 +96,7 @@ fun SearchedContainerBtnPreview() {
             exhibitionName = "전시회명",
             location = "위치",
             venue = "장소",
-            type = listOf("전시회", "공간", "장소")
+            type = listOf("전시회", "공간", "장소"),
         )
     }
 }

@@ -21,8 +21,11 @@ import com.record.designsystem.theme.RecordyTheme
 
 @Composable
 fun SearchingContainerBtn(
-    modifier: Modifier = Modifier
-){
+    modifier: Modifier = Modifier,
+    exhibitionName: String,
+    location: String,
+    venue: String
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -43,7 +46,7 @@ fun SearchingContainerBtn(
                         .fillMaxWidth()
                         .padding(bottom = 2.dp)
                 ) {
-                    Text(text = "전시회장", style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
+                    Text(text = venue, style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
                     Image(
                         painter = painterResource(id = R.drawable.ic_eclipse_16),
                         contentDescription = "Circle Icon",
@@ -52,9 +55,9 @@ fun SearchingContainerBtn(
                             .align(Alignment.CenterVertically)
                             .padding(horizontal = 4.dp)
                     )
-                    Text(text = "서울 종로구", style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
+                    Text(text = location, style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
                 }
-                Text(text = "국립현대미술관", style = RecordyTheme.typography.subtitle, color = RecordyTheme.colors.gray01)
+                Text(text = exhibitionName, style = RecordyTheme.typography.subtitle, color = RecordyTheme.colors.gray01)
             }
 
             Image(
@@ -65,13 +68,5 @@ fun SearchingContainerBtn(
                     .align(Alignment.CenterVertically)
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun ContainerView(){
-    RecordyTheme{
-        SearchingContainerBtn(modifier = Modifier.fillMaxWidth())
     }
 }

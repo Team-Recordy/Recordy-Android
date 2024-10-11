@@ -147,7 +147,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
             .background(color = RecordyTheme.colors.black)
             .systemBarsPadding()
             .then(imePadding),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

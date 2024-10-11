@@ -2,9 +2,12 @@ package com.record.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -137,37 +140,41 @@ fun SearchScreen(
 
 @Composable
 fun EmptySearchResult(showSearchedContainer: Boolean) {
-    Column(
+    val imePadding = Modifier.imePadding()
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(color = RecordyTheme.colors.black)
-            .wrapContentSize(Alignment.Center),
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .systemBarsPadding()
+            .then(imePadding),
+        contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_recordy_logo),
-            contentDescription = "Empty Icon",
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(bottom = 18.dp),
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_recordy_logo),
+                contentDescription = "Empty Icon",
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = 18.dp),
+            )
 
-        if (showSearchedContainer) {
-            Text(
-                text = "검색 결과가 없어요.",
-                style = RecordyTheme.typography.title2,
-                color = RecordyTheme.colors.gray01,
-                modifier = Modifier.padding(horizontal = 51.dp),
-                textAlign = TextAlign.Center,
-            )
-        } else {
-            Text(
-                text = "검색 결과가 없어요.\n검색어가 정확한지 확인해주세요!",
-                style = RecordyTheme.typography.title2,
-                color = RecordyTheme.colors.gray01,
-                modifier = Modifier.padding(horizontal = 51.dp),
-                textAlign = TextAlign.Center,
-            )
+            if (showSearchedContainer) {
+                Text(
+                    text = "검색 결과가 없어요.",
+                    color = RecordyTheme.colors.gray01,
+                    style = RecordyTheme.typography.title2,
+                    textAlign = TextAlign.Center,
+                )
+            } else {
+                Text(
+                    text = "검색 결과가 없어요.\n검색어가 정확한지 확인해주세요!",
+                    color = RecordyTheme.colors.gray01,
+                    style = RecordyTheme.typography.title2,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
     }
 }

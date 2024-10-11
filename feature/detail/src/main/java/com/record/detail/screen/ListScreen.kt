@@ -26,13 +26,10 @@ import androidx.compose.ui.unit.dp
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 import kotlinx.collections.immutable.ImmutableList
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 fun ListScreen(
-    exhibitionItems: ImmutableList<Triple<String, Date, Date>>,
+    exhibitionItems: ImmutableList<Triple<String, String, String>>,
     exhibitionCount: Int,
     selectedChip: ChipTab,
     onChipSelected: (ChipTab) -> Unit,
@@ -103,7 +100,7 @@ fun ListScreen(
 }
 
 @Composable
-fun ExhibitionItem(name: String, startDate: Date, endDate: Date, onButtonClick: () -> Unit) {
+fun ExhibitionItem(name: String, startDate: String, endDate: String, onButtonClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,9 +141,10 @@ fun ExhibitionItem(name: String, startDate: Date, endDate: Date, onButtonClick: 
     }
 }
 
-fun formatDate(startDate: Date, endDate: Date): String {
-    val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
-    return "${dateFormat.format(startDate)}~${dateFormat.format(endDate)}"
+fun formatDate(startDate: String, endDate: String): String {
+    val startFormatted = "${startDate.substring(0, 4)}년 ${startDate.substring(4, 6)}월 ${startDate.substring(6, 8)}일"
+    val endFormatted = "${endDate.substring(0, 4)}년 ${endDate.substring(4, 6)}월 ${endDate.substring(6, 8)}일"
+    return "$startFormatted~$endFormatted"
 }
 
 @Composable

@@ -143,6 +143,8 @@ internal fun MainScreen(
 
                 detailNavGraph(
                     padding = innerPadding,
+                    navigateToUpload = navigator::navigateToUpload,
+                    navigateToVideo = navigator::navigateVideoDetail,
                 )
             }
             RecordySnackBar(

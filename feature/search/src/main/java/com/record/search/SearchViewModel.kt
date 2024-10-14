@@ -1,20 +1,12 @@
 package com.record.search
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import com.record.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
-class SearchViewModel : ViewModel() {
-    private val _query = MutableStateFlow("")
-    val query: StateFlow<String> = _query.asStateFlow()
-
-    private val _filteredItems = MutableStateFlow<List<Exhibition>>(emptyList())
-    val filteredItems: StateFlow<List<Exhibition>> = _filteredItems.asStateFlow()
-
+class SearchViewModel : BaseViewModel<SearchState, SearchSideEffect>(
+    initialState = SearchState()
+) {
     private val items = listOf(
         Exhibition("국립현대미술관", "서울 종로구", "전시회장", listOf("미술전시회1", "전시회2", "전시회3")),
         Exhibition("국으로 시작하는 단어", "서울 종로구", "전시회장", listOf("미술", "현대미술")),
@@ -23,7 +15,9 @@ class SearchViewModel : ViewModel() {
     )
 
     fun onQueryChanged(newQuery: String) {
-        _query.value = newQuery
+        intent {
+            copy(query = newQuery)
+        }
         filterItems(newQuery)
     }
 
@@ -38,7 +32,9 @@ class SearchViewModel : ViewModel() {
                         it.venue.contains(query, ignoreCase = true)
                 }
             }
-            _filteredItems.update { result }
+            intent {
+                copy(filteredItems = result)
+            }
         }
     }
 }

@@ -2,25 +2,12 @@ package com.record.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -41,14 +28,13 @@ fun SearchRoute(
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
-    val query by viewModel.query.collectAsState()
-    val filteredItems by viewModel.filteredItems.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()  // Observing the combined UI state
 
     SearchScreen(
         modifier = modifier,
-        query = query,
+        query = uiState.query,
         onQueryChange = viewModel::onQueryChanged,
-        items = filteredItems,
+        items = uiState.filteredItems,  // Using the filtered items from UI state
     )
 }
 
@@ -60,12 +46,6 @@ fun SearchScreen(
     items: List<Exhibition>,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    val filteredItems = items.filter { exhibition ->
-        exhibition.exhibitionName.contains(query, ignoreCase = true) ||
-            exhibition.location.contains(query, ignoreCase = true) ||
-            exhibition.venue.contains(query, ignoreCase = true)
-    }
 
     var showSearchedContainer by remember { mutableStateOf(false) }
 
@@ -95,7 +75,7 @@ fun SearchScreen(
 
         if (showSearchedContainer) {
             LazyColumn {
-                items(filteredItems) { item ->
+                items(items) { item ->
                     Column {
                         SearchedContainerBtn(
                             modifier = modifier.fillMaxWidth(),
@@ -111,18 +91,18 @@ fun SearchScreen(
                         )
                     }
                 }
-                if (filteredItems.isEmpty()) {
+                if (items.isEmpty()) {
                     item {
                         EmptySearchResult(true)
                     }
                 }
             }
         } else if (query.isNotEmpty()) {
-            if (filteredItems.isEmpty()) {
+            if (items.isEmpty()) {
                 EmptySearchResult(false)
             } else {
                 LazyColumn {
-                    items(filteredItems) { item ->
+                    items(items) { item ->
                         SearchingContainerBtn(
                             modifier = modifier.fillMaxWidth(),
                             exhibitionName = item.exhibitionName,

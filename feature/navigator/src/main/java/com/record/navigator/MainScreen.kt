@@ -136,6 +136,7 @@ internal fun MainScreen(
                     padding = innerPadding,
                     popBackStack = navigator::popBackStackIfNotHome,
                     navigateToLogin = navigator::navigateLogin,
+                    navigateToProfileEdit = navigator::navigateProfileEdit,
                 )
 
                 searchNavGraph(

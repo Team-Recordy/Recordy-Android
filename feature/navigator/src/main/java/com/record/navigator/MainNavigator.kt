@@ -19,6 +19,7 @@ import com.record.mypage.navigation.navigateToFollowing
 import com.record.profile.navigation.ProfileRoute
 import com.record.profile.navigation.navigateProfile
 import com.record.search.navigation.navigateSearch
+import com.record.setting.navigate.navigateProfileEdit
 import com.record.setting.navigate.navigateSetting
 import com.record.upload.navigation.UploadRoute
 import com.record.upload.navigation.navigateToUpload
@@ -124,6 +125,10 @@ internal class MainNavigator(
 
     fun navigateSetting() {
         navController.navigateSetting(navOptions { })
+    }
+
+    fun navigateProfileEdit() {
+        navController.navigateProfileEdit(navOptions { })
     }
 
     fun navigateDetail() {

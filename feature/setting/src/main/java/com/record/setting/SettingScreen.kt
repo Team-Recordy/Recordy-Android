@@ -42,6 +42,7 @@ fun SettingRoute(
     modifier: Modifier,
     popBackStack: () -> Unit,
     navigateToLogin: () -> Unit,
+    navigateToProfileEdit: () -> Unit,
     viewModel: SettingViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -52,6 +53,10 @@ fun SettingRoute(
                 is SettingSideEffect.Restart -> {
                     navigateToLogin()
                 }
+
+                SettingSideEffect.ProfileEdit -> {
+                    navigateToProfileEdit()
+                }
             }
         }
     }
@@ -60,11 +65,12 @@ fun SettingRoute(
         padding,
         modifier,
         uiState,
-        popBackStack = popBackStack,
+        popBackStack,
         viewModel::logout,
         viewModel::delete,
         viewModel::dismissDialog,
         viewModel::eventDialog,
+        viewModel::navigateProfileEdit,
     )
 }
 
@@ -78,6 +84,7 @@ fun SettingScreen(
     deleteEvent: () -> Unit,
     dismissDialog: () -> Unit,
     eventDialog: () -> Unit,
+    navigateToProfileEdit: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -94,7 +101,7 @@ fun SettingScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(padding)
             .background(color = RecordyTheme.colors.background),
@@ -137,6 +144,7 @@ fun SettingScreen(
         SettingButtonWithIcon(
             text = "프로필 수정",
             onClickEvent = {
+                navigateToProfileEdit()
             },
         )
         SettingButton(kakao = true)
@@ -293,6 +301,7 @@ fun PreviewSettingScreen() {
             deleteEvent = {},
             dismissDialog = {},
             eventDialog = {},
+            navigateToProfileEdit = {},
         )
     }
 }

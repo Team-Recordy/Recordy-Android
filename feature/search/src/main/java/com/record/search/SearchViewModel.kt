@@ -5,7 +5,7 @@ import com.record.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class SearchViewModel : BaseViewModel<SearchState, SearchSideEffect>(
-    initialState = SearchState()
+    initialState = SearchState(),
 ) {
     private val items = listOf(
         Exhibition("국립현대미술관", "서울 종로구", "전시회장", listOf("미술전시회1", "전시회2", "전시회3")),

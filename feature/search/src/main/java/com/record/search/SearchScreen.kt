@@ -28,13 +28,13 @@ fun SearchRoute(
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsState()  // Observing the combined UI state
+    val uiState by viewModel.uiState.collectAsState()
 
     SearchScreen(
         modifier = modifier,
         query = uiState.query,
         onQueryChange = viewModel::onQueryChanged,
-        items = uiState.filteredItems,  // Using the filtered items from UI state
+        items = uiState.filteredItems,
     )
 }
 

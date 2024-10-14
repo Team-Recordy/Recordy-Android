@@ -1,6 +1,6 @@
 package com.record.search
 
-data class Exhibition(
+data class ExhibitionData(
     val exhibitionName: String,
     val location: String,
     val venue: String,

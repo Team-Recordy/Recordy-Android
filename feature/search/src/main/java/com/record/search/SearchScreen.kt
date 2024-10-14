@@ -56,7 +56,7 @@ fun SearchScreen(
     modifier: Modifier,
     query: String,
     onQueryChange: (String) -> Unit,
-    items: List<Exhibition>,
+    items: List<ExhibitionData>,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -18,8 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,7 +31,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.R
 import com.record.designsystem.component.dialog.RecordyDialog
-import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
@@ -82,16 +85,62 @@ fun SettingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(padding)
             .background(color = RecordyTheme.colors.background),
     ) {
-        TopNavigationBar(
-            title = "설정",
+        Box(
+            modifier = Modifier
+                .background(color = Color.Transparent)
+                .fillMaxWidth()
+                .height(54.dp)
+                .padding(vertical = 15.dp),
+        ) {
+            Icon(
+                ImageVector.vectorResource(id = R.drawable.ic_angle_left_24),
+                contentDescription = "뒤로가기",
+                tint = RecordyTheme.colors.gray01,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .customClickable {
+                    }
+                    .padding(start = 20.dp),
+            )
+
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = "설정",
+                color = Color.White,
+                style = RecordyTheme.typography.title3,
+            )
+        }
+
+        Text(
+            text = "계정",
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .padding(top = 12.dp, bottom = 12.dp),
+            style = RecordyTheme.typography.title3,
+            color = RecordyTheme.colors.gray01,
         )
+        SettingButtonWithIcon(
+            text = "프로필 수정",
+            onClickEvent = {
+            },
+        )
+        SettingButton(kakao = true)
+        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(4.dp)
+                .background(color = RecordyTheme.colors.gray09),
+        )
+
         Text(
             text = "도움말",
             modifier = Modifier
-                .padding(start = 18.dp)
-                .padding(top = 28.dp, bottom = 12.dp),
+                .padding(start = 16.dp)
+                .padding(top = 24.dp, bottom = 12.dp),
             style = RecordyTheme.typography.title3,
             color = RecordyTheme.colors.gray01,
         )
@@ -102,7 +151,6 @@ fun SettingScreen(
                 context.startActivity(intent)
             },
         )
-
         SettingButtonWithIcon(
             text = "서비스 이용약관",
             onClickEvent = {
@@ -124,11 +172,11 @@ fun SettingScreen(
                 context.startActivity(intent)
             },
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(8.dp)
+                .height(4.dp)
                 .background(color = RecordyTheme.colors.gray09),
         )
         Text(
@@ -139,9 +187,8 @@ fun SettingScreen(
             style = RecordyTheme.typography.title3,
             color = RecordyTheme.colors.gray01,
         )
-        SettingButton(kakao = true)
-        SettingButton(text = "로그아웃", onClickEvent = logoutEvent)
-        SettingButton(text = "탈퇴", onClickEvent = deleteEvent)
+        SettingButtonWithIcon(text = "로그아웃", onClickEvent = logoutEvent)
+        SettingButtonWithIcon(text = "탈퇴", onClickEvent = deleteEvent)
         Text(
             text = "앱 버전 1.0",
             modifier = Modifier
@@ -160,14 +207,16 @@ fun SettingButtonWithIcon(
     onClickEvent: () -> Unit = {},
 ) {
     Row(
-        modifier = modifier.customClickable(rippleColor = RecordyTheme.colors.white, onClick = onClickEvent),
+        modifier = modifier
+            .customClickable(rippleColor = RecordyTheme.colors.white, onClick = onClickEvent)
+            .height(48.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = text,
             modifier = modifier
                 .padding(start = 16.dp)
-                .padding(vertical = 16.dp),
+                .padding(vertical = 12.dp),
             style = RecordyTheme.typography.body1M,
             color = RecordyTheme.colors.gray01,
             textAlign = TextAlign.Center,
@@ -176,7 +225,8 @@ fun SettingButtonWithIcon(
         Icon(
             painter = painterResource(id = R.drawable.ic_angle_right_24),
             modifier = modifier
-                .padding(16.dp),
+                .padding(vertical = 16.dp)
+                .padding(horizontal = 29.dp),
             contentDescription = "",
             tint = RecordyTheme.colors.gray03,
         )
@@ -193,14 +243,15 @@ fun SettingButton(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .customClickable(rippleColor = RecordyTheme.colors.white, onClick = onClickEvent),
+            .customClickable(rippleColor = RecordyTheme.colors.white, onClick = onClickEvent)
+            .height(48.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = text,
             modifier = modifier
                 .padding(start = 16.dp)
-                .padding(vertical = 16.dp)
+                .padding(vertical = 12.dp)
                 .align(Alignment.CenterVertically),
             style = RecordyTheme.typography.body1M,
             color = RecordyTheme.colors.gray01,
@@ -211,7 +262,7 @@ fun SettingButton(
             Image(
                 painter = painterResource(id = R.drawable.ic_social_setting_kakao_24),
                 modifier = modifier
-                    .padding(end = 16.dp)
+                    .padding(horizontal = 24.dp)
                     .padding(vertical = 12.dp),
                 contentDescription = "",
             )

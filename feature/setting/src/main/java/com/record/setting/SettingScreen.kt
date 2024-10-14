@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun SettingRoute(
     padding: PaddingValues,
     modifier: Modifier,
+    popBackStack: () -> Unit,
     navigateToLogin: () -> Unit,
     viewModel: SettingViewModel = hiltViewModel(),
 ) {
@@ -55,7 +56,16 @@ fun SettingRoute(
         }
     }
 
-    SettingScreen(padding, modifier, uiState, viewModel::logout, viewModel::delete, viewModel::dismissDialog, viewModel::eventDialog)
+    SettingScreen(
+        padding,
+        modifier,
+        uiState,
+        popBackStack = popBackStack,
+        viewModel::logout,
+        viewModel::delete,
+        viewModel::dismissDialog,
+        viewModel::eventDialog,
+    )
 }
 
 @Composable
@@ -63,6 +73,7 @@ fun SettingScreen(
     padding: PaddingValues = PaddingValues(),
     modifier: Modifier = Modifier,
     uiState: SettingState,
+    popBackStack: () -> Unit,
     logoutEvent: () -> Unit,
     deleteEvent: () -> Unit,
     dismissDialog: () -> Unit,
@@ -102,6 +113,7 @@ fun SettingScreen(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .customClickable {
+                        popBackStack()
                     }
                     .padding(start = 20.dp),
             )
@@ -276,6 +288,7 @@ fun PreviewSettingScreen() {
     RecordyTheme {
         SettingScreen(
             uiState = SettingState(),
+            popBackStack = {},
             logoutEvent = {},
             deleteEvent = {},
             dismissDialog = {},

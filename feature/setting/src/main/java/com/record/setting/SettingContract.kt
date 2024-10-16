@@ -13,4 +13,5 @@ data class SettingState(
 
 sealed interface SettingSideEffect : SideEffect {
     data object Restart : SettingSideEffect
+    data object ProfileEdit : SettingSideEffect
 }

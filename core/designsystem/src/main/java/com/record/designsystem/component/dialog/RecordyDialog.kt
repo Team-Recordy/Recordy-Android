@@ -38,7 +38,7 @@ fun RecordyDialog(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = RecordyTheme.colors.gray08, shape = shape)
+                .background(color = RecordyTheme.colors.gray10, shape = shape)
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 24.dp, top = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally,

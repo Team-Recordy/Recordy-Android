@@ -36,7 +36,7 @@ fun TopNavigationBar(
                 )
         } else {
             modifier
-                .background(Background)
+                .background(RecordyTheme.colors.background)
                 .fillMaxWidth()
                 .padding(
                     top = 45.dp,

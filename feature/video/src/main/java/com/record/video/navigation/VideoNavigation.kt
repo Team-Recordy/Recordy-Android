@@ -11,7 +11,7 @@ import com.record.model.VideoType
 import com.record.video.VideoRoute
 import com.record.video.videodetail.VideoDetailRoute
 
-fun NavController.navigateVideo(navOptions: NavOptions) {
+fun NavController.navigateVideo(navOptions: NavOptions?) {
     navigate(VideoRoute.route, navOptions)
 }
 

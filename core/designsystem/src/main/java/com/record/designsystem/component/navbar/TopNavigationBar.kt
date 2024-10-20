@@ -24,16 +24,11 @@ fun TopNavigationBar(
     title: String = "",
     enableGradation: Boolean = false,
 ) {
-    val gradient = Brush.verticalGradient(
-        colors = listOf(
-            if (enableGradation) Background.copy(alpha = 0f) else Background,
-            Background,
-        ),
-    )
+    val gradient =Brush.verticalGradient(listOf(Color(0x339babfb), Color(0x00000000)))
     Box(
         modifier = if (enableGradation) {
             modifier
-                .background(brush = Brush.verticalGradient(listOf(Color(0x339babfb), Color(0x00000000))))
+                .background(RecordyTheme.colors.background)
                 .fillMaxWidth()
                 .padding(
                     top = 45.dp,

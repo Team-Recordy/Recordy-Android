@@ -237,16 +237,13 @@ fun VideoPickerScreen(
         )
         Column(
             modifier = Modifier
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "영상",
-                color = RecordyTheme.colors.white,
-                style = RecordyTheme.typography.subtitle,
-                modifier = Modifier.padding(top = 20.dp, bottom = 9.dp),
-            )
             Box(
                 modifier = Modifier
+                    .padding(top = 16.dp)
                     .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(16.dp))
                     .customClickable(
                         onClick = {
@@ -304,61 +301,17 @@ fun VideoPickerScreen(
                 }
             }
         }
-        Text(
-            text = "키워드",
-            color = RecordyTheme.colors.white,
-            style = RecordyTheme.typography.subtitle,
+        RecordyBasicTextField(
+            placeholder = "공간에 대한 나의 생각을 자유롭게 적어주세요!",
+            maxLines = 20,
+            maxLength = 300,
+            minHeight = 148.dp,
+            value = state.contentTextValue,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .padding(top = 22.dp, bottom = 12.dp),
-        )
-        FlowRow(
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .padding(start = 16.dp, end = 12.dp)
-                .customClickable(onClick = showIsSelectedDefinedContentSheetOpen),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(9.dp),
-        ) {
-            state.selectedList.forEach {
-                RecordyChipButton(
-                    text = it,
-                    isActive = true,
-                    isCheckSmall = false,
-                    onClick = { },
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(30.dp))
-                    .padding(
-                        start = 8.dp,
-                        top = 10.dp,
-                        end = 12.dp,
-                        bottom = 10.dp,
-                    ),
-
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_plus_16),
-                    contentDescription = null,
-                )
-                Text(
-                    text = "키워드",
-                    color = RecordyTheme.colors.gray03,
-                    style = RecordyTheme.typography.body2M,
-                )
-            }
-        }
-        Text(
-            text = "위치",
-            color = RecordyTheme.colors.white,
-            style = RecordyTheme.typography.subtitle,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(top = 20.dp, bottom = 12.dp),
+                .padding(bottom = 10.dp)
+                .focusRequester(contentFocusRequester),
+            onValueChange = updateContentTextField,
         )
         RecordyBasicTextField(
             modifier = Modifier
@@ -379,18 +332,7 @@ fun VideoPickerScreen(
                 .padding(horizontal = 16.dp)
                 .padding(top = 10.dp, bottom = 12.dp),
         )
-        RecordyBasicTextField(
-            placeholder = "공간에 대한 나의 생각을 자유롭게 적어주세요!",
-            maxLines = 20,
-            maxLength = 300,
-            minHeight = 148.dp,
-            value = state.contentTextValue,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 10.dp)
-                .focusRequester(contentFocusRequester),
-            onValueChange = updateContentTextField,
-        )
+
         Box(modifier = Modifier.padding(16.dp)) {
             RecordyButton(
                 text = "업로드",

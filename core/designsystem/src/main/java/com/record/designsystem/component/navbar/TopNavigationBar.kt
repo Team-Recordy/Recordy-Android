@@ -24,7 +24,7 @@ fun TopNavigationBar(
     title: String = "",
     enableGradation: Boolean = false,
 ) {
-    val gradient =Brush.verticalGradient(listOf(Color(0x339babfb), Color(0x00000000)))
+    val gradient = Brush.verticalGradient(listOf(Color(0x339babfb), Color(0x00000000)))
     Box(
         modifier = if (enableGradation) {
             modifier

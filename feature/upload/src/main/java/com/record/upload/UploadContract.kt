@@ -1,6 +1,7 @@
 package com.record.upload
 
 import com.record.designsystem.component.snackbar.SnackBarType
+import com.record.model.AlertInfo
 import com.record.ui.base.SideEffect
 import com.record.ui.base.UiState
 import com.record.upload.model.GalleryVideo
@@ -15,8 +16,7 @@ data class UploadState(
     val galleryPage: Int = 1,
     val isItemLoading: Boolean = false,
     val video: GalleryVideo? = null,
-    val showShouldShowRationaleDialog: Boolean = false,
-    val showExitUploadDialog: Boolean = false,
+    val alertInfo: AlertInfo = AlertInfo(),
     val isSelectedVideoSheetOpen: Boolean = false,
     val isSelectedDefinedContentSheetOpen: Boolean = false,
     val buttonEnabled: Boolean = false,

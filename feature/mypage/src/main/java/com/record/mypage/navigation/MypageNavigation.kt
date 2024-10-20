@@ -32,6 +32,7 @@ fun NavGraphBuilder.mypageNavGraph(
     navigateToUpload: () -> Unit,
     navigateToHome: () -> Unit,
     navigateToProfile: (Long) -> Unit,
+    navigateVideoHome: () -> Unit,
     navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     composable(route = MypageRoute.route) {
@@ -43,7 +44,7 @@ fun NavGraphBuilder.mypageNavGraph(
             navigateToFollower = navigateToFollower,
             navigateToVideo = navigateToVideo,
             navigateToUplaod = navigateToUpload,
-            navigateToHome = navigateToHome,
+            navigateVideoHome = navigateVideoHome,
         )
     }
     composable(route = MypageRoute.followingRoute) {

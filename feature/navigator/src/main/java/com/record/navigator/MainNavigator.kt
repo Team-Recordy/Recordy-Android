@@ -97,7 +97,9 @@ internal class MainNavigator(
     fun navigateMypage() {
         navController.navigateMypage(navOptions { })
     }
-
+    fun navigateToVideo() {
+        navController.navigateVideo(null)
+    }
     fun navigateVideoDetail(videoType: VideoType, videoId: Long, keyword: String? = "all", userId: Long = 0) {
         navController.navigateVideoDetail(
             videoType = videoType,

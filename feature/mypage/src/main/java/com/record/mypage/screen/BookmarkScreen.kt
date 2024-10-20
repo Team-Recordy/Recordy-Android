@@ -31,7 +31,7 @@ fun BookmarkScreen(
     onItemClick: (VideoType, Long) -> Unit,
     onLoadMore: () -> Unit,
     onBookmarkClick: (Long) -> Unit,
-    navigateToHome: () -> Unit,
+    navigateToVideo: () -> Unit,
 ) {
     val lazyGridState = rememberLazyGridState()
     lazyGridState.OnBottomReached(2) {
@@ -63,7 +63,7 @@ fun BookmarkScreen(
                 showButton = true,
                 selectedTab = MypageTab.BOOKMARK,
                 onButtonClick = {
-                    navigateToHome()
+                    navigateToVideo()
                 },
             )
         }

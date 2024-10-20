@@ -34,10 +34,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.theme.Alert01
 import com.record.designsystem.theme.Black
-import com.record.designsystem.theme.Gray01
 import com.record.designsystem.theme.Gray03
+import com.record.designsystem.theme.Gray05
 import com.record.designsystem.theme.Gray06
-import com.record.designsystem.theme.Gray08
+import com.record.designsystem.theme.Gray10
 import com.record.designsystem.theme.RecordyTheme
 import com.record.designsystem.theme.ViskitYellow500
 
@@ -84,7 +84,7 @@ fun RecordyBasicTextField(
             if (newValue.replace(" ", "").length <= maxLength) onValueChange(newValue)
         },
         singleLine = maxLines == 1,
-        textStyle = textStyle.copy(Gray01),
+        textStyle = textStyle.copy(Gray05),
         maxLines = if (minLines > maxLines) minLines else maxLines,
         minLines = minLines,
         interactionSource = interactionSource,
@@ -103,7 +103,7 @@ fun RecordyBasicTextField(
                         .heightIn(minHeight)
                         .fillMaxWidth()
                         .clip(shape = shape)
-                        .background(color = Gray08)
+                        .background(color = Gray10)
                         .border(
                             width = 1.dp,
                             color = borderLineColor,

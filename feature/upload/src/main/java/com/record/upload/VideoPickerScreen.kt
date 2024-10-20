@@ -62,6 +62,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.record.designsystem.R
 import com.record.designsystem.component.button.RecordyButton
+import com.record.designsystem.component.button.RecordyImgButton
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.component.snackbar.SnackBarType
@@ -307,16 +308,11 @@ fun VideoPickerScreen(
                     .focusRequester(contentFocusRequester),
                 onValueChange = updateContentTextField,
             )
-            RecordyBasicTextField(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 16.dp)
-                    .focusRequester(locationFocusRequester),
-                placeholder = "전시명을 입력해 주세요.",
-                maxLines = 1,
-                maxLength = 20,
-                value = state.locationTextValue,
-                onValueChange = updateLocationTextField,
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+            RecordyImgButton(
+                modifier = Modifier.padding(16.dp),
+                icon = R.drawable.ic_move_18,
+                text = "장소",
+                onClick = { Timber.d("basic key word") },
             )
             RecordyBasicTextField(
                 modifier = Modifier
@@ -333,7 +329,7 @@ fun VideoPickerScreen(
 
         Box(modifier = Modifier.padding(16.dp)) {
             RecordyButton(
-                text = "업로드",
+                text = "다음",
                 enabled = state.locationTextValue.isNotEmpty() && state.video != null,
                 onClick = {
                     if (state.selectedList.isNotEmpty() && state.locationTextValue.isNotEmpty() && state.video != null) {
@@ -353,7 +349,13 @@ fun VideoPickerScreen(
             negativeButtonLabel = state.alertInfo.negativeButtonLabel,
             positiveButtonLabel = state.alertInfo.positiveButtonLabel,
             onDismissRequest = hideExitUploadDialog,
-            onPositiveButtonClick = onClickBackStack,
+            onPositiveButtonClick = {
+                if (cameraPermissionState.status.shouldShowRationale) {
+                    openAppSettings(context)
+                } else {
+                    onClickBackStack()
+                }
+            },
         )
     }
     SelectedVideoBottomSheet(

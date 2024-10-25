@@ -1,6 +1,7 @@
 package com.record.user.datasource
 
 import com.record.user.api.UserApi
+import com.record.user.model.remote.request.RequestUpdateProfileDto
 import com.record.user.model.remote.response.ResponseGetFollowerListDto
 import com.record.user.model.remote.response.ResponseGetFollowingListDto
 import com.record.user.model.remote.response.ResponseGetUserPreferenceDto
@@ -20,4 +21,6 @@ class RemoteUserDataSourceImpl @Inject constructor(
     override suspend fun getUserProfile(userId: Long): ResponseGetUserProfileDto = userApi.getUserProfileDto(userId)
 
     override suspend fun getUserPreference(): ResponseGetUserPreferenceDto = userApi.getUserPreference()
+    override suspend fun updateUserProfile(nickname: String, profileImageUrl: String) =
+        userApi.updateProfile(RequestUpdateProfileDto(nickname, profileImageUrl))
 }

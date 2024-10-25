@@ -6,8 +6,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.record.setting.ProfileEditRoute
 import com.record.setting.SettingRoute
+import com.record.setting.profileedit.ProfileEditRoute
 
 fun NavController.navigateSetting(navOptions: NavOptions) {
     navigate(SettingRoute.route, navOptions)

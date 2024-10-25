@@ -129,4 +129,18 @@ class UserRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun updateUser(nickname: String, profileImg: String): Result<Unit> = runCatching {
+        remoteUserDataSource.updateUserProfile(nickname, profileImg)
+    }.recoverCatching { exception ->
+        when (exception) {
+            is HttpException -> {
+                throw ApiError(exception.message())
+            }
+
+            else -> {
+                throw exception
+            }
+        }
+    }
 }

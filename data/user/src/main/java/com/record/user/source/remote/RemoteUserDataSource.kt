@@ -25,4 +25,9 @@ interface RemoteUserDataSource {
     ): ResponseGetUserProfileDto
 
     suspend fun getUserPreference(): ResponseGetUserPreferenceDto
+
+    suspend fun updateUserProfile(
+        nickname: String,
+        profileImageUrl: String,
+    )
 }

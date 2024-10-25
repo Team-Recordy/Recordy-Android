@@ -1,4 +1,4 @@
-package com.record.setting
+package com.record.setting.profileedit
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
 import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.textfield.RecordyValidateTextfield
@@ -45,6 +46,7 @@ fun ProfileScreen(
     padding: PaddingValues,
     modifier: Modifier,
     popBackStack: () -> Unit,
+    viewModel: ProfileEditViewModel = hiltViewModel(),
 ) {
     Column(
         modifier = modifier

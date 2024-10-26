@@ -38,7 +38,7 @@ fun RecordyDialog(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = RecordyTheme.colors.gray08, shape = shape)
+                .background(color = RecordyTheme.colors.gray10, shape = shape)
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 24.dp, top = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -76,8 +76,8 @@ fun RecordyDialog(
                     text = negativeButtonLabel,
                     shape = RoundedCornerShape(8.dp),
                     enabled = true,
-                    backgroundColor = RecordyTheme.colors.gray06,
-                    textColor = RecordyTheme.colors.gray01,
+                    backgroundColor = RecordyTheme.colors.gray07,
+                    textColor = RecordyTheme.colors.gray03,
                     textStyle = RecordyTheme.typography.button2,
                     onClick = { onDismissRequest() },
                     modifier = Modifier

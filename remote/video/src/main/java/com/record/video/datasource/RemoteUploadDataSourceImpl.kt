@@ -25,6 +25,13 @@ class RemoteUploadDataSourceImpl @Inject constructor(
     override suspend fun getUploadUrl(): ResponseGetPresignedUrlDto =
         uploadApi.getPresignedUploadUrl()
 
+    override suspend fun uploadProfileImgToS3Bucket(url: String, imageFile: File): String {
+        val mediaType = "application/octet-stream".toMediaTypeOrNull() // 필요시 "image/jpeg" 등으로 설정
+        val requestBody = imageFile.asRequestBody(mediaType)
+        val responseUrl = URL(bucketApi.uploadThumbnailWithS3Video(url, requestBody).raw().request.url.toString())
+        return URL(responseUrl.protocol, responseUrl.host, responseUrl.port, responseUrl.path).toString()
+    }
+
     override suspend fun uploadRecord(
         requestPostVideoDto: RequestPostVideoDto,
     ) = uploadApi.postRecord(requestPostVideoDto)

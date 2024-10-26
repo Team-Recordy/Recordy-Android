@@ -10,14 +10,18 @@ import com.record.user.model.remote.response.toCore
 import com.record.user.model.remote.response.toDomain
 import com.record.user.source.local.UserLocalDataSource
 import com.record.user.source.remote.RemoteUserDataSource
+import com.record.video.source.remote.RemoteUploadDataSource
 import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
+import java.io.File
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val userLocalDataSource: UserLocalDataSource,
     private val remoteUserDataSource: RemoteUserDataSource,
+    private val remoteUploadDataSource: RemoteUploadDataSource,
 ) : UserRepository {
+
     override suspend fun getFollowingList(cursorId: Long, size: Int): Result<Cursor<User>> = runCatching {
         remoteUserDataSource.getFollowingList(cursorId, size)
     }.mapCatching {
@@ -130,8 +134,12 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateUser(nickname: String, profileImg: String): Result<Unit> = runCatching {
-        remoteUserDataSource.updateUserProfile(nickname, profileImg)
+    override suspend fun updateUser(nickname: String, filePath: String): Result<Unit> = runCatching {
+        var urls = remoteUploadDataSource.getUploadUrl()
+        val previewUrl = urls.thumbnailUrl
+        remoteUploadDataSource.uploadProfileImgToS3Bucket(previewUrl, File(filePath)).let { imgurl ->
+            remoteUserDataSource.updateUserProfile(nickname, imgurl)
+        }
     }.recoverCatching { exception ->
         when (exception) {
             is HttpException -> {

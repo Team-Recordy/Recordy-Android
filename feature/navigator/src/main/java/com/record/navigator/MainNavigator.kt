@@ -21,6 +21,7 @@ import com.record.profile.navigation.navigateProfile
 import com.record.search.navigation.navigateSearch
 import com.record.setting.navigate.navigateSetting
 import com.record.upload.navigation.UploadRoute
+import com.record.upload.navigation.navigateToSearchPlace
 import com.record.upload.navigation.navigateToUpload
 import com.record.video.navigation.navigateVideo
 import com.record.video.navigation.navigateVideoDetail
@@ -110,6 +111,9 @@ internal class MainNavigator(
     }
     fun navigateToUpload() {
         navController.navigateToUpload()
+    }
+    fun navigateToSearchPlace() {
+        navController.navigateToSearchPlace()
     }
 
     fun navigateToFollowing() {

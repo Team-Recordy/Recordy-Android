@@ -84,6 +84,7 @@ fun VideoPickerRoute(
     paddingValues: PaddingValues,
     viewModel: UploadViewModel = hiltViewModel(),
     popBackStack: () -> Unit,
+    navigateToSearchPlace: () -> Unit,
     onShowSnackBar: (String, SnackBarType) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -142,6 +143,7 @@ fun VideoPickerRoute(
         showSnackBar = viewModel::makeSnackBar,
         onClickBackStack = viewModel::popBackStack,
         onLoadMore = viewModel::onLoadMore,
+        navigateToSearchPlace=navigateToSearchPlace
     )
 }
 
@@ -170,6 +172,7 @@ fun VideoPickerScreen(
     showSnackBar: () -> Unit = {},
     onClickBackStack: () -> Unit = {},
     onLoadMore: () -> Unit = {},
+    navigateToSearchPlace: () -> Unit,
 ) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -312,7 +315,9 @@ fun VideoPickerScreen(
                 modifier = Modifier.padding(16.dp),
                 icon = R.drawable.ic_move_18,
                 text = "장소",
-                onClick = { Timber.d("basic key word") },
+                onClick = {
+                    navigateToSearchPlace()
+                },
             )
             RecordyBasicTextField(
                 modifier = Modifier
@@ -387,6 +392,7 @@ fun VideoPickerScreenPreview() {
             onClickContentChip = {},
             onClickVideo = {},
             onClickUpload = {},
+            navigateToSearchPlace = {}
         )
     }
 }

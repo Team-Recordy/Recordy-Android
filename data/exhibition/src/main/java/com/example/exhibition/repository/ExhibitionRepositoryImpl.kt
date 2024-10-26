@@ -36,7 +36,7 @@ class ExhibitionRepositoryImpl @Inject constructor(
                         recordCount = it.recordSize,
                         exhibitionRecord = result?.data?.map { it.toCore() },
                     )
-                }
+                },
             )
         }.recoverCatching { exception ->
             when (exception) {
@@ -60,7 +60,7 @@ class ExhibitionRepositoryImpl @Inject constructor(
             name = it.name,
             exhibitionCount = it.exhibitionSize,
             recordCount = it.recordSize,
-            exhibitionRecord = result?.data?.map { it.toCore() }
+            exhibitionRecord = result?.data?.map { it.toCore() },
         )
     }.recoverCatching { exception ->
         when (exception) {
@@ -75,7 +75,7 @@ class ExhibitionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getExhibitions(placeId: Long, filter: ExhibitionFilter): Result<List<Exhibition>> = runCatching {
-        when(filter){
+        when (filter) {
             ExhibitionFilter.DEFAULT -> remoteExhibitionDataSource.getExhibitionById(placeId.toInt())
             ExhibitionFilter.FREE -> remoteExhibitionDataSource.getFreeExhibition(placeId.toInt())
             ExhibitionFilter.CLOSING -> remoteExhibitionDataSource.getClosingExhibition(placeId.toInt())

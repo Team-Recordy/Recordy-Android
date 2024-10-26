@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.record.search"
 }
+
+dependencies {
+    implementation(projects.domain.exhibition)
+}

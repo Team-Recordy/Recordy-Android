@@ -45,7 +45,6 @@ class HomeViewModel @Inject constructor(
                     Log.e("asdfasdf", throwable.message.toString())
                 }
             }
-
     }
 
     fun showLocationPermissionDialog(isShow: Boolean) = intent {

@@ -7,10 +7,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.record.detail.DetailRoute
+import com.record.detail.navigation.DetailRoute.PLACE_ID
 import com.record.model.VideoType
 
-fun NavController.navigateDetail(navOptions: NavOptions) {
-    navigate(DetailRoute.route, navOptions)
+fun NavController.navigateDetail(placeId: Long, navOptions: NavOptions) {
+    navigate(DetailRoute.detailRoute(placeId.toString()), navOptions)
 }
 
 fun NavGraphBuilder.detailNavGraph(
@@ -19,16 +20,22 @@ fun NavGraphBuilder.detailNavGraph(
     navigateToUpload: () -> Unit,
     navigateToVideo: (VideoType, Long) -> Unit,
 ) {
-    composable(route = DetailRoute.route) {
+    composable(
+        route = DetailRoute.detailRoute(
+            "{$PLACE_ID}",
+        ),
+    ) {
         DetailRoute(
             padding = padding,
             modifier = modifier,
             navigateToVideo = navigateToVideo,
-            navigateToUplaod = navigateToUpload,
+            navigateToUpload = navigateToUpload,
         )
     }
 }
 
 object DetailRoute {
-    const val route = "search"
+    const val route = "place-detail"
+    const val PLACE_ID = "place-id"
+    fun detailRoute(placeId: String) = "$route/$placeId"
 }

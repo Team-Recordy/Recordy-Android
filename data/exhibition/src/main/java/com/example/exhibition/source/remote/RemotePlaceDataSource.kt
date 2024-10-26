@@ -7,15 +7,15 @@ import com.example.exhibition.model.remote.response.ResponseGetReviewsDto
 
 interface RemotePlaceDataSource {
     suspend fun postPlace(
-        requestPostPlaceDto: RequestPostPlaceDto
+        requestPostPlaceDto: RequestPostPlaceDto,
     )
 
     suspend fun getPlaceById(
-        id: Int
+        id: Int,
     ): ResponseGetPlaceDto
 
     suspend fun getReviewsById(
-        id: Int
+        id: Int,
     ): List<ResponseGetReviewsDto>
 
     suspend fun getNearPlace(
@@ -23,7 +23,7 @@ interface RemotePlaceDataSource {
         size: Int,
         latitude: Double,
         longitude: Double,
-        distance: Double
+        distance: Double,
     ): ResponseGetPagingPlaceDto
 
     suspend fun getHasInProgressExhibitionPlaces(

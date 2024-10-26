@@ -13,17 +13,17 @@ import retrofit2.http.Query
 interface PlaceApi {
     @POST("/api/v1/places")
     suspend fun postPlace(
-        @Body requestPostPlaceDto: RequestPostPlaceDto
+        @Body requestPostPlaceDto: RequestPostPlaceDto,
     )
 
     @GET("/api/v1/places/{id}")
     suspend fun getPlaceById(
-        @Path("id") id: Int
+        @Path("id") id: Int,
     ): ResponseGetPlaceDto
 
     @GET("/api/v1/places/{id}/reviews")
     suspend fun getReviewsById(
-        @Path("id") id: Int
+        @Path("id") id: Int,
     ): List<ResponseGetReviewsDto>
 
     @GET("/api/v1/places/exhibitions/geography")
@@ -32,7 +32,7 @@ interface PlaceApi {
         @Query("size") size: Int,
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
-        @Query("distance") distance: Double
+        @Query("distance") distance: Double,
     ): ResponseGetPagingPlaceDto
 
     @GET("/api/v1/places/exhibitions/date")

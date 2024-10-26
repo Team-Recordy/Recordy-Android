@@ -1,5 +1,12 @@
 package com.record.setting.profileedit
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,22 +22,31 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.rememberAsyncImagePainter
 import com.record.designsystem.R
 import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.textfield.RecordyValidateTextfield
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
+import kotlinx.coroutines.delay
 
 @Composable
 fun ProfileEditRoute(
@@ -48,6 +64,27 @@ fun ProfileScreen(
     popBackStack: () -> Unit,
     viewModel: ProfileEditViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+
+    val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val selectedImageUri: Uri? = result.data?.data
+            selectedImageUri?.let {
+                viewModel.updateImgUrl(getPathFromUri(context, it))
+            }
+        }
+    }
+
+    var lastInputTime by remember { mutableLongStateOf(System.currentTimeMillis()) }
+
+    LaunchedEffect(lastInputTime) {
+        delay(300)
+        if (System.currentTimeMillis() - lastInputTime >= 300) {
+            viewModel.checkValidateNickName()
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -108,8 +145,14 @@ fun ProfileScreen(
                         .fillMaxSize(),
                     contentAlignment = Alignment.Center,
                 ) {
+                    val painter = if (uiState.value.profileImgUrl != null) {
+                        rememberAsyncImagePainter(uiState.value.profileImgUrl)
+                    } else {
+                        painterResource(id = R.drawable.img_profileedit)
+                    }
+
                     Image(
-                        painter = painterResource(id = R.drawable.img_profileedit),
+                        painter = painter,
                         contentDescription = "프로필 사진",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -128,7 +171,11 @@ fun ProfileScreen(
                     .padding(bottom = 6.dp)
                     .clip(CircleShape)
                     .background(RecordyTheme.colors.gray01)
-                    .padding(6.dp),
+                    .padding(6.dp)
+                    .customClickable {
+                        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        galleryLauncher.launch(intent)
+                    },
             )
         }
 
@@ -145,7 +192,10 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(12.dp))
             RecordyValidateTextfield(
+                errorState = uiState.value.nicknameValidate,
                 onValueChange = {
+                    viewModel.updateName(it)
+                    lastInputTime = System.currentTimeMillis()
                 },
                 padding = PaddingValues(),
             )
@@ -154,13 +204,30 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         RecordyButton(
-            enabled = false,
+            enabled = uiState.value.btnEnable,
             text = "다음",
             modifier = Modifier
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 14.dp),
+            onClick = {
+                uiState.value.profileImgUrl?.let {
+                    viewModel.updateUserProfile()
+                    popBackStack()
+                }
+            },
         )
     }
+}
+
+fun getPathFromUri(context: Context, uri: Uri): String? {
+    val projection = arrayOf(MediaStore.Images.Media.DATA)
+    context.contentResolver.query(uri, projection, null, null, null).use { cursor ->
+        if (cursor != null && cursor.moveToFirst()) {
+            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            return cursor.getString(columnIndex)
+        }
+    }
+    return null
 }
 
 @Preview

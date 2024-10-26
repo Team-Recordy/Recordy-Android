@@ -6,26 +6,26 @@ import com.example.exhibition.model.remote.response.ResponseGetExhibitionsDto
 
 interface RemoteExhibitionDataSource {
     suspend fun postExhibition(
-        requestPostExhibitionDto: RequestPostExhibitionDto
+        requestPostExhibitionDto: RequestPostExhibitionDto,
     )
 
     suspend fun getExhibitionById(
-        placeId: Int
+        placeId: Int,
     ): List<ResponseGetExhibitionsDto>
 
     suspend fun getFreeExhibition(
-        placeId: Int
+        placeId: Int,
     ): List<ResponseGetExhibitionsDto>
 
     suspend fun getClosingExhibition(
-        placeId: Int
+        placeId: Int,
     ): List<ResponseGetExhibitionsDto>
 
     suspend fun patchExhibition(
-        requestPatchExhibitionDto: RequestPatchExhibitionDto
+        requestPatchExhibitionDto: RequestPatchExhibitionDto,
     )
 
     suspend fun deleteExhibition(
-        exhibitionId: Int
+        exhibitionId: Int,
     )
 }

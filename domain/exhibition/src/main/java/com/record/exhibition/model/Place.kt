@@ -8,5 +8,5 @@ data class Place(
     val name: String,
     val exhibitionCount: Int,
     val recordCount: Int,
-    val exhibitionRecord: List<VideoData>?
+    val exhibitionRecord: List<VideoData>?,
 )

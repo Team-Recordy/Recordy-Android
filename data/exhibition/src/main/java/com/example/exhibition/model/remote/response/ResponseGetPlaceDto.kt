@@ -1,6 +1,5 @@
 package com.example.exhibition.model.remote.response
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,5 +18,5 @@ data class ResponseGetPlaceDto(
     @SerialName("platformId")
     val platformId: String?,
     @SerialName("recordSize")
-    val recordSize: Int
+    val recordSize: Int,
 )

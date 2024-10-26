@@ -1,6 +1,5 @@
 package com.example.exhibition.model.remote.response
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,5 +14,5 @@ data class ResponseGetReviewsDto(
     @SerialName("id")
     val id: Int,
     @SerialName("rating")
-    val rating: Int
+    val rating: Int,
 )

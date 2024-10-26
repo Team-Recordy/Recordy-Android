@@ -1,6 +1,5 @@
 package com.example.exhibition.model.remote.request
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,5 +14,5 @@ data class RequestPostExhibitionDto(
     @SerialName("placeId")
     val placeId: Int,
     @SerialName("startDate")
-    val startDate: String
+    val startDate: String,
 )

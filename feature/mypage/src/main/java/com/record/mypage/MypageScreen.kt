@@ -256,7 +256,7 @@ fun CustomTabRow(
 
     val animatedIndicatorWidth by animateDpAsState(
         targetValue = tabWidth - 12.dp,
-        animationSpec = tween(200),
+        animationSpec = tween(0),
     )
 
     val density = LocalDensity.current

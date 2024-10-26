@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
+import com.record.exhibition.model.ResultType
 
 @Composable
 fun SearchedContainerBtn(
@@ -27,7 +28,7 @@ fun SearchedContainerBtn(
     exhibitionName: String,
     location: String,
     venue: String,
-    type: List<String>,
+    type: ResultType,
 ) {
     Box(
         modifier = modifier
@@ -77,10 +78,10 @@ fun SearchedContainerBtn(
             Column(
                 modifier = modifier.padding(horizontal = 8.dp),
             ) {
-                type.take(3).forEachIndexed { index, title ->
+                /*type.take(3).forEachIndexed { index, title ->
                     if (index > 0) Spacer(modifier = modifier.height(8.dp))
                     ExhibitionTitle(type = title)
-                }
+                }*/
             }
 
             Spacer(modifier = modifier.height(24.dp))
@@ -96,7 +97,7 @@ fun SearchedContainerBtnPreview() {
             exhibitionName = "전시회명",
             location = "위치",
             venue = "장소",
-            type = listOf("전시회", "공간", "장소"),
+            type = ResultType.PLACE,
         )
     }
 }

@@ -1,6 +1,5 @@
 package com.example.exhibition.model.remote.response
 
-
 import com.record.exhibition.model.Exhibition
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -14,7 +13,9 @@ data class ResponseGetExhibitionsDto(
     @SerialName("name")
     val name: String,
     @SerialName("startDate")
-    val startDate: String
+    val startDate: String,
+    @SerialName("endDate")
+    val endDate: String,
 )
 
 fun ResponseGetExhibitionsDto.toDomain() = Exhibition(
@@ -22,4 +23,5 @@ fun ResponseGetExhibitionsDto.toDomain() = Exhibition(
     isFree = this.isFree,
     name = this.name,
     startDate = this.startDate,
+    endDate = this.endDate,
 )

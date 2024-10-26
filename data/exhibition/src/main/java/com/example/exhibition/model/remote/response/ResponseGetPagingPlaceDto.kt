@@ -1,6 +1,5 @@
 package com.example.exhibition.model.remote.response
 
-import com.record.model.Page
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

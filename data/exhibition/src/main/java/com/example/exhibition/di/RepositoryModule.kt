@@ -1,7 +1,9 @@
 package com.example.exhibition.di
 
 import com.example.exhibition.repository.ExhibitionRepositoryImpl
+import com.example.exhibition.repository.SearchRepositoryImpl
 import com.record.exhibition.repository.ExhibitionRepository
+import com.record.exhibition.repository.SearchRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,4 +16,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindsExhibitionRepository(exhibitionRepositoryImpl: ExhibitionRepositoryImpl): ExhibitionRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsSearchRepository(searchRepositoryImpl: SearchRepositoryImpl): SearchRepository
 }

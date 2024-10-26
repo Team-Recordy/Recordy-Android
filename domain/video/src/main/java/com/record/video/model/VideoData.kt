@@ -25,5 +25,5 @@ fun VideoData.toCore() = com.record.model.VideoData(
     location = this.location,
     uploaderId = this.uploaderId,
     nickname = this.nickname,
-    isMine = this.isMine
+    isMine = this.isMine,
 )

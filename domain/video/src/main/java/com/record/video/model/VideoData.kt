@@ -13,3 +13,17 @@ data class VideoData(
     val nickname: String,
     val isMine: Boolean,
 )
+
+fun VideoData.toCore() = com.record.model.VideoData(
+    bookmarkCount = this.bookmarkCount,
+    id = this.id,
+    isBookmark = this.isBookmark,
+    bookmarkId = this.bookmarkId,
+    content = this.content,
+    videoUrl = this.videoUrl,
+    previewUrl = this.previewUrl,
+    location = this.location,
+    uploaderId = this.uploaderId,
+    nickname = this.nickname,
+    isMine = this.isMine
+)

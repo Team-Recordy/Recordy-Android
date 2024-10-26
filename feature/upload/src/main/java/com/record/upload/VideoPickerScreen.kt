@@ -332,7 +332,7 @@ fun VideoPickerScreen(
                 text = "다음",
                 enabled = state.locationTextValue.isNotEmpty() && state.video != null,
                 onClick = {
-                    if (state.selectedList.isNotEmpty() && state.locationTextValue.isNotEmpty() && state.video != null) {
+                    if (state.video != null) {
                         onClickUpload()
 //                compressVideo(context, state.video.uri,state.video.name, onSuccess = onSuccess)
                     }

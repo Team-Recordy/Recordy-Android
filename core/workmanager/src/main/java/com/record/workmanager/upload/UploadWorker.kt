@@ -15,10 +15,9 @@ class UploadWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         val videoPath = inputData.getString(KEY_VIDEO_PATH) ?: return Result.failure()
-        val location = inputData.getString(KEY_LOCATION) ?: return Result.failure()
-        val keywords = inputData.getString(KEY_KEYWORDS) ?: return Result.failure()
+        val placeId = inputData.getString(KEY_PLACE) ?: return Result.failure()
         val content = inputData.getString(KEY_CONTENT) ?: return Result.failure()
-        val result = uploadTask.upload(videoPath, location, content, keywords)
+        val result = uploadTask.upload(videoPath, content, placeId = placeId.toLong())
 
         return result.fold(
             onSuccess = {
@@ -32,8 +31,7 @@ class UploadWorker @AssistedInject constructor(
 
     companion object {
         const val KEY_VIDEO_PATH = "videoPath"
-        const val KEY_LOCATION = "location"
-        const val KEY_KEYWORDS = "keywords"
+        const val KEY_PLACE = "placeId"
         const val KEY_CONTENT = "content"
         const val UNIQUE_UPLOAD_WORK = "upload-work"
     }

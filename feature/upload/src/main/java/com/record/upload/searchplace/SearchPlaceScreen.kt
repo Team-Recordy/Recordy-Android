@@ -1,5 +1,6 @@
 package com.record.upload.searchplace
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
 import com.record.designsystem.component.SearchBox
 import com.record.designsystem.theme.RecordyTheme
+import com.record.ui.extension.customClickable
 import com.record.upload.searchplace.component.Searched1ContainerBtn
 import com.record.upload.searchplace.component.SearchingContainerBtn
 
@@ -92,7 +94,9 @@ fun SearchPlaceScreen(
                 items(items) { item ->
                     Column {
                         Searched1ContainerBtn(
-                            modifier = modifier.fillMaxWidth(),
+                            modifier = modifier.fillMaxWidth().customClickable {
+                                Log.d("searchSak1","$item")
+                            },
                             exhibitionName = item.name,
                             location = item.address,
                             venue = item.name,
@@ -118,7 +122,9 @@ fun SearchPlaceScreen(
                 LazyColumn {
                     items(items) { item ->
                         SearchingContainerBtn(
-                            modifier = modifier.fillMaxWidth(),
+                            modifier = modifier.fillMaxWidth().customClickable {
+                                Log.d("searchSak","$item")
+                            },
                             exhibitionName = item.name,
                             location = item.address,
                             venue = item.name,

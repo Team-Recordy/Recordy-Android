@@ -9,7 +9,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.upload.VideoPickerRoute
-import com.record.upload.searchplace.SearchPlaceScreen
 import com.record.upload.searchplace.SearchPlaceScreenRoute
 
 fun NavController.navigateToUpload() {
@@ -28,17 +27,20 @@ fun NavGraphBuilder.uploadNavGraph(
     onShowSnackBar: (String, SnackBarType) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    composable(route = UploadRoute.ROUTE) {
+    composable(route = UploadRoute.ROUTE) { entry ->
         VideoPickerRoute(
             paddingValues = padding,
             popBackStack = popBackStack,
             onShowSnackBar = onShowSnackBar,
-            navigateToSearchPlace=navigateToSearchPlace
+            navigateToSearchPlace = {
+                navigateToSearchPlace()
+            },
         )
     }
-    composable(route = UploadRoute.SEARCH_PLACE) {
+
+    composable(route = UploadRoute.SEARCH_PLACE) { entry ->
         SearchPlaceScreenRoute(
-            paddingValues = padding
+            paddingValues = padding,
         )
     }
 }

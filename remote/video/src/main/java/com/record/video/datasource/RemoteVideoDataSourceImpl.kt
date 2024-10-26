@@ -23,6 +23,9 @@ class RemoteVideoDataSourceImpl @Inject constructor(
     override suspend fun getPopularVideos(keywords: List<String>?, pageNumber: Int, pageSize: Int): ResponseGetPagingVideoDto =
         videoApi.getPopularVideos(keywords, pageNumber, pageSize)
 
+    override suspend fun getPlaceVideos(placeId: Int, cursor: Long, pageSize: Int): ResponseGetSliceVideoDto =
+        videoApi.getPlaceVideos(placeId, cursor, pageSize)
+
     override suspend fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto =
         videoApi.getUserVideos(otherUserId, cursorId, size)
 

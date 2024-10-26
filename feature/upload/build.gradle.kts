@@ -14,4 +14,5 @@ dependencies {
     implementation(projects.domain.keyword)
     implementation(projects.core.common)
     implementation(libs.lottie.compose)
+    implementation(projects.domain.exhibition)
 }

@@ -22,9 +22,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.theme.RecordyTheme
+import com.record.model.VideoData
 import com.record.model.VideoType
 import com.record.ui.scroll.OnBottomReached
-import com.record.video.model.VideoData
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

@@ -1,0 +1,96 @@
+package com.example.exhibition.repository
+
+import com.example.exhibition.model.remote.response.toDomain
+import com.example.exhibition.source.remote.RemoteExhibitionDataSource
+import com.example.exhibition.source.remote.RemotePlaceDataSource
+import com.record.exhibition.model.Exhibition
+import com.record.exhibition.model.ExhibitionFilter
+import com.record.exhibition.model.Place
+import com.record.exhibition.repository.ExhibitionRepository
+import com.record.model.Page
+import com.record.model.exception.ApiError
+import com.record.video.model.toCore
+import com.record.video.repository.VideoRepository
+import retrofit2.HttpException
+import javax.inject.Inject
+
+class ExhibitionRepositoryImpl @Inject constructor(
+    private val remoteExhibitionDataSource: RemoteExhibitionDataSource,
+    private val remotePlaceDataSource: RemotePlaceDataSource,
+    private val videoRepository: VideoRepository,
+) : ExhibitionRepository {
+    override suspend fun getNearPlaceData(number: Int, size: Int, latitude: Double, longitude: Double) =
+        runCatching {
+            remotePlaceDataSource.getNearPlace(number = number, size = size, latitude = latitude, longitude = -longitude, distance = 3000000.0)
+        }.mapCatching { it ->
+            Page(
+                hasNext = it.hasNext,
+                page = it.pageNumber,
+                data = it.content.map {
+                    val result = videoRepository.getPlaceVideos(it.id, 0, it.recordSize).getOrNull()
+                    Place(
+                        placeId = it.id,
+                        address = it.address ?: "",
+                        name = it.name,
+                        exhibitionCount = it.exhibitionSize,
+                        recordCount = it.recordSize,
+                        exhibitionRecord = result?.data?.map { it.toCore() },
+                    )
+                },
+            )
+        }.recoverCatching { exception ->
+            when (exception) {
+                is HttpException -> {
+                    throw ApiError(exception.message())
+                }
+
+                else -> {
+                    throw exception
+                }
+            }
+        }
+
+    override suspend fun getPlaceById(placeId: Long): Result<Place> = runCatching {
+        remotePlaceDataSource.getPlaceById(placeId.toInt())
+    }.mapCatching { it ->
+        val result = videoRepository.getPlaceVideos(it.id, 0, it.recordSize).getOrNull()
+        Place(
+            placeId = it.id,
+            address = it.address ?: "",
+            name = it.name,
+            exhibitionCount = it.exhibitionSize,
+            recordCount = it.recordSize,
+            exhibitionRecord = result?.data?.map { it.toCore() },
+        )
+    }.recoverCatching { exception ->
+        when (exception) {
+            is HttpException -> {
+                throw ApiError(exception.message())
+            }
+
+            else -> {
+                throw exception
+            }
+        }
+    }
+
+    override suspend fun getExhibitions(placeId: Long, filter: ExhibitionFilter): Result<List<Exhibition>> = runCatching {
+        when (filter) {
+            ExhibitionFilter.DEFAULT -> remoteExhibitionDataSource.getExhibitionById(placeId.toInt())
+            ExhibitionFilter.FREE -> remoteExhibitionDataSource.getFreeExhibition(placeId.toInt())
+            ExhibitionFilter.CLOSING -> remoteExhibitionDataSource.getClosingExhibition(placeId.toInt())
+        }
+    }.mapCatching {
+        it.map { it.toDomain() }
+    }.recoverCatching { exception ->
+        when (exception) {
+            is HttpException -> {
+                throw ApiError(exception.message())
+            }
+
+            else -> {
+                throw exception
+            }
+        }
+    }
+}

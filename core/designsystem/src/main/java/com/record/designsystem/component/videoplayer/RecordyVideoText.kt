@@ -45,6 +45,7 @@ fun RecordyVideoText(
     onNicknameClick: () -> Unit = {},
     onBookmarkClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
+    onMoreClick: () -> Unit = {},
 ) {
     var boxSize by remember { mutableStateOf(IntSize.Zero) }
     var expanded by remember { mutableStateOf(false) }
@@ -127,6 +128,14 @@ fun RecordyVideoText(
                 text = bookmarkCount.toString(),
                 style = RecordyTheme.typography.body2M,
                 color = RecordyTheme.colors.gray01,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Icon(
+                modifier = Modifier
+                    .customClickable { onMoreClick() },
+                painter = painterResource(id = R.drawable.ic_seemore),
+                contentDescription = "see more",
+                tint = RecordyTheme.colors.gray01,
             )
             Spacer(modifier = Modifier.height(if (isMyVideo) 16.dp else 20.dp))
             if (isMyVideo) {

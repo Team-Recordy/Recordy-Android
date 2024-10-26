@@ -128,8 +128,8 @@ internal class MainNavigator(
         navController.navigateSetting(navOptions { })
     }
 
-    fun navigateDetail() {
-        navController.navigateDetail(navOptions { })
+    fun navigateDetail(id: Long) {
+        navController.navigateDetail(placeId = id, navOptions { })
     }
 
     fun navigateSearch() {

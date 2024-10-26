@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
+import com.record.exhibition.model.SearchResult
 import com.record.search.component.SearchBox
 import com.record.search.component.SearchedContainerBtn
 import com.record.search.component.SearchingContainerBtn
@@ -56,7 +57,7 @@ fun SearchScreen(
     modifier: Modifier,
     query: String,
     onQueryChange: (String) -> Unit,
-    items: List<ExhibitionData>,
+    items: List<SearchResult>,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -92,10 +93,10 @@ fun SearchScreen(
                     Column {
                         SearchedContainerBtn(
                             modifier = modifier.fillMaxWidth(),
-                            exhibitionName = item.exhibitionName,
-                            location = item.location,
-                            venue = item.venue,
-                            type = item.listOf,
+                            exhibitionName = item.name,
+                            location = item.address,
+                            venue = item.name,
+                            type = item.type,
                         )
                         HorizontalDivider(
                             modifier = modifier
@@ -118,9 +119,9 @@ fun SearchScreen(
                     items(items) { item ->
                         SearchingContainerBtn(
                             modifier = modifier.fillMaxWidth(),
-                            exhibitionName = item.exhibitionName,
-                            location = item.location,
-                            venue = item.venue,
+                            exhibitionName = item.name,
+                            location = item.address,
+                            venue = item.name,
                         )
                     }
                 }
@@ -191,6 +192,7 @@ fun DefaultSearchUI() {
             modifier = Modifier.weight(1f),
         ) {
             Text(
+                modifier = Modifier.padding(bottom = 2.dp),
                 text = "공간뿐만 아니라 원하는 전시회를 찾고 싶다면?",
                 style = RecordyTheme.typography.caption1M,
                 color = RecordyTheme.colors.gray05,
@@ -199,7 +201,7 @@ fun DefaultSearchUI() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 2.dp),
+                    .padding(top = 4.dp),
             ) {
                 Text(
                     text = "\'전시회명\'",

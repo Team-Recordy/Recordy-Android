@@ -66,6 +66,22 @@ class VideoRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getPlaceVideos(placeId: Int, cursor: Long, pageSize: Int): Result<Cursor<VideoData>> = runCatching {
+        remoteVideoDataSource.getPlaceVideos(placeId, cursor, pageSize)
+    }.mapCatching {
+        it.toCore()
+    }.recoverCatching { exception ->
+        when (exception) {
+            is HttpException -> {
+                throw ApiError(exception.message())
+            }
+
+            else -> {
+                throw exception
+            }
+        }
+    }
+
     override suspend fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): Result<Cursor<VideoData>> = runCatching {
         remoteVideoDataSource.getUserVideos(otherUserId, cursorId, size)
     }.mapCatching {

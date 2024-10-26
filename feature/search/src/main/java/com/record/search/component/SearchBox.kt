@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -84,6 +85,9 @@ fun SearchBox(
                 }
                 innerTextField()
             },
+            cursorBrush = SolidColor(RecordyTheme.colors.gray02),
+            maxLines = 1,
+            singleLine = true,
         )
     }
 }

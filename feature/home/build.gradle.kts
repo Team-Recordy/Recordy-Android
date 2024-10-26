@@ -11,4 +11,5 @@ dependencies {
     implementation(projects.domain.keyword)
     implementation(libs.lottie.compose)
     implementation(libs.collapsing.toolbar)
+    implementation(libs.google.location)
 }

@@ -1,10 +1,6 @@
 package com.record.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.record.keyword.repository.KeywordRepository
-import com.record.model.VideoType
-import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel
 import com.record.video.repository.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,139 +11,59 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val videoRepository: VideoRepository,
-    private val keywordRepository: KeywordRepository,
 ) : BaseViewModel<HomeState, HomeSideEffect>(HomeState()) {
 
-    fun navigateToUpload() {
-        postSideEffect(HomeSideEffect.navigateToUpload)
+    fun navigateToVideo(videoId: Long, location: String) {
+        postSideEffect(HomeSideEffect.navigateToVideo(videoId, location))
     }
 
-    fun selectCategory(categoryIndex: Int) {
-        intent {
-            copy(selectedChipIndex = categoryIndex)
-        }
-        postSideEffect(HomeSideEffect.collapseToolbar)
-        getPopularVideos()
-        getRecentVideos()
+    fun showLocationPermissionDialog(isShow: Boolean) = intent {
+        copy(showLocationPermissionDialog = isShow)
     }
 
-    fun getVideos() {
-        getPreferenceKeywords()
-        getPopularVideos()
-        getRecentVideos()
-    }
-
-    private fun getPreferenceKeywords() {
-        viewModelScope.launch {
-            val newList = listOf("전체")
-            keywordRepository.getKeywords().onSuccess {
-                intent {
-                    copy(chipList = (newList + it.keywords).toImmutableList())
-                }
-            }.onFailure {
-                when (it) {
-                    is ApiError -> {
-                        Log.e("error", it.message)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getRecentVideos() {
-        viewModelScope.launch {
-            val keyIndex = uiState.value.selectedChipIndex
-            val keyword = if (keyIndex != null) listOf(uiState.value.chipList[keyIndex]) else null
-            videoRepository.getRecentVideos(
-                keywords = keyword,
-                cursor = 0,
-                pageSize = 10,
-            ).onSuccess {
-                intent {
-                    copy(recentList = it.data.toImmutableList())
-                }
-            }.onFailure {
-                when (it) {
-                    is ApiError -> {
-                        Log.e("error", it.message)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getPopularVideos() {
-        viewModelScope.launch {
-            val keyIndex = uiState.value.selectedChipIndex
-            val keyword = if (keyIndex != null) listOf(uiState.value.chipList[keyIndex]) else null
-            videoRepository.getPopularVideos(
-                keywords = keyword,
-                pageNumber = 0,
-                pageSize = 10,
-            ).onSuccess {
-                intent {
-                    copy(popularList = it.data.toImmutableList())
-                }
-            }.onFailure {
-                when (it) {
-                    is ApiError -> {
-                        Log.e("error", it.message)
-                    }
-                }
-            }
-        }
-    }
-
-    fun navigateToVideo(videoId: Long, type: VideoType) {
-        val selectedIndex = uiState.value.selectedChipIndex
-        val selectedKeyword = if (selectedIndex != null) uiState.value.chipList[selectedIndex] else null
-        postSideEffect(HomeSideEffect.navigateToVideo(videoId, type, selectedKeyword))
+    fun updateLocation(latitude: Double, longitude: Double) = intent {
+        copy(location = Location(latitude, longitude))
     }
 
     fun bookmark(id: Long) {
         intent {
-            val updatedRecentList = uiState.value.recentList.map { video ->
-                if (video.id == id) {
-                    video.copy(isBookmark = !video.isBookmark)
-                } else {
-                    video
-                }
-            }
-
-            val updatedPopularList = uiState.value.popularList.map { video ->
-                if (video.id == id) {
-                    video.copy(isBookmark = !video.isBookmark)
-                } else {
-                    video
-                }
+            val updatedList = uiState.value.exhibitionList.map { exhibition ->
+                Exhibition(
+                    location = exhibition.location,
+                    name = exhibition.name,
+                    exhibitionCount = exhibition.exhibitionCount,
+                    userVideo = exhibition.userVideo.map { video ->
+                        if (video.id == id) {
+                            video.copy(isBookmark = !video.isBookmark)
+                        } else {
+                            video
+                        }
+                    }.toImmutableList(),
+                )
             }
             copy(
-                recentList = updatedRecentList.toImmutableList(),
-                popularList = updatedPopularList.toImmutableList(),
+                exhibitionList = updatedList.toImmutableList(),
             )
         }
         viewModelScope.launch {
             videoRepository.bookmark(id).onSuccess {
-                val updatedRecentList1 = uiState.value.recentList.map { video ->
-                    if (video.id == id) {
-                        video.copy(isBookmark = it)
-                    } else {
-                        video
-                    }
+                val updatedList = uiState.value.exhibitionList.map { exhibition ->
+                    Exhibition(
+                        location = exhibition.location,
+                        name = exhibition.name,
+                        exhibitionCount = exhibition.exhibitionCount,
+                        userVideo = exhibition.userVideo.map { video ->
+                            if (video.id == id) {
+                                video.copy(isBookmark = !video.isBookmark)
+                            } else {
+                                video
+                            }
+                        }.toImmutableList(),
+                    )
                 }
-
-                val updatedPopularList1 = uiState.value.popularList.map { video ->
-                    if (video.id == id) {
-                        video.copy(isBookmark = it)
-                    } else {
-                        video
-                    }
-                }
-
                 intent {
                     copy(
-                        recentList = updatedRecentList1.toImmutableList(),
-                        popularList = updatedPopularList1.toImmutableList(),
+                        exhibitionList = updatedList.toImmutableList(),
                     )
                 }
             }.onFailure {

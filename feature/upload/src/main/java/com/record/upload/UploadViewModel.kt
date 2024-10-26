@@ -35,7 +35,7 @@ class UploadViewModel @Inject constructor(
         val recordInfo = RecordInfo(
             filePath,
             uiState.value.contentTextValue,
-            placeId = 20,
+            placeId = 55,
         )
         uploadRepository.upload(recordInfo)
         popBackStack()

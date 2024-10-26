@@ -1,14 +1,17 @@
 package com.record.home
 
+import com.record.exhibition.model.Place
 import com.record.ui.base.SideEffect
 import com.record.ui.base.UiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 data class HomeState(
-    val exhibitionList: ImmutableList<Exhibition> = emptyList<Exhibition>().toImmutableList(),
+    val exhibitionList: ImmutableList<Place> = emptyList<Place>().toImmutableList(),
     val isLoading: Boolean = false,
     val location: Location = Location(0.0, 0.0),
+    val page: Int = 0,
+    val isEnd: Boolean = false,
     val showLocationPermissionDialog: Boolean = true,
 ) : UiState
 

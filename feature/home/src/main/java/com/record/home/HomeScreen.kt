@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,11 +16,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -43,8 +46,10 @@ import com.record.designsystem.R
 import com.record.designsystem.component.RecordyVideoThumbnail
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.theme.RecordyTheme
+import com.record.exhibition.model.Place
 import com.record.model.VideoType
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.record.ui.scroll.OnBottomReached
 import com.record.video.model.VideoData
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest
@@ -55,10 +60,10 @@ fun HomeRoute(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToVideoDetail: (VideoType, Long, String?, Long) -> Unit,
+    navigateToPlaceDetail: (Long) -> Unit,
     navigateToUpload: () -> Unit = {},
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffectWithLifecycle {
         viewModel.sideEffect.collectLatest { sideEffect ->
@@ -69,7 +74,9 @@ fun HomeRoute(
                 }
 
                 HomeSideEffect.launchSettingIntent -> TODO()
-                is HomeSideEffect.navigateToDetail -> TODO()
+                is HomeSideEffect.navigateToDetail -> {
+                    navigateToPlaceDetail(sideEffect.id)
+                }
             }
         }
     }
@@ -78,6 +85,8 @@ fun HomeRoute(
         state = state,
         showLocationPermissionDialog = viewModel::showLocationPermissionDialog,
         updateLocation = viewModel::updateLocation,
+        getData = viewModel::getPlaces,
+        navigateToDetail = viewModel::navigateToDetail
     )
 }
 
@@ -87,6 +96,8 @@ fun HomeScreen(
     state: HomeState,
     showLocationPermissionDialog: (Boolean) -> Unit,
     updateLocation: (Double, Double) -> Unit,
+    getData: () -> Unit,
+    navigateToDetail: (Long) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -105,12 +116,17 @@ fun HomeScreen(
                 location?.let {
                     updateLocation(it.latitude, it.longitude)
                     Log.e("위치", "${it.latitude} ${it.longitude}")
+                    getData()
                 }
             }
             showLocationPermissionDialog(false)
         } else {
             showLocationPermissionDialog(true)
         }
+    }
+    val lazyColumnState = rememberLazyListState()
+    lazyColumnState.OnBottomReached(buffer = 2) {
+        getData()
     }
 
     LaunchedEffectWithLifecycle {
@@ -124,6 +140,7 @@ fun HomeScreen(
             .fillMaxSize(),
     ) {
         LazyColumn(
+            state = lazyColumnState,
             modifier = Modifier
                 .fillMaxSize(),
         ) {
@@ -141,7 +158,12 @@ fun HomeScreen(
                 }
             }
             itemsIndexed(state.exhibitionList) { i, exhibition ->
-                ExhibitionContatiner(exhibition, screenWidth)
+                ExhibitionContatiner(
+                    modifier = Modifier.clickable {
+                        navigateToDetail(exhibition.placeId.toLong())
+                    },
+                    exhibition, screenWidth,
+                )
             }
         }
 
@@ -161,13 +183,16 @@ fun HomeScreen(
 
 @Composable
 private fun ExhibitionContatiner(
-    exhibition: Exhibition,
+    modifier: Modifier,
+    place: Place,
     screenWidth: Dp,
     onVideoClick: (Long, VideoType) -> Unit = { i, j -> },
     onBookmarkClick: (Long) -> Unit = {},
     videoType: VideoType = VideoType.RECENT,
 ) {
-    Column {
+    Column(
+        modifier = modifier,
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -177,23 +202,32 @@ private fun ExhibitionContatiner(
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
+                if (place.address.isNotBlank()) {
+                    Text(
+                        text = place.address,
+                        style = RecordyTheme.typography.caption1M,
+                        color = RecordyTheme.colors.gray05,
+                    )
+                }
                 Text(
-                    text = exhibition.location,
-                    style = RecordyTheme.typography.caption1M,
-                    color = RecordyTheme.colors.gray05,
-                )
-                Text(
-                    text = exhibition.name,
+                    text = place.name,
                     style = RecordyTheme.typography.title3,
                     color = RecordyTheme.colors.gray01,
                 )
-                Text(
-                    text = exhibition.exhibitionCount.toString(),
-                    style = RecordyTheme.typography.body2SB,
-                    color = RecordyTheme.colors.viskitYellow500,
-                )
+                Row {
+                    Text(
+                        text = place.exhibitionCount.toString() + "개",
+                        style = RecordyTheme.typography.body2SB,
+                        color = RecordyTheme.colors.viskitYellow500,
+                    )
+                    Text(
+                        text = "의 전시가 진행 중이에요.",
+                        style = RecordyTheme.typography.body2SB,
+                        color = RecordyTheme.colors.gray02,
+                    )
+                }
             }
             Icon(
                 modifier = Modifier
@@ -209,17 +243,20 @@ private fun ExhibitionContatiner(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item { Spacer(modifier = Modifier.width(4.dp)) }
-            itemsIndexed(exhibition.userVideo) { index, videoData ->
-                RecordyVideoThumbnail(
-                    modifier = Modifier.width(screenWidth / 8 * 3),
-                    imageUri = videoData.previewUrl,
-                    location = videoData.location,
-                    isBookmarkable = true,
-                    isBookmark = videoData.isBookmark,
-                    onClick = { onVideoClick(videoData.id, videoType) },
-                    onBookmarkClick = { onBookmarkClick(videoData.id) },
-                )
+            if (place.exhibitionRecord != null) {
+                itemsIndexed(place.exhibitionRecord!!) { index, videoData ->
+                    RecordyVideoThumbnail(
+                        modifier = Modifier.width(screenWidth / 8 * 3),
+                        imageUri = videoData.previewUrl,
+                        location = videoData.location,
+                        isBookmarkable = true,
+                        isBookmark = videoData.isBookmark,
+                        onClick = { onVideoClick(videoData.id, videoType) },
+                        onBookmarkClick = { onBookmarkClick(videoData.id) },
+                    )
+                }
             }
+
             item { Spacer(modifier = Modifier.width(4.dp)) }
         }
     }
@@ -231,32 +268,12 @@ fun PreviewHome() {
     RecordyTheme {
         HomeScreen(
             state = HomeState(
-                exhibitionList =
-                listOf(
-                    Exhibition(
-                        "서울 종로구",
-                        "국립현대미술관",
-                        7,
-                        userVideo = listOf(
-                            VideoData(
-                                bookmarkId = 1,
-                                id = 1,
-                                isBookmark = false,
-                                bookmarkCount = 7,
-                                content = "ㅎㅇ",
-                                videoUrl = "ggg",
-                                previewUrl = "ggg",
-                                location = "korea",
-                                uploaderId = 1,
-                                nickname = "안녕",
-                                isMine = false,
-                            ),
-                        ).toImmutableList(),
-                    ),
-                ).toImmutableList(),
+                exhibitionList = emptyList<Place>().toImmutableList(),
             ),
             showLocationPermissionDialog = {},
             updateLocation = { i, j -> },
+            getData = {},
+            navigateToDetail = {},
         )
     }
 }

@@ -30,6 +30,13 @@ interface VideoApi {
         @Query("pageSize") pageSize: Int,
     ): ResponseGetPagingVideoDto
 
+    @GET("/api/v1/records/place")
+    suspend fun getPlaceVideos(
+        @Query("placeId") placeId: Int,
+        @Query("cursorId") cursor: Long,
+        @Query("size") pageSize: Int,
+    ): ResponseGetSliceVideoDto
+
     @GET("/api/v1/records/user/{otherUserId}")
     suspend fun getUserVideos(
         @Path("otherUserId") otherUserId: Long,

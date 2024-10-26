@@ -112,6 +112,7 @@ internal fun MainScreen(
                     padding = innerPadding,
                     popBackStack = navigator::popBackStackIfNotHome,
                     onShowSnackBar = viewModel::onShowSnackbar,
+                    navigateToSearchPlace = navigator::navigateToSearchPlace
                 )
 
                 videoNavGraph(

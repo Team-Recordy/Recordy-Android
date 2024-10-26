@@ -31,4 +31,5 @@ sealed interface UploadSideEffect : SideEffect {
     data class ShowSnackBar(val msg: String, val type: SnackBarType) : UploadSideEffect
     data object FocusLocation : UploadSideEffect
     data object FocusContent : UploadSideEffect
+    data object NavigateToSearchPlace : UploadSideEffect
 }

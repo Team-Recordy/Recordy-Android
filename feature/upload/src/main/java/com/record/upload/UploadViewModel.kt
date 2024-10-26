@@ -124,6 +124,9 @@ class UploadViewModel @Inject constructor(
     fun popBackStack() {
         postSideEffect(UploadSideEffect.PopBackStack)
     }
+    fun navigateToSearchPlace() {
+        postSideEffect(UploadSideEffect.NavigateToSearchPlace)
+    }
 
     fun makeSnackBar() = viewModelScope.launch {
         postSideEffect(UploadSideEffect.ShowSnackBar("기준에 맞는 영상을 선택해 주세요.", SnackBarType.WARNING))

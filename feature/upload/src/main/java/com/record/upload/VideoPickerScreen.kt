@@ -121,6 +121,10 @@ fun VideoPickerRoute(
                     awaitFrame()
                     contentFocusRequester.requestFocus()
                 }
+
+                is UploadSideEffect.NavigateToSearchPlace ->{
+                    navigateToSearchPlace()
+                }
             }
         }
     }
@@ -143,7 +147,7 @@ fun VideoPickerRoute(
         showSnackBar = viewModel::makeSnackBar,
         onClickBackStack = viewModel::popBackStack,
         onLoadMore = viewModel::onLoadMore,
-        navigateToSearchPlace=navigateToSearchPlace
+        navigateToSearchPlace=viewModel::navigateToSearchPlace
     )
 }
 

@@ -17,7 +17,7 @@ class ProfileEditViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : BaseViewModel<ProfileEditState, ProfileEditSideEffect>(ProfileEditState()) {
     init {
-        getProfile()
+//        getProfile()
     }
 
     private fun getProfile() = viewModelScope.launch {
@@ -56,7 +56,9 @@ class ProfileEditViewModel @Inject constructor(
     }
 
     fun updateUserProfile() = viewModelScope.launch {
-        userRepository.updateUser(uiState.value.username, uiState.value.profileImgUrl ?: "")
+        userRepository.updateUser(uiState.value.username, uiState.value.profileImgUrl ?: "").onSuccess {
+            postSideEffect(ProfileEditSideEffect.BackToSetting)
+        }
     }
 
     fun updateImgUrl(url: String?) = intent { copy(profileImgUrl = url) }

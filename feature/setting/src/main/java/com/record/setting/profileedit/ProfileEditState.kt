@@ -11,4 +11,6 @@ data class ProfileEditState(
     val btnEnable: Boolean = false,
 ) : UiState
 
-sealed interface ProfileEditSideEffect : SideEffect
+sealed interface ProfileEditSideEffect : SideEffect {
+    data object BackToSetting : ProfileEditSideEffect
+}

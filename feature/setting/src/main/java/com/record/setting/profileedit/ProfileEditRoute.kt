@@ -46,7 +46,9 @@ import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.textfield.RecordyValidateTextfield
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ProfileEditRoute(
@@ -85,6 +87,13 @@ fun ProfileScreen(
         }
     }
 
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest {
+            when (it) {
+                ProfileEditSideEffect.BackToSetting -> { popBackStack() }
+            }
+        }
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -212,7 +221,6 @@ fun ProfileScreen(
             onClick = {
                 uiState.value.profileImgUrl?.let {
                     viewModel.updateUserProfile()
-                    popBackStack()
                 }
             },
         )

@@ -1,5 +1,6 @@
 package com.record.user.api
 
+import com.record.user.model.remote.request.RequestUpdateProfileDto
 import com.record.user.model.remote.response.ResponseGetFollowerListDto
 import com.record.user.model.remote.response.ResponseGetFollowingListDto
 import com.record.user.model.remote.response.ResponseGetUserPreferenceDto
@@ -34,9 +35,9 @@ interface UserApi {
         @Path("followingId") followingId: Long,
     ): Boolean
 
-    @GET("/api/v1/users/profile/{userId}")
+    @GET("/api/v1/users/profile/{otherUserId}")
     suspend fun getUserProfileDto(
-        @Path("userId") userId: Long,
+        @Path("otherUserId") userId: Long,
     ): ResponseGetUserProfileDto
 
     @GET("/api/v1/preference")

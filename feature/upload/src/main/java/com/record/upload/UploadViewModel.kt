@@ -1,5 +1,7 @@
 package com.record.upload
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
@@ -19,6 +21,7 @@ class UploadViewModel @Inject constructor(
     private val uploadRepository: UploadRepository,
     private val keywordRepository: KeywordRepository,
 ) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+
     fun getKeyWordList() = viewModelScope.launch {
         keywordRepository.getKeywords().onSuccess {
             intent { copy(contentList = it.keywords) }

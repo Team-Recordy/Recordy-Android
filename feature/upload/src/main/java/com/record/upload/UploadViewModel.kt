@@ -1,7 +1,6 @@
 package com.record.upload
 
 import androidx.lifecycle.viewModelScope
-import com.record.common.util.encodingString
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
 import com.record.model.AlertInfo
@@ -35,9 +34,8 @@ class UploadViewModel @Inject constructor(
 
         val recordInfo = RecordInfo(
             filePath,
-            uiState.value.locationTextValue,
             uiState.value.contentTextValue,
-            keywords = encodingString(uiState.value.selectedList.joinToString(separator = ",")).trim(),
+            placeId = 0,
         )
         uploadRepository.upload(recordInfo)
         popBackStack()

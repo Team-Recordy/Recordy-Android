@@ -11,11 +11,10 @@ import javax.inject.Inject
 class UploadEnqueuerImpl @Inject constructor(
     private val workManager: WorkManager,
 ) : UploadEnqueuer {
-    override fun enqueueUploadWork(videoPath: String, location: String, keywords: String, content: String) {
+    override fun enqueueUploadWork(videoPath: String, content: String, placeId: Long) {
         val data = Data.Builder()
             .putString(UploadWorker.KEY_VIDEO_PATH, videoPath)
-            .putString(UploadWorker.KEY_LOCATION, location)
-            .putString(UploadWorker.KEY_KEYWORDS, keywords)
+            .putString(UploadWorker.KEY_PLACE, placeId.toString())
             .putString(UploadWorker.KEY_CONTENT, content)
             .build()
         val request = OneTimeWorkRequestBuilder<UploadWorker>()

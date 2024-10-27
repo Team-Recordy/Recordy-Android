@@ -42,17 +42,15 @@ import com.record.designsystem.theme.White
 import com.record.exhibition.model.PlaceUsingMap
 import com.record.ui.extension.customClickable
 import com.record.upload.navigation.UploadRoute
-import com.record.upload.searchplace.SearchPlaceViewModel
 import com.record.upload.searchplace.component.Searched1ContainerBtn
 import com.record.upload.searchplace.component.SearchingContainerBtn
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
 fun AddPlaceScreenRoute(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
-    viewModel: AddPlaceViewModel=hiltViewModel(),
-    popBackStackArgument: (UploadRoute.Upload) -> Unit,
+    viewModel: AddPlaceViewModel = hiltViewModel(),
+    popBackStack: () -> Unit,
     navigateToConfirmPlace: (UploadRoute.ConfirmPlace) -> Unit,
 ) {
 
@@ -62,8 +60,8 @@ fun AddPlaceScreenRoute(
         query = uiState.query,
         onQueryChange = viewModel::onQueryChanged,
         items = uiState.filteredItems,
-        popBackStackArgument = popBackStackArgument,
-        navigateToConfirmPlace=navigateToConfirmPlace
+        popBackStack = popBackStack,
+        navigateToConfirmPlace = navigateToConfirmPlace
     )
 }
 
@@ -73,38 +71,19 @@ fun AddPlaceScreen(
     query: String,
     onQueryChange: (String) -> Unit,
     items: List<PlaceUsingMap>,
-    popBackStackArgument: (UploadRoute.Upload) -> Unit,
+    popBackStack: () -> Unit,
     navigateToConfirmPlace: (UploadRoute.ConfirmPlace) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     var showSearchedContainer by remember { mutableStateOf(false) }
 
-    Column {
-        Box() {
-                Icon(
-                    ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_angle_left_24),
-                    contentDescription = "뒤로가기",
-                    tint = RecordyTheme.colors.gray01,
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .customClickable {
-                        },
-                )
-
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                text = "test",
-                color = White,
-                style = RecordyTheme.typography.title3,
-            )
-        }
-//        TopNavigationBar(modifier = Modifier, title = "내용 작성", enableGradation = true, popBackStackEnable = true,)
         Column(
             modifier = Modifier
                 .background(color = RecordyTheme.colors.black)
-                .systemBarsPadding()
                 .padding(horizontal = 16.dp),
         ) {
+            TopNavigationBar(modifier = Modifier, title = "내용 작성", enableGradation = true, popBackStackEnable = true,popBackStack=popBackStack)
+
             SearchBox(
                 modifier = Modifier
                     .onFocusChanged { focusState ->
@@ -184,9 +163,8 @@ fun AddPlaceScreen(
                         }
                     }
                 }
-            }else{
+            } else {
                 DefaultSearchUI()
-            }
         }
     }
 }

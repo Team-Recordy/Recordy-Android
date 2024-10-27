@@ -56,22 +56,22 @@ fun NavGraphBuilder.uploadNavGraph(
             popBackStackArgument = { selectedPlace ->
               navigateToUpload(selectedPlace)
             },
-            navigateToAddPlace = navigateToAddPlace
+            navigateToAddPlace = navigateToAddPlace,
+            popBackStack = popBackStack
         )
     }
 
     composable<UploadRoute.AddPlace> { entry ->
         AddPlaceScreenRoute(
             paddingValues = padding,
-            popBackStackArgument = { selectedPlace ->
-                navigateToUpload(selectedPlace)
-            },
-            navigateToConfirmPlace=navigateToConfirmPlace
+            navigateToConfirmPlace=navigateToConfirmPlace,
+            popBackStack = popBackStack
         )
     }
 
     composable<UploadRoute.ConfirmPlace> { entry ->
         ConfirmAddPlaceScreenRoute(
+            popBackStack = popBackStack
         )
     }
 }

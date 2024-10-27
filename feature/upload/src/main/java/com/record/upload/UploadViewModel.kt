@@ -26,16 +26,16 @@ class UploadViewModel @Inject constructor(
 ) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
     val place = savedStateHandle.toRoute<UploadRoute.Upload>()
     init {
-        Log.d("searchSakPlace", "$place")
+        setSelectedPlace()
     }
     fun getKeyWordList() = viewModelScope.launch {
         keywordRepository.getKeywords().onSuccess {
             intent { copy(contentList = it.keywords) }
         }
     }
-
-    fun setSelectedList(selectedContent: List<String>) = intent {
-        copy(selectedList = selectedContent)
+    fun setSelectedPlace() = intent {
+        Log.d("searchSakPlace", "$place")
+        copy(selectPlace = place)
     }
 
     fun upload() = viewModelScope.launch {
@@ -44,7 +44,7 @@ class UploadViewModel @Inject constructor(
         val recordInfo = RecordInfo(
             filePath,
             uiState.value.contentTextValue,
-            placeId = 55,
+            placeId = uiState.value.selectPlace.id,
         )
         uploadRepository.upload(recordInfo)
         popBackStack()

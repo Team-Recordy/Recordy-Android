@@ -1,14 +1,17 @@
 package com.record.upload.navigation
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.upload.VideoPickerRoute
+import com.record.upload.addPlace.AddPlaceScreenRoute
 import com.record.upload.searchplace.SearchPlaceScreenRoute
 import kotlinx.serialization.Serializable
 
@@ -19,6 +22,9 @@ fun NavController.navigateToUpload(upload: UploadRoute.Upload?) {
 fun NavController.navigateToSearchPlace() {
     navigate(route = UploadRoute.SearchPlace)
 }
+fun NavController.navigateToAddPlace() {
+    navigate(route = UploadRoute.AddPlace)
+}
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.uploadNavGraph(
@@ -27,6 +33,7 @@ fun NavGraphBuilder.uploadNavGraph(
     navigateToSearchPlace: () -> Unit,
     navigateToUpload: (UploadRoute.Upload) -> Unit,
     onShowSnackBar: (String, SnackBarType) -> Unit,
+    navigateToAddPlace: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     composable<UploadRoute.Upload> { entry ->
@@ -44,16 +51,26 @@ fun NavGraphBuilder.uploadNavGraph(
         SearchPlaceScreenRoute(
             paddingValues = padding,
             popBackStackArgument = { selectedPlace ->
+              navigateToUpload(selectedPlace)
+            },
+            navigateToAddPlace = navigateToAddPlace
+        )
+    }
+
+    composable<UploadRoute.AddPlace> { entry ->
+        AddPlaceScreenRoute(
+            paddingValues = padding,
+            popBackStackArgument = { selectedPlace ->
                 navigateToUpload(selectedPlace)
             },
         )
     }
 }
-
 @Serializable
 sealed class UploadRoute {
     @Serializable
     data class Upload(
+        val screenId:String="Upload",
         val id: Long = 0,
         val address: String = "",
         val name: String = "",
@@ -61,4 +78,7 @@ sealed class UploadRoute {
 
     @Serializable
     data object SearchPlace : UploadRoute()
+
+    @Serializable
+    data object AddPlace : UploadRoute()
 }

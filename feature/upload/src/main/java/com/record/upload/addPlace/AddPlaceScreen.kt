@@ -1,4 +1,4 @@
-package com.record.upload.searchplace
+package com.record.upload.addPlace
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -6,16 +6,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,41 +33,39 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
 import com.record.designsystem.component.SearchBox
-import com.record.designsystem.component.button.BasicButton
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
 import com.record.upload.navigation.UploadRoute
+import com.record.upload.searchplace.SearchPlaceViewModel
 import com.record.upload.searchplace.component.Searched1ContainerBtn
 import com.record.upload.searchplace.component.SearchingContainerBtn
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
-fun SearchPlaceScreenRoute(
+fun AddPlaceScreenRoute(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
-    viewModel: SearchPlaceViewModel = hiltViewModel(),
+    viewModel: AddPlaceViewModel=hiltViewModel(),
     popBackStackArgument: (UploadRoute.Upload) -> Unit,
-    navigateToAddPlace: () -> Unit,
 ) {
-    val uiState by viewModel.uiState.collectAsState()
 
-    SearchPlaceScreen(
+    val uiState by viewModel.uiState.collectAsState()
+    AddPlaceScreen(
         modifier = modifier,
         query = uiState.query,
         onQueryChange = viewModel::onQueryChanged,
         items = uiState.filteredItems,
         popBackStackArgument = popBackStackArgument,
-        navigateToAddPlace=navigateToAddPlace
     )
 }
 
 @Composable
-fun SearchPlaceScreen(
+fun AddPlaceScreen(
     modifier: Modifier,
     query: String,
     onQueryChange: (String) -> Unit,
     items: List<com.record.exhibition.model.SearchResult>,
     popBackStackArgument: (UploadRoute.Upload) -> Unit,
-    navigateToAddPlace: () -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -120,13 +117,13 @@ fun SearchPlaceScreen(
                 }
                 if (items.isEmpty()) {
                     item {
-                        EmptySearchResult(true, onButtonClick = navigateToAddPlace)
+                        EmptySearchResult(true)
                     }
                 }
             }
         } else if (query.isNotEmpty()) {
             if (items.isEmpty()) {
-                EmptySearchResult(true, onButtonClick = navigateToAddPlace)
+                EmptySearchResult(false)
             } else {
                 LazyColumn {
                     items(items) { item ->
@@ -148,12 +145,14 @@ fun SearchPlaceScreen(
                     }
                 }
             }
+        }else{
+            DefaultSearchUI()
         }
     }
 }
 
 @Composable
-fun EmptySearchResult(showSearchedContainer: Boolean,onButtonClick:()->Unit) {
+fun EmptySearchResult(showSearchedContainer: Boolean) {
     val imePadding = Modifier.imePadding()
     Box(
         modifier = Modifier
@@ -189,18 +188,52 @@ fun EmptySearchResult(showSearchedContainer: Boolean,onButtonClick:()->Unit) {
                     textAlign = TextAlign.Center,
                 )
             }
-            BasicButton(
-                modifier = Modifier
-                    .height(44.dp)
-                    .fillMaxWidth(0.33f),
-                text = "영상 업로드하기",
-                textStyle = RecordyTheme.typography.body2B,
-                textColor = RecordyTheme.colors.background,
-                backgroundColor = RecordyTheme.colors.viskitYellow400,
-                padding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
-                shape = RoundedCornerShape(30.dp),
-                onClick = onButtonClick,
+        }
+    }
+}
+
+@Composable
+fun DefaultSearchUI() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 28.dp),
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_tab_record_pressed_28),
+            contentDescription = "Icon",
+            modifier = Modifier
+                .wrapContentSize()
+                .align(Alignment.CenterVertically)
+                .padding(end = 12.dp),
+        )
+        Column(
+            modifier = Modifier.weight(1f),
+        ) {
+            Text(
+                modifier = Modifier.padding(bottom = 2.dp),
+                text = "공간뿐만 아니라 원하는 전시회를 찾고 싶다면?",
+                style = RecordyTheme.typography.caption1M,
+                color = RecordyTheme.colors.gray05,
             )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
+            ) {
+                Text(
+                    text = "\'전시회명\'",
+                    style = RecordyTheme.typography.subtitle,
+                    color = RecordyTheme.colors.viskitYellow300,
+                )
+
+                Text(
+                    text = "을 검색해 보세요!",
+                    style = RecordyTheme.typography.subtitle,
+                    color = RecordyTheme.colors.gray01,
+                )
+            }
         }
     }
 }

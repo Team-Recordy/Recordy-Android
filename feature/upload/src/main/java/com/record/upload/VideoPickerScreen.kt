@@ -101,6 +101,7 @@ fun VideoPickerRoute(
 
     LaunchedEffectWithLifecycle {
         viewModel.getKeyWordList()
+        viewModel.setSelectedPlace()
     }
 
     LaunchedEffectWithLifecycle {
@@ -131,7 +132,6 @@ fun VideoPickerRoute(
 
     VideoPickerScreen(
         state = state,
-        onClickContentChip = viewModel::setSelectedList,
         onClickVideo = viewModel::setVideo,
         onClickUpload = viewModel::upload,
         locationFocusRequester = locationFocusRequester,
@@ -160,7 +160,6 @@ fun VideoPickerRoute(
 fun VideoPickerScreen(
     modifier: Modifier = Modifier,
     state: UploadState = UploadState(),
-    onClickContentChip: (List<String>) -> Unit,
     onClickVideo: (GalleryVideo) -> Unit,
     onClickUpload: () -> Unit,
     showShouldShowRationaleDialog: () -> Unit = {},
@@ -318,6 +317,7 @@ fun VideoPickerScreen(
             RecordyImgButton(
                 modifier = Modifier.padding(16.dp),
                 icon = R.drawable.ic_move_18,
+                placeName = state.selectPlace.name,
                 text = "장소",
                 onClick = {
                     navigateToSearchPlace()
@@ -383,7 +383,6 @@ fun VideoPickerScreen(
         isSheetOpen = state.isSelectedDefinedContentSheetOpen,
         onDismissRequest = hideIsSelectedDefinedContentSheetOpen,
         contentList = state.contentList,
-        onClickDefinedContent = onClickContentChip,
     )
 }
 
@@ -393,7 +392,6 @@ fun VideoPickerScreen(
 fun VideoPickerScreenPreview() {
     RecordyTheme {
         VideoPickerScreen(
-            onClickContentChip = {},
             onClickVideo = {},
             onClickUpload = {},
             navigateToSearchPlace = {},

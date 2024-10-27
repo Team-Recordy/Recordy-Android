@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,8 +27,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,6 +38,7 @@ import com.record.designsystem.R
 import com.record.designsystem.component.SearchBox
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
+import com.record.designsystem.theme.White
 import com.record.exhibition.model.PlaceUsingMap
 import com.record.ui.extension.customClickable
 import com.record.upload.navigation.UploadRoute
@@ -73,93 +77,116 @@ fun AddPlaceScreen(
     navigateToConfirmPlace: (UploadRoute.ConfirmPlace) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-
     var showSearchedContainer by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = modifier
-            .background(color = RecordyTheme.colors.black)
-            .systemBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 28.dp),
-    ) {
-        TopNavigationBar(modifier = Modifier, title = "내용 작성", enableGradation = true, popBackStackEnable = true,)
-        SearchBox(
-            modifier = modifier
-                .onFocusChanged { focusState ->
-                    if (focusState.isFocused) {
-                        showSearchedContainer = false
-                    }
-                },
-            query = query,
-            onQueryChange = {
-                onQueryChange(it)
-                showSearchedContainer = false
-            },
-            onImageClick = {
-                showSearchedContainer = true
-                keyboardController?.hide()
-            },
-        )
+    Column {
+        Box() {
+                Icon(
+                    ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_angle_left_24),
+                    contentDescription = "뒤로가기",
+                    tint = RecordyTheme.colors.gray01,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .customClickable {
+                        },
+                )
 
-        if (showSearchedContainer) {
-            LazyColumn {
-                items(items) { item ->
-                    Column {
-                        Searched1ContainerBtn(
-                            modifier = modifier.fillMaxWidth().customClickable {
-                                Log.d("searchSak1", "$item")
-                                navigateToConfirmPlace(
-                                    UploadRoute.ConfirmPlace(
-                                        name = item.name,
-                                        address = item.address
-                                    )
-                                )
-                            },
-                            exhibitionName = item.name,
-                            location = item.address,
-                            venue = item.name,
-                        )
-                        HorizontalDivider(
-                            modifier = modifier
-                                .fillMaxWidth(),
-                            color = RecordyTheme.colors.gray09,
-                        )
-                    }
-                }
-                if (items.isEmpty()) {
-                    item {
-                        EmptySearchResult(true)
-                    }
-                }
-            }
-        } else if (query.isNotEmpty()) {
-            if (items.isEmpty()) {
-                EmptySearchResult(false)
-            } else {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = "test",
+                color = White,
+                style = RecordyTheme.typography.title3,
+            )
+        }
+//        TopNavigationBar(modifier = Modifier, title = "내용 작성", enableGradation = true, popBackStackEnable = true,)
+        Column(
+            modifier = Modifier
+                .background(color = RecordyTheme.colors.black)
+                .systemBarsPadding()
+                .padding(horizontal = 16.dp),
+        ) {
+            SearchBox(
+                modifier = Modifier
+                    .onFocusChanged { focusState ->
+                        if (focusState.isFocused) {
+                            showSearchedContainer = false
+                        }
+                    },
+                query = query,
+                onQueryChange = {
+                    onQueryChange(it)
+                    showSearchedContainer = false
+                },
+                onImageClick = {
+                    showSearchedContainer = true
+                    keyboardController?.hide()
+                },
+            )
+
+            if (showSearchedContainer) {
                 LazyColumn {
                     items(items) { item ->
-                        SearchingContainerBtn(
-                            modifier = modifier.fillMaxWidth().customClickable {
-                                Log.d("searchSak", "$item")
-                                navigateToConfirmPlace(
-                                    UploadRoute.ConfirmPlace(
-                                        name = item.name,
-                                        address = item.address,
-                                        latitude = item.latitude,
-                                        longitude = item.longitude,
-                                        placeId = item.platformPlaceId
-                                    )
-                                )
-                            },
-                            exhibitionName = item.name,
-                            location = item.address,
-                            venue = item.name,
-                        )
+                        Column {
+                            Searched1ContainerBtn(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .customClickable {
+                                        Log.d("searchSak1", "$item")
+                                        navigateToConfirmPlace(
+                                            UploadRoute.ConfirmPlace(
+                                                name = item.name,
+                                                address = item.address
+                                            )
+                                        )
+                                    },
+                                exhibitionName = item.name,
+                                location = item.address,
+                                venue = item.name,
+                            )
+                            HorizontalDivider(
+                                modifier = modifier
+                                    .fillMaxWidth(),
+                                color = RecordyTheme.colors.gray09,
+                            )
+                        }
+                    }
+                    if (items.isEmpty()) {
+                        item {
+                            EmptySearchResult(true)
+                        }
                     }
                 }
+            } else if (query.isNotEmpty()) {
+                if (items.isEmpty()) {
+                    EmptySearchResult(false)
+                } else {
+                    LazyColumn {
+                        items(items) { item ->
+                            SearchingContainerBtn(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .customClickable {
+                                        Log.d("searchSak", "$item")
+                                        navigateToConfirmPlace(
+                                            UploadRoute.ConfirmPlace(
+                                                name = item.name,
+                                                address = item.address,
+                                                latitude = item.latitude,
+                                                longitude = item.longitude,
+                                                placeId = item.platformPlaceId
+                                            )
+                                        )
+                                    },
+                                exhibitionName = item.name,
+                                location = item.address,
+                                venue = item.name,
+                            )
+                        }
+                    }
+                }
+            }else{
+                DefaultSearchUI()
             }
-        }else{
-            DefaultSearchUI()
         }
     }
 }

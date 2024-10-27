@@ -1,18 +1,15 @@
-package com.record.upload.addPlace
+package com.record.upload.confirmplace
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.record.exhibition.model.PlaceUsingMap
 import com.record.exhibition.repository.ExhibitionRepository
-import com.record.exhibition.repository.SearchRepository
 import com.record.ui.base.BaseViewModel
-import com.record.upload.model.RecordInfo
+import com.record.upload.addPlace.SearchSideEffect
 import com.record.upload.navigation.UploadRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,16 +20,23 @@ class ConfirmPlaceViewModel @Inject constructor(
 ) : BaseViewModel<ConfirmPlaceState, SearchSideEffect>(
     initialState = ConfirmPlaceState(),
 ) {
-    val place = savedStateHandle.toRoute<UploadRoute.ConfirmPlace>()
+    val place2 = savedStateHandle.toRoute<UploadRoute.ConfirmPlace>()
     init {
-        Log.d("searchConfirmPlace","$place")
+        Log.d("searchConfirmPlace","$place2")
+        setPlace()
     }
     fun upload() = viewModelScope.launch {
         exhibitionRepository.postPlace(uiState.value.place)
     }
     fun setPlace() {
         intent {
-            copy(place = place)
+            copy(place = PlaceUsingMap(
+                platformPlaceId =  place2.placeId,
+                address = place2.address,
+                longitude = place2.longitude,
+                latitude = place2.latitude,
+                name = place2.name
+            ))
         }
     }
 }

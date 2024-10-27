@@ -1,4 +1,4 @@
-package com.record.designsystem.component
+package com.record.designsystem.component.searchcomponent
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 import kotlinx.coroutines.delay

@@ -1,4 +1,4 @@
-package com.record.search.component
+package com.record.designsystem.component.searchcomponent
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -1,6 +1,5 @@
 package com.record.upload.searchplace
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -32,15 +32,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
-import com.record.designsystem.component.SearchBox
 import com.record.designsystem.component.button.BasicButton
 import com.record.designsystem.component.navbar.TopNavigationBar
+import com.record.designsystem.component.searchcomponent.SearchBox
+import com.record.designsystem.component.searchcomponent.SearchedContainerBtn
+import com.record.designsystem.component.searchcomponent.SearchingContainerBtn
 import com.record.designsystem.theme.RecordyTheme
+import com.record.exhibition.model.SearchResult
 import com.record.ui.extension.customClickable
 import com.record.upload.navigation.UploadRoute
-import com.record.upload.searchplace.component.Searched1ContainerBtn
-import com.record.upload.searchplace.component.SearchingContainerBtn
-
 @Composable
 fun SearchPlaceScreenRoute(
     paddingValues: PaddingValues,
@@ -54,9 +54,8 @@ fun SearchPlaceScreenRoute(
 
     SearchPlaceScreen(
         modifier = modifier,
-        query = uiState.query,
+        uiState = uiState,
         onQueryChange = viewModel::onQueryChanged,
-        items = uiState.filteredItems,
         popBackStackArgument = popBackStackArgument,
         navigateToAddPlace = navigateToAddPlace,
         popBackStack = popBackStack,
@@ -66,15 +65,13 @@ fun SearchPlaceScreenRoute(
 @Composable
 fun SearchPlaceScreen(
     modifier: Modifier,
-    query: String,
+    uiState: SearchState,
     onQueryChange: (String) -> Unit,
-    items: List<com.record.exhibition.model.SearchResult>,
     popBackStackArgument: (UploadRoute.Upload) -> Unit,
     navigateToAddPlace: () -> Unit,
     popBackStack: () -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-
     var showSearchedContainer by remember { mutableStateOf(false) }
 
     Column(
@@ -89,17 +86,15 @@ fun SearchPlaceScreen(
             popBackStackEnable = true,
             popBackStack = popBackStack,
         )
-        SearchBox(
-            modifier = modifier
-                .onFocusChanged { focusState ->
-                    if (focusState.isFocused) {
-                        showSearchedContainer = false
-                    }
-                },
-            query = query,
-            onQueryChange = {
-                onQueryChange(it)
-                showSearchedContainer = false
+
+        SearchBoxSection(
+            modifier = modifier,
+            query = uiState.query,
+            onQueryChange = onQueryChange,
+            onFocusChanged = { focusState ->
+                if (focusState.isFocused) {
+                    showSearchedContainer = false
+                }
             },
             onImageClick = {
                 showSearchedContainer = true
@@ -107,72 +102,144 @@ fun SearchPlaceScreen(
             },
         )
 
-        if (showSearchedContainer) {
-            LazyColumn {
-                items(items) { item ->
-                    Column {
-                        Searched1ContainerBtn(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .customClickable {
-                                    Log.d("searchSak1", "$item")
-                                },
-                            exhibitionName = item.name,
-                            location = item.address,
-                            venue = item.name,
-                        )
-                        HorizontalDivider(
-                            modifier = modifier
-                                .fillMaxWidth(),
-                            color = RecordyTheme.colors.gray09,
-                        )
-                    }
-                }
-                if (items.isEmpty()) {
-                    item {
-                        EmptySearchResult(true, onButtonClick = navigateToAddPlace)
-                    }
-                }
-            }
-        } else if (query.isNotEmpty()) {
+        SearchResultSection(
+            showSearchedContainer = showSearchedContainer,
+            query = uiState.query,
+            items = uiState.filteredItems,
+            modifier = modifier,
+            navigateToAddPlace = navigateToAddPlace,
+            popBackStackArgument = popBackStackArgument,
+        )
+    }
+}
+
+@Composable
+fun SearchBoxSection(
+    modifier: Modifier,
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onFocusChanged: (FocusState) -> Unit,
+    onImageClick: () -> Unit,
+) {
+    SearchBox(
+        modifier = modifier.onFocusChanged(onFocusChanged),
+        query = query,
+        onQueryChange = {
+            onQueryChange(it)
+        },
+        onImageClick = onImageClick,
+    )
+}
+
+@Composable
+fun SearchResultSection(
+    showSearchedContainer: Boolean,
+    query: String,
+    items: List<SearchResult>,
+    modifier: Modifier,
+    navigateToAddPlace: () -> Unit,
+    popBackStackArgument: (UploadRoute.Upload) -> Unit,
+) {
+    when {
+        showSearchedContainer -> {
+            SearchedResultList(
+                items = items,
+                modifier = modifier,
+                navigateToAddPlace = navigateToAddPlace,
+            )
+        }
+        query.isNotEmpty() -> {
             if (items.isEmpty()) {
-                EmptySearchResult(true, onButtonClick = navigateToAddPlace)
+                EmptySearchResult(onButtonClick = navigateToAddPlace)
             } else {
-                LazyColumn {
-                    items(items) { item ->
-                        SearchingContainerBtn(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .customClickable {
-                                    Log.d("searchSak", "$item")
-                                    popBackStackArgument(
-                                        UploadRoute.Upload(
-                                            id = item.id,
-                                            address = item.address,
-                                            name = item.name,
-                                        ),
-                                    )
-                                },
-                            exhibitionName = item.name,
-                            location = item.address,
-                            venue = item.name,
-                        )
-                    }
-                }
+                SearchingResultList(
+                    items = items,
+                    modifier = modifier,
+                    popBackStackArgument = popBackStackArgument,
+                )
             }
         }
     }
 }
 
 @Composable
-fun EmptySearchResult(showSearchedContainer: Boolean, onButtonClick: () -> Unit) {
-    val imePadding = Modifier.imePadding()
+fun SearchedResultList(
+    items: List<SearchResult>,
+    modifier: Modifier,
+    navigateToAddPlace: () -> Unit,
+) {
+    LazyColumn {
+        items(items, key = { it.id }) { item ->
+            SearchedResultItem(item = item, modifier = modifier)
+        }
+        if (items.isEmpty()) {
+            item {
+                EmptySearchResult(onButtonClick = navigateToAddPlace)
+            }
+        }
+    }
+}
+
+@Composable
+fun SearchedResultItem(
+    item: SearchResult,
+    modifier: Modifier,
+) {
+    Column {
+        SearchedContainerBtn(
+            modifier = modifier
+                .fillMaxWidth()
+                .customClickable {},
+            exhibitionName = item.name,
+            location = item.address,
+            venue = item.name,
+        )
+        HorizontalDivider(
+            modifier = modifier.fillMaxWidth(),
+            color = RecordyTheme.colors.gray09,
+        )
+    }
+}
+
+@Composable
+private fun SearchingResultList(
+    items: List<SearchResult>,
+    modifier: Modifier,
+    popBackStackArgument: (UploadRoute.Upload) -> Unit,
+) {
+    LazyColumn {
+        items(items, key = { it.id }) { item ->
+            SearchingContainerBtn(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .customClickable {
+                        popBackStackArgument(
+                            UploadRoute.Upload(
+                                id = item.id,
+                                address = item.address,
+                                name = item.name,
+                            ),
+                        )
+                    },
+                exhibitionName = item.name,
+                location = item.address,
+                venue = item.name,
+            )
+        }
+    }
+}
+
+@Composable
+fun EmptySearchResult(
+    onButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(color = RecordyTheme.colors.black)
             .systemBarsPadding()
-            .then(imePadding),
+            .imePadding(),
         contentAlignment = Alignment.Center,
     ) {
         Column(
@@ -183,8 +250,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean, onButtonClick: () -> Unit)
                 contentDescription = "Empty Icon",
                 contentScale = ContentScale.Fit,
                 alpha = 1f,
-                modifier = Modifier
-                    .padding(bottom = 18.dp),
+                modifier = Modifier.padding(bottom = 18.dp),
             )
             Text(
                 text = "검색 결과가 없어요.\n검색어가 정확한지 확인해주세요!",

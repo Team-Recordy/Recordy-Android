@@ -1,4 +1,4 @@
-package com.record.upload.searchplace.component
+package com.record.designsystem.component.searchcomponent
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,7 +22,7 @@ import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 
 @Composable
-fun Searched1ContainerBtn(
+fun SearchedContainerBtn(
     modifier: Modifier = Modifier,
     exhibitionName: String,
     location: String,
@@ -91,7 +91,7 @@ fun Searched1ContainerBtn(
 @Composable
 fun SearchedContainerBtnPreview() {
     RecordyTheme {
-        Searched1ContainerBtn(
+        SearchedContainerBtn(
             exhibitionName = "전시회명",
             location = "위치",
             venue = "장소",

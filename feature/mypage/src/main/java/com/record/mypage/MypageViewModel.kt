@@ -51,7 +51,6 @@ class MypageViewModel @Inject constructor(
                             nickname = mine.nickname,
                             followerNum = mine.followerCount,
                             followingNum = mine.followingCount,
-                            bookmarkVideoCount = mine.bookmarkCount,
                             recordVideoCount = mine.recordCount,
                         )
                     }

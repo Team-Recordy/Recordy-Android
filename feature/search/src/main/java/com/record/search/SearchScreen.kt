@@ -31,11 +31,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
+import com.record.designsystem.component.searchcomponent.SearchBox
+import com.record.designsystem.component.searchcomponent.SearchedContainerBtn
+import com.record.designsystem.component.searchcomponent.SearchingContainerBtn
 import com.record.designsystem.theme.RecordyTheme
 import com.record.exhibition.model.SearchResult
-import com.record.search.component.SearchBox
-import com.record.search.component.SearchedContainerBtn
-import com.record.search.component.SearchingContainerBtn
 
 @Composable
 fun SearchRoute(
@@ -96,7 +96,6 @@ fun SearchScreen(
                             exhibitionName = item.name,
                             location = item.address,
                             venue = item.name,
-                            type = item.type,
                         )
                         HorizontalDivider(
                             modifier = modifier

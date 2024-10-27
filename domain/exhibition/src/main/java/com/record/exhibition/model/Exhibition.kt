@@ -9,9 +9,9 @@ data class Exhibition(
 )
 
 data class PlaceUsingMap(
-    val platformPlaceId: String,
-    val address: String,
-    val longitude: Double,
-    val latitude: Double,
-    val name: String,
+    val platformPlaceId: String="",
+    val address: String="",
+    val longitude: Double=0.0,
+    val latitude: Double=0.0,
+    val name: String="",
 )

@@ -10,9 +10,9 @@ data class RequestPostPlaceDto(
     @SerialName("id")
     val id: String,
     @SerialName("latitude")
-    val latitude: Int,
+    val latitude: Double,
     @SerialName("longitude")
-    val longitude: Int,
+    val longitude: Double,
     @SerialName("name")
     val name: String,
 )

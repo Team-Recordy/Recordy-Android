@@ -8,8 +8,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 data class ConfirmPlaceState(
-    val query: String = "",
-    val filteredItems: ImmutableList<PlaceUsingMap> = emptyList<PlaceUsingMap>().toImmutableList(),
+    val place:PlaceUsingMap=PlaceUsingMap()
 ) : UiState
 
 sealed interface ConfirmPlaceSideEffect : SideEffect

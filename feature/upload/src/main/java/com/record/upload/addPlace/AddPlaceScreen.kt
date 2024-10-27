@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
 import com.record.designsystem.component.SearchBox
 import com.record.designsystem.theme.RecordyTheme
+import com.record.exhibition.model.PlaceUsingMap
 import com.record.ui.extension.customClickable
 import com.record.upload.navigation.UploadRoute
 import com.record.upload.searchplace.SearchPlaceViewModel
@@ -64,7 +65,7 @@ fun AddPlaceScreen(
     modifier: Modifier,
     query: String,
     onQueryChange: (String) -> Unit,
-    items: List<com.record.exhibition.model.SearchResult>,
+    items: List<PlaceUsingMap>,
     popBackStackArgument: (UploadRoute.Upload) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -106,7 +107,6 @@ fun AddPlaceScreen(
                             exhibitionName = item.name,
                             location = item.address,
                             venue = item.name,
-                            type = item.type,
                         )
                         HorizontalDivider(
                             modifier = modifier
@@ -130,13 +130,7 @@ fun AddPlaceScreen(
                         SearchingContainerBtn(
                             modifier = modifier.fillMaxWidth().customClickable {
                                 Log.d("searchSak", "$item")
-                                popBackStackArgument(
-                                    UploadRoute.Upload(
-                                        id = item.id,
-                                        address = item.address,
-                                        name = item.name,
-                                    ),
-                                )
+
                             },
                             exhibitionName = item.name,
                             location = item.address,

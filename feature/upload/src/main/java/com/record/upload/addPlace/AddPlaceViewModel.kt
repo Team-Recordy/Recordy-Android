@@ -19,7 +19,7 @@ class AddPlaceViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             uiState.debounce(200).collectLatest {
-                searchRepository.searchExhibition(it.query).onSuccess {
+                searchRepository.searchPlace(it.query).onSuccess {
                     intent {
                         copy(filteredItems = it.toImmutableList())
                     }

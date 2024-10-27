@@ -28,7 +28,6 @@ fun Searched1ContainerBtn(
     exhibitionName: String,
     location: String,
     venue: String,
-    type: ResultType,
 ) {
     Box(
         modifier = modifier
@@ -97,7 +96,6 @@ fun SearchedContainerBtnPreview() {
             exhibitionName = "전시회명",
             location = "위치",
             venue = "장소",
-            type = ResultType.PLACE,
         )
     }
 }

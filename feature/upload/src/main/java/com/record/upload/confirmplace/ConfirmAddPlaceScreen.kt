@@ -18,6 +18,8 @@ import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ConfirmAddPlaceScreenRoute(
@@ -27,14 +29,23 @@ fun ConfirmAddPlaceScreenRoute(
     navigateToUpload: () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                is ConfirmPlaceSideEffect.PopBackStack -> popBackStack()
+
+                is ConfirmPlaceSideEffect.NavigateToUpload -> navigateToUpload()
+            }
+        }
+    }
     ConfirmAddPlaceScreen(
         modifier = modifier,
         state = state,
         onClickConfirm = {
             viewModel.upload()
-            navigateToUpload()
+            viewModel.navigateToUpload()
         },
-        popBackStack = popBackStack,
+        popBackStack = viewModel::popBackStack,
         hideExitUploadDialog = viewModel::hideUploadDialog,
         shoeUploadPlaceDialog = viewModel::showUploadPlaceDialog,
     )

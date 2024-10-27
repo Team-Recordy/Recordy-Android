@@ -40,7 +40,10 @@ import com.record.designsystem.component.searchcomponent.SearchingContainerBtn
 import com.record.designsystem.theme.RecordyTheme
 import com.record.exhibition.model.SearchResult
 import com.record.ui.extension.customClickable
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.upload.navigation.UploadRoute
+import kotlinx.coroutines.flow.collectLatest
+
 @Composable
 fun SearchPlaceScreenRoute(
     paddingValues: PaddingValues,
@@ -51,14 +54,24 @@ fun SearchPlaceScreenRoute(
     popBackStack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                is SearchSideEffect.PopBackStack -> popBackStack()
+                is SearchSideEffect.NavigateToAddPlace -> navigateToAddPlace()
+                is SearchSideEffect.PopBackStackArgument -> {
+                    popBackStackArgument(sideEffect.place)
+                }
+            }
+        }
+    }
     SearchPlaceScreen(
         modifier = modifier,
         uiState = uiState,
         onQueryChange = viewModel::onQueryChanged,
-        popBackStackArgument = popBackStackArgument,
-        navigateToAddPlace = navigateToAddPlace,
-        popBackStack = popBackStack,
+        popBackStackArgument = viewModel::popBackStackArgument,
+        navigateToAddPlace = viewModel::navigateToAddPlaceScreen,
+        popBackStack = viewModel::popBackStack,
     )
 }
 

@@ -10,4 +10,7 @@ data class ConfirmPlaceState(
     val alertInfo: AlertInfo = AlertInfo(),
 ) : UiState
 
-sealed interface ConfirmPlaceSideEffect : SideEffect
+sealed interface ConfirmPlaceSideEffect : SideEffect {
+    data object PopBackStack : ConfirmPlaceSideEffect
+    data object NavigateToUpload : ConfirmPlaceSideEffect
+}

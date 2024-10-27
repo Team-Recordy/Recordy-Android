@@ -3,6 +3,7 @@ package com.record.upload.searchplace
 import androidx.lifecycle.viewModelScope
 import com.record.exhibition.repository.SearchRepository
 import com.record.ui.base.BaseViewModel
+import com.record.upload.navigation.UploadRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest
@@ -33,5 +34,14 @@ class SearchPlaceViewModel @Inject constructor(
         intent {
             copy(query = newQuery)
         }
+    }
+    fun popBackStack() {
+        postSideEffect(SearchSideEffect.PopBackStack)
+    }
+    fun navigateToAddPlaceScreen() {
+        postSideEffect(SearchSideEffect.NavigateToAddPlace)
+    }
+    fun popBackStackArgument(place: UploadRoute.Upload) {
+        postSideEffect(SearchSideEffect.PopBackStackArgument(place))
     }
 }

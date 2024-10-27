@@ -38,7 +38,9 @@ import com.record.designsystem.component.searchcomponent.SearchingContainerBtn
 import com.record.designsystem.theme.RecordyTheme
 import com.record.exhibition.model.PlaceUsingMap
 import com.record.ui.extension.customClickable
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.upload.navigation.UploadRoute
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AddPlaceScreenRoute(
@@ -49,12 +51,23 @@ fun AddPlaceScreenRoute(
     navigateToConfirmPlace: (UploadRoute.ConfirmPlace) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                is AddPlaceSideEffect.PopBackStack -> popBackStack()
+
+                is AddPlaceSideEffect.NavigateToConfirmPlaceScreen -> {
+                    navigateToConfirmPlace(sideEffect.confirmPlace)
+                }
+            }
+        }
+    }
     AddPlaceScreen(
         modifier = modifier,
         uiState = uiState,
         onQueryChange = viewModel::onQueryChanged,
-        popBackStack = popBackStack,
-        navigateToConfirmPlace = navigateToConfirmPlace,
+        popBackStack = viewModel::popBackStack,
+        navigateToConfirmPlace = viewModel::navigateToConfirmPlace,
     )
 }
 

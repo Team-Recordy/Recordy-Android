@@ -62,9 +62,9 @@ fun NavGraphBuilder.uploadNavGraph(
             navigateToSearchPlace = {
                 navigateToSearchPlace()
             },
-            a = a ?: "",
-            b = b ?: "",
-            c = c ?: "",
+            id = a ?: "",
+            address = b ?: "",
+            name = c ?: "",
         )
     }
 

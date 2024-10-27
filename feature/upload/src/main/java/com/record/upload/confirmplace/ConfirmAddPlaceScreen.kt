@@ -1,7 +1,6 @@
 package com.record.upload.confirmplace
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.record.designsystem.component.button.RecordyButton
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
-import com.record.upload.UploadState
 
 
 @Composable
@@ -24,13 +22,17 @@ fun ConfirmAddPlaceScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: ConfirmPlaceViewModel = hiltViewModel(),
     popBackStack: () -> Unit,
+    navigateToUpload: () -> Unit,
 ) {
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     ConfirmAddPlaceScreen(
         modifier = modifier,
-        state=state,
-        onClickConfirm = viewModel::upload,
+        state = state,
+        onClickConfirm = {
+            viewModel.upload()
+            navigateToUpload()
+        },
         popBackStack = popBackStack
     )
 }
@@ -38,7 +40,7 @@ fun ConfirmAddPlaceScreenRoute(
 @Composable
 fun ConfirmAddPlaceScreen(
     modifier: Modifier,
-    onClickConfirm:()->Unit,
+    onClickConfirm: () -> Unit,
     popBackStack: () -> Unit,
     state: ConfirmPlaceState = ConfirmPlaceState(),
 ) {
@@ -47,40 +49,41 @@ fun ConfirmAddPlaceScreen(
             .background(color = RecordyTheme.colors.black)
             .padding(horizontal = 16.dp)
     ) {
-    Column(
-        modifier = Modifier.weight(1f)
-    ) {
-        TopNavigationBar(
-            modifier = Modifier,
-            title = "내용 작성",
-            enableGradation = true,
-            popBackStackEnable = true,
-            popBackStack=popBackStack
-        )
-        Text(
-            text = "이 장소가 맞나요?",
-            color = RecordyTheme.colors.gray01,
-            style = RecordyTheme.typography.title1,
-            maxLines = 1,
-            modifier = Modifier.fillMaxWidth()
-                .padding(top = 60.dp),
-        )
-        ConfirmPlaceInfo(
-            modifier = Modifier.padding(top = 25.dp),
-            title = "상호명",
-            subTitle = state.place.name
-        )
-        ConfirmPlaceInfo(
-            modifier = Modifier.padding(top = 12.dp),
-            title = "주소",
-            subTitle = state.place.address
-        )
-    }
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            TopNavigationBar(
+                modifier = Modifier,
+                title = "내용 작성",
+                enableGradation = true,
+                popBackStackEnable = true,
+                popBackStack = popBackStack
+            )
+            Text(
+                text = "이 장소가 맞나요?",
+                color = RecordyTheme.colors.gray01,
+                style = RecordyTheme.typography.title1,
+                maxLines = 1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 60.dp),
+            )
+            ConfirmPlaceInfo(
+                modifier = Modifier.padding(top = 25.dp),
+                title = "상호명",
+                subTitle = state.place.name
+            )
+            ConfirmPlaceInfo(
+                modifier = Modifier.padding(top = 12.dp),
+                title = "주소",
+                subTitle = state.place.address
+            )
+        }
         RecordyButton(
             text = "확인",
             enabled = true,
             onClick = {
-                    onClickConfirm()
+                onClickConfirm()
             },
         )
     }

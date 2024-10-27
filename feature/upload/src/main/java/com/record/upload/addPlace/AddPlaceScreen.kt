@@ -144,7 +144,10 @@ fun AddPlaceScreen(
                                 navigateToConfirmPlace(
                                     UploadRoute.ConfirmPlace(
                                         name = item.name,
-                                        address = item.address
+                                        address = item.address,
+                                        latitude = item.latitude,
+                                        longitude = item.longitude,
+                                        placeId = item.platformPlaceId
                                     )
                                 )
                             },

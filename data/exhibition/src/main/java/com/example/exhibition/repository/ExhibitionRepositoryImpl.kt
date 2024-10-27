@@ -1,11 +1,13 @@
 package com.example.exhibition.repository
 
+import com.example.exhibition.model.remote.request.RequestPostPlaceDto
 import com.example.exhibition.model.remote.response.toDomain
 import com.example.exhibition.source.remote.RemoteExhibitionDataSource
 import com.example.exhibition.source.remote.RemotePlaceDataSource
 import com.record.exhibition.model.Exhibition
 import com.record.exhibition.model.ExhibitionFilter
 import com.record.exhibition.model.Place
+import com.record.exhibition.model.PlaceUsingMap
 import com.record.exhibition.repository.ExhibitionRepository
 import com.record.model.Page
 import com.record.model.exception.ApiError
@@ -19,6 +21,17 @@ class ExhibitionRepositoryImpl @Inject constructor(
     private val remotePlaceDataSource: RemotePlaceDataSource,
     private val videoRepository: VideoRepository,
 ) : ExhibitionRepository {
+    override suspend fun postPlace(usingMap: PlaceUsingMap): Result<Unit> = runCatching {
+        remotePlaceDataSource.postPlace(
+            RequestPostPlaceDto(
+                address = usingMap.address,
+                name = usingMap.name,
+                latitude = usingMap.latitude,
+                longitude = usingMap.longitude,
+                id = usingMap.platformPlaceId
+            )
+        )
+    }
     override suspend fun getNearPlaceData(number: Int, size: Int, latitude: Double, longitude: Double) =
         runCatching {
             remotePlaceDataSource.getNearPlace(number = number, size = size, latitude = latitude, longitude = -longitude, distance = 3000000.0)

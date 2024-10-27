@@ -98,5 +98,7 @@ sealed class UploadRoute {
         val placeId:String="",
         val address: String = "",
         val name: String = "",
+        val longitude: Double=0.0,
+        val latitude: Double=0.0,
     )
 }

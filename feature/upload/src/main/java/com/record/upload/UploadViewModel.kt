@@ -27,14 +27,14 @@ class UploadViewModel @Inject constructor(
             intent { copy(contentList = it.keywords) }
         }
     }
-    fun setSelectedPlace(a: String, b: String, c: String) {
-        if (a.isNotEmpty() && b.isNotEmpty() && c.isNotEmpty()) {
+    fun setSelectedPlace(id: String, name: String, address: String) {
+        if (id.isNotEmpty() && name.isNotEmpty() && address.isNotEmpty()) {
             intent {
                 copy(
                     selectPlace = UploadRoute.Upload(
-                        id = a.toLong(),
-                        name = b,
-                        address = c,
+                        id = id.toLong(),
+                        name = name,
+                        address = address,
                     ),
                 )
             }
@@ -79,10 +79,6 @@ class UploadViewModel @Inject constructor(
 
     fun setVideo(video: GalleryVideo) = intent {
         copy(video = video)
-    }
-
-    fun bucket(video: String, thumbnail: String) = intent {
-        copy(bucketUrl = video, thumbnailUrl = thumbnail)
     }
 
     fun showShouldShowRationaleDialog() = intent {

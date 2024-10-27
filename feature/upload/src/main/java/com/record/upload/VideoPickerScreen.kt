@@ -85,9 +85,9 @@ fun VideoPickerRoute(
     popBackStack: () -> Unit,
     navigateToSearchPlace: () -> Unit,
     onShowSnackBar: (String, SnackBarType) -> Unit,
-    a: String,
-    b: String,
-    c: String,
+    id: String,
+    address: String,
+    name: String,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
@@ -101,7 +101,7 @@ fun VideoPickerRoute(
     }
 
     LaunchedEffectWithLifecycle {
-        viewModel.setSelectedPlace(a, b, c)
+        viewModel.setSelectedPlace(id, address, name)
         viewModel.getKeyWordList()
     }
 

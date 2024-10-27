@@ -1,6 +1,5 @@
 package com.record.upload.confirmplace
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
@@ -8,7 +7,6 @@ import com.record.exhibition.model.PlaceUsingMap
 import com.record.exhibition.repository.ExhibitionRepository
 import com.record.model.AlertInfo
 import com.record.ui.base.BaseViewModel
-import com.record.upload.addPlace.SearchSideEffect
 import com.record.upload.navigation.UploadRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,14 +16,15 @@ import javax.inject.Inject
 class ConfirmPlaceViewModel @Inject constructor(
     private val exhibitionRepository: ExhibitionRepository,
     savedStateHandle: SavedStateHandle,
-) : BaseViewModel<ConfirmPlaceState, SearchSideEffect>(
+) : BaseViewModel<ConfirmPlaceState, ConfirmPlaceSideEffect>(
     initialState = ConfirmPlaceState(),
 ) {
     val place2 = savedStateHandle.toRoute<UploadRoute.ConfirmPlace>()
+
     init {
-        Log.d("searchConfirmPlace", "$place2")
         setPlace()
     }
+
     fun upload() = viewModelScope.launch {
         exhibitionRepository.postPlace(uiState.value.place)
     }
@@ -59,5 +58,11 @@ class ConfirmPlaceViewModel @Inject constructor(
                 showDialog = false,
             ),
         )
+    }
+    fun popBackStack() {
+        postSideEffect(ConfirmPlaceSideEffect.PopBackStack)
+    }
+    fun navigateToUpload() {
+        postSideEffect(ConfirmPlaceSideEffect.NavigateToUpload)
     }
 }

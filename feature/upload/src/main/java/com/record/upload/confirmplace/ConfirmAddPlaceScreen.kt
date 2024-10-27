@@ -23,13 +23,15 @@ import com.record.upload.UploadState
 fun ConfirmAddPlaceScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: ConfirmPlaceViewModel = hiltViewModel(),
+    popBackStack: () -> Unit,
 ) {
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     ConfirmAddPlaceScreen(
         modifier = modifier,
         state=state,
-        onClickConfirm = viewModel::upload
+        onClickConfirm = viewModel::upload,
+        popBackStack = popBackStack
     )
 }
 
@@ -37,6 +39,7 @@ fun ConfirmAddPlaceScreenRoute(
 fun ConfirmAddPlaceScreen(
     modifier: Modifier,
     onClickConfirm:()->Unit,
+    popBackStack: () -> Unit,
     state: ConfirmPlaceState = ConfirmPlaceState(),
 ) {
     Column(
@@ -52,6 +55,7 @@ fun ConfirmAddPlaceScreen(
             title = "내용 작성",
             enableGradation = true,
             popBackStackEnable = true,
+            popBackStack=popBackStack
         )
         Text(
             text = "이 장소가 맞나요?",

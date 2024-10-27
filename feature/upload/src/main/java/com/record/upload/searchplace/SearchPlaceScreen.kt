@@ -5,12 +5,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -49,6 +52,7 @@ fun SearchPlaceScreenRoute(
     viewModel: SearchPlaceViewModel = hiltViewModel(),
     popBackStackArgument: (UploadRoute.Upload) -> Unit,
     navigateToAddPlace: () -> Unit,
+    popBackStack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -58,7 +62,8 @@ fun SearchPlaceScreenRoute(
         onQueryChange = viewModel::onQueryChanged,
         items = uiState.filteredItems,
         popBackStackArgument = popBackStackArgument,
-        navigateToAddPlace=navigateToAddPlace
+        navigateToAddPlace = navigateToAddPlace,
+        popBackStack=popBackStack
     )
 }
 
@@ -70,6 +75,7 @@ fun SearchPlaceScreen(
     items: List<com.record.exhibition.model.SearchResult>,
     popBackStackArgument: (UploadRoute.Upload) -> Unit,
     navigateToAddPlace: () -> Unit,
+    popBackStack: () -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -78,13 +84,14 @@ fun SearchPlaceScreen(
     Column(
         modifier = modifier
             .background(color = RecordyTheme.colors.black)
-            .padding(horizontal = 16.dp, vertical = 28.dp),
+            .padding(horizontal = 16.dp),
     ) {
         TopNavigationBar(
             modifier = Modifier,
             title = "장소",
             enableGradation = true,
             popBackStackEnable = true,
+            popBackStack = popBackStack
         )
         SearchBox(
             modifier = modifier
@@ -109,9 +116,11 @@ fun SearchPlaceScreen(
                 items(items) { item ->
                     Column {
                         Searched1ContainerBtn(
-                            modifier = modifier.fillMaxWidth().customClickable {
-                                Log.d("searchSak1", "$item")
-                            },
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .customClickable {
+                                    Log.d("searchSak1", "$item")
+                                },
                             exhibitionName = item.name,
                             location = item.address,
                             venue = item.name,
@@ -136,16 +145,18 @@ fun SearchPlaceScreen(
                 LazyColumn {
                     items(items) { item ->
                         SearchingContainerBtn(
-                            modifier = modifier.fillMaxWidth().customClickable {
-                                Log.d("searchSak", "$item")
-                                popBackStackArgument(
-                                    UploadRoute.Upload(
-                                        id = item.id,
-                                        address = item.address,
-                                        name = item.name,
-                                    ),
-                                )
-                            },
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .customClickable {
+                                    Log.d("searchSak", "$item")
+                                    popBackStackArgument(
+                                        UploadRoute.Upload(
+                                            id = item.id,
+                                            address = item.address,
+                                            name = item.name,
+                                        ),
+                                    )
+                                },
                             exhibitionName = item.name,
                             location = item.address,
                             venue = item.name,
@@ -158,7 +169,7 @@ fun SearchPlaceScreen(
 }
 
 @Composable
-fun EmptySearchResult(showSearchedContainer: Boolean,onButtonClick:()->Unit) {
+fun EmptySearchResult(showSearchedContainer: Boolean, onButtonClick: () -> Unit) {
     val imePadding = Modifier.imePadding()
     Box(
         modifier = Modifier
@@ -174,31 +185,21 @@ fun EmptySearchResult(showSearchedContainer: Boolean,onButtonClick:()->Unit) {
             Image(
                 painter = painterResource(id = R.drawable.jpeg_not_search),
                 contentDescription = "Empty Icon",
+                contentScale = ContentScale.Fit,
+                alpha = 1f,
                 modifier = Modifier
-                    .wrapContentSize()
                     .padding(bottom = 18.dp),
             )
-
-            if (showSearchedContainer) {
-                Text(
-                    text = "검색 결과가 없어요.",
-                    color = RecordyTheme.colors.gray01,
-                    style = RecordyTheme.typography.title2,
-                    textAlign = TextAlign.Center,
-                )
-            } else {
-                Text(
-                    text = "검색 결과가 없어요.\n검색어가 정확한지 확인해주세요!",
-                    color = RecordyTheme.colors.gray01,
-                    style = RecordyTheme.typography.title2,
-                    textAlign = TextAlign.Center,
-                )
-            }
+            Text(
+                text = "검색 결과가 없어요.\n검색어가 정확한지 확인해주세요!",
+                color = RecordyTheme.colors.gray01,
+                style = RecordyTheme.typography.title2,
+                textAlign = TextAlign.Center,
+            )
             BasicButton(
                 modifier = Modifier
-                    .height(44.dp)
-                    .padding(top = 23.dp)
-                    .fillMaxWidth(0.33f),
+                    .fillMaxWidth(0.33f)
+                    .padding(top = 23.dp),
                 text = "영상 업로드하기",
                 textStyle = RecordyTheme.typography.body2B,
                 textColor = RecordyTheme.colors.background,

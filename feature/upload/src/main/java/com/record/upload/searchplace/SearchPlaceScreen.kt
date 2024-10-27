@@ -109,7 +109,6 @@ fun SearchPlaceScreen(
                             exhibitionName = item.name,
                             location = item.address,
                             venue = item.name,
-                            type = item.type,
                         )
                         HorizontalDivider(
                             modifier = modifier

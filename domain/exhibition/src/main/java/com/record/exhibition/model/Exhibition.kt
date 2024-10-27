@@ -7,3 +7,11 @@ data class Exhibition(
     val startDate: String,
     val endDate: String,
 )
+
+data class PlaceUsingMap(
+    val platformPlaceId: String,
+    val address: String,
+    val longitude: Double,
+    val latitude: Double,
+    val name: String,
+)

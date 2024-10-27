@@ -67,7 +67,7 @@ internal class MainNavigator(
             MainNavTab.VIDEO -> navController.navigateVideo(navOptions)
             MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
             MainNavTab.SEARCH -> navController.navigateSearch(navOptions)
-            MainNavTab.UPLOAD -> navController.navigateToUpload()
+            MainNavTab.UPLOAD -> navController.navigateToUpload(null)
         }
     }
 
@@ -109,8 +109,8 @@ internal class MainNavigator(
             userId = userId,
         )
     }
-    fun navigateToUpload() {
-        navController.navigateToUpload()
+    fun navigateToUpload(upload: UploadRoute.Upload?) {
+        navController.navigateToUpload(upload)
     }
     fun navigateToSearchPlace() {
         navController.navigateToSearchPlace()
@@ -152,7 +152,7 @@ internal class MainNavigator(
     @Composable
     fun shouldShowBottomBar(): Boolean {
         val currentRoute = currentDestination?.route ?: return false
-        if (currentRoute == UploadRoute.ROUTE) return false
+        if (currentRoute == UploadRoute.Upload().name) return false
         return currentRoute in MainNavTab || currentRoute in InMainNavTab || currentRoute.contains("detail") || currentRoute.contains(
             ProfileRoute.route,
         )

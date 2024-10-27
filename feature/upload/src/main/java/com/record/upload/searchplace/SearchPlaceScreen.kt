@@ -34,14 +34,16 @@ import com.record.designsystem.R
 import com.record.designsystem.component.SearchBox
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
+import com.record.upload.navigation.UploadRoute
 import com.record.upload.searchplace.component.Searched1ContainerBtn
 import com.record.upload.searchplace.component.SearchingContainerBtn
 
 @Composable
 fun SearchPlaceScreenRoute(
     paddingValues: PaddingValues,
-    modifier:Modifier=Modifier,
+    modifier: Modifier = Modifier,
     viewModel: SearchPlaceViewModel = hiltViewModel(),
+    popBackStackArgument: (UploadRoute.Upload) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -50,9 +52,9 @@ fun SearchPlaceScreenRoute(
         query = uiState.query,
         onQueryChange = viewModel::onQueryChanged,
         items = uiState.filteredItems,
+        popBackStackArgument = popBackStackArgument,
     )
 }
-
 
 @Composable
 fun SearchPlaceScreen(
@@ -60,6 +62,7 @@ fun SearchPlaceScreen(
     query: String,
     onQueryChange: (String) -> Unit,
     items: List<com.record.exhibition.model.SearchResult>,
+    popBackStackArgument: (UploadRoute.Upload) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -95,7 +98,7 @@ fun SearchPlaceScreen(
                     Column {
                         Searched1ContainerBtn(
                             modifier = modifier.fillMaxWidth().customClickable {
-                                Log.d("searchSak1","$item")
+                                Log.d("searchSak1", "$item")
                             },
                             exhibitionName = item.name,
                             location = item.address,
@@ -123,7 +126,14 @@ fun SearchPlaceScreen(
                     items(items) { item ->
                         SearchingContainerBtn(
                             modifier = modifier.fillMaxWidth().customClickable {
-                                Log.d("searchSak","$item")
+                                Log.d("searchSak", "$item")
+                                popBackStackArgument(
+                                    UploadRoute.Upload(
+                                        item.id,
+                                        item.address,
+                                        item.name,
+                                    ),
+                                )
                             },
                             exhibitionName = item.name,
                             location = item.address,

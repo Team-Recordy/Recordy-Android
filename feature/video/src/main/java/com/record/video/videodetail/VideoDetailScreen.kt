@@ -31,6 +31,7 @@ import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.ui.scroll.onBottomReached
 import kotlinx.coroutines.flow.collectLatest
 
+@androidx.annotation.OptIn(UnstableApi::class)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoDetailRoute(
@@ -122,7 +123,7 @@ fun VideoDetailScreen(
     ) {
         VerticalPager(
             state = pagerState,
-            beyondBoundsPageCount = 0,
+            beyondViewportPageCount = 0,
             modifier = Modifier.fillMaxSize(),
         ) { page ->
             Box {

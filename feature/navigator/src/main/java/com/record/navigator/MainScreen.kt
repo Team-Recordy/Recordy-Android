@@ -93,7 +93,7 @@ internal fun MainScreen(
                 homeNavGraph(
                     padding = innerPadding,
                     navigateToVideoDetail = navigator::navigateVideoDetail,
-                    navigateToUpload = navigator::navigateToUpload,
+                    navigateToUpload = { navigator.navigateToUpload(null) },
                     navigateToPlaceDetail = navigator::navigateDetail,
                 )
 
@@ -112,7 +112,8 @@ internal fun MainScreen(
                     padding = innerPadding,
                     popBackStack = navigator::popBackStackIfNotHome,
                     onShowSnackBar = viewModel::onShowSnackbar,
-                    navigateToSearchPlace = navigator::navigateToSearchPlace
+                    navigateToSearchPlace = navigator::navigateToSearchPlace,
+                    navigateToUpload = navigator::navigateToUpload,
                 )
 
                 videoNavGraph(
@@ -130,7 +131,7 @@ internal fun MainScreen(
                     navigateToFollower = { navigator.navigateToFollower() },
                     navigateToVideo = navigator::navigateVideoDetail,
                     navigateToProfile = navigator::navigateProfile,
-                    navigateToUpload = navigator::navigateToUpload,
+                    navigateToUpload = { navigator.navigateToUpload(null) },
                     navigateToHome = navigator::navigateHome,
                     navigateVideoHome = navigator::navigateToVideo,
                 )
@@ -146,7 +147,7 @@ internal fun MainScreen(
 
                 detailNavGraph(
                     padding = innerPadding,
-                    navigateToUpload = navigator::navigateToUpload,
+                    navigateToUpload = { navigator.navigateToUpload(null) },
                     navigateToVideo = navigator::navigateVideoDetail,
                 )
             }

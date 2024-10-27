@@ -31,25 +31,15 @@ fun TopNavigationBar(
     popBackStackEnable:Boolean=false,
     popBackStack:()->Unit={},
 ) {
-    val gradient = Brush.verticalGradient(listOf(Color(0x339babfb), Color(0x00000000)))
-    Box(
-        modifier = if (enableGradation) {
-            modifier
-                .background(RecordyTheme.colors.background)
+   Box(
+        modifier = modifier
+                .background(RecordyTheme.colors.black)
                 .fillMaxWidth()
                 .padding(
                     top = 45.dp,
                     bottom = 15.dp,
                 )
-        } else {
-            modifier
-                .background(RecordyTheme.colors.background)
-                .fillMaxWidth()
-                .padding(
-                    top = 45.dp,
-                    bottom = 15.dp,
-                )
-        },
+
     ) {
         if (popBackStackEnable){
             Icon(

@@ -1,18 +1,16 @@
 package com.record.upload.navigation
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.upload.VideoPickerRoute
 import com.record.upload.addPlace.AddPlaceScreenRoute
-import com.record.upload.addPlace.ConfirmAddPlaceScreenRoute
+import com.record.upload.confirmplace.ConfirmAddPlaceScreenRoute
 import com.record.upload.searchplace.SearchPlaceScreenRoute
 import kotlinx.serialization.Serializable
 

@@ -35,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
 import com.record.designsystem.component.SearchBox
 import com.record.designsystem.component.button.BasicButton
+import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
 import com.record.upload.navigation.UploadRoute
@@ -77,9 +78,14 @@ fun SearchPlaceScreen(
     Column(
         modifier = modifier
             .background(color = RecordyTheme.colors.black)
-            .systemBarsPadding()
             .padding(horizontal = 16.dp, vertical = 28.dp),
     ) {
+        TopNavigationBar(
+            modifier = Modifier,
+            title = "장소",
+            enableGradation = true,
+            popBackStackEnable = true,
+        )
         SearchBox(
             modifier = modifier
                 .onFocusChanged { focusState ->
@@ -191,6 +197,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean,onButtonClick:()->Unit) {
             BasicButton(
                 modifier = Modifier
                     .height(44.dp)
+                    .padding(top = 23.dp)
                     .fillMaxWidth(0.33f),
                 text = "영상 업로드하기",
                 textStyle = RecordyTheme.typography.body2B,

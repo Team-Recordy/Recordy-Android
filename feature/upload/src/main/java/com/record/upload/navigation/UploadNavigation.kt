@@ -12,11 +12,15 @@ import androidx.navigation.toRoute
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.upload.VideoPickerRoute
 import com.record.upload.addPlace.AddPlaceScreenRoute
+import com.record.upload.addPlace.ConfirmAddPlaceScreenRoute
 import com.record.upload.searchplace.SearchPlaceScreenRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToUpload(upload: UploadRoute.Upload?) {
     navigate(route = upload ?: UploadRoute.Upload())
+}
+fun NavController.navigateToUpload(confirmPlace: UploadRoute.ConfirmPlace) {
+    navigate(route = confirmPlace)
 }
 
 fun NavController.navigateToSearchPlace() {
@@ -34,6 +38,7 @@ fun NavGraphBuilder.uploadNavGraph(
     navigateToUpload: (UploadRoute.Upload) -> Unit,
     onShowSnackBar: (String, SnackBarType) -> Unit,
     navigateToAddPlace: () -> Unit,
+    navigateToConfirmPlace: (UploadRoute.ConfirmPlace) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     composable<UploadRoute.Upload> { entry ->
@@ -63,6 +68,12 @@ fun NavGraphBuilder.uploadNavGraph(
             popBackStackArgument = { selectedPlace ->
                 navigateToUpload(selectedPlace)
             },
+            navigateToConfirmPlace=navigateToConfirmPlace
+        )
+    }
+
+    composable<UploadRoute.ConfirmPlace> { entry ->
+        ConfirmAddPlaceScreenRoute(
         )
     }
 }
@@ -81,4 +92,11 @@ sealed class UploadRoute {
 
     @Serializable
     data object AddPlace : UploadRoute()
+
+    @Serializable
+    data class ConfirmPlace(
+        val placeId:String="",
+        val address: String = "",
+        val name: String = "",
+    )
 }

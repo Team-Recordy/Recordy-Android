@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.record.designsystem.R
 import com.record.designsystem.component.SearchBox
+import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.theme.RecordyTheme
 import com.record.exhibition.model.PlaceUsingMap
 import com.record.ui.extension.customClickable
@@ -48,6 +49,7 @@ fun AddPlaceScreenRoute(
     modifier: Modifier = Modifier,
     viewModel: AddPlaceViewModel=hiltViewModel(),
     popBackStackArgument: (UploadRoute.Upload) -> Unit,
+    navigateToConfirmPlace: (UploadRoute.ConfirmPlace) -> Unit,
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
@@ -57,6 +59,7 @@ fun AddPlaceScreenRoute(
         onQueryChange = viewModel::onQueryChanged,
         items = uiState.filteredItems,
         popBackStackArgument = popBackStackArgument,
+        navigateToConfirmPlace=navigateToConfirmPlace
     )
 }
 
@@ -67,6 +70,7 @@ fun AddPlaceScreen(
     onQueryChange: (String) -> Unit,
     items: List<PlaceUsingMap>,
     popBackStackArgument: (UploadRoute.Upload) -> Unit,
+    navigateToConfirmPlace: (UploadRoute.ConfirmPlace) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -78,6 +82,7 @@ fun AddPlaceScreen(
             .systemBarsPadding()
             .padding(horizontal = 16.dp, vertical = 28.dp),
     ) {
+        TopNavigationBar(modifier = Modifier, title = "내용 작성", enableGradation = true, popBackStackEnable = true,)
         SearchBox(
             modifier = modifier
                 .onFocusChanged { focusState ->
@@ -103,6 +108,12 @@ fun AddPlaceScreen(
                         Searched1ContainerBtn(
                             modifier = modifier.fillMaxWidth().customClickable {
                                 Log.d("searchSak1", "$item")
+                                navigateToConfirmPlace(
+                                    UploadRoute.ConfirmPlace(
+                                        name = item.name,
+                                        address = item.address
+                                    )
+                                )
                             },
                             exhibitionName = item.name,
                             location = item.address,
@@ -130,7 +141,12 @@ fun AddPlaceScreen(
                         SearchingContainerBtn(
                             modifier = modifier.fillMaxWidth().customClickable {
                                 Log.d("searchSak", "$item")
-
+                                navigateToConfirmPlace(
+                                    UploadRoute.ConfirmPlace(
+                                        name = item.name,
+                                        address = item.address
+                                    )
+                                )
                             },
                             exhibitionName = item.name,
                             location = item.address,

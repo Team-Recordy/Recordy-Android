@@ -113,6 +113,9 @@ internal class MainNavigator(
     fun navigateToUpload(upload: UploadRoute.Upload?) {
         navController.navigateToUpload(upload)
     }
+    fun navigateToConfirmPlace(confirmPlace: UploadRoute.ConfirmPlace) {
+        navController.navigateToUpload(confirmPlace)
+    }
     fun navigateToSearchPlace() {
         navController.navigateToSearchPlace()
     }

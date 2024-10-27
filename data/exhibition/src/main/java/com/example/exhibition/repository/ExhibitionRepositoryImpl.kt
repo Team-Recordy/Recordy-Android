@@ -28,8 +28,8 @@ class ExhibitionRepositoryImpl @Inject constructor(
                 name = usingMap.name,
                 latitude = usingMap.latitude,
                 longitude = usingMap.longitude,
-                id = usingMap.platformPlaceId
-            )
+                id = usingMap.platformPlaceId,
+            ),
         )
     }
     override suspend fun getNearPlaceData(number: Int, size: Int, latitude: Double, longitude: Double) =

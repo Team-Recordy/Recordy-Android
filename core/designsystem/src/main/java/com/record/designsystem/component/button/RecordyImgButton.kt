@@ -32,13 +32,13 @@ import timber.log.Timber
 fun RecordyImgButton(
     modifier: Modifier = Modifier,
     text: String,
-    placeName:String="",
+    placeName: String = "",
     textStyle: TextStyle = RecordyTheme.typography.body2M,
     shape: Shape = RoundedCornerShape(8.dp),
     onClick: () -> Unit = {},
     backgroundColor: Color = RecordyTheme.colors.gray10,
     textColor: Color = RecordyTheme.colors.gray06,
-    @DrawableRes icon: Int,
+    @DrawableRes icon: Int?,
 ) {
     Box(
         modifier = modifier
@@ -49,19 +49,24 @@ fun RecordyImgButton(
             .padding(vertical = 14.dp, horizontal = 18.dp)
             .customClickable(rippleEnabled = false, onClick = { onClick() }),
     ) {
-            Row(
-                modifier = Modifier   .align(Alignment.CenterEnd)
-            ) {
-                Text(
-                    text = placeName,
-                    style = textStyle,
-                    color = if (placeName.isNotEmpty()) RecordyTheme.colors.gray01 else textColor,
-                    modifier = Modifier.padding(end = 4.dp),
+        Row(
+            modifier = Modifier.align(Alignment.CenterEnd),
+        ) {
+            Text(
+                text = placeName,
+                style = textStyle,
+                color = if (placeName.isNotEmpty()) RecordyTheme.colors.gray01 else textColor,
+                modifier = Modifier.padding(end = 4.dp),
+            )
+            if (icon != null) {
+                Image(
+                    modifier = Modifier
+                        .padding(end = 4.dp),
+                    painter = painterResource(id = icon),
+                    contentDescription = null,
                 )
-                Image(modifier = Modifier
-                    .padding(end = 4.dp), painter = painterResource(id = icon), contentDescription = null)
-
             }
+        }
         Text(
             text = text,
             style = textStyle,

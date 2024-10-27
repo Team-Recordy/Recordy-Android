@@ -18,10 +18,10 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToUpload() {
-    navigate(route = UploadRouteObject.route){
-        popUpTo(graph.startDestinationId) {  // 시작 destination(a)까지 pop
-            inclusive = false  // a는 유지
-            saveState = false  // 상태 저장하지 않음
+    navigate(route = UploadRouteObject.route) {
+        popUpTo(graph.startDestinationId) { // 시작 destination(a)까지 pop
+            inclusive = false // a는 유지
+            saveState = false // 상태 저장하지 않음
         }
     }
 }
@@ -49,12 +49,12 @@ fun NavGraphBuilder.uploadNavGraph(
     modifier: Modifier = Modifier,
 ) {
     composable(
-        route=UploadRouteObject.route
+        route = UploadRouteObject.route,
     ) { entry ->
         val a = entry.savedStateHandle.get<String>("{${UploadRouteObject.PLACE_ID}}")
         val b = entry.savedStateHandle.get<String>("{${UploadRouteObject.PLACE_NAME}}")
         val c = entry.savedStateHandle.get<String>("{${UploadRouteObject.PLACE_ADDRESS}}")
-        Log.d("backStack","$a $b $c")
+        Log.d("backStack", "$a $b $c")
         VideoPickerRoute(
             paddingValues = padding,
             popBackStack = popBackStack,
@@ -62,9 +62,9 @@ fun NavGraphBuilder.uploadNavGraph(
             navigateToSearchPlace = {
                 navigateToSearchPlace()
             },
-            a=a?:"",
-            b=b?:"",
-            c=c?:""
+            a = a ?: "",
+            b = b ?: "",
+            c = c ?: "",
         )
     }
 
@@ -75,22 +75,22 @@ fun NavGraphBuilder.uploadNavGraph(
                 popBackStackArgument(selectedPlace)
             },
             navigateToAddPlace = navigateToAddPlace,
-            popBackStack = popBackStack
+            popBackStack = popBackStack,
         )
     }
 
     composable<UploadRoute.AddPlace> { entry ->
         AddPlaceScreenRoute(
             paddingValues = padding,
-            navigateToConfirmPlace=navigateToConfirmPlace,
-            popBackStack = popBackStack
+            navigateToConfirmPlace = navigateToConfirmPlace,
+            popBackStack = popBackStack,
         )
     }
 
     composable<UploadRoute.ConfirmPlace> { entry ->
         ConfirmAddPlaceScreenRoute(
             popBackStack = popBackStack,
-            navigateToUpload=navigateToUpload
+            navigateToUpload = navigateToUpload,
         )
     }
 }
@@ -99,18 +99,18 @@ object UploadRouteObject {
     const val PLACE_ID = "upload-id"
     const val PLACE_NAME = "upload-name"
     const val PLACE_ADDRESS = "upload-address"
-   }
+}
 
 @Serializable
 sealed class UploadRoute {
     @Parcelize
     @Serializable
     data class Upload(
-        val screenId:String="Upload",
+        val screenId: String = "Upload",
         val id: Long = 0,
         val address: String = "",
         val name: String = "",
-    ):UploadRoute(),Parcelable
+    ) : UploadRoute(), Parcelable
 
     @Serializable
     data object SearchPlace : UploadRoute()
@@ -120,10 +120,10 @@ sealed class UploadRoute {
 
     @Serializable
     data class ConfirmPlace(
-        val placeId:String="",
+        val placeId: String = "",
         val address: String = "",
         val name: String = "",
-        val longitude: Double=0.0,
-        val latitude: Double=0.0,
+        val longitude: Double = 0.0,
+        val latitude: Double = 0.0,
     )
 }

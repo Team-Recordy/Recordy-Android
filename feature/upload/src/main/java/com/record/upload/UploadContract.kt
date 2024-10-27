@@ -24,7 +24,7 @@ data class UploadState(
     val thumbnailUrl: String = "",
     val locationTextValue: String = "",
     val contentTextValue: String = "",
-    val selectPlace:UploadRoute.Upload=UploadRoute.Upload()
+    val selectPlace: UploadRoute.Upload = UploadRoute.Upload(),
 ) : UiState
 
 sealed interface UploadSideEffect : SideEffect {

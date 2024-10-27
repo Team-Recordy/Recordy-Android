@@ -5,5 +5,5 @@ import com.record.exhibition.model.SearchResult
 
 interface SearchRepository {
     suspend fun searchExhibition(query: String): Result<List<SearchResult>>
-    suspend fun searchPlace(query: String):Result<List<PlaceUsingMap>>
+    suspend fun searchPlace(query: String): Result<List<PlaceUsingMap>>
 }

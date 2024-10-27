@@ -112,20 +112,20 @@ internal fun MainScreen(
                 uploadNavGraph(
                     padding = innerPadding,
                     popBackStack = {
-                         navigator.popBackStackIfNotHome()
+                        navigator.popBackStackIfNotHome()
                     },
                     popBackStackArgument = {
                         navigator.navController.previousBackStackEntry?.savedStateHandle?.set(
                             "{${UploadRouteObject.PLACE_ID}}",
-                            it.id.toString()
+                            it.id.toString(),
                         )
                         navigator.navController.previousBackStackEntry?.savedStateHandle?.set(
                             "{${UploadRouteObject.PLACE_NAME}}",
-                            it.name
+                            it.name,
                         )
                         navigator.navController.previousBackStackEntry?.savedStateHandle?.set(
                             "{${UploadRouteObject.PLACE_ADDRESS}}",
-                            it.address
+                            it.address,
                         )
                         navigator.popBackStackArgument()
                     },
@@ -133,7 +133,7 @@ internal fun MainScreen(
                     navigateToSearchPlace = navigator::navigateToSearchPlace,
                     navigateToUpload = navigator::navigateToUpload,
                     navigateToAddPlace = navigator::navigateToAddPlace,
-                    navigateToConfirmPlace = navigator::navigateToConfirmPlace
+                    navigateToConfirmPlace = navigator::navigateToConfirmPlace,
                 )
 
                 videoNavGraph(

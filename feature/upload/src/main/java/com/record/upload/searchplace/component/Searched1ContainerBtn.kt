@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
-import com.record.exhibition.model.ResultType
 
 @Composable
 fun Searched1ContainerBtn(

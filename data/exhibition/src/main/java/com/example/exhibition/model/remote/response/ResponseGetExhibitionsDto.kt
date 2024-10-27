@@ -33,10 +33,9 @@ data class ResponseGetPlaceUsingMapDto(
     val name: String,
 )
 
-
 fun ResponseGetPlaceUsingMapDto.toDomain() = PlaceUsingMap(
-    platformPlaceId=platformPlaceId,
-    address=address,
+    platformPlaceId = platformPlaceId,
+    address = address,
     name = name,
     longitude = longitude,
     latitude = latitude,

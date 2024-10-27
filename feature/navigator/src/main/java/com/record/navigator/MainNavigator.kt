@@ -113,7 +113,7 @@ internal class MainNavigator(
     }
     fun navigateToUpload() {
 //        navController.navigateToUpload()
-        navController.navigate(route = UploadRouteObject.route){
+        navController.navigate(route = UploadRouteObject.route) {
             popUpTo(HomeRoute.route) {
                 inclusive = false
                 saveState = false
@@ -129,7 +129,6 @@ internal class MainNavigator(
     fun navigateToAddPlace() {
         navController.navigateToAddPlace()
     }
-
 
     fun navigateToFollowing() {
         navController.navigateToFollowing()
@@ -164,7 +163,7 @@ internal class MainNavigator(
     fun popBackStackArgument() {
         navController.popBackStack(
             route = UploadRouteObject.route,
-            inclusive = false
+            inclusive = false,
         )
     }
 

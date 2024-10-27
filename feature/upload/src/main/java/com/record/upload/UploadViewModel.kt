@@ -3,12 +3,14 @@ package com.record.upload
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
 import com.record.model.AlertInfo
 import com.record.ui.base.BaseViewModel
 import com.record.upload.model.GalleryVideo
 import com.record.upload.model.RecordInfo
+import com.record.upload.navigation.UploadRoute
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
@@ -20,8 +22,12 @@ import javax.inject.Inject
 class UploadViewModel @Inject constructor(
     private val uploadRepository: UploadRepository,
     private val keywordRepository: KeywordRepository,
+    savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
-
+    val place = savedStateHandle.toRoute<UploadRoute.Upload>()
+    init {
+        Log.d("searchSakPlace", "$place")
+    }
     fun getKeyWordList() = viewModelScope.launch {
         keywordRepository.getKeywords().onSuccess {
             intent { copy(contentList = it.keywords) }

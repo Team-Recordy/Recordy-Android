@@ -27,7 +27,7 @@ enum class MainNavTab(
     UPLOAD(
         iconId = R.drawable.ic_tab_upload,
         titleId = R.string.upload,
-        route = UploadRoute.ROUTE,
+        route = UploadRoute.Upload().name,
     ),
     VIDEO(
         iconId = R.drawable.ic_tab_video,

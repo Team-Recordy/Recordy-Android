@@ -28,6 +28,7 @@ import com.record.ui.scroll.onBottomReached
 import com.record.video.component.VideoTypeToggle
 import kotlinx.coroutines.flow.collectLatest
 
+@androidx.annotation.OptIn(UnstableApi::class)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoRoute(
@@ -117,7 +118,7 @@ fun VideoScreen(
     ) {
         VerticalPager(
             state = pagerState,
-            beyondBoundsPageCount = 0,
+            beyondViewportPageCount = 0,
             modifier = Modifier.fillMaxSize(),
             key = { page ->
                 val videos = if (state.isAll) state.allVideos else state.followingVideos

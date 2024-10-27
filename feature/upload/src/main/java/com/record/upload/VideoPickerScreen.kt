@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -70,7 +69,6 @@ import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.textfield.RecordyBasicTextField
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
-import com.record.exhibition.model.ResultType
 import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.upload.component.bottomsheet.DefinedContentBottomSheet
@@ -80,16 +78,6 @@ import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class SearchSelectedPlace(
-    val id: Long,
-//    val type: ResultType2,
-    val address: String,
-    val name: String,
-)
-
 
 @Composable
 fun VideoPickerRoute(
@@ -134,7 +122,7 @@ fun VideoPickerRoute(
                     contentFocusRequester.requestFocus()
                 }
 
-                is UploadSideEffect.NavigateToSearchPlace ->{
+                is UploadSideEffect.NavigateToSearchPlace -> {
                     navigateToSearchPlace()
                 }
             }
@@ -159,7 +147,7 @@ fun VideoPickerRoute(
         showSnackBar = viewModel::makeSnackBar,
         onClickBackStack = viewModel::popBackStack,
         onLoadMore = viewModel::onLoadMore,
-        navigateToSearchPlace=viewModel::navigateToSearchPlace
+        navigateToSearchPlace = viewModel::navigateToSearchPlace,
     )
 }
 
@@ -408,7 +396,7 @@ fun VideoPickerScreenPreview() {
             onClickContentChip = {},
             onClickVideo = {},
             onClickUpload = {},
-            navigateToSearchPlace = {}
+            navigateToSearchPlace = {},
         )
     }
 }

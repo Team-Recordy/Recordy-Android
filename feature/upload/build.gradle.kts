@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.recordy.feature)
     alias(libs.plugins.kotlin.serialization)
+    id("kotlin-parcelize")
 }
 
 android {

@@ -21,6 +21,7 @@ import com.record.profile.navigation.navigateProfile
 import com.record.search.navigation.navigateSearch
 import com.record.setting.navigate.navigateSetting
 import com.record.upload.navigation.UploadRoute
+import com.record.upload.navigation.UploadRouteObject
 import com.record.upload.navigation.navigateToAddPlace
 import com.record.upload.navigation.navigateToSearchPlace
 import com.record.upload.navigation.navigateToUpload
@@ -68,7 +69,7 @@ internal class MainNavigator(
             MainNavTab.VIDEO -> navController.navigateVideo(navOptions)
             MainNavTab.MYPAGE -> navController.navigateMypage(navOptions)
             MainNavTab.SEARCH -> navController.navigateSearch(navOptions)
-            MainNavTab.UPLOAD -> navController.navigateToUpload(null)
+            MainNavTab.UPLOAD -> navController.navigateToUpload()
         }
     }
 
@@ -110,8 +111,14 @@ internal class MainNavigator(
             userId = userId,
         )
     }
-    fun navigateToUpload(upload: UploadRoute.Upload?) {
-        navController.navigateToUpload(upload)
+    fun navigateToUpload() {
+//        navController.navigateToUpload()
+        navController.navigate(route = UploadRouteObject.route){
+            popUpTo(HomeRoute.route) {
+                inclusive = false
+                saveState = false
+            }
+        }
     }
     fun navigateToConfirmPlace(confirmPlace: UploadRoute.ConfirmPlace) {
         navController.navigateToUpload(confirmPlace)
@@ -154,9 +161,9 @@ internal class MainNavigator(
         }
     }
 
-    fun popBackStackArgument(selectedPlace: UploadRoute.Upload) {
+    fun popBackStackArgument() {
         navController.popBackStack(
-            route = UploadRoute.Upload(),
+            route = UploadRouteObject.route,
             inclusive = false
         )
     }

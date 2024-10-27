@@ -86,6 +86,9 @@ fun VideoPickerRoute(
     popBackStack: () -> Unit,
     navigateToSearchPlace: () -> Unit,
     onShowSnackBar: (String, SnackBarType) -> Unit,
+    a:String,
+    b:String,
+    c:String
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -100,8 +103,8 @@ fun VideoPickerRoute(
     }
 
     LaunchedEffectWithLifecycle {
+        viewModel.setSelectedPlace(a,b,c)
         viewModel.getKeyWordList()
-        viewModel.setSelectedPlace()
     }
 
     LaunchedEffectWithLifecycle {

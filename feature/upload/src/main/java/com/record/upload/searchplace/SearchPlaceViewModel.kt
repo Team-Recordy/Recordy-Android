@@ -1,5 +1,7 @@
 package com.record.upload.searchplace
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.record.exhibition.repository.SearchRepository
 import com.record.ui.base.BaseViewModel

@@ -16,7 +16,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -67,7 +66,7 @@ import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.textfield.RecordyBasicTextField
-import com.record.designsystem.theme.Background
+import com.record.designsystem.component.textfield.RecordyBasicTextField2
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
@@ -86,12 +85,11 @@ fun VideoPickerRoute(
     popBackStack: () -> Unit,
     navigateToSearchPlace: () -> Unit,
     onShowSnackBar: (String, SnackBarType) -> Unit,
-    a:String,
-    b:String,
-    c:String
+    a: String,
+    b: String,
+    c: String,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val locationFocusRequester = remember { FocusRequester() }
     val contentFocusRequester = remember { FocusRequester() }
@@ -103,7 +101,7 @@ fun VideoPickerRoute(
     }
 
     LaunchedEffectWithLifecycle {
-        viewModel.setSelectedPlace(a,b,c)
+        viewModel.setSelectedPlace(a, b, c)
         viewModel.getKeyWordList()
     }
 
@@ -157,7 +155,6 @@ fun VideoPickerRoute(
 @OptIn(
     ExperimentalPermissionsApi::class,
     ExperimentalMaterial3Api::class,
-    ExperimentalLayoutApi::class,
 )
 @Composable
 fun VideoPickerScreen(
@@ -225,7 +222,7 @@ fun VideoPickerScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Background)
+            .background(RecordyTheme.colors.black)
             .verticalScroll(rememberScrollState())
             .customClickable {
                 focusManager.clearFocus()
@@ -326,11 +323,12 @@ fun VideoPickerScreen(
                     navigateToSearchPlace()
                 },
             )
-            RecordyBasicTextField(
+            RecordyBasicTextField2(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .focusRequester(locationFocusRequester),
-                placeholder = "전시명을 입력해 주세요.",
+                placeholder = "전시명",
+                placeholder2 = "전시명을 입력해 주세요.",
                 maxLines = 1,
                 maxLength = 20,
                 value = state.locationTextValue,

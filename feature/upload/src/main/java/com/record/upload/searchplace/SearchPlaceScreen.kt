@@ -5,16 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -63,7 +59,7 @@ fun SearchPlaceScreenRoute(
         items = uiState.filteredItems,
         popBackStackArgument = popBackStackArgument,
         navigateToAddPlace = navigateToAddPlace,
-        popBackStack=popBackStack
+        popBackStack = popBackStack,
     )
 }
 
@@ -91,7 +87,7 @@ fun SearchPlaceScreen(
             title = "장소",
             enableGradation = true,
             popBackStackEnable = true,
-            popBackStack = popBackStack
+            popBackStack = popBackStack,
         )
         SearchBox(
             modifier = modifier
@@ -183,7 +179,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean, onButtonClick: () -> Unit)
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.jpeg_not_search),
+                painter = painterResource(id = R.drawable.ic_alert_warning_80),
                 contentDescription = "Empty Icon",
                 contentScale = ContentScale.Fit,
                 alpha = 1f,

@@ -11,8 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,27 +19,26 @@ import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
 import com.record.designsystem.theme.White
 import com.record.ui.extension.customClickable
-import kotlinx.coroutines.launch
 
 @Composable
 fun TopNavigationBar(
     modifier: Modifier = Modifier,
     title: String = "",
     enableGradation: Boolean = false,
-    popBackStackEnable:Boolean=false,
-    popBackStack:()->Unit={},
+    popBackStackEnable: Boolean = false,
+    popBackStack: () -> Unit = {},
 ) {
-   Box(
+    Box(
         modifier = modifier
-                .background(RecordyTheme.colors.black)
-                .fillMaxWidth()
-                .padding(
-                    top = 45.dp,
-                    bottom = 15.dp,
-                )
+            .background(RecordyTheme.colors.black)
+            .fillMaxWidth()
+            .padding(
+                top = 45.dp,
+                bottom = 15.dp,
+            ),
 
     ) {
-        if (popBackStackEnable){
+        if (popBackStackEnable) {
             Icon(
                 ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_angle_left_24),
                 contentDescription = "뒤로가기",

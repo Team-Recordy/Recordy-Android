@@ -1,9 +1,7 @@
 package com.record.upload
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
 import com.record.model.AlertInfo
@@ -11,7 +9,6 @@ import com.record.ui.base.BaseViewModel
 import com.record.upload.model.GalleryVideo
 import com.record.upload.model.RecordInfo
 import com.record.upload.navigation.UploadRoute
-import com.record.upload.navigation.UploadRouteObject
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
@@ -30,18 +27,18 @@ class UploadViewModel @Inject constructor(
             intent { copy(contentList = it.keywords) }
         }
     }
-     fun setSelectedPlace(a:String,b:String,c:String)  {
-         if (a.isNotEmpty()&&b.isNotEmpty()&&c.isNotEmpty()) {
-             intent {
-                 copy(
-                     selectPlace = UploadRoute.Upload(
-                         id = a.toLong(),
-                         name = b,
-                         address = c,
-                     )
-                 )
-             }
-         }
+    fun setSelectedPlace(a: String, b: String, c: String) {
+        if (a.isNotEmpty() && b.isNotEmpty() && c.isNotEmpty()) {
+            intent {
+                copy(
+                    selectPlace = UploadRoute.Upload(
+                        id = a.toLong(),
+                        name = b,
+                        address = c,
+                    ),
+                )
+            }
+        }
     }
 
     fun upload() = viewModelScope.launch {

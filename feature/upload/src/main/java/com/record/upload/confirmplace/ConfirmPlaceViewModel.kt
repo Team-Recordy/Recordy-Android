@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.record.exhibition.model.PlaceUsingMap
 import com.record.exhibition.repository.ExhibitionRepository
+import com.record.model.AlertInfo
 import com.record.ui.base.BaseViewModel
 import com.record.upload.addPlace.SearchSideEffect
 import com.record.upload.navigation.UploadRoute
@@ -22,7 +23,7 @@ class ConfirmPlaceViewModel @Inject constructor(
 ) {
     val place2 = savedStateHandle.toRoute<UploadRoute.ConfirmPlace>()
     init {
-        Log.d("searchConfirmPlace","$place2")
+        Log.d("searchConfirmPlace", "$place2")
         setPlace()
     }
     fun upload() = viewModelScope.launch {
@@ -30,13 +31,33 @@ class ConfirmPlaceViewModel @Inject constructor(
     }
     fun setPlace() {
         intent {
-            copy(place = PlaceUsingMap(
-                platformPlaceId =  place2.placeId,
-                address = place2.address,
-                longitude = place2.longitude,
-                latitude = place2.latitude,
-                name = place2.name
-            ))
+            copy(
+                place = PlaceUsingMap(
+                    platformPlaceId = place2.placeId,
+                    address = place2.address,
+                    longitude = place2.longitude,
+                    latitude = place2.latitude,
+                    name = place2.name,
+                ),
+            )
         }
+    }
+    fun showUploadPlaceDialog() = intent {
+        copy(
+            alertInfo = AlertInfo(
+                showDialog = true,
+                title = "${uiState.value.place.name}",
+                subTitle = "등록할까요?",
+                negativeButtonLabel = "취소",
+                positiveButtonLabel = "등록",
+            ),
+        )
+    }
+    fun hideUploadDialog() = intent {
+        copy(
+            alertInfo = AlertInfo(
+                showDialog = false,
+            ),
+        )
     }
 }

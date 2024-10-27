@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +32,7 @@ import timber.log.Timber
 fun RecordyImgButton(
     modifier: Modifier = Modifier,
     text: String,
+    placeName:String="",
     textStyle: TextStyle = RecordyTheme.typography.body2M,
     shape: Shape = RoundedCornerShape(8.dp),
     onClick: () -> Unit = {},
@@ -47,11 +49,23 @@ fun RecordyImgButton(
             .padding(vertical = 14.dp, horizontal = 18.dp)
             .customClickable(rippleEnabled = false, onClick = { onClick() }),
     ) {
-        Image(modifier = Modifier.align(Alignment.CenterEnd).padding(end = 4.dp), painter = painterResource(id = icon), contentDescription = null)
+            Row(
+                modifier = Modifier   .align(Alignment.CenterEnd)
+            ) {
+                Text(
+                    text = placeName,
+                    style = textStyle,
+                    color = if (placeName.isNotEmpty()) RecordyTheme.colors.gray01 else textColor,
+                    modifier = Modifier.padding(end = 4.dp),
+                )
+                Image(modifier = Modifier
+                    .padding(end = 4.dp), painter = painterResource(id = icon), contentDescription = null)
+
+            }
         Text(
             text = text,
             style = textStyle,
-            color = textColor,
+            color = if (placeName.isNotEmpty()) RecordyTheme.colors.gray01 else textColor,
             modifier = Modifier.align(Alignment.CenterStart),
         )
     }
@@ -70,7 +84,13 @@ fun RecordyImgButtonPreview() {
             ) {
                 RecordyImgButton(
                     icon = R.drawable.ic_move_18,
-                    text = "키워드",
+                    text = "장소",
+                    placeName = "as",
+                    onClick = { Timber.d("basic key word") },
+                )
+                RecordyImgButton(
+                    icon = R.drawable.ic_move_18,
+                    text = "장소",
                     onClick = { Timber.d("basic key word") },
                 )
             }

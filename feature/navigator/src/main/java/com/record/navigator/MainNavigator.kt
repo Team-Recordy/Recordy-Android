@@ -21,6 +21,7 @@ import com.record.profile.navigation.navigateProfile
 import com.record.search.navigation.navigateSearch
 import com.record.setting.navigate.navigateSetting
 import com.record.upload.navigation.UploadRoute
+import com.record.upload.navigation.navigateToAddPlace
 import com.record.upload.navigation.navigateToSearchPlace
 import com.record.upload.navigation.navigateToUpload
 import com.record.video.navigation.navigateVideo
@@ -115,6 +116,10 @@ internal class MainNavigator(
     fun navigateToSearchPlace() {
         navController.navigateToSearchPlace()
     }
+    fun navigateToAddPlace() {
+        navController.navigateToAddPlace()
+    }
+
 
     fun navigateToFollowing() {
         navController.navigateToFollowing()
@@ -144,6 +149,13 @@ internal class MainNavigator(
         if (!isSameCurrentDestination(HomeRoute.route)) {
             navController.popBackStack()
         }
+    }
+
+    fun popBackStackArgument(selectedPlace: UploadRoute.Upload) {
+        navController.popBackStack(
+            route = UploadRoute.Upload(),
+            inclusive = false
+        )
     }
 
     private fun isSameCurrentDestination(route: String) =

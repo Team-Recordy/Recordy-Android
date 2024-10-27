@@ -114,6 +114,7 @@ internal fun MainScreen(
                     onShowSnackBar = viewModel::onShowSnackbar,
                     navigateToSearchPlace = navigator::navigateToSearchPlace,
                     navigateToUpload = navigator::navigateToUpload,
+                    navigateToAddPlace = navigator::navigateToAddPlace
                 )
 
                 videoNavGraph(

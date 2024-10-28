@@ -10,4 +10,5 @@ android {
 dependencies {
     implementation(projects.domain.user)
     implementation(projects.core.datastore)
+    implementation(projects.data.video)
 }

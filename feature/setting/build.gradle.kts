@@ -9,4 +9,7 @@ android {
 
 dependencies {
     implementation(projects.domain.auth)
+    implementation(projects.domain.user)
+    implementation(projects.domain.video)
+    implementation(projects.domain.upload)
 }

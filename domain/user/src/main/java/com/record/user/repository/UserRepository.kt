@@ -29,4 +29,9 @@ interface UserRepository {
     suspend fun saveUserId(userId: Long): Result<Unit>
 
     suspend fun getUserId(): Result<Long>
+
+    suspend fun updateUser(
+        nickname: String,
+        profileImg: String,
+    ): Result<Unit>
 }

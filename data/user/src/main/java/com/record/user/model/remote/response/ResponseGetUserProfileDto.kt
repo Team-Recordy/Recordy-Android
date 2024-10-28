@@ -6,20 +6,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseGetUserProfileDto(
-    @SerialName("followerCount")
-    val followerCount: Int,
-    @SerialName("followingCount")
-    val followingCount: Int,
     @SerialName("id")
     val id: Int,
-    @SerialName("isFollowing")
-    val isFollowing: Boolean,
     @SerialName("nickname")
     val nickname: String,
     @SerialName("profileImageUrl")
     val profileImageUrl: String,
     @SerialName("recordCount")
     val recordCount: Int,
+    @SerialName("followerCount")
+    val followerCount: Int,
+    @SerialName("followingCount")
+    val followingCount: Int,
+    @SerialName("isFollowing")
+    val isFollowing: Boolean,
 )
 
 fun ResponseGetUserProfileDto.toDomain() = Profile(

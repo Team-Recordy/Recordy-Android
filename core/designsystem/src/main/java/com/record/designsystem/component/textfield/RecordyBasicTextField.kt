@@ -36,8 +36,9 @@ import com.record.designsystem.theme.Alert01
 import com.record.designsystem.theme.Black
 import com.record.designsystem.theme.Gray01
 import com.record.designsystem.theme.Gray03
+import com.record.designsystem.theme.Gray05
 import com.record.designsystem.theme.Gray06
-import com.record.designsystem.theme.Gray08
+import com.record.designsystem.theme.Gray10
 import com.record.designsystem.theme.RecordyTheme
 import com.record.designsystem.theme.ViskitYellow500
 
@@ -84,7 +85,7 @@ fun RecordyBasicTextField(
             if (newValue.replace(" ", "").length <= maxLength) onValueChange(newValue)
         },
         singleLine = maxLines == 1,
-        textStyle = textStyle.copy(Gray01),
+        textStyle = textStyle.copy(Gray05),
         maxLines = if (minLines > maxLines) minLines else maxLines,
         minLines = minLines,
         interactionSource = interactionSource,
@@ -103,7 +104,7 @@ fun RecordyBasicTextField(
                         .heightIn(minHeight)
                         .fillMaxWidth()
                         .clip(shape = shape)
-                        .background(color = Gray08)
+                        .background(color = Gray10)
                         .border(
                             width = 1.dp,
                             color = borderLineColor,
@@ -141,6 +142,109 @@ fun RecordyBasicTextField(
                         style = RecordyTheme.typography.caption2R,
                         maxLines = 1,
                     )
+                }
+            }
+        },
+    )
+}
+
+@Composable
+fun RecordyBasicTextField2(
+    modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(8.dp),
+    placeholder: String = "",
+    placeholder2: String = "",
+    value: String = "",
+    onValueChange: (String) -> Unit = { _ -> },
+    isError: Boolean = false,
+    maxLines: Int = 1,
+    minLines: Int = 1,
+    maxLength: Int = 10,
+    minHeight: Dp = 52.dp,
+    textStyle: TextStyle = RecordyTheme.typography.body2M,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
+    val isFocused by interactionSource.collectIsFocusedAsState()
+
+    val borderLineColor = when {
+        isError -> Alert01
+        isFocused -> ViskitYellow500
+        value.isEmpty() -> Color.Transparent
+        else -> Color.Transparent
+    }
+
+    BasicTextField(
+        modifier = modifier.fillMaxWidth(),
+        value = value,
+        onValueChange = { newValue ->
+            if (newValue.replace(" ", "").length <= maxLength) onValueChange(newValue)
+        },
+        singleLine = maxLines == 1,
+        textStyle = textStyle.copy(Gray05),
+        maxLines = if (minLines > maxLines) minLines else maxLines,
+        minLines = minLines,
+        interactionSource = interactionSource,
+        cursorBrush = SolidColor(ViskitYellow500),
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        visualTransformation = visualTransformation,
+        decorationBox = { innerText ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Box(
+                    modifier = Modifier
+                        .heightIn(minHeight)
+                        .fillMaxWidth()
+                        .clip(shape = shape)
+                        .background(color = Gray10)
+                        .border(
+                            width = 1.dp,
+                            color = borderLineColor,
+                            shape = shape,
+                        )
+                        .padding(vertical = 16.dp, horizontal = 18.dp),
+                ) {
+                    if (value.isEmpty()) {
+                        Text(
+                            text = placeholder,
+                            color = Gray06,
+                            style = RecordyTheme.typography.body2M,
+                            maxLines = 1,
+                            overflow = TextOverflow.Clip,
+                            modifier = Modifier.align(Alignment.CenterStart),
+                        )
+                        Text(
+                            text = placeholder2,
+                            color = Gray06,
+                            style = RecordyTheme.typography.body2M,
+                            maxLines = 1,
+                            overflow = TextOverflow.Clip,
+                            modifier = Modifier.align(Alignment.CenterEnd),
+                        )
+                    } else {
+                        Text(
+                            text = placeholder,
+                            color = Gray01,
+                            style = RecordyTheme.typography.body2M,
+                            maxLines = 1,
+                            overflow = TextOverflow.Clip,
+                            modifier = Modifier.align(Alignment.CenterStart),
+                        )
+                        Text(
+                            text = value,
+                            color = Gray01,
+                            style = RecordyTheme.typography.body2M,
+                            maxLines = 1,
+                            overflow = TextOverflow.Clip,
+                            modifier = Modifier.align(Alignment.CenterEnd),
+                        )
+                    }
                 }
             }
         },
@@ -185,6 +289,13 @@ fun TextFieldPreview() {
                 maxLength = 300,
                 minHeight = 148.dp,
                 value = normalValue,
+                onValueChange = { normalValue = it },
+            )
+            RecordyBasicTextField2(
+                placeholder = "레코디",
+                isError = true,
+                value = normalValue,
+                placeholder2 = "test",
                 onValueChange = { normalValue = it },
             )
         }

@@ -25,11 +25,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
+import com.record.exhibition.model.Exhibition
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun ListScreen(
-    exhibitionItems: ImmutableList<Triple<String, String, String>>,
+    exhibitionItems: ImmutableList<Exhibition>,
     exhibitionCount: Int,
     selectedChip: ChipTab,
     onChipSelected: (ChipTab) -> Unit,
@@ -74,7 +75,7 @@ fun ListScreen(
                 }
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }
-            if (exhibitionCount == 0) {
+            if (exhibitionItems.size == 0) {
                 item {
                     EmptyDataScreen(
                         message = "\n진행 중인 전시가 없어요.",
@@ -83,16 +84,13 @@ fun ListScreen(
                 }
             } else {
                 items(exhibitionItems) { item ->
-                    val (name, startDate, endDate) = item
-                    Column {
-                        ExhibitionItem(
-                            name = name,
-                            startDate = startDate,
-                            endDate = endDate,
-                            onButtonClick = { },
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                    }
+                    ExhibitionItem(
+                        name = item.name,
+                        startDate = item.startDate,
+                        endDate = item.endDate,
+                        onButtonClick = { },
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }

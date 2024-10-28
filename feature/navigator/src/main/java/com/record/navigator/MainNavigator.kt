@@ -22,6 +22,9 @@ import com.record.search.navigation.navigateSearch
 import com.record.setting.navigate.navigateProfileEdit
 import com.record.setting.navigate.navigateSetting
 import com.record.upload.navigation.UploadRoute
+import com.record.upload.navigation.UploadRouteObject
+import com.record.upload.navigation.navigateToAddPlace
+import com.record.upload.navigation.navigateToSearchPlace
 import com.record.upload.navigation.navigateToUpload
 import com.record.video.navigation.navigateVideo
 import com.record.video.navigation.navigateVideoDetail
@@ -98,7 +101,9 @@ internal class MainNavigator(
     fun navigateMypage() {
         navController.navigateMypage(navOptions { })
     }
-
+    fun navigateToVideo() {
+        navController.navigateVideo(null)
+    }
     fun navigateVideoDetail(videoType: VideoType, videoId: Long, keyword: String? = "all", userId: Long = 0) {
         navController.navigateVideoDetail(
             videoType = videoType,
@@ -108,7 +113,22 @@ internal class MainNavigator(
         )
     }
     fun navigateToUpload() {
-        navController.navigateToUpload()
+//        navController.navigateToUpload()
+        navController.navigate(route = UploadRouteObject.route) {
+            popUpTo(HomeRoute.route) {
+                inclusive = false
+                saveState = false
+            }
+        }
+    }
+    fun navigateToConfirmPlace(confirmPlace: UploadRoute.ConfirmPlace) {
+        navController.navigateToUpload(confirmPlace)
+    }
+    fun navigateToSearchPlace() {
+        navController.navigateToSearchPlace()
+    }
+    fun navigateToAddPlace() {
+        navController.navigateToAddPlace()
     }
 
     fun navigateToFollowing() {
@@ -130,9 +150,8 @@ internal class MainNavigator(
     fun navigateProfileEdit() {
         navController.navigateProfileEdit(navOptions { })
     }
-
-    fun navigateDetail() {
-        navController.navigateDetail(navOptions { })
+    fun navigateDetail(id: Long) {
+        navController.navigateDetail(placeId = id, navOptions { })
     }
 
     fun navigateSearch() {
@@ -145,13 +164,20 @@ internal class MainNavigator(
         }
     }
 
+    fun popBackStackArgument() {
+        navController.popBackStack(
+            route = UploadRouteObject.route,
+            inclusive = false,
+        )
+    }
+
     private fun isSameCurrentDestination(route: String) =
         navController.currentDestination?.route == route
 
     @Composable
     fun shouldShowBottomBar(): Boolean {
         val currentRoute = currentDestination?.route ?: return false
-        if (currentRoute == UploadRoute.ROUTE) return false
+        if (currentRoute == UploadRoute.Upload().name) return false
         return currentRoute in MainNavTab || currentRoute in InMainNavTab || currentRoute.contains("detail") || currentRoute.contains(
             ProfileRoute.route,
         )

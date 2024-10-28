@@ -53,7 +53,7 @@ fun DetailRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: DetailpageViewModel = hiltViewModel(),
-    navigateToUplaod: () -> Unit,
+    navigateToUpload: () -> Unit,
     navigateToVideo: (VideoType, Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -82,7 +82,8 @@ fun DetailRoute(
             navigateToVideo = viewModel::navigateToVideoDetail,
             onLoadMoreReviews = viewModel::loadMoreReviewVideos,
             onBookmarkClick = viewModel::bookmark,
-            navigateToUpload = navigateToUplaod,
+            navigateToUpload = navigateToUpload,
+            onChipSelected = viewModel::selectChip,
         )
     }
 }
@@ -96,6 +97,7 @@ fun DetailpageScreen(
     navigateToUpload: () -> Unit,
     onLoadMoreReviews: () -> Unit,
     onBookmarkClick: (Long) -> Unit,
+    onChipSelected: (ChipTab) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.detailpageTab.ordinal,
@@ -178,10 +180,10 @@ fun DetailpageScreen(
                         ListScreen(
                             exhibitionItems = state.exhibitionList,
                             exhibitionCount = state.exhibitionCount,
-                            selectedChip = selectedChipState.value,
+                            selectedChip = state.selectedChip,
                             onItemClick = {},
                             onChipSelected = { selectedChip ->
-                                selectedChipState.value = selectedChip
+                                onChipSelected(selectedChip)
                             },
                         )
                     }
@@ -220,7 +222,7 @@ fun CustomTabRow(
 
     val animatedIndicatorWidth by animateDpAsState(
         targetValue = tabWidth - 12.dp,
-        animationSpec = tween(200),
+        animationSpec = tween(0),
     )
 
     val density = LocalDensity.current

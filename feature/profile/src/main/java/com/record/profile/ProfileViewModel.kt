@@ -31,6 +31,7 @@ class ProfileViewModel @Inject constructor(
 
     fun getProfile() = viewModelScope.launch {
         userRepository.getUserProfile(uiState.value.id).onSuccess { response ->
+            Log.d("ProfileViewModel", "$response")
             intent {
                 copy(
                     id = response.id.toLong(),

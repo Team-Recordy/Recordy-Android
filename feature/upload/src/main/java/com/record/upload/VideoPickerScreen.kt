@@ -16,10 +16,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -64,12 +61,12 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.record.designsystem.R
 import com.record.designsystem.component.button.RecordyButton
-import com.record.designsystem.component.button.RecordyChipButton
+import com.record.designsystem.component.button.RecordyImgButton
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.navbar.TopNavigationBar
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.textfield.RecordyBasicTextField
-import com.record.designsystem.theme.Background
+import com.record.designsystem.component.textfield.RecordyBasicTextField2
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
@@ -86,10 +83,13 @@ fun VideoPickerRoute(
     paddingValues: PaddingValues,
     viewModel: UploadViewModel = hiltViewModel(),
     popBackStack: () -> Unit,
+    navigateToSearchPlace: () -> Unit,
     onShowSnackBar: (String, SnackBarType) -> Unit,
+    id: String,
+    address: String,
+    name: String,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val locationFocusRequester = remember { FocusRequester() }
     val contentFocusRequester = remember { FocusRequester() }
@@ -101,6 +101,7 @@ fun VideoPickerRoute(
     }
 
     LaunchedEffectWithLifecycle {
+        viewModel.setSelectedPlace(id, address, name)
         viewModel.getKeyWordList()
     }
 
@@ -122,22 +123,24 @@ fun VideoPickerRoute(
                     awaitFrame()
                     contentFocusRequester.requestFocus()
                 }
+
+                is UploadSideEffect.NavigateToSearchPlace -> {
+                    navigateToSearchPlace()
+                }
             }
         }
     }
 
     VideoPickerScreen(
         state = state,
-        onClickContentChip = viewModel::setSelectedList,
         onClickVideo = viewModel::setVideo,
         onClickUpload = viewModel::upload,
         locationFocusRequester = locationFocusRequester,
         contentFocusRequester = locationFocusRequester,
         updateLocationTextField = viewModel::updateLocationTextField,
         showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
+        hideExitUploadDialog = viewModel::hideUploadDialog,
         updateContentTextField = viewModel::updateContentTextField,
-        hideShouldShowRationaleDialog = viewModel::hideShouldShowRationaleDialog,
-        hideExitUploadDialog = viewModel::hideExitUploadDialog,
         showIsSelectedVideoSheetOpen = viewModel::showIsSelectedVideoSheetOpen,
         hideIsSelectedVideoSheetOpen = viewModel::hideIsSelectedVideoSheetOpen,
         showIsSelectedDefinedContentSheetOpen = viewModel::showIsSelectedDefinedContentSheetOpen,
@@ -145,23 +148,21 @@ fun VideoPickerRoute(
         showSnackBar = viewModel::makeSnackBar,
         onClickBackStack = viewModel::popBackStack,
         onLoadMore = viewModel::onLoadMore,
+        navigateToSearchPlace = viewModel::navigateToSearchPlace,
     )
 }
 
 @OptIn(
     ExperimentalPermissionsApi::class,
     ExperimentalMaterial3Api::class,
-    ExperimentalLayoutApi::class,
 )
 @Composable
 fun VideoPickerScreen(
     modifier: Modifier = Modifier,
     state: UploadState = UploadState(),
-    onClickContentChip: (List<String>) -> Unit,
     onClickVideo: (GalleryVideo) -> Unit,
     onClickUpload: () -> Unit,
     showShouldShowRationaleDialog: () -> Unit = {},
-    hideShouldShowRationaleDialog: () -> Unit = {},
     hideExitUploadDialog: () -> Unit = {},
     showIsSelectedVideoSheetOpen: () -> Unit = {},
     hideIsSelectedVideoSheetOpen: () -> Unit = {},
@@ -174,6 +175,7 @@ fun VideoPickerScreen(
     showSnackBar: () -> Unit = {},
     onClickBackStack: () -> Unit = {},
     onLoadMore: () -> Unit = {},
+    navigateToSearchPlace: () -> Unit,
 ) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -220,7 +222,7 @@ fun VideoPickerScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Background)
+            .background(RecordyTheme.colors.black)
             .verticalScroll(rememberScrollState())
             .customClickable {
                 focusManager.clearFocus()
@@ -237,17 +239,14 @@ fun VideoPickerScreen(
         )
         Column(
             modifier = Modifier
-                .padding(horizontal = 16.dp),
+                .padding(top = 16.dp)
+                .weight(1f)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(
-                text = "영상",
-                color = RecordyTheme.colors.white,
-                style = RecordyTheme.typography.subtitle,
-                modifier = Modifier.padding(top = 20.dp, bottom = 9.dp),
-            )
             Box(
                 modifier = Modifier
-                    .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(16.dp))
+                    .background(RecordyTheme.colors.gray10, shape = RoundedCornerShape(16.dp))
                     .customClickable(
                         onClick = {
                             if (cameraPermissionState.status.isGranted) {
@@ -284,7 +283,7 @@ fun VideoPickerScreen(
                         )
                         Text(
                             text = "영상 선택",
-                            color = RecordyTheme.colors.white,
+                            color = RecordyTheme.colors.gray01,
                             style = RecordyTheme.typography.subtitle,
                         )
                     }
@@ -303,100 +302,47 @@ fun VideoPickerScreen(
                     )
                 }
             }
-        }
-        Text(
-            text = "키워드",
-            color = RecordyTheme.colors.white,
-            style = RecordyTheme.typography.subtitle,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(top = 22.dp, bottom = 12.dp),
-        )
-        FlowRow(
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .padding(start = 16.dp, end = 12.dp)
-                .customClickable(onClick = showIsSelectedDefinedContentSheetOpen),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(9.dp),
-        ) {
-            state.selectedList.forEach {
-                RecordyChipButton(
-                    text = it,
-                    isActive = true,
-                    isCheckSmall = false,
-                    onClick = { },
-                )
-            }
-            Row(
+            RecordyBasicTextField(
+                placeholder = "나의 생각을 자유롭게 적어주세요!",
+                maxLines = 20,
+                maxLength = 300,
+                minHeight = 80.dp,
+                value = state.contentTextValue,
                 modifier = Modifier
-                    .background(RecordyTheme.colors.gray08, shape = RoundedCornerShape(30.dp))
-                    .padding(
-                        start = 8.dp,
-                        top = 10.dp,
-                        end = 12.dp,
-                        bottom = 10.dp,
-                    ),
-
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_plus_16),
-                    contentDescription = null,
-                )
-                Text(
-                    text = "키워드",
-                    color = RecordyTheme.colors.gray03,
-                    style = RecordyTheme.typography.body2M,
-                )
-            }
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 24.dp)
+                    .focusRequester(contentFocusRequester),
+                onValueChange = updateContentTextField,
+            )
+            RecordyImgButton(
+                modifier = Modifier.padding(16.dp),
+                icon = R.drawable.ic_move_18,
+                placeName = state.selectPlace.name,
+                text = "장소",
+                onClick = {
+                    navigateToSearchPlace()
+                },
+            )
+            RecordyBasicTextField2(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .focusRequester(locationFocusRequester),
+                placeholder = "전시명",
+                placeholder2 = "전시명을 입력해 주세요.",
+                maxLines = 1,
+                maxLength = 20,
+                value = state.locationTextValue,
+                onValueChange = updateLocationTextField,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+            )
         }
-        Text(
-            text = "위치",
-            color = RecordyTheme.colors.white,
-            style = RecordyTheme.typography.subtitle,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(top = 20.dp, bottom = 12.dp),
-        )
-        RecordyBasicTextField(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .focusRequester(locationFocusRequester),
-            placeholder = "영상 속 위치는 어디인가요?",
-            maxLines = 1,
-            maxLength = 20,
-            value = state.locationTextValue,
-            onValueChange = updateLocationTextField,
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-        )
-        Text(
-            text = "내용",
-            color = RecordyTheme.colors.white,
-            style = RecordyTheme.typography.subtitle,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(top = 10.dp, bottom = 12.dp),
-        )
-        RecordyBasicTextField(
-            placeholder = "공간에 대한 나의 생각을 자유롭게 적어주세요!",
-            maxLines = 20,
-            maxLength = 300,
-            minHeight = 148.dp,
-            value = state.contentTextValue,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 10.dp)
-                .focusRequester(contentFocusRequester),
-            onValueChange = updateContentTextField,
-        )
+
         Box(modifier = Modifier.padding(16.dp)) {
             RecordyButton(
-                text = "업로드",
-                enabled = state.selectedList.isNotEmpty() && state.locationTextValue.isNotEmpty() && state.video != null,
+                text = "다음",
+                enabled = state.locationTextValue.isNotEmpty() && state.video != null,
                 onClick = {
-                    if (state.selectedList.isNotEmpty() && state.locationTextValue.isNotEmpty() && state.video != null) {
+                    if (state.video != null) {
                         onClickUpload()
 //                compressVideo(context, state.video.uri,state.video.name, onSuccess = onSuccess)
                     }
@@ -405,29 +351,21 @@ fun VideoPickerScreen(
         }
     }
 
-    if (state.showShouldShowRationaleDialog) {
+    if (state.alertInfo.showDialog) {
         RecordyDialog(
-            graphicAsset = R.drawable.img_allow,
-            title = "필수 권한을 허용해주세요",
-            subTitle = "사진 접근을 허용하여 영상을 업로드 하세요.",
-            negativeButtonLabel = "닫기",
-            positiveButtonLabel = "지금 설정",
-            onDismissRequest = hideShouldShowRationaleDialog,
-            onPositiveButtonClick = {
-                openAppSettings(context)
-            },
-        )
-    }
-
-    if (state.showExitUploadDialog) {
-        RecordyDialog(
-            graphicAsset = R.drawable.img_pen,
-            title = "화면을 나가시겠어요?",
-            subTitle = "지금까지 작성하신 내용이 모두 사라져요.",
-            negativeButtonLabel = "취소",
-            positiveButtonLabel = "나가기",
+            graphicAsset = R.drawable.ic_alert_warning_80,
+            title = state.alertInfo.title,
+            subTitle = state.alertInfo.subTitle,
+            negativeButtonLabel = state.alertInfo.negativeButtonLabel,
+            positiveButtonLabel = state.alertInfo.positiveButtonLabel,
             onDismissRequest = hideExitUploadDialog,
-            onPositiveButtonClick = onClickBackStack,
+            onPositiveButtonClick = {
+                if (cameraPermissionState.status.shouldShowRationale) {
+                    openAppSettings(context)
+                } else {
+                    onClickBackStack()
+                }
+            },
         )
     }
     SelectedVideoBottomSheet(
@@ -446,7 +384,6 @@ fun VideoPickerScreen(
         isSheetOpen = state.isSelectedDefinedContentSheetOpen,
         onDismissRequest = hideIsSelectedDefinedContentSheetOpen,
         contentList = state.contentList,
-        onClickDefinedContent = onClickContentChip,
     )
 }
 
@@ -456,9 +393,9 @@ fun VideoPickerScreen(
 fun VideoPickerScreenPreview() {
     RecordyTheme {
         VideoPickerScreen(
-            onClickContentChip = {},
             onClickVideo = {},
             onClickUpload = {},
+            navigateToSearchPlace = {},
         )
     }
 }

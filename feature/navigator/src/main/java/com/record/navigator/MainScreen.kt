@@ -47,6 +47,7 @@ import com.record.mypage.navigation.mypageNavGraph
 import com.record.profile.navigation.profileNavGraph
 import com.record.search.navigation.searchNavGraph
 import com.record.setting.navigate.settingNavGraph
+import com.record.upload.navigation.UploadRouteObject
 import com.record.upload.navigation.uploadNavGraph
 import com.record.video.navigation.videoNavGraph
 import kotlinx.collections.immutable.ImmutableList
@@ -93,7 +94,8 @@ internal fun MainScreen(
                 homeNavGraph(
                     padding = innerPadding,
                     navigateToVideoDetail = navigator::navigateVideoDetail,
-                    navigateToUpload = navigator::navigateToUpload,
+                    navigateToUpload = { navigator.navigateToUpload() },
+                    navigateToPlaceDetail = navigator::navigateDetail,
                 )
 
                 profileNavGraph(
@@ -109,8 +111,29 @@ internal fun MainScreen(
 
                 uploadNavGraph(
                     padding = innerPadding,
-                    popBackStack = navigator::popBackStackIfNotHome,
+                    popBackStack = {
+                        navigator.popBackStackIfNotHome()
+                    },
+                    popBackStackArgument = {
+                        navigator.navController.previousBackStackEntry?.savedStateHandle?.set(
+                            "{${UploadRouteObject.PLACE_ID}}",
+                            it.id.toString(),
+                        )
+                        navigator.navController.previousBackStackEntry?.savedStateHandle?.set(
+                            "{${UploadRouteObject.PLACE_NAME}}",
+                            it.name,
+                        )
+                        navigator.navController.previousBackStackEntry?.savedStateHandle?.set(
+                            "{${UploadRouteObject.PLACE_ADDRESS}}",
+                            it.address,
+                        )
+                        navigator.popBackStackArgument()
+                    },
                     onShowSnackBar = viewModel::onShowSnackbar,
+                    navigateToSearchPlace = navigator::navigateToSearchPlace,
+                    navigateToUpload = navigator::navigateToUpload,
+                    navigateToAddPlace = navigator::navigateToAddPlace,
+                    navigateToConfirmPlace = navigator::navigateToConfirmPlace,
                 )
 
                 videoNavGraph(
@@ -128,8 +151,9 @@ internal fun MainScreen(
                     navigateToFollower = { navigator.navigateToFollower() },
                     navigateToVideo = navigator::navigateVideoDetail,
                     navigateToProfile = navigator::navigateProfile,
-                    navigateToUpload = navigator::navigateToUpload,
+                    navigateToUpload = { navigator.navigateToUpload() },
                     navigateToHome = navigator::navigateHome,
+                    navigateVideoHome = navigator::navigateToVideo,
                 )
 
                 settingNavGraph(
@@ -145,7 +169,7 @@ internal fun MainScreen(
 
                 detailNavGraph(
                     padding = innerPadding,
-                    navigateToUpload = navigator::navigateToUpload,
+                    navigateToUpload = { navigator.navigateToUpload() },
                     navigateToVideo = navigator::navigateVideoDetail,
                 )
             }

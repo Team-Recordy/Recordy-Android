@@ -6,49 +6,50 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.RecordyTheme
 import com.record.designsystem.theme.White
+import com.record.ui.extension.customClickable
 
 @Composable
 fun TopNavigationBar(
     modifier: Modifier = Modifier,
     title: String = "",
     enableGradation: Boolean = false,
+    popBackStackEnable: Boolean = false,
+    popBackStack: () -> Unit = {},
 ) {
-    val gradient = Brush.verticalGradient(
-        colors = listOf(
-            if (enableGradation) Background.copy(alpha = 0f) else Background,
-            Background,
-        ),
-    )
     Box(
-        modifier = if (enableGradation) {
-            modifier
-                .background(brush = Brush.verticalGradient(listOf(Color(0x339babfb), Color(0x00000000))))
-                .fillMaxWidth()
-                .padding(
-                    top = 45.dp,
-                    bottom = 15.dp,
-                )
-        } else {
-            modifier
-                .background(Background)
-                .fillMaxWidth()
-                .padding(
-                    top = 45.dp,
-                    bottom = 15.dp,
-                )
-        },
+        modifier = modifier
+            .background(RecordyTheme.colors.black)
+            .fillMaxWidth()
+            .padding(
+                top = 45.dp,
+                bottom = 15.dp,
+            ),
+
     ) {
+        if (popBackStackEnable) {
+            Icon(
+                ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_angle_left_24),
+                contentDescription = "뒤로가기",
+                tint = RecordyTheme.colors.gray01,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .customClickable {
+                        popBackStack()
+                    },
+            )
+        }
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = title,
@@ -71,6 +72,8 @@ fun RecordyTopNavigationBarPreview() {
             ) {
                 TopNavigationBar(title = "Title", enableGradation = true)
                 TopNavigationBar(title = "Title", enableGradation = false)
+
+                TopNavigationBar(title = "Title", popBackStackEnable = true)
             }
         }
     }

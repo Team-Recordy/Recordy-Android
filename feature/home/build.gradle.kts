@@ -9,6 +9,8 @@ android {
 dependencies {
     implementation(projects.domain.video)
     implementation(projects.domain.keyword)
+    implementation(projects.domain.exhibition)
     implementation(libs.lottie.compose)
     implementation(libs.collapsing.toolbar)
+    implementation(libs.google.location)
 }

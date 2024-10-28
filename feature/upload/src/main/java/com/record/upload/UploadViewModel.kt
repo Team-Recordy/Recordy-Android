@@ -1,12 +1,14 @@
 package com.record.upload
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.record.common.util.encodingString
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
+import com.record.model.AlertInfo
 import com.record.ui.base.BaseViewModel
 import com.record.upload.model.GalleryVideo
 import com.record.upload.model.RecordInfo
+import com.record.upload.navigation.UploadRoute
 import com.record.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
@@ -18,15 +20,25 @@ import javax.inject.Inject
 class UploadViewModel @Inject constructor(
     private val uploadRepository: UploadRepository,
     private val keywordRepository: KeywordRepository,
+    savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
     fun getKeyWordList() = viewModelScope.launch {
         keywordRepository.getKeywords().onSuccess {
             intent { copy(contentList = it.keywords) }
         }
     }
-
-    fun setSelectedList(selectedContent: List<String>) = intent {
-        copy(selectedList = selectedContent)
+    fun setSelectedPlace(id: String, name: String, address: String) {
+        if (id.isNotEmpty() && name.isNotEmpty() && address.isNotEmpty()) {
+            intent {
+                copy(
+                    selectPlace = UploadRoute.Upload(
+                        id = id.toLong(),
+                        name = name,
+                        address = address,
+                    ),
+                )
+            }
+        }
     }
 
     fun upload() = viewModelScope.launch {
@@ -34,9 +46,8 @@ class UploadViewModel @Inject constructor(
 
         val recordInfo = RecordInfo(
             filePath,
-            uiState.value.locationTextValue,
             uiState.value.contentTextValue,
-            keywords = encodingString(uiState.value.selectedList.joinToString(separator = ",")).trim(),
+            placeId = uiState.value.selectPlace.id,
         )
         uploadRepository.upload(recordInfo)
         popBackStack()
@@ -70,24 +81,36 @@ class UploadViewModel @Inject constructor(
         copy(video = video)
     }
 
-    fun bucket(video: String, thumbnail: String) = intent {
-        copy(bucketUrl = video, thumbnailUrl = thumbnail)
-    }
-
     fun showShouldShowRationaleDialog() = intent {
-        copy(showShouldShowRationaleDialog = true)
+        copy(
+            alertInfo = AlertInfo(
+                showDialog = true,
+                title = "필수 권한을 허용해주세요",
+                subTitle = "프로필 사진 업로드를 위해 \n사진 라이브러리에 접근하도록 허용해 주세요.",
+                negativeButtonLabel = "닫기",
+                positiveButtonLabel = "지금 설정",
+            ),
+        )
     }
 
-    fun hideShouldShowRationaleDialog() = intent {
-        copy(showShouldShowRationaleDialog = false)
+    fun hideUploadDialog() = intent {
+        copy(
+            alertInfo = AlertInfo(
+                showDialog = false,
+            ),
+        )
     }
 
     fun showExitUploadDialog() = intent {
-        copy(showExitUploadDialog = true)
-    }
-
-    fun hideExitUploadDialog() = intent {
-        copy(showExitUploadDialog = false)
+        copy(
+            alertInfo = AlertInfo(
+                showDialog = true,
+                title = "화면을 나가시겠어요?",
+                subTitle = "지금까지 작성하신 내용이 모두 사라져요.",
+                negativeButtonLabel = "취소",
+                positiveButtonLabel = "나가기",
+            ),
+        )
     }
 
     fun showIsSelectedVideoSheetOpen() = intent {
@@ -108,6 +131,9 @@ class UploadViewModel @Inject constructor(
 
     fun popBackStack() {
         postSideEffect(UploadSideEffect.PopBackStack)
+    }
+    fun navigateToSearchPlace() {
+        postSideEffect(UploadSideEffect.NavigateToSearchPlace)
     }
 
     fun makeSnackBar() = viewModelScope.launch {

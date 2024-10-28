@@ -18,6 +18,7 @@ fun NavGraphBuilder.homeNavGraph(
     modifier: Modifier = Modifier,
     navigateToVideoDetail: (VideoType, Long, String?, Long) -> Unit,
     navigateToUpload: () -> Unit = {},
+    navigateToPlaceDetail: (Long) -> Unit = {},
 ) {
     composable(route = HomeRoute.route) {
         HomeRoute(
@@ -25,6 +26,7 @@ fun NavGraphBuilder.homeNavGraph(
             modifier = modifier,
             navigateToVideoDetail = navigateToVideoDetail,
             navigateToUpload = navigateToUpload,
+            navigateToPlaceDetail = navigateToPlaceDetail,
         )
     }
 }

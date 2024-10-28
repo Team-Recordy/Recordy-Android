@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseGetUserProfileDto(
-
     @SerialName("id")
     val id: Int,
     @SerialName("nickname")

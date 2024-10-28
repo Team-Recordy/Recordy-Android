@@ -13,7 +13,7 @@ class UploadTaskImpl @Inject constructor(
     private val remoteUploadDataSource: RemoteUploadDataSource,
     private val uploadBroadCaster: UploadBroadCaster,
 ) : UploadTask {
-    override suspend fun upload(videoPath: String, location: String, content: String, keywords: String): Result<Unit> {
+    override suspend fun upload(videoPath: String, content: String, placeId: Long): Result<Unit> {
         val result = runCatching {
             uploadBroadCaster.sendUploadStart()
             val urls = remoteUploadDataSource.getUploadUrl()
@@ -31,11 +31,10 @@ class UploadTaskImpl @Inject constructor(
                 remoteUploadDataSource.uploadThumbnailToS3Bucket(previewUrl, File(videoPath)).let { previewUri ->
                     remoteUploadDataSource.uploadRecord(
                         VideoInfo(
-                            location = location,
                             content = content,
-                            keywords = keywords,
                             videoUrl = videoUri,
                             previewUrl = previewUri,
+                            placeId = placeId,
                         ).toData(),
                     )
                 }

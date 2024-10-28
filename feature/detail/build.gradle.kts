@@ -7,4 +7,5 @@ android {
 }
 dependencies {
     implementation(projects.domain.video)
+    implementation(projects.domain.exhibition)
 }

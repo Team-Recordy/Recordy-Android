@@ -1,8 +1,16 @@
 package com.record.detail
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.record.detail.navigation.DetailRoute
+import com.record.detail.screen.ChipTab
+import com.record.exhibition.model.ExhibitionFilter
+import com.record.exhibition.repository.ExhibitionRepository
+import com.record.model.VideoData
 import com.record.model.VideoType
 import com.record.ui.base.BaseViewModel
+import com.record.video.model.toCore
 import com.record.video.repository.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
@@ -13,11 +21,44 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailpageViewModel @Inject constructor(
     private val videoRepository: VideoRepository,
+    private val exhibitionRepository: ExhibitionRepository,
+    savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<DetailpageState, DetailpageSideEffect>(DetailpageState()) {
+    private val placeIdString = savedStateHandle.get<String>(DetailRoute.PLACE_ID)
 
+    init {
+        intent {
+            copy(placeId = placeIdString?.toLong() ?: 0)
+        }
+        selectChip(uiState.value.selectedChip)
+    }
     fun selectTab(tab: DetailpageTab) {
         intent {
             copy(detailpageTab = tab)
+        }
+    }
+
+    fun selectChip(chip: ChipTab) {
+        intent {
+            copy(selectedChip = chip)
+        }
+        viewModelScope.launch {
+            exhibitionRepository.getExhibitions(
+                placeId = uiState.value.placeId,
+                filter = when (uiState.value.selectedChip) {
+                    ChipTab.ALL -> ExhibitionFilter.DEFAULT
+                    ChipTab.FREE -> ExhibitionFilter.FREE
+                    ChipTab.ENDING_SOON -> ExhibitionFilter.CLOSING
+                },
+            ).onSuccess {
+                intent {
+                    copy(
+                        exhibitionList = it.toImmutableList(),
+                    )
+                }
+            }.onFailure {
+                Log.e("이잉", it.message.toString())
+            }
         }
     }
 
@@ -25,7 +66,19 @@ class DetailpageViewModel @Inject constructor(
         postSideEffect(DetailpageSideEffect.NavigateToVideoDetail(type, videoId))
     }
 
-    fun fetchPlaceInfo() {
+    fun fetchPlaceInfo() = viewModelScope.launch {
+        exhibitionRepository.getPlaceById(uiState.value.placeId).onSuccess {
+            intent {
+                copy(
+                    placeAddress = it.address,
+                    placeName = it.name,
+                    exhibitionCount = it.exhibitionCount,
+                    reviewVideoCount = it.recordCount,
+                    reviewList = it.exhibitionRecord?.toImmutableList() ?: emptyList<VideoData>().toImmutableList(),
+                )
+            }
+        }.onFailure {
+        }
     }
 
     fun initialData() = viewModelScope.launch {
@@ -39,7 +92,7 @@ class DetailpageViewModel @Inject constructor(
             val reviewVideo = reviewRes.getOrThrow()
             intent {
                 copy(
-                    reviewList = reviewVideo.data.toImmutableList(),
+                    reviewList = reviewVideo.data.map { it.toCore() }.toImmutableList(),
                     reviewCursor = reviewVideo.nextCursor?.toLong() ?: 0,
                     reviewIsEnd = false,
                 )
@@ -54,7 +107,7 @@ class DetailpageViewModel @Inject constructor(
             intent {
                 copy(
                     reviewCursor = it.nextCursor?.toLong() ?: 0,
-                    reviewList = (list + it.data).toImmutableList(),
+                    reviewList = (list + it.data.map { it.toCore() }).toImmutableList(),
                 )
             }
             if (!it.hasNext) {

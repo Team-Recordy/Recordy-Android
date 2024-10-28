@@ -33,7 +33,6 @@ fun DefinedContentBottomSheet(
     isSheetOpen: Boolean,
     onDismissRequest: () -> Unit,
     contentList: List<String>,
-    onClickDefinedContent: (List<String>) -> Unit,
 ) {
     val newSelectedList = remember { mutableStateListOf<String>() }
 
@@ -104,7 +103,6 @@ fun DefinedContentBottomSheet(
                 enabled = newSelectedList.isNotEmpty(),
                 onClick = {
                     if (newSelectedList.isNotEmpty()) {
-                        onClickDefinedContent(newSelectedList.toList())
                         onDismissRequest()
                     }
                 },

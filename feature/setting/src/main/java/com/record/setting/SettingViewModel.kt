@@ -51,6 +51,12 @@ class SettingViewModel @Inject constructor(
         showDialog()
     }
 
+    fun navigateProfileEdit() {
+        viewModelScope.launch {
+            postSideEffect(SettingSideEffect.ProfileEdit)
+        }
+    }
+
     fun delete() {
         intent {
             copy(dialog = SettingDialog.DELETE)

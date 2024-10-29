@@ -22,10 +22,24 @@ fun encodingString(contentValue: String): String {
 }
 
 fun decodeHtmlEntities(encodedText: String): String {
-    return encodedText
-        .replace("&lt;", "<")
-        .replace("&gt;", ">")
-        .replace("&amp;", "&")
-        .replace("&quot;", "\"")
-        .replace("&apos;", "'")
+    val entitiesMap = mapOf(
+        "&lt;" to "<", "&#60;" to "<",
+        "&gt;" to ">", "&#62;" to ">",
+        "&amp;" to "&", "&#38;" to "&",
+        "&quot;" to "\"", "&#34;" to "\"",
+        "&apos;" to "'", "&#39;" to "'",
+        "&nbsp;" to " ", "&#160;" to " ",
+        "&cent;" to "¢", "&#162;" to "¢",
+        "&pound;" to "£", "&#163;" to "£",
+        "&yen;" to "¥", "&#165;" to "¥",
+        "&euro;" to "€", "&#8364;" to "€",
+        "&copy;" to "©", "&#169;" to "©",
+        "&reg;" to "®", "&#174;" to "®",
+    )
+
+    var decodedText = encodedText
+    for ((entity, replacement) in entitiesMap) {
+        decodedText = decodedText.replace(entity, replacement)
+    }
+    return decodedText
 }

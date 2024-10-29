@@ -15,6 +15,8 @@ data class RecordInfo(
     val id: Long,
     @SerialName("location")
     val location: String,
+    @SerialName("exhibitionName")
+    val exhibitionName: String,
     @SerialName("uploaderId")
     val uploaderId: Long,
     @SerialName("uploaderNickname")

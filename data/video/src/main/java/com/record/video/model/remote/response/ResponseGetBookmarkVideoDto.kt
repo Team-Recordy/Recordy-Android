@@ -23,6 +23,7 @@ fun ResponseGetBookmarkVideoDto.toDomain() = VideoData(
     videoUrl = recordInfo.fileUrl.videoUrl,
     previewUrl = recordInfo.fileUrl.thumbnailUrl,
     location = recordInfo.location ?: "",
+    exhibitionName = recordInfo.exhibitionName,
     uploaderId = recordInfo.uploaderId,
     nickname = recordInfo.uploaderNickname,
     isMine = recordInfo.isMine,

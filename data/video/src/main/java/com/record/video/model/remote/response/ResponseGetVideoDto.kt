@@ -14,6 +14,12 @@ data class ResponseGetVideoDto(
     val fileUrl: FileUrl,
     @SerialName("id")
     val id: Long,
+    @SerialName("exhibitionName")
+    val exhibitionName: String,
+    @SerialName("placeId")
+    val placeId: Long,
+    @SerialName("placeName")
+    val placeName: String,
     @SerialName("uploaderId")
     val uploaderId: Long,
     @SerialName("uploaderNickname")
@@ -33,6 +39,7 @@ fun ResponseGetVideoDto.toDomain() = VideoData(
     videoUrl = fileUrl.videoUrl,
     previewUrl = fileUrl.thumbnailUrl,
     location = "",
+    exhibitionName = exhibitionName,
     uploaderId = uploaderId,
     nickname = uploaderNickname,
     isMine = isMine,

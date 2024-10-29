@@ -15,7 +15,7 @@ class UploadRepositoryImpl @Inject constructor(
     private val localVideoDataSource: LocalVideoDataSource,
 ) : UploadRepository {
     override suspend fun upload(recordInfo: RecordInfo) {
-        uploadEnqueuer.enqueueUploadWork(recordInfo.videoPath, recordInfo.content, recordInfo.placeId)
+        uploadEnqueuer.enqueueUploadWork(recordInfo.videoPath, recordInfo.content, recordInfo.placeId, recordInfo.exhibitionName)
     }
 
     override suspend fun getVideosFromGallery(page: Int, loadSize: Int, currentLocation: String?): Result<List<GalleryImage>> = runCatching {

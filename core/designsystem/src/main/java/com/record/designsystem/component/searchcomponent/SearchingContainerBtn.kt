@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,14 +29,13 @@ fun SearchingContainerBtn(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
-            .background(color = RecordyTheme.colors.black),
+            .height(68.dp)
+            .background(color = RecordyTheme.colors.background),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 20.dp),
+                .align(Alignment.Center),
         ) {
             Column(
                 modifier = Modifier.weight(1f),
@@ -46,16 +45,7 @@ fun SearchingContainerBtn(
                         .fillMaxWidth()
                         .padding(bottom = 2.dp),
                 ) {
-                    Text(text = venue, style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_eclipse_16),
-                        contentDescription = "Circle Icon",
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .align(Alignment.CenterVertically)
-                            .padding(horizontal = 4.dp),
-                    )
-                    Text(text = location, style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
+                    Text(text = "$venue • $location", style = RecordyTheme.typography.caption1M, color = RecordyTheme.colors.gray05)
                 }
                 Text(text = exhibitionName, style = RecordyTheme.typography.subtitle, color = RecordyTheme.colors.gray01)
             }

@@ -8,5 +8,5 @@ data class RequestUpdateProfileDto(
     @SerialName("nickname")
     var nickname: String,
     @SerialName("profileImageUrl")
-    var profileImageUrl: String,
+    var profileImageUrl: String?,
 )

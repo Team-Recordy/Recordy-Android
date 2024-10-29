@@ -1,5 +1,6 @@
 package com.example.exhibition.model.remote.response
 
+import com.record.common.util.decodeHtmlEntities
 import com.record.exhibition.model.Exhibition
 import com.record.exhibition.model.PlaceUsingMap
 import kotlinx.serialization.SerialName
@@ -44,7 +45,7 @@ fun ResponseGetPlaceUsingMapDto.toDomain() = PlaceUsingMap(
 fun ResponseGetExhibitionsDto.toDomain() = Exhibition(
     id = this.id,
     isFree = this.isFree,
-    name = this.name,
+    name = decodeHtmlEntities(this.name),
     startDate = this.startDate,
     endDate = this.endDate,
 )

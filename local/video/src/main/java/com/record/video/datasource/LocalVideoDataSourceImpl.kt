@@ -9,7 +9,7 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import androidx.core.os.bundleOf
-import com.record.video.model.local.LocalVideoInfo
+import com.record.video.model.local.LocalImageInfo
 import com.record.video.source.local.LocalVideoDataSource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Deferred
@@ -32,6 +32,16 @@ class LocalVideoDataSourceImpl @Inject constructor(
         }
     }
 
+    private val imageUriExternal: Uri by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.Images.Media.getContentUri(
+                MediaStore.VOLUME_EXTERNAL,
+            )
+        } else {
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        }
+    }
+
     private val projection = arrayOf(
         MediaStore.Video.VideoColumns.DATA,
         MediaStore.Video.VideoColumns.DISPLAY_NAME,
@@ -39,6 +49,15 @@ class LocalVideoDataSourceImpl @Inject constructor(
         MediaStore.Video.VideoColumns.DATE_TAKEN,
         MediaStore.Video.VideoColumns.DATE_ADDED,
         MediaStore.Video.VideoColumns._ID,
+    )
+
+    private val imageProjection = arrayOf(
+        MediaStore.Images.ImageColumns.DATA,
+        MediaStore.Images.ImageColumns.DISPLAY_NAME,
+        MediaStore.Images.ImageColumns.SIZE,
+        MediaStore.Images.ImageColumns.DATE_TAKEN,
+        MediaStore.Images.ImageColumns.DATE_ADDED,
+        MediaStore.Images.ImageColumns._ID,
     )
 
     private val sortedOrder = "${MediaStore.Video.VideoColumns.DATE_ADDED} DESC"
@@ -51,8 +70,8 @@ class LocalVideoDataSourceImpl @Inject constructor(
         page: Int,
         loadSize: Int,
         currentLocation: String?,
-    ): MutableList<LocalVideoInfo> = withContext(Dispatchers.IO) {
-        val localVideoList = mutableListOf<LocalVideoInfo>()
+    ): MutableList<LocalImageInfo> = withContext(Dispatchers.IO) {
+        val localVideoList = mutableListOf<LocalImageInfo>()
         var selection: String? = null
         var selectionArgs: Array<String>? = null
         if (currentLocation != null) {
@@ -63,11 +82,12 @@ class LocalVideoDataSourceImpl @Inject constructor(
         val offset = (page - 1) * loadSize
         val queryStartTime = System.currentTimeMillis()
         val query = getQuery(offset, limit, selection, selectionArgs)
+        Log.d("getVideosFromGallery", "Query cursor count: ${query?.count ?: 0}")
         val queryEndTime = System.currentTimeMillis()
         Log.d("getAllVideos", "Query time: ${queryEndTime - queryStartTime} ms")
         query?.use { cursor ->
             val processingStartTime = System.currentTimeMillis()
-            val videoMetadataDeferred = mutableListOf<Deferred<LocalVideoInfo>>()
+            val videoMetadataDeferred = mutableListOf<Deferred<LocalImageInfo>>()
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns._ID))
                 val filepath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DATA))
@@ -78,7 +98,7 @@ class LocalVideoDataSourceImpl @Inject constructor(
 
                 val videoMetadata = async {
                     val duration = getVideoDuration(context, contentUri)
-                    LocalVideoInfo(
+                    LocalImageInfo(
                         id,
                         filepath = filepath,
                         uri = contentUri.toString(),
@@ -94,7 +114,57 @@ class LocalVideoDataSourceImpl @Inject constructor(
             val processingEndTime = System.currentTimeMillis()
             Log.d("getAllVideos", "Processing time: ${processingEndTime - processingStartTime} ms")
         }
+        Log.e("getVideosFromGallery", localVideoList.toString())
         return@withContext localVideoList
+    }
+
+    override suspend fun getImagesFromGallery(
+        page: Int,
+        loadSize: Int,
+        currentLocation: String?,
+    ): MutableList<LocalImageInfo> = withContext(Dispatchers.IO) {
+        val localImageList = mutableListOf<LocalImageInfo>()
+        var selection: String? = null
+        var selectionArgs: Array<String>? = null
+        if (currentLocation != null) {
+            selection = "${MediaStore.Images.Media.DATA} LIKE ?"
+            selectionArgs = arrayOf("$currentLocation%")
+        }
+        val limit = loadSize
+        val offset = (page - 1) * loadSize
+        val query = getImageQuery(offset, limit, selection, selectionArgs)
+
+        // 쿼리 결과가 있는지 확인
+        Log.d("getImagesFromGallery", "Query cursor count: ${query?.count ?: 0}")
+
+        query?.use { cursor ->
+            val imageMetadataDeferred = mutableListOf<Deferred<LocalImageInfo>>()
+            while (cursor.moveToNext()) {
+                val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns._ID))
+                val filepath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA))
+                val name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME))
+                val size = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.SIZE))
+                val date = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_TAKEN))
+                val contentUri = ContentUris.withAppendedId(imageUriExternal, id)
+
+                val imageMetadata = async {
+                    LocalImageInfo(
+                        id,
+                        filepath = filepath,
+                        uri = contentUri.toString(),
+                        name = name,
+                        date = date ?: "",
+                        size = size,
+                        duration = 0,
+                    )
+                }
+                imageMetadataDeferred.add(imageMetadata)
+            }
+            localImageList.addAll(imageMetadataDeferred.awaitAll())
+        }
+
+        Log.e("getImagesFromGallery", localImageList.toString())
+        return@withContext localImageList
     }
 
     fun getQuery(
@@ -116,6 +186,29 @@ class LocalVideoDataSourceImpl @Inject constructor(
         contentResolver.query(
             uriExternal,
             projection,
+            selection,
+            selectionArgs,
+            "$sortedOrder DESC LIMIT $limit OFFSET $offset",
+        )
+    }
+
+    private fun getImageQuery(
+        offset: Int,
+        limit: Int,
+        selection: String?,
+        selectionArgs: Array<String>?,
+    ) = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+        val bundle = bundleOf(
+            ContentResolver.QUERY_ARG_OFFSET to offset,
+            ContentResolver.QUERY_ARG_LIMIT to limit,
+            ContentResolver.QUERY_ARG_SORT_COLUMNS to arrayOf(MediaStore.Files.FileColumns.DATE_MODIFIED),
+            ContentResolver.QUERY_ARG_SORT_DIRECTION to ContentResolver.QUERY_SORT_DIRECTION_DESCENDING,
+        )
+        contentResolver.query(imageUriExternal, imageProjection, bundle, null)
+    } else {
+        contentResolver.query(
+            imageUriExternal,
+            imageProjection,
             selection,
             selectionArgs,
             "$sortedOrder DESC LIMIT $limit OFFSET $offset",

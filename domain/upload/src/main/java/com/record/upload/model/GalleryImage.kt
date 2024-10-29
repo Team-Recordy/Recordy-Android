@@ -1,6 +1,6 @@
 package com.record.upload.model
 
-data class GalleryVideo(
+data class GalleryImage(
     val id: Long,
     val filepath: String,
     val uri: String,

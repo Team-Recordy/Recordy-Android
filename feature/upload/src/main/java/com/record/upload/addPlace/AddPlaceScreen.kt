@@ -261,7 +261,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.jpeg_not_search),
+                painter = painterResource(id = R.drawable.img_viskit_noresult),
                 contentDescription = null,
                 modifier = Modifier
                     .wrapContentSize()

@@ -48,6 +48,7 @@ class UploadViewModel @Inject constructor(
             filePath,
             uiState.value.contentTextValue,
             placeId = uiState.value.selectPlace.id,
+            exhibitionName = uiState.value.locationTextValue,
         )
         uploadRepository.upload(recordInfo)
         popBackStack()

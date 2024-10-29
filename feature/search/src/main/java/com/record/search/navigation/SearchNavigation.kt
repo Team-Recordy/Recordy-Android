@@ -19,6 +19,7 @@ fun NavGraphBuilder.searchNavGraph(
 ) {
     composable(route = SearchRoute.route) {
         SearchRoute(
+            paddingValues = padding,
             modifier = modifier,
             navigateToPlaceDetail = navigateToPlaceDetail,
         )

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -43,6 +47,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SearchRoute(
+    paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
     navigateToPlaceDetail: (Long) -> Unit,
@@ -59,7 +64,7 @@ fun SearchRoute(
         }
     }
     SearchScreen(
-        modifier = modifier,
+        modifier = modifier.padding(bottom = paddingValues.calculateBottomPadding()),
         query = uiState.query,
         onQueryChange = viewModel::onQueryChanged,
         items = uiState.filteredItems,
@@ -76,6 +81,7 @@ fun SearchScreen(
     navigateToPlaceDetail: (Long) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val focusRequester = remember { FocusRequester() }
 
     var showSearchedContainer by remember { mutableStateOf(false) }
 
@@ -83,15 +89,18 @@ fun SearchScreen(
         modifier = modifier
             .background(color = RecordyTheme.colors.background)
             .systemBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 28.dp),
+            .padding(horizontal = 16.dp)
+            .padding(top = 28.dp),
     ) {
         SearchBox(
-            modifier = modifier
+            modifier = Modifier
+                .focusRequester(focusRequester)
                 .onFocusChanged { focusState ->
                     if (focusState.isFocused) {
                         showSearchedContainer = false
                     }
-                },
+                }
+                .focusTarget(),
             query = query,
             onQueryChange = {
                 onQueryChange(it)
@@ -99,6 +108,7 @@ fun SearchScreen(
             },
             onImageClick = {
                 showSearchedContainer = true
+                focusRequester.requestFocus()
                 keyboardController?.hide()
             },
         )
@@ -108,7 +118,7 @@ fun SearchScreen(
                 items(items) { item ->
                     Column {
                         SearchedContainerBtn(
-                            modifier = modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth()
                                 .customClickable {
                                     navigateToPlaceDetail(item.id)
                                 },
@@ -121,7 +131,7 @@ fun SearchScreen(
                             },
                         )
                         HorizontalDivider(
-                            modifier = modifier
+                            modifier = Modifier
                                 .fillMaxWidth(),
                             color = RecordyTheme.colors.gray09,
                         )
@@ -140,7 +150,7 @@ fun SearchScreen(
                 LazyColumn {
                     items(items) { item ->
                         SearchingContainerBtn(
-                            modifier = modifier
+                            modifier = Modifier
                                 .background(RecordyTheme.colors.background)
                                 .fillMaxWidth()
                                 .customClickable {
@@ -254,9 +264,5 @@ fun DefaultSearchUI() {
 @Composable
 fun SearchRoutePreview() {
     RecordyTheme {
-        SearchRoute(
-            modifier = Modifier.fillMaxWidth(),
-            navigateToPlaceDetail = {},
-        )
     }
 }

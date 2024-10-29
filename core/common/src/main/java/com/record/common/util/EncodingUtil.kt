@@ -20,3 +20,12 @@ fun encodingString(contentValue: String): String {
     val encodedString = android.util.Base64.encodeToString(bytes, android.util.Base64.DEFAULT)
     return encodedString
 }
+
+fun decodeHtmlEntities(encodedText: String): String {
+    return encodedText
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&amp;", "&")
+        .replace("&quot;", "\"")
+        .replace("&apos;", "'")
+}

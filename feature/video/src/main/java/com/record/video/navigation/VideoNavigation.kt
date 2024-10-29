@@ -15,8 +15,8 @@ fun NavController.navigateVideo(navOptions: NavOptions?) {
     navigate(VideoRoute.route, navOptions)
 }
 
-fun NavController.navigateVideoDetail(videoType: VideoType, videoId: Long, keyword: String? = "all", userId: Long = 0) {
-    navigate(VideoRoute.detailRoute(videoType.toString(), videoId.toString(), keyword, userId.toString()))
+fun NavController.navigateVideoDetail(videoType: VideoType, videoId: Long, userId: Long = 0, placeId: Long = 0L) {
+    navigate(VideoRoute.detailRoute(videoType.toString(), videoId.toString(), userId.toString(), placeId.toString()))
 }
 
 fun NavGraphBuilder.videoNavGraph(
@@ -40,8 +40,8 @@ fun NavGraphBuilder.videoNavGraph(
         route = VideoRoute.detailRoute(
             "{${VideoRoute.VIDEO_TYPE_ARG_NAME}}",
             "{${VideoRoute.VIDEO_INDEX}}",
-            "{${VideoRoute.VIDEO_KEYWORD}}",
             "{${VideoRoute.VIDEO_USER_ID}}",
+            "{${VideoRoute.VIDEO_PLACE_ID}}",
         ),
     ) {
         VideoDetailRoute(
@@ -59,8 +59,8 @@ object VideoRoute {
     const val route = "video"
     const val VIDEO_TYPE_ARG_NAME = "video-type"
     const val VIDEO_INDEX = "video-index"
-    const val VIDEO_KEYWORD = "video-keyword"
     const val VIDEO_USER_ID = "video-user-id"
+    const val VIDEO_PLACE_ID = "video-place-id"
     const val videoDetailRoute = "video-detail"
-    fun detailRoute(type: String, id: String, keyword: String?, userId: String) = "$videoDetailRoute/$type/$id/${keyword ?: "all"}/$userId"
+    fun detailRoute(type: String, id: String, userId: String, placeId: String) = "$videoDetailRoute/$type/$id/$userId/$placeId"
 }

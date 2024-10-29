@@ -1,6 +1,5 @@
 package com.record.video.videodetail
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +23,7 @@ import com.record.designsystem.component.badge.RecordyLocationBadge
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.videoplayer.RecordyVideoText
+import com.record.designsystem.component.videoplayer.ReportBottomSheet
 import com.record.designsystem.component.videoplayer.VideoPlayer
 import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
@@ -32,7 +32,6 @@ import com.record.ui.scroll.onBottomReached
 import kotlinx.coroutines.flow.collectLatest
 
 @androidx.annotation.OptIn(UnstableApi::class)
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoDetailRoute(
     padding: PaddingValues,
@@ -92,12 +91,13 @@ fun VideoDetailRoute(
         loadMoreVideos = viewModel::getVideos,
         onBackButtonClick = viewModel::navigateToBack,
         onDialogDeleteButtonClick = viewModel::deleteVideo,
+        onMoreClick = viewModel::showReportBottomSheet,
+        onBottomSheetDismiss = viewModel::hideReportBottomSheet,
         simpleCache = viewModel.simpleCache,
     )
 }
 
 @androidx.annotation.OptIn(UnstableApi::class)
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoDetailScreen(
     pagerState: PagerState,
@@ -112,6 +112,8 @@ fun VideoDetailScreen(
     loadMoreVideos: () -> Unit,
     onBackButtonClick: () -> Unit,
     onDialogDeleteButtonClick: () -> Unit,
+    onMoreClick: (Long, Boolean) -> Unit,
+    onBottomSheetDismiss: () -> Unit,
     simpleCache: Cache,
 ) {
     pagerState.onBottomReached(
@@ -130,7 +132,7 @@ fun VideoDetailScreen(
                 if (page in state.videos.indices) {
                     state.videos[page].run {
                         VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo, simpleCache)
-                        if (location.isNotEmpty()) {
+                        if (location.isNullOrBlank()) {
                             RecordyLocationBadge(
                                 modifier = Modifier
                                     .align(Alignment.TopStart)
@@ -146,10 +148,9 @@ fun VideoDetailScreen(
                             content = content,
                             isBookmark = isBookmark,
                             bookmarkCount = bookmarkCount,
-                            isMyVideo = isMine,
                             onBookmarkClick = { onBookmarkClick(id) },
-                            onDeleteClick = { onDeleteClick(id) },
                             onNicknameClick = { onNickNameClick(uploaderId, isMine) },
+                            onMoreClick = { onMoreClick(id, isMine) },
                         )
                     }
                 }
@@ -175,5 +176,15 @@ fun VideoDetailScreen(
                 onPositiveButtonClick = { onDialogDeleteButtonClick() },
             )
         }
+
+        ReportBottomSheet(
+            isMine = state.selectedVideoIsMine,
+            id = state.selectedVideoId,
+            onClickLinkCopy = { /*TODO*/ },
+            onClickReport = { /*TODO*/ },
+            onClickDelete = onDeleteClick,
+            isShowBottomSheet = state.showReportBottomSheet,
+            onDismiss = onBottomSheetDismiss,
+        )
     }
 }

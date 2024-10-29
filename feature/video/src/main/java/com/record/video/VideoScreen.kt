@@ -22,6 +22,7 @@ import com.record.designsystem.component.badge.RecordyLocationBadge
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.videoplayer.RecordyVideoText
+import com.record.designsystem.component.videoplayer.ReportBottomSheet
 import com.record.designsystem.component.videoplayer.VideoPlayer
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.ui.scroll.onBottomReached
@@ -92,6 +93,8 @@ fun VideoRoute(
         onPlayVideo = viewModel::watchVideo,
         onNicknameClick = viewModel::navigateToProfile,
         onDialogDeleteButtonClick = viewModel::deleteVideo,
+        onMoreClick = viewModel::showReportBottomSheet,
+        onBottomSheetDismiss = viewModel::hideReportBottomSheet,
         simpleCache = viewModel.simpleCache,
     )
 }
@@ -111,6 +114,8 @@ fun VideoScreen(
     onError: (String) -> Unit,
     onPlayVideo: (Long) -> Unit,
     onDialogDeleteButtonClick: (Long) -> Unit,
+    onMoreClick: (Long, Boolean) -> Unit,
+    onBottomSheetDismiss: () -> Unit,
     simpleCache: Cache,
 ) {
     Box(
@@ -123,7 +128,7 @@ fun VideoScreen(
             key = { page ->
                 val videos = if (state.isAll) state.allVideos else state.followingVideos
                 if (page in videos.indices) {
-                    videos[page].id
+                    page
                 } else {
                     -1
                 }
@@ -134,7 +139,7 @@ fun VideoScreen(
                 if (page in videos.indices) {
                     videos[page].run {
                         VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo, simpleCache)
-                        if (location.isNotEmpty()) {
+                        if (location.isNullOrBlank()) {
                             RecordyLocationBadge(
                                 modifier = Modifier
                                     .align(Alignment.TopStart)
@@ -150,10 +155,9 @@ fun VideoScreen(
                             content = content,
                             isBookmark = isBookmark,
                             bookmarkCount = bookmarkCount,
-                            isMyVideo = isMine,
                             onBookmarkClick = { onBookmarkClick(id) },
-                            onDeleteClick = { onDeleteClick(id) },
                             onNicknameClick = { onNicknameClick(uploaderId) },
+                            onMoreClick = { onMoreClick(id, isMine) },
                         )
                     }
                 }
@@ -177,5 +181,15 @@ fun VideoScreen(
                 onPositiveButtonClick = { onDialogDeleteButtonClick(state.deleteVideoId) },
             )
         }
+
+        ReportBottomSheet(
+            isMine = state.selectedVideoIsMine,
+            id = state.selectedVideoId,
+            onClickLinkCopy = { /*TODO*/ },
+            onClickReport = { /*TODO*/ },
+            onClickDelete = onDeleteClick,
+            isShowBottomSheet = state.showReportBottomSheet,
+            onDismiss = onBottomSheetDismiss,
+        )
     }
 }

@@ -55,25 +55,24 @@ class VideoViewModel
 
     fun getAllVideos() = viewModelScope.launch {
         videoRepository.getAllVideos(cursorId = 0, pageSize = 10).onSuccess { videos ->
-            intent {
-                copy(allVideos = (uiState.value.allVideos + videos).toImmutableList())
-            }
+            Log.e("됨?", "ㅇㅇ")
+            intent { copy(allVideos = (uiState.value.allVideos + videos).toImmutableList()) }
         }.onFailure {
+            Log.e("에라", it.message.toString())
             handleError(it)
         }
     }
 
     fun getFollowingVideos() = viewModelScope.launch {
-        videoRepository.getFollowingVideos(cursorId = uiState.value.followingCursor, size = 10).onSuccess { cursor ->
-            val videos = cursor.data
-            val nextCursor = cursor.nextCursor?.toLong() ?: 0
+        videoRepository.getFollowingVideos(cursorId = uiState.value.followingCursor, size = 10).onSuccess { videos ->
+            val videos = videos
             intent {
                 copy(
                     followingVideos = (uiState.value.followingVideos + videos).toImmutableList(),
-                    followingCursor = nextCursor,
                 )
             }
         }.onFailure {
+            Log.e("에라", it.message.toString())
             handleError(it)
         }
     }
@@ -105,6 +104,18 @@ class VideoViewModel
     fun dismissDeleteDialog() {
         intent {
             copy(showDeleteDialog = false, deleteVideoId = 0)
+        }
+    }
+
+    fun showReportBottomSheet(id: Long, isMine: Boolean) {
+        intent {
+            copy(showReportBottomSheet = true, selectedVideoIsMine = isMine, selectedVideoId = id)
+        }
+    }
+
+    fun hideReportBottomSheet() {
+        intent {
+            copy(showReportBottomSheet = false, selectedVideoIsMine = false)
         }
     }
 

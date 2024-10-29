@@ -21,6 +21,8 @@ data class RecordInfo(
     val uploaderNickname: String,
     @SerialName("isMine")
     val isMine: Boolean,
+    @SerialName("isBookmarked")
+    val isBookmarked: Boolean,
 )
 
 @Serializable

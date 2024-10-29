@@ -11,7 +11,7 @@ interface RemoteVideoDataSource {
     suspend fun getPopularVideos(keywords: List<String>?, pageNumber: Int, pageSize: Int): ResponseGetPagingVideoDto
     suspend fun getPlaceVideos(placeId: Int, cursor: Long, pageSize: Int): ResponseGetSliceVideoDto
     suspend fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto
-    suspend fun getFollowingVideos(cursorId: Long, size: Int): ResponseGetSliceVideoDto
+    suspend fun getFollowingVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto>
     suspend fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetBookmarkSliceVideoDto
     suspend fun bookmark(recordId: Long): Boolean
 }

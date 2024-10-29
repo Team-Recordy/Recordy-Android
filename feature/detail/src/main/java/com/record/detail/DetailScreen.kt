@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -238,15 +239,15 @@ fun CustomTabRow(
 ) {
     var tabWidth by remember { mutableStateOf(0.dp) }
     var indicatorOffset by remember { mutableStateOf(0.dp) }
-
+    var animateIndicator by remember { mutableStateOf(false) }
     val animatedIndicatorOffset by animateDpAsState(
         targetValue = indicatorOffset,
-        animationSpec = tween(200),
+        animationSpec = if (animateIndicator) tween(200) else snap(),
     )
 
     val animatedIndicatorWidth by animateDpAsState(
         targetValue = tabWidth - 12.dp,
-        animationSpec = tween(0),
+        animationSpec = if (animateIndicator) tween(200) else snap(),
     )
 
     val density = LocalDensity.current
@@ -281,6 +282,7 @@ fun CustomTabRow(
                         .clickable {
                             onTabSelected(tab)
                             coroutineScope.launch {
+                                animateIndicator = true
                                 pagerState.animateScrollToPage(index)
                             }
                         }

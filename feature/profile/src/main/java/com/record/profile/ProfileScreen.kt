@@ -189,7 +189,7 @@ fun ProfileScreen(
                         imageUri = item.previewUrl,
                         isBookmarkable = true,
                         isBookmark = item.isBookmark,
-                        location = item.location,
+                        location = item.exhibitionName,
                         onClick = {
                             onVideoClick(VideoType.PROFILE, item.id)
                         },

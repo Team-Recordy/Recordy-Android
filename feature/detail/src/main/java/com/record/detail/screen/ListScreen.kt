@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.record.designsystem.theme.RecordyTheme
 import com.record.exhibition.model.Exhibition
 import kotlinx.collections.immutable.ImmutableList
@@ -112,6 +113,7 @@ fun ExhibitionItem(name: String, startDate: String, endDate: String, onButtonCli
                     text = name,
                     style = RecordyTheme.typography.subtitle,
                     color = RecordyTheme.colors.gray01,
+                    lineHeight = 20.sp,
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(

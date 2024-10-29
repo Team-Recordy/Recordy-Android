@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.record.exhibition.model.Place
 import com.record.exhibition.repository.ExhibitionRepository
+import com.record.model.VideoType
 import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel
 import com.record.video.repository.VideoRepository
@@ -18,12 +19,31 @@ class HomeViewModel @Inject constructor(
     private val exhibitionRepository: ExhibitionRepository,
 ) : BaseViewModel<HomeState, HomeSideEffect>(HomeState()) {
 
-    fun navigateToVideo(videoId: Long, location: String) {
-        postSideEffect(HomeSideEffect.navigateToVideo(videoId, location))
+    fun navigateToVideo(videoType: VideoType, id: Long, videoId: Long) {
+        postSideEffect(HomeSideEffect.navigateToVideo(videoType, id, videoId))
     }
 
     fun navigateToDetail(placeId: Long) {
         postSideEffect(HomeSideEffect.navigateToDetail(placeId))
+    }
+
+    fun resetPlaces() = viewModelScope.launch {
+        exhibitionRepository.getNearPlaceData(0, 10, uiState.value.location.latitude, uiState.value.location.longitude)
+            .onSuccess {
+                intent {
+                    copy(exhibitionList = (it.data).toImmutableList())
+                }
+                intent {
+                    copy(isEnd = !it.hasNext, page = 1)
+                }
+            }
+            .onFailure { throwable ->
+                if (throwable is ApiError) {
+                    Log.e("asdfasdf", throwable.message)
+                } else {
+                    Log.e("asdfasdf", throwable.message.toString())
+                }
+            }
     }
 
     fun getPlaces() = viewModelScope.launch {
@@ -71,6 +91,7 @@ class HomeViewModel @Inject constructor(
                             video
                         }
                     }?.toImmutableList(),
+                    platformId = exhibition.platformId,
                 )
             }
             copy(
@@ -93,6 +114,7 @@ class HomeViewModel @Inject constructor(
                                 video
                             }
                         }?.toImmutableList(),
+                        platformId = exhibition.platformId,
                     )
                 }
                 intent {

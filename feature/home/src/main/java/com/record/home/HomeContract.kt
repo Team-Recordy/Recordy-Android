@@ -1,6 +1,7 @@
 package com.record.home
 
 import com.record.exhibition.model.Place
+import com.record.model.VideoType
 import com.record.ui.base.SideEffect
 import com.record.ui.base.UiState
 import kotlinx.collections.immutable.ImmutableList
@@ -17,7 +18,7 @@ data class HomeState(
 
 sealed interface HomeSideEffect : SideEffect {
     data object navigateToUpload : HomeSideEffect
-    data class navigateToVideo(val id: Long, val location: String) : HomeSideEffect
+    data class navigateToVideo(val type: VideoType, val id: Long, val placeId: Long) : HomeSideEffect
     data class navigateToDetail(val id: Long) : HomeSideEffect
     data object launchSettingIntent : HomeSideEffect
 }

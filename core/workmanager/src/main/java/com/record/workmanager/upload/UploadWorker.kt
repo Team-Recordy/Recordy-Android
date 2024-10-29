@@ -17,7 +17,8 @@ class UploadWorker @AssistedInject constructor(
         val videoPath = inputData.getString(KEY_VIDEO_PATH) ?: return Result.failure()
         val placeId = inputData.getString(KEY_PLACE) ?: return Result.failure()
         val content = inputData.getString(KEY_CONTENT) ?: return Result.failure()
-        val result = uploadTask.upload(videoPath, content, placeId = placeId.toLong())
+        val exhibitionName = inputData.getString(KEY_EXHIBITION_NAME) ?: return Result.failure()
+        val result = uploadTask.upload(videoPath, content, placeId = placeId.toLong(), exhibitionName)
 
         return result.fold(
             onSuccess = {
@@ -33,6 +34,7 @@ class UploadWorker @AssistedInject constructor(
         const val KEY_VIDEO_PATH = "videoPath"
         const val KEY_PLACE = "placeId"
         const val KEY_CONTENT = "content"
+        const val KEY_EXHIBITION_NAME = "exhibitionName"
         const val UNIQUE_UPLOAD_WORK = "upload-work"
     }
 }

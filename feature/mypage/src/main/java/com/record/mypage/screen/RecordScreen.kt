@@ -101,7 +101,7 @@ fun RecordScreen(
                     onBookmarkClick = {
                         onBookmarkClick(item.id)
                     },
-                    location = item.location,
+                    location = item.exhibitionName,
                     onClick = {
                         onItemClick(VideoType.MY, item.id)
                     },

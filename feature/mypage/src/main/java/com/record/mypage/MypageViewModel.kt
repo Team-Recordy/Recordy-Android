@@ -66,30 +66,38 @@ class MypageViewModel @Inject constructor(
     }
 
     fun initialData() = viewModelScope.launch {
-        val myVideosResult = async {
-            videoRepository.getMyVideos(0, 10)
-        }
-        val bookmarkVideosResult = async {
-            videoRepository.getBookmarkVideos(0, 10)
-        }
+        val myVideosResult = async { videoRepository.getMyVideos(0, 10) }
+        val bookmarkVideosResult = async { videoRepository.getBookmarkVideos(0, 10) }
 
-        val myVideoRes = myVideosResult.await()
-        val bookmarkVideoRes = bookmarkVideosResult.await()
-
-        if (myVideoRes.isSuccess && bookmarkVideoRes.isSuccess) {
-            val myVideo = myVideoRes.getOrThrow()
-            val bookmarkVideo = bookmarkVideoRes.getOrThrow()
-            intent {
-                copy(
-                    myRecordList = myVideo.data.toImmutableList(),
-                    myBookmarkList = bookmarkVideo.data.toImmutableList(),
-                    recordCursor = myVideo.nextCursor?.toLong() ?: 0,
-                    bookmarkCursor = bookmarkVideo.nextCursor?.toLong() ?: 0,
-                    recordIsEnd = false,
-                    bookmarkIsEnd = false,
-                )
+        myVideosResult.await()
+            .onSuccess { myVideo ->
+                bookmarkVideosResult.await()
+                    .onSuccess { bookmarkVideo ->
+                        Log.e("북마크", bookmarkVideo.data.toString())
+                        intent {
+                            copy(
+                                myRecordList = myVideo.data.toImmutableList(),
+                                myBookmarkList = bookmarkVideo.data.toImmutableList(),
+                                recordCursor = myVideo.nextCursor?.toLong() ?: 0,
+                                bookmarkCursor = bookmarkVideo.nextCursor?.toLong() ?: 0,
+                                recordIsEnd = false,
+                                bookmarkIsEnd = false,
+                            )
+                        }
+                        intent {
+                            copy(
+                                recordVideoCount = uiState.value.myRecordList.size,
+                                bookmarkVideoCount = uiState.value.myBookmarkList.size,
+                            )
+                        }
+                    }
+                    .onFailure { error ->
+                        Log.e("오류 발생ㅇㅇ", error.message.toString())
+                    }
             }
-        }
+            .onFailure { error ->
+                Log.e("오류 발생ㅇㅇ", error.message.toString())
+            }
     }
 
     fun loadMoreUserVideos() = viewModelScope.launch {

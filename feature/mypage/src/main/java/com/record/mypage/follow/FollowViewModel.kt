@@ -100,7 +100,7 @@ class FollowViewModel @Inject constructor(
         val newList = list.toMutableList()
         val index = newList.indexOfFirst { it.id == user.id }
         if (index >= 0) {
-            val updatedUser = newList[index].copy(isFollowing = !newList[index].isFollowing)
+            val updatedUser = newList[index].copy(isFollowing = if (newList[index].isFollowing != null) !newList[index].isFollowing!! else null)
             newList[index] = updatedUser
         }
         return newList.toImmutableList()

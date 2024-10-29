@@ -143,7 +143,6 @@ fun HomeScreen(
     }
 
     LaunchedEffectWithLifecycle(state.isPermissionGranted) {
-        Log.e("실행되노,", "이이이")
         if (state.isPermissionGranted) {
             resetData()
         }

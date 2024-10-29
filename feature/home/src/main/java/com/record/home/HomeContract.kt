@@ -14,6 +14,7 @@ data class HomeState(
     val page: Int = 0,
     val isEnd: Boolean = false,
     val isPermissionGranted: Boolean = false,
+    val dataInitialized: Boolean = false,
     val showLocationPermissionDialog: Boolean = true,
 ) : UiState
 

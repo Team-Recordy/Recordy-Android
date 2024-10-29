@@ -5,4 +5,5 @@ data class VideoInfo(
     val placeId: Long,
     val videoUrl: String,
     val previewUrl: String,
+    val exhibitionName: String,
 )

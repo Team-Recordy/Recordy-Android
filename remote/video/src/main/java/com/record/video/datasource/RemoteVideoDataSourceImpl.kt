@@ -11,7 +11,7 @@ import javax.inject.Inject
 class RemoteVideoDataSourceImpl @Inject constructor(
     private val videoApi: VideoApi,
 ) : RemoteVideoDataSource {
-    override suspend fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto> = videoApi.getAllVideos(cursorId, size)
+    override suspend fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto> = videoApi.getAllVideos(size)
 
     override suspend fun getRecentVideos(keywords: List<String>?, cursor: Long, pageSize: Int): ResponseGetSliceVideoDto =
         videoApi.getRecentVideos(
@@ -24,15 +24,15 @@ class RemoteVideoDataSourceImpl @Inject constructor(
         videoApi.getPopularVideos(keywords, pageNumber, pageSize)
 
     override suspend fun getPlaceVideos(placeId: Int, cursor: Long, pageSize: Int): ResponseGetSliceVideoDto =
-        videoApi.getPlaceVideos(placeId, cursor, pageSize)
+        videoApi.getPlaceVideos(placeId, if (cursor == 0L) null else cursor, pageSize)
 
     override suspend fun getUserVideos(otherUserId: Long, cursorId: Long, size: Int): ResponseGetSliceVideoDto =
-        videoApi.getUserVideos(otherUserId, cursorId, size)
+        videoApi.getUserVideos(otherUserId, if (cursorId == 0L) null else cursorId, size)
 
-    override suspend fun getFollowingVideos(cursorId: Long, size: Int): ResponseGetSliceVideoDto =
-        videoApi.getFollowingVideos(cursorId, size)
+    override suspend fun getFollowingVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto> =
+        videoApi.getFollowingVideos(if (cursorId == 0L) null else cursorId, size)
 
-    override suspend fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetBookmarkSliceVideoDto = videoApi.getBookmarkVideos(cursorId, size)
+    override suspend fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetBookmarkSliceVideoDto = videoApi.getBookmarkVideos(if (cursorId == 0L) null else cursorId, size)
 
     override suspend fun bookmark(recordId: Long): Boolean = videoApi.postBookmark(recordId)
 }

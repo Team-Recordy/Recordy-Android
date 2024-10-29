@@ -18,7 +18,7 @@ fun NavGraphBuilder.detailNavGraph(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     navigateToUpload: () -> Unit,
-    navigateToVideo: (VideoType, Long) -> Unit,
+    navigateToVideo: (VideoType, Long, Long) -> Unit,
 ) {
     composable(
         route = DetailRoute.detailRoute(

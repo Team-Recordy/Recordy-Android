@@ -1,5 +1,8 @@
 package com.record.detail
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -33,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -54,7 +58,7 @@ fun DetailRoute(
     modifier: Modifier = Modifier,
     viewModel: DetailpageViewModel = hiltViewModel(),
     navigateToUpload: () -> Unit,
-    navigateToVideo: (VideoType, Long) -> Unit,
+    navigateToVideo: (VideoType, Long, Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -64,7 +68,7 @@ fun DetailRoute(
         viewModel.sideEffect.collectLatest { sideEffect ->
             when (sideEffect) {
                 is DetailpageSideEffect.NavigateToVideoDetail -> {
-                    navigateToVideo(sideEffect.type, sideEffect.videoId)
+                    navigateToVideo(sideEffect.type, sideEffect.videoId, sideEffect.placeId)
                 }
             }
         }
@@ -73,7 +77,7 @@ fun DetailRoute(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.background)
             .padding(bottom = padding.calculateBottomPadding()),
     ) {
         DetailpageScreen(
@@ -84,6 +88,8 @@ fun DetailRoute(
             onBookmarkClick = viewModel::bookmark,
             navigateToUpload = navigateToUpload,
             onChipSelected = viewModel::selectChip,
+            onBottomSheetDismiss = viewModel::hideReviewBottomSheet,
+            onClickReviewButton = viewModel::showReviewBottomSheet,
         )
     }
 }
@@ -93,118 +99,136 @@ fun DetailRoute(
 fun DetailpageScreen(
     state: DetailpageState,
     onTabSelected: (DetailpageTab) -> Unit,
-    navigateToVideo: (VideoType, Long) -> Unit,
+    navigateToVideo: (VideoType, Long, Long) -> Unit,
     navigateToUpload: () -> Unit,
     onLoadMoreReviews: () -> Unit,
     onBookmarkClick: (Long) -> Unit,
     onChipSelected: (ChipTab) -> Unit,
+    onBottomSheetDismiss: () -> Unit,
+    onClickReviewButton: () -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.detailpageTab.ordinal,
         pageCount = { 2 },
     )
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     val selectedChipState = remember { mutableStateOf(ChipTab.ALL) }
-    Column(
+
+    Box(
         modifier = Modifier.fillMaxSize(),
     ) {
-        Spacer(modifier = Modifier.height(94.dp))
-
         Column(
-            modifier = Modifier.fillMaxHeight(),
+            modifier = Modifier.fillMaxSize(),
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
-            ) {
-                Column(
-                    modifier = Modifier.align(Alignment.Center),
-                ) {
-                    Text(
-                        text = state.placeName,
-                        style = RecordyTheme.typography.title1,
-                        color = RecordyTheme.colors.white,
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = state.placeAddress,
-                        style = RecordyTheme.typography.body2M,
-                        color = RecordyTheme.colors.gray03,
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                    )
-                    Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(94.dp))
 
-                    Row {
-                        BasicButton(
-                            text = "길찾기",
-                            textStyle = RecordyTheme.typography.body2SB,
-                            textColor = RecordyTheme.colors.background,
-                            backgroundColor = RecordyTheme.colors.gray01,
-                            shape = RoundedCornerShape(8.dp),
-                            onClick = { },
-                            padding = PaddingValues(horizontal = 19.dp, vertical = 8.dp),
-                            modifier = Modifier,
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp),
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth().align(Alignment.Center),
+                    ) {
+                        Text(
+                            text = state.placeName,
+                            style = RecordyTheme.typography.title1,
+                            color = RecordyTheme.colors.white,
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
                         )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        BasicButton(
-                            text = "구글 리뷰",
-                            textStyle = RecordyTheme.typography.body2SB,
-                            textColor = RecordyTheme.colors.background,
-                            backgroundColor = RecordyTheme.colors.gray01,
-                            shape = RoundedCornerShape(8.dp),
-                            onClick = { },
-                            padding = PaddingValues(horizontal = 19.dp, vertical = 8.dp),
-                            modifier = Modifier,
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = state.placeAddress,
+                            style = RecordyTheme.typography.body2M,
+                            color = RecordyTheme.colors.gray03,
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
                         )
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        Row(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                        ) {
+                            BasicButton(
+                                text = "길찾기",
+                                textStyle = RecordyTheme.typography.body2SB,
+                                textColor = RecordyTheme.colors.background,
+                                backgroundColor = RecordyTheme.colors.gray01,
+                                shape = RoundedCornerShape(8.dp),
+                                onClick = { navigateToMapApps(context = context, placeName = state.placeName) },
+                                padding = PaddingValues(horizontal = 19.dp, vertical = 8.dp),
+                                modifier = Modifier
+                                    .width(75.dp),
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            BasicButton(
+                                text = "리뷰",
+                                textStyle = RecordyTheme.typography.body2SB,
+                                textColor = RecordyTheme.colors.background,
+                                backgroundColor = RecordyTheme.colors.gray01,
+                                shape = RoundedCornerShape(8.dp),
+                                onClick = onClickReviewButton,
+                                padding = PaddingValues(horizontal = 19.dp, vertical = 8.dp),
+                                modifier = Modifier
+                                    .width(75.dp),
+                            )
+                        }
                     }
                 }
-            }
-            Spacer(modifier = Modifier.height(54.dp))
+                Spacer(modifier = Modifier.height(54.dp))
 
-            CustomTabRow(
-                selectedTabIndex = state.detailpageTab.ordinal,
-                onTabSelected = onTabSelected,
-                pagerState = pagerState,
-                coroutineScope = coroutineScope,
-            )
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier.fillMaxWidth(),
-                userScrollEnabled = false,
-            ) { page ->
-                when (page) {
-                    DetailpageTab.LIST.ordinal -> {
-                        ListScreen(
-                            exhibitionItems = state.exhibitionList,
-                            exhibitionCount = state.exhibitionCount,
-                            selectedChip = state.selectedChip,
-                            onItemClick = {},
-                            onChipSelected = { selectedChip ->
-                                onChipSelected(selectedChip)
-                            },
-                        )
-                    }
+                CustomTabRow(
+                    selectedTabIndex = state.detailpageTab.ordinal,
+                    onTabSelected = onTabSelected,
+                    pagerState = pagerState,
+                    coroutineScope = coroutineScope,
+                )
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.fillMaxWidth(),
+                    userScrollEnabled = false,
+                ) { page ->
+                    when (page) {
+                        DetailpageTab.LIST.ordinal -> {
+                            ListScreen(
+                                exhibitionItems = state.exhibitionList,
+                                exhibitionCount = state.exhibitionCount,
+                                selectedChip = state.selectedChip,
+                                onItemClick = {},
+                                onChipSelected = { selectedChip ->
+                                    onChipSelected(selectedChip)
+                                },
+                            )
+                        }
 
-                    DetailpageTab.REVIEW.ordinal -> {
-                        ReviewScreen(
-                            videoItems = state.reviewList,
-                            reviewCount = state.reviewVideoCount,
-                            onItemClick = navigateToVideo,
-                            onLoadMore = onLoadMoreReviews,
-                            onBookmarkClick = onBookmarkClick,
-                            navigateToUpload = navigateToUpload,
-                        )
+                        DetailpageTab.REVIEW.ordinal -> {
+                            ReviewScreen(
+                                videoItems = state.reviewList,
+                                reviewCount = state.reviewVideoCount,
+                                onItemClick = navigateToVideo,
+                                onLoadMore = onLoadMoreReviews,
+                                onBookmarkClick = onBookmarkClick,
+                                navigateToUpload = navigateToUpload,
+                                placeId = state.placeId,
+                            )
+                        }
                     }
                 }
             }
         }
+
+        ReviewWebViewBottomSheeet(
+            platformId = state.platformId,
+            isShowBottomSheet = state.showReportBottomSheet,
+            onDismiss = onBottomSheetDismiss,
+        )
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CustomTabRow(
     selectedTabIndex: Int,
@@ -287,4 +311,35 @@ fun CustomTabRow(
             )
         }
     }
+}
+
+fun navigateToMapApps(context: Context, placeName: String) {
+    val packageNameMap = mapOf(
+        "kakaoMap" to "net.daum.android.map",
+        "naverMap" to "com.nhn.android.nmap",
+        "googleMaps" to "com.google.android.apps.maps",
+    )
+    val googleMapsUri = "http://maps.google.com/maps?q=$placeName"
+    val googleMapsIntent = Intent(Intent.ACTION_VIEW, Uri.parse(googleMapsUri)).apply {
+        setPackage(packageNameMap["googleMaps"])
+    }
+    val intents = mutableListOf<Intent>()
+
+    val kakaoUri = "kakaomap://search?q=$placeName"
+    val kakaoIntent = Intent(Intent.ACTION_VIEW, Uri.parse(kakaoUri)).apply {
+        setPackage(packageNameMap["kakaoMap"])
+    }
+    intents.add(kakaoIntent)
+
+    val naverUri = "nmap://search?query=$placeName"
+    val naverIntent = Intent(Intent.ACTION_VIEW, Uri.parse(naverUri)).apply {
+        setPackage(packageNameMap["naverMap"])
+    }
+    intents.add(naverIntent)
+    intents.add(googleMapsIntent)
+
+    val chooser = Intent.createChooser(intents.removeAt(intents.size - 1), "길찾기 앱 선택").apply {
+        putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toTypedArray())
+    }
+    context.startActivity(chooser)
 }

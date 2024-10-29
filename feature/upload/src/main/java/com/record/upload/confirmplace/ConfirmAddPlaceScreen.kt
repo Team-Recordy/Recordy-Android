@@ -62,7 +62,7 @@ fun ConfirmAddPlaceScreen(
 ) {
     Column(
         modifier = modifier
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.background)
             .padding(horizontal = 16.dp),
     ) {
         Column(

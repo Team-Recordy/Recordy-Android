@@ -92,7 +92,7 @@ fun AddPlaceScreen(
 
     Column(
         modifier = Modifier
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.background)
             .padding(horizontal = 16.dp),
     ) {
         TopNavigationBar(
@@ -252,7 +252,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.background)
             .systemBarsPadding()
             .imePadding(),
         contentAlignment = Alignment.Center,

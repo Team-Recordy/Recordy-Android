@@ -6,7 +6,7 @@ import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
 import com.record.model.AlertInfo
 import com.record.ui.base.BaseViewModel
-import com.record.upload.model.GalleryVideo
+import com.record.upload.model.GalleryImage
 import com.record.upload.model.RecordInfo
 import com.record.upload.navigation.UploadRoute
 import com.record.upload.repository.UploadRepository
@@ -77,7 +77,7 @@ class UploadViewModel @Inject constructor(
         copy(contentTextValue = contentValue)
     }
 
-    fun setVideo(video: GalleryVideo) = intent {
+    fun setVideo(video: GalleryImage) = intent {
         copy(video = video)
     }
 
@@ -86,7 +86,7 @@ class UploadViewModel @Inject constructor(
             alertInfo = AlertInfo(
                 showDialog = true,
                 title = "필수 권한을 허용해주세요",
-                subTitle = "프로필 사진 업로드를 위해 \n사진 라이브러리에 접근하도록 허용해 주세요.",
+                subTitle = "영상 업로드를 위해 \n사진 라이브러리에 접근하도록 허용해 주세요.",
                 negativeButtonLabel = "닫기",
                 positiveButtonLabel = "지금 설정",
             ),

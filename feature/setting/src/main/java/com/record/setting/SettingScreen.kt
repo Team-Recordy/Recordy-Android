@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.record.designsystem.R
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.theme.RecordyTheme
@@ -74,6 +76,7 @@ fun SettingRoute(
     )
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun SettingScreen(
     padding: PaddingValues = PaddingValues(),

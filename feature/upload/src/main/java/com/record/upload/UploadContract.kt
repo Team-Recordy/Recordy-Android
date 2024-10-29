@@ -4,7 +4,7 @@ import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.model.AlertInfo
 import com.record.ui.base.SideEffect
 import com.record.ui.base.UiState
-import com.record.upload.model.GalleryVideo
+import com.record.upload.model.GalleryImage
 import com.record.upload.navigation.UploadRoute
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -12,10 +12,10 @@ import kotlinx.collections.immutable.toImmutableList
 
 data class UploadState(
     val contentList: List<String> = persistentListOf(),
-    val galleryList: ImmutableList<GalleryVideo> = emptyList<GalleryVideo>().toImmutableList(),
+    val galleryList: ImmutableList<GalleryImage> = emptyList<GalleryImage>().toImmutableList(),
     val galleryPage: Int = 1,
     val isItemLoading: Boolean = false,
-    val video: GalleryVideo? = null,
+    val video: GalleryImage? = null,
     val alertInfo: AlertInfo = AlertInfo(),
     val isSelectedVideoSheetOpen: Boolean = false,
     val isSelectedDefinedContentSheetOpen: Boolean = false,

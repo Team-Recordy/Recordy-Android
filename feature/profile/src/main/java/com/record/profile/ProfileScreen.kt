@@ -162,7 +162,7 @@ fun ProfileScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Image(
-                    painter = painterResource(id = com.record.designsystem.R.drawable.img_empty_video),
+                    painter = painterResource(id = com.record.designsystem.R.drawable.img_viskit_noresult),
                     contentDescription = null,
                 )
                 Text(

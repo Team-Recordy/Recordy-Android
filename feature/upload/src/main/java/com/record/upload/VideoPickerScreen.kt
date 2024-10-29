@@ -72,7 +72,7 @@ import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.upload.component.bottomsheet.DefinedContentBottomSheet
 import com.record.upload.component.bottomsheet.SelectedVideoBottomSheet
-import com.record.upload.model.GalleryVideo
+import com.record.upload.model.GalleryImage
 import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -160,7 +160,7 @@ fun VideoPickerRoute(
 fun VideoPickerScreen(
     modifier: Modifier = Modifier,
     state: UploadState = UploadState(),
-    onClickVideo: (GalleryVideo) -> Unit,
+    onClickVideo: (GalleryImage) -> Unit,
     onClickUpload: () -> Unit,
     showShouldShowRationaleDialog: () -> Unit = {},
     hideExitUploadDialog: () -> Unit = {},
@@ -222,7 +222,7 @@ fun VideoPickerScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(RecordyTheme.colors.black)
+            .background(RecordyTheme.colors.background)
             .verticalScroll(rememberScrollState())
             .customClickable {
                 focusManager.clearFocus()

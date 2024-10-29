@@ -38,6 +38,7 @@ import com.record.designsystem.component.searchcomponent.SearchBox
 import com.record.designsystem.component.searchcomponent.SearchedContainerBtn
 import com.record.designsystem.component.searchcomponent.SearchingContainerBtn
 import com.record.designsystem.theme.RecordyTheme
+import com.record.exhibition.model.ResultType
 import com.record.exhibition.model.SearchResult
 import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
@@ -89,7 +90,7 @@ fun SearchPlaceScreen(
 
     Column(
         modifier = modifier
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.background)
             .padding(horizontal = 16.dp),
     ) {
         TopNavigationBar(
@@ -205,7 +206,11 @@ fun SearchedResultItem(
                 .customClickable {},
             exhibitionName = item.name,
             location = item.address,
-            venue = item.name,
+            venue = when (item.type) {
+                ResultType.PLACE -> "전시관"
+                ResultType.EXHIBITION -> "전시회"
+                ResultType.UNKNOWN -> "기타"
+            },
         )
         HorizontalDivider(
             modifier = modifier.fillMaxWidth(),
@@ -221,7 +226,7 @@ private fun SearchingResultList(
     popBackStackArgument: (UploadRoute.Upload) -> Unit,
 ) {
     LazyColumn {
-        items(items, key = { it.id }) { item ->
+        items(items, key = { it.id.toString() + it.name }) { item ->
             SearchingContainerBtn(
                 modifier = modifier
                     .fillMaxWidth()
@@ -236,7 +241,11 @@ private fun SearchingResultList(
                     },
                 exhibitionName = item.name,
                 location = item.address,
-                venue = item.name,
+                venue = when (item.type) {
+                    ResultType.PLACE -> "전시관"
+                    ResultType.EXHIBITION -> "전시회"
+                    ResultType.UNKNOWN -> "기타"
+                },
             )
         }
     }
@@ -250,7 +259,7 @@ fun EmptySearchResult(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.background)
             .systemBarsPadding()
             .imePadding(),
         contentAlignment = Alignment.Center,
@@ -259,7 +268,7 @@ fun EmptySearchResult(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_alert_warning_80),
+                painter = painterResource(id = R.drawable.img_viskit_noresult),
                 contentDescription = "Empty Icon",
                 contentScale = ContentScale.Fit,
                 alpha = 1f,
@@ -273,9 +282,8 @@ fun EmptySearchResult(
             )
             BasicButton(
                 modifier = Modifier
-                    .fillMaxWidth(0.33f)
                     .padding(top = 23.dp),
-                text = "영상 업로드하기",
+                text = "장소 등록하기",
                 textStyle = RecordyTheme.typography.body2B,
                 textColor = RecordyTheme.colors.background,
                 backgroundColor = RecordyTheme.colors.viskitYellow400,

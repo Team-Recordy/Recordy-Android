@@ -37,7 +37,7 @@ import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
 import com.record.ui.scroll.OnBottomReached
 import com.record.upload.component.VideoThumbnail
-import com.record.upload.model.GalleryVideo
+import com.record.upload.model.GalleryImage
 import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,8 +46,8 @@ fun SelectedVideoBottomSheet(
     sheetState: SheetState = rememberModalBottomSheetState(),
     isSheetOpen: Boolean,
     onDismissRequest: () -> Unit,
-    galleyVideos: ImmutableList<GalleryVideo>,
-    isSelectedVideo: (GalleryVideo) -> Unit,
+    galleyVideos: ImmutableList<GalleryImage>,
+    isSelectedVideo: (GalleryImage) -> Unit,
     showSnackBar: () -> Unit,
     onLoadMore: () -> Unit,
     isLoading: Boolean,

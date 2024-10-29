@@ -28,6 +28,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun navigateToDetail(placeId: Long) {
+        postSideEffect(SearchSideEffect.navigateToDetail(placeId))
+    }
+
     fun onQueryChanged(newQuery: String) {
         intent {
             copy(query = newQuery)

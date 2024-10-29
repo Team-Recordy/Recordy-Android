@@ -8,5 +8,6 @@ android {
 
 dependencies {
     implementation(projects.domain.video)
+    implementation(projects.domain.user)
     implementation(libs.bundles.media3)
 }

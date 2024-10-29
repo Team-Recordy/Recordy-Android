@@ -10,6 +10,7 @@ import com.record.model.Page
 import com.record.model.VideoType
 import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel
+import com.record.user.repository.UserRepository
 import com.record.video.model.VideoData
 import com.record.video.navigation.VideoRoute
 import com.record.video.repository.VideoCoreRepository
@@ -25,6 +26,7 @@ class VideoDetailViewModel
 @Inject constructor(
     private val videoRepository: VideoRepository,
     private val videoCoreRepository: VideoCoreRepository,
+    private val userRepository: UserRepository,
     val simpleCache: Cache,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<VideoDetailState, VideoDetailSideEffect>(VideoDetailState()) {
@@ -217,10 +219,14 @@ class VideoDetailViewModel
         postSideEffect(VideoDetailSideEffect.ShowNetworkErrorSnackbar(msg))
     }
 
-    fun navigateToProfile(id: Long, isMine: Boolean) {
-        if (isMine && uiState.value.videoType == VideoType.MY) return
-        if (uiState.value.videoType == VideoType.PROFILE) return
-        postSideEffect(VideoDetailSideEffect.NavigateToUserProfile(id))
+    fun navigateToProfile(id: Long, isMine: Boolean) = viewModelScope.launch {
+        if (isMine && uiState.value.videoType == VideoType.MY) return@launch
+        if (uiState.value.videoType == VideoType.PROFILE) return@launch
+        userRepository.getUserId().onSuccess { userId ->
+            if (userId != id) {
+                postSideEffect(VideoDetailSideEffect.NavigateToUserProfile(id))
+            }
+        }
     }
 
     fun navigateToBack() {

@@ -1,7 +1,6 @@
 package com.record.video.datasource
 
 import com.record.video.api.VideoApi
-import com.record.video.model.remote.response.ResponseGetBookmarkSliceVideoDto
 import com.record.video.model.remote.response.ResponseGetPagingVideoDto
 import com.record.video.model.remote.response.ResponseGetSliceVideoDto
 import com.record.video.model.remote.response.ResponseGetVideoDto
@@ -32,7 +31,7 @@ class RemoteVideoDataSourceImpl @Inject constructor(
     override suspend fun getFollowingVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto> =
         videoApi.getFollowingVideos(if (cursorId == 0L) null else cursorId, size)
 
-    override suspend fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetBookmarkSliceVideoDto = videoApi.getBookmarkVideos(if (cursorId == 0L) null else cursorId, size)
+    override suspend fun getBookmarkVideos(cursorId: Long, size: Int): ResponseGetSliceVideoDto = videoApi.getBookmarkVideos(if (cursorId == 0L) null else cursorId, size)
 
     override suspend fun bookmark(recordId: Long): Boolean = videoApi.postBookmark(recordId)
 }

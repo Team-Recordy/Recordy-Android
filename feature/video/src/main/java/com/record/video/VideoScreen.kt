@@ -147,7 +147,7 @@ fun VideoScreen(
                                         top = 102.dp,
                                         start = 16.dp,
                                     ),
-                                location = location,
+                                location = exhibitionName,
                             )
                         }
                         RecordyVideoText(
@@ -172,7 +172,7 @@ fun VideoScreen(
         )
         if (state.showDeleteDialog) {
             RecordyDialog(
-                graphicAsset = R.drawable.img_trashcan,
+                graphicAsset = R.drawable.ic_alert_warning_80,
                 title = "정말로 삭제하시겠어요?",
                 subTitle = "해당 영상은 영구 삭제되며, 복구가 불가능해요.",
                 negativeButtonLabel = "취소",

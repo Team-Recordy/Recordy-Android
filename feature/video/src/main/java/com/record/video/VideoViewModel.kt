@@ -6,6 +6,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.cache.Cache
 import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel
+import com.record.user.repository.UserRepository
 import com.record.video.model.VideoData
 import com.record.video.repository.VideoCoreRepository
 import com.record.video.repository.VideoRepository
@@ -20,6 +21,7 @@ class VideoViewModel
 @Inject constructor(
     private val videoRepository: VideoRepository,
     private val videoCoreRepository: VideoCoreRepository,
+    private val userRepository: UserRepository,
     val simpleCache: Cache,
 ) : BaseViewModel<VideoState, VideoSideEffect>(VideoState()) {
 
@@ -125,6 +127,7 @@ class VideoViewModel
             val videos = uiState.value.allVideos.filterNot { it.id == id }.toImmutableList()
             postSideEffect(VideoSideEffect.MovePage(uiState.value.allVideos.size - videos.size))
             intent { copy(allVideos = videos) }
+            hideReportBottomSheet()
         }.onFailure { handleError(it) }
     }
 
@@ -142,7 +145,11 @@ class VideoViewModel
         videoCoreRepository.watchVideo(id)
     }
 
-    fun navigateToProfile(id: Long) {
-        postSideEffect(VideoSideEffect.NavigateToUserProfile(id))
+    fun navigateToProfile(id: Long) = viewModelScope.launch {
+        userRepository.getUserId().onSuccess { userId ->
+            if (userId != id) {
+                postSideEffect(VideoSideEffect.NavigateToUserProfile(id))
+            }
+        }
     }
 }

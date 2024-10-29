@@ -75,6 +75,10 @@ class HomeViewModel @Inject constructor(
         copy(location = Location(latitude, longitude))
     }
 
+    fun updatePermissionGranted(isGranted: Boolean) = intent {
+        copy(isPermissionGranted = isGranted)
+    }
+
     fun bookmark(id: Long) {
         intent {
             val updatedList = uiState.value.exhibitionList.map { exhibition ->
@@ -109,7 +113,7 @@ class HomeViewModel @Inject constructor(
                         recordCount = exhibition.recordCount,
                         exhibitionRecord = exhibition.exhibitionRecord?.map { video ->
                             if (video.id == id) {
-                                video.copy(isBookmark = !video.isBookmark)
+                                video.copy(isBookmark = video.isBookmark)
                             } else {
                                 video
                             }

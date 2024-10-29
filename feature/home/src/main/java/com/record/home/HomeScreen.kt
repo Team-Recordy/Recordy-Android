@@ -90,6 +90,7 @@ fun HomeRoute(
         navigateToDetail = viewModel::navigateToDetail,
         onVideoClick = viewModel::navigateToVideo,
         onBookmarkClick = viewModel::bookmark,
+        updatePermissionGranted = viewModel::updatePermissionGranted,
     )
 }
 
@@ -104,6 +105,7 @@ fun HomeScreen(
     navigateToDetail: (Long) -> Unit,
     onVideoClick: (VideoType, Long, Long) -> Unit,
     onBookmarkClick: (Long) -> Unit,
+    updatePermissionGranted: (Boolean) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -121,7 +123,7 @@ fun HomeScreen(
                 location?.let {
                     updateLocation(it.latitude, it.longitude)
                     Log.e("위치", "${it.latitude} ${it.longitude}")
-                    resetData()
+                    updatePermissionGranted(true)
                 }
             }
             showLocationPermissionDialog(false)
@@ -138,6 +140,13 @@ fun HomeScreen(
         launcher.launch(
             Manifest.permission.ACCESS_FINE_LOCATION,
         )
+    }
+
+    LaunchedEffectWithLifecycle(state.isPermissionGranted) {
+        Log.e("실행되노,", "이이이")
+        if (state.isPermissionGranted) {
+            resetData()
+        }
     }
 
     Box(
@@ -264,7 +273,7 @@ private fun ExhibitionContatiner(
                     RecordyVideoThumbnail(
                         modifier = Modifier.width(screenWidth / 8 * 3),
                         imageUri = videoData.previewUrl,
-                        location = videoData.location,
+                        location = videoData.exhibitionName,
                         isBookmarkable = true,
                         isBookmark = videoData.isBookmark,
                         onClick = { onVideoClick(VideoType.PLACE, videoData.id, place.placeId.toLong()) },
@@ -293,6 +302,7 @@ fun PreviewHome() {
             navigateToDetail = {},
             onVideoClick = { i, j, k -> },
             onBookmarkClick = {},
+            updatePermissionGranted = {},
         )
     }
 }

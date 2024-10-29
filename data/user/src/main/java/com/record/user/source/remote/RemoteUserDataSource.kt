@@ -28,6 +28,6 @@ interface RemoteUserDataSource {
 
     suspend fun updateUserProfile(
         nickname: String,
-        profileImageUrl: String,
+        profileImageUrl: String?,
     )
 }

@@ -15,13 +15,13 @@ import retrofit2.http.Query
 interface UserApi {
     @GET("/api/v1/users/following")
     suspend fun getFollowingList(
-        @Query("cursorId") cursorId: Long,
+        @Query("cursorId", encoded = true) cursorId: Long?,
         @Query("size") size: Int,
     ): ResponseGetFollowingListDto
 
     @GET("/api/v1/users/follower")
     suspend fun getFollowerList(
-        @Query("cursorId") cursorId: Long,
+        @Query("cursorId", encoded = true) cursorId: Long?,
         @Query("size") size: Int,
     ): ResponseGetFollowerListDto
 

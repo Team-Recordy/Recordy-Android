@@ -1,7 +1,7 @@
 package com.record.mypage.follow
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel
 import com.record.user.model.User
 import com.record.user.repository.UserRepository
@@ -19,7 +19,7 @@ class FollowViewModel @Inject constructor(
 ) {
     fun getFollowingList() =
         viewModelScope.launch {
-            if (uiState.value.isEnd) return@launch
+            if (!uiState.value.followingHasNext) return@launch
             userRepository.getFollowingList(
                 cursorId = uiState.value.followingCursor,
                 size = 10,
@@ -28,21 +28,13 @@ class FollowViewModel @Inject constructor(
                 val addedList = response.data.filter { it.nickname != "" }
 
                 intent {
-                    copy(followingList = (updatedList + addedList).toImmutableList())
+                    copy(followingList = (updatedList + addedList).toImmutableList(), followingCursor = response.nextCursor?.toLong() ?: 0)
                 }
-                if (!response.hasNext) {
-                    intent {
-                        copy(isEnd = true)
-                    }
+                intent {
+                    copy(followingHasNext = response.hasNext)
                 }
             }.onFailure {
-                when (it) {
-                    is ApiError -> {
-                    }
-
-                    else -> {
-                    }
-                }
+                Log.e("오류", it.message.toString())
             }
         }
 
@@ -64,25 +56,25 @@ class FollowViewModel @Inject constructor(
         }
     }
 
-    fun getFollowerList() {
+    fun getFollowerList() =
         viewModelScope.launch {
+            if (!uiState.value.followerHasNext) return@launch
             userRepository.getFollowerList(
                 cursorId = uiState.value.followerCursor,
                 size = 10,
             ).onSuccess { response ->
                 val updatedList = uiState.value.followerList.toList()
-
+                val addedList = response.data.filter { it.nickname != "" }
                 intent {
-                    copy(followerList = (updatedList + response.data).toImmutableList())
+                    copy(followerList = (updatedList + addedList).toImmutableList())
+                }
+                intent {
+                    copy(followerHasNext = response.hasNext)
                 }
             }.onFailure {
-                when (it) {
-                    is ApiError -> {
-                    }
-                }
+                Log.e("오류", it.message.toString())
             }
         }
-    }
 
     fun toggleFollow(isFollowingScreen: Boolean, user: User) {
         val updatedList = if (isFollowingScreen) {

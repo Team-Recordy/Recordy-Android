@@ -11,6 +11,8 @@ data class FollowState(
     val followerList: ImmutableList<User> = emptyList<User>().toPersistentList(),
     val followingCursor: Long = 0,
     val followerCursor: Long = 0,
+    val followingHasNext: Boolean = true,
+    val followerHasNext: Boolean = true,
     val isAll: Boolean = true,
     val isEnd: Boolean = false,
 ) : UiState

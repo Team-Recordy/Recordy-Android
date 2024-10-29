@@ -95,7 +95,7 @@ fun MypageRoute(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.background)
             .padding(bottom = padding.calculateBottomPadding()),
     ) {
         MypageScreen(
@@ -114,7 +114,6 @@ fun MypageRoute(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MypageScreen(
     state: MypageState,
@@ -159,7 +158,8 @@ fun MypageScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(
-            modifier = Modifier.fillMaxHeight(),
+            modifier = Modifier.fillMaxHeight()
+                .background(RecordyTheme.colors.background),
         ) {
             Box(
                 modifier = Modifier

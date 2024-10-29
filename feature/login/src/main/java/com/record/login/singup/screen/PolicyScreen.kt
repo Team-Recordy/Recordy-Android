@@ -156,7 +156,7 @@ fun RecordyCheckAllBox(
             .padding(padding)
             .fillMaxWidth()
             .height(54.dp)
-            .background(RecordyTheme.colors.gray09, RoundedCornerShape(8.dp))
+            .background(RecordyTheme.colors.gray10, RoundedCornerShape(8.dp))
             .clickable(onClick = onClickEvent, indication = null, interactionSource = remember { MutableInteractionSource() })
             .padding(start = 20.dp),
         contentAlignment = Alignment.Center,

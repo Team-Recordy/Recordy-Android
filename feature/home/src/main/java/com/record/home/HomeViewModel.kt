@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun resetPlaces() = viewModelScope.launch {
-        exhibitionRepository.getNearPlaceData(0, if(uiState.value.exhibitionList.size < 10) 10 else uiState.value.exhibitionList.size, uiState.value.location.latitude, uiState.value.location.longitude)
+        exhibitionRepository.getNearPlaceData(0, if (uiState.value.exhibitionList.size < 10) 10 else uiState.value.exhibitionList.size, uiState.value.location.latitude, uiState.value.location.longitude)
             .onSuccess {
                 intent {
                     copy(exhibitionList = (it.data).toImmutableList())

@@ -195,26 +195,19 @@ fun ReportBottomSheet(
                                 .fillMaxWidth()
                                 .align(Alignment.CenterHorizontally),
                         )
-                        listOf(
-                            "스팸 홍보/도배입니다",
-                            "음란물입니다.",
-                            "불법 정보를 포함하고 있습니다.",
-                            "욕설/생명 경시/혐오/차별적인 표현입니다",
-                            "개인정보가 노출되었습니다.",
-                            "불쾌한 표현이 있습니다.",
-                        ).forEach {
+                        ReportReason.entries.forEach {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(48.dp)
                                     .customClickable {
                                         currentState = BottomSheetNavigation.ELSE
-                                        selectedReason = it
+                                        selectedReason = it.reasonText
                                     },
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
-                                    text = it,
+                                    text = it.reasonText,
                                     style = RecordyTheme.typography.body1M,
                                     color = RecordyTheme.colors.gray01,
                                     modifier = Modifier
@@ -222,32 +215,7 @@ fun ReportBottomSheet(
                                 )
                             }
                         }
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp)
-                                .customClickable {
-                                    currentState = BottomSheetNavigation.ELSE
-                                    selectedReason = "기타"
-                                },
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                        ) {
-                            Text(
-                                text = "기타",
-                                style = RecordyTheme.typography.body1M,
-                                color = RecordyTheme.colors.gray01,
-                                modifier = Modifier
-                                    .padding(start = 20.dp),
-                            )
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_angle_16),
-                                tint = RecordyTheme.colors.gray01,
-                                modifier = Modifier.padding(end = 5.dp),
-                                contentDescription = "next",
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(80.dp))
+                        Spacer(modifier = Modifier.height(56.dp))
                     }
                 }
 
@@ -278,7 +246,7 @@ fun ReportBottomSheet(
 
                             Text(
                                 text = selectedReason,
-                                style = RecordyTheme.typography.title3,
+                                style = if (selectedReason.length >= 14) RecordyTheme.typography.subtitle else RecordyTheme.typography.title3,
                                 color = RecordyTheme.colors.gray01,
                                 modifier = Modifier.align(Alignment.Center),
                             )

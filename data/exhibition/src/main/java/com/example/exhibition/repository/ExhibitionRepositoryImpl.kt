@@ -9,6 +9,7 @@ import com.record.exhibition.model.ExhibitionFilter
 import com.record.exhibition.model.Place
 import com.record.exhibition.model.PlaceUsingMap
 import com.record.exhibition.repository.ExhibitionRepository
+import com.record.model.Cursor
 import com.record.model.Page
 import com.record.model.exception.ApiError
 import com.record.video.model.toCore
@@ -39,15 +40,28 @@ class ExhibitionRepositoryImpl @Inject constructor(
             Page(
                 hasNext = it.hasNext,
                 page = it.pageNumber,
-                data = it.content.map {
-                    val result = videoRepository.getPlaceVideos(it.id, 0, it.recordSize).getOrNull()
-                    Place(
-                        placeId = it.id,
-                        address = it.address ?: "",
-                        name = it.name,
-                        exhibitionCount = it.exhibitionSize,
-                        recordCount = it.recordSize,
-                        exhibitionRecord = result?.data?.map { it.toCore() },
+                data = it.content.map { placeDto ->
+                    runCatching {
+                        val videoResult = if (placeDto.recordSize != 0) videoRepository.getPlaceVideos(placeDto.id, 0, placeDto.recordSize).getOrNull() else Cursor(hasNext = false, nextCursor = null, data = emptyList())
+                        Place(
+                            placeId = placeDto.id,
+                            address = placeDto.address ?: "",
+                            name = placeDto.name,
+                            exhibitionCount = placeDto.exhibitionSize,
+                            recordCount = placeDto.recordSize,
+                            exhibitionRecord = videoResult?.data?.map { it.toCore() } ?: emptyList(),
+                            platformId = placeDto.platformId?.toLong() ?: 0,
+                        )
+                    }.getOrDefault(
+                        Place(
+                            placeId = placeDto.id,
+                            address = placeDto.address ?: "",
+                            name = placeDto.name,
+                            exhibitionCount = placeDto.exhibitionSize,
+                            recordCount = placeDto.recordSize,
+                            exhibitionRecord = emptyList(),
+                            platformId = placeDto.platformId?.toLong() ?: 0,
+                        ),
                     )
                 },
             )
@@ -74,6 +88,7 @@ class ExhibitionRepositoryImpl @Inject constructor(
             exhibitionCount = it.exhibitionSize,
             recordCount = it.recordSize,
             exhibitionRecord = result?.data?.map { it.toCore() },
+            platformId = it.platformId?.toLong() ?: 0,
         )
     }.recoverCatching { exception ->
         when (exception) {

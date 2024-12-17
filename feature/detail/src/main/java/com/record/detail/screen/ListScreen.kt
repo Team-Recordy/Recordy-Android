@@ -1,12 +1,10 @@
 package com.record.detail.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,9 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.R
+import androidx.compose.ui.unit.sp
 import com.record.designsystem.theme.RecordyTheme
 import com.record.exhibition.model.Exhibition
 import kotlinx.collections.immutable.ImmutableList
@@ -116,23 +113,13 @@ fun ExhibitionItem(name: String, startDate: String, endDate: String, onButtonCli
                     text = name,
                     style = RecordyTheme.typography.subtitle,
                     color = RecordyTheme.colors.gray01,
+                    lineHeight = 20.sp,
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = formatDate(startDate, endDate),
+                    text = "$startDate - $endDate",
                     style = RecordyTheme.typography.caption1M,
                     color = RecordyTheme.colors.gray05,
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.End,
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_more_informations),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clickable { onButtonClick() },
                 )
             }
         }

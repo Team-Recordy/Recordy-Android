@@ -1,13 +1,15 @@
 package com.record.home
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,6 +48,7 @@ import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.theme.RecordyTheme
 import com.record.exhibition.model.Place
 import com.record.model.VideoType
+import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.ui.scroll.OnBottomReached
 import kotlinx.collections.immutable.toImmutableList
@@ -56,7 +59,7 @@ fun HomeRoute(
     padding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToVideoDetail: (VideoType, Long, String?, Long) -> Unit,
+    navigateToVideoDetail: (VideoType, Long, Long) -> Unit,
     navigateToPlaceDetail: (Long) -> Unit,
     navigateToUpload: () -> Unit = {},
 ) {
@@ -67,7 +70,7 @@ fun HomeRoute(
             when (sideEffect) {
                 HomeSideEffect.navigateToUpload -> navigateToUpload()
                 is HomeSideEffect.navigateToVideo -> {
-                    // navigateToVideoDetail(sideEffect.type, sideEffect.id, sideEffect.keyword, 0)
+                    navigateToVideoDetail(sideEffect.type, sideEffect.id, sideEffect.placeId)
                 }
 
                 HomeSideEffect.launchSettingIntent -> TODO()
@@ -83,7 +86,11 @@ fun HomeRoute(
         showLocationPermissionDialog = viewModel::showLocationPermissionDialog,
         updateLocation = viewModel::updateLocation,
         getData = viewModel::getPlaces,
+        resetData = viewModel::resetPlaces,
         navigateToDetail = viewModel::navigateToDetail,
+        onVideoClick = viewModel::navigateToVideo,
+        onBookmarkClick = viewModel::bookmark,
+        updatePermissionGranted = viewModel::updatePermissionGranted,
     )
 }
 
@@ -93,8 +100,12 @@ fun HomeScreen(
     state: HomeState,
     showLocationPermissionDialog: (Boolean) -> Unit,
     updateLocation: (Double, Double) -> Unit,
+    resetData: () -> Unit,
     getData: () -> Unit,
     navigateToDetail: (Long) -> Unit,
+    onVideoClick: (VideoType, Long, Long) -> Unit,
+    onBookmarkClick: (Long) -> Unit,
+    updatePermissionGranted: (Boolean) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -105,7 +116,6 @@ fun HomeScreen(
         if (isGranted) {
             val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 
-            // 위치 정보 요청
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return@rememberLauncherForActivityResult
             }
@@ -113,7 +123,7 @@ fun HomeScreen(
                 location?.let {
                     updateLocation(it.latitude, it.longitude)
                     Log.e("위치", "${it.latitude} ${it.longitude}")
-                    getData()
+                    updatePermissionGranted(true)
                 }
             }
             showLocationPermissionDialog(false)
@@ -130,6 +140,12 @@ fun HomeScreen(
         launcher.launch(
             Manifest.permission.ACCESS_FINE_LOCATION,
         )
+    }
+
+    LaunchedEffectWithLifecycle(state.isPermissionGranted) {
+        if (state.isPermissionGranted) {
+            resetData()
+        }
     }
 
     Box(
@@ -156,24 +172,31 @@ fun HomeScreen(
             }
             itemsIndexed(state.exhibitionList) { i, exhibition ->
                 ExhibitionContatiner(
-                    modifier = Modifier.clickable {
-                        navigateToDetail(exhibition.placeId.toLong())
-                    },
-                    exhibition,
-                    screenWidth,
+                    place = exhibition,
+                    screenWidth = screenWidth,
+                    onItemClick = navigateToDetail,
+                    onVideoClick = onVideoClick,
+                    onBookmarkClick = onBookmarkClick,
                 )
             }
         }
 
         if (state.showLocationPermissionDialog) {
             RecordyDialog(
-                graphicAsset = R.drawable.img_trashcan,
+                graphicAsset = R.drawable.ic_alert_warning_80,
                 title = "필수 권한 허용해 주세요",
                 subTitle = "내 위치 기반 공간 추천을 위해\n사용자의 위치에 접근하도록 허용해 주세요.",
                 negativeButtonLabel = "취소",
-                positiveButtonLabel = "삭제",
+                positiveButtonLabel = "설정으로 가기",
                 onDismissRequest = { },
-                onPositiveButtonClick = { },
+                onPositiveButtonClick = {
+                    val intent = Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.fromParts("package", context.packageName, null),
+                    )
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                },
             )
         }
     }
@@ -181,12 +204,12 @@ fun HomeScreen(
 
 @Composable
 private fun ExhibitionContatiner(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     place: Place,
     screenWidth: Dp,
-    onVideoClick: (Long, VideoType) -> Unit = { i, j -> },
+    onItemClick: (Long) -> Unit = {},
+    onVideoClick: (VideoType, Long, Long) -> Unit,
     onBookmarkClick: (Long) -> Unit = {},
-    videoType: VideoType = VideoType.RECENT,
 ) {
     Column(
         modifier = modifier,
@@ -195,7 +218,10 @@ private fun ExhibitionContatiner(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 16.dp)
-                .background(color = RecordyTheme.colors.gray10, shape = RoundedCornerShape(8.dp)),
+                .background(color = RecordyTheme.colors.gray10, shape = RoundedCornerShape(8.dp))
+                .customClickable {
+                    onItemClick(place.placeId.toLong())
+                },
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(
@@ -246,10 +272,10 @@ private fun ExhibitionContatiner(
                     RecordyVideoThumbnail(
                         modifier = Modifier.width(screenWidth / 8 * 3),
                         imageUri = videoData.previewUrl,
-                        location = videoData.location,
+                        location = videoData.exhibitionName,
                         isBookmarkable = true,
                         isBookmark = videoData.isBookmark,
-                        onClick = { onVideoClick(videoData.id, videoType) },
+                        onClick = { onVideoClick(VideoType.PLACE, videoData.id, place.placeId.toLong()) },
                         onBookmarkClick = { onBookmarkClick(videoData.id) },
                     )
                 }
@@ -271,7 +297,11 @@ fun PreviewHome() {
             showLocationPermissionDialog = {},
             updateLocation = { i, j -> },
             getData = {},
+            resetData = {},
             navigateToDetail = {},
+            onVideoClick = { i, j, k -> },
+            onBookmarkClick = {},
+            updatePermissionGranted = {},
         )
     }
 }

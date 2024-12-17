@@ -1,6 +1,6 @@
 package com.record.upload.repository
 
-import com.record.upload.model.GalleryVideo
+import com.record.upload.model.GalleryImage
 import com.record.upload.model.RecordInfo
 
 interface UploadRepository {
@@ -10,5 +10,11 @@ interface UploadRepository {
         page: Int,
         loadSize: Int,
         currentLocation: String?,
-    ): Result<List<GalleryVideo>>
+    ): Result<List<GalleryImage>>
+
+    suspend fun getImagesFromGallery(
+        page: Int,
+        loadSize: Int,
+        currentLocation: String?,
+    ): Result<List<GalleryImage>>
 }

@@ -38,7 +38,7 @@ fun BookmarkScreen(
         onLoadMore()
     }
 
-    if (recordCount == 0) {
+    if (videoItems.isEmpty()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -58,7 +58,7 @@ fun BookmarkScreen(
             }
 
             EmptyDataScreen(
-                imageRes = com.record.designsystem.R.drawable.img_camera,
+                imageRes = com.record.designsystem.R.drawable.img_viskit_share,
                 message = "북마크한 영상이 없어요.\n영상을 둘러보고 저장해 보세요!",
                 showButton = true,
                 selectedTab = MypageTab.BOOKMARK,
@@ -98,9 +98,9 @@ fun BookmarkScreen(
                     onBookmarkClick = {
                         onBookmarkClick(item.id)
                     },
-                    location = item.location,
+                    location = item.exhibitionName,
                     onClick = {
-                        onItemClick(VideoType.BOOKMARK, item.bookmarkId)
+                        onItemClick(VideoType.BOOKMARK, item.id)
                     },
                 )
             }

@@ -162,7 +162,7 @@ fun ProfileScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Image(
-                    painter = painterResource(id = com.record.designsystem.R.drawable.img_empty_video),
+                    painter = painterResource(id = com.record.designsystem.R.drawable.img_viskit_noresult),
                     contentDescription = null,
                 )
                 Text(
@@ -189,7 +189,7 @@ fun ProfileScreen(
                         imageUri = item.previewUrl,
                         isBookmarkable = true,
                         isBookmark = item.isBookmark,
-                        location = item.location,
+                        location = item.exhibitionName,
                         onClick = {
                             onVideoClick(VideoType.PROFILE, item.id)
                         },

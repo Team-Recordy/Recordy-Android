@@ -1,8 +1,8 @@
 package com.record.video.model.local
 
-import com.record.upload.model.GalleryVideo
+import com.record.upload.model.GalleryImage
 
-data class LocalVideoInfo(
+data class LocalImageInfo(
     val id: Long,
     val filepath: String,
     val uri: String,
@@ -12,7 +12,7 @@ data class LocalVideoInfo(
     val duration: Long,
 )
 
-fun LocalVideoInfo.toDomain() = GalleryVideo(
+fun LocalImageInfo.toDomain() = GalleryImage(
     id = id,
     filepath = filepath,
     uri = uri,

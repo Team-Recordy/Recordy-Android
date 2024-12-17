@@ -151,7 +151,7 @@ internal fun MainScreen(
                     navigateToFollower = { navigator.navigateToFollower() },
                     navigateToVideo = navigator::navigateVideoDetail,
                     navigateToProfile = navigator::navigateProfile,
-                    navigateToUpload = { navigator.navigateToUpload() },
+                    navigateToUpload = { navigator.navigateToUploadTab() },
                     navigateToHome = navigator::navigateHome,
                     navigateVideoHome = navigator::navigateToVideo,
                 )
@@ -165,11 +165,12 @@ internal fun MainScreen(
 
                 searchNavGraph(
                     padding = innerPadding,
+                    navigateToPlaceDetail = navigator::navigateDetail,
                 )
 
                 detailNavGraph(
                     padding = innerPadding,
-                    navigateToUpload = { navigator.navigateToUpload() },
+                    navigateToUpload = { navigator.navigateToUploadTab() },
                     navigateToVideo = navigator::navigateVideoDetail,
                 )
             }
@@ -198,6 +199,7 @@ internal fun MainScreen(
                 currentTab = navigator.currentTab,
                 entries = MainNavTab.entries.toImmutableList(),
                 onClickItem = navigator::navigate,
+                onClickUpload = navigator::navigateToUploadTab,
             )
         },
     )
@@ -209,6 +211,7 @@ private fun MainBottomNavigationBar(
     currentTab: MainNavTab?,
     entries: ImmutableList<MainNavTab>,
     onClickItem: (MainNavTab) -> Unit?,
+    onClickUpload: () -> Unit,
 ) {
     AnimatedVisibility(
         visible = visible,
@@ -227,12 +230,21 @@ private fun MainBottomNavigationBar(
             ) {
                 entries.forEach { tab ->
                     tab.run {
-                        NavItem(
-                            selected = tab == currentTab,
-                            label = stringResource(id = titleId),
-                            iconId = iconId,
-                            onClick = { onClickItem(tab) },
-                        )
+                        if (this == MainNavTab.UPLOAD) {
+                            NavItem(
+                                selected = false,
+                                label = stringResource(id = titleId),
+                                iconId = iconId,
+                                onClick = onClickUpload,
+                            )
+                        } else {
+                            NavItem(
+                                selected = tab == currentTab,
+                                label = stringResource(id = titleId),
+                                iconId = iconId,
+                                onClick = { onClickItem(tab) },
+                            )
+                        }
                     }
                 }
             }

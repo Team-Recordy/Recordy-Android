@@ -41,10 +41,8 @@ fun RecordyVideoText(
     content: String = "",
     isBookmark: Boolean = false,
     bookmarkCount: Int = 0,
-    isMyVideo: Boolean = false,
     onNicknameClick: () -> Unit = {},
     onBookmarkClick: () -> Unit = {},
-    onDeleteClick: () -> Unit = {},
     onMoreClick: () -> Unit = {},
 ) {
     var boxSize by remember { mutableStateOf(IntSize.Zero) }
@@ -137,19 +135,7 @@ fun RecordyVideoText(
                 contentDescription = "see more",
                 tint = RecordyTheme.colors.gray01,
             )
-            Spacer(modifier = Modifier.height(if (isMyVideo) 16.dp else 20.dp))
-            if (isMyVideo) {
-                Icon(
-                    modifier = Modifier
-                        .customClickable(rippleEnabled = false) { onDeleteClick() },
-                    painter = painterResource(
-                        id = R.drawable.ic_cursor_delete_40,
-                    ),
-                    contentDescription = "delete",
-                    tint = RecordyTheme.colors.gray01,
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }

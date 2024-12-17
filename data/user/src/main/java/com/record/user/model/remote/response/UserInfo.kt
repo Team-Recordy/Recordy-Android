@@ -11,4 +11,6 @@ data class UserInfo(
     val nickname: String?,
     @SerialName("profileImageUrl")
     val profileImageUrl: String?,
+    @SerialName("isFollowing")
+    val isFollowing: Boolean?,
 )

@@ -70,7 +70,7 @@ fun RecordySnackBarContent(
                 bottom = 16.dp,
             )
             .background(
-                color = RecordyTheme.colors.background,
+                color = RecordyTheme.colors.gray07,
                 shape = RoundedCornerShape(8.dp),
             ),
         verticalAlignment = Alignment.CenterVertically,

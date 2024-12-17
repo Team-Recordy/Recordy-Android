@@ -1,6 +1,5 @@
 package com.record.video.videodetail
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,10 +28,10 @@ import com.record.designsystem.theme.RecordyTheme
 import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.ui.scroll.onBottomReached
+import com.record.video.component.ReportBottomSheet
 import kotlinx.coroutines.flow.collectLatest
 
 @androidx.annotation.OptIn(UnstableApi::class)
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoDetailRoute(
     padding: PaddingValues,
@@ -92,12 +91,14 @@ fun VideoDetailRoute(
         loadMoreVideos = viewModel::getVideos,
         onBackButtonClick = viewModel::navigateToBack,
         onDialogDeleteButtonClick = viewModel::deleteVideo,
+        onMoreClick = viewModel::showReportBottomSheet,
+        onBottomSheetDismiss = viewModel::hideReportBottomSheet,
+        reportVideo = viewModel::reportVideo,
         simpleCache = viewModel.simpleCache,
     )
 }
 
 @androidx.annotation.OptIn(UnstableApi::class)
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VideoDetailScreen(
     pagerState: PagerState,
@@ -112,6 +113,9 @@ fun VideoDetailScreen(
     loadMoreVideos: () -> Unit,
     onBackButtonClick: () -> Unit,
     onDialogDeleteButtonClick: () -> Unit,
+    onMoreClick: (Long, Boolean) -> Unit,
+    onBottomSheetDismiss: () -> Unit,
+    reportVideo: (Long, String, String) -> Unit,
     simpleCache: Cache,
 ) {
     pagerState.onBottomReached(
@@ -130,7 +134,7 @@ fun VideoDetailScreen(
                 if (page in state.videos.indices) {
                     state.videos[page].run {
                         VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo, simpleCache)
-                        if (location.isNotEmpty()) {
+                        if (location.isNullOrBlank()) {
                             RecordyLocationBadge(
                                 modifier = Modifier
                                     .align(Alignment.TopStart)
@@ -138,7 +142,7 @@ fun VideoDetailScreen(
                                         top = 102.dp,
                                         start = 16.dp,
                                     ),
-                                location = location,
+                                location = exhibitionName,
                             )
                         }
                         RecordyVideoText(
@@ -146,10 +150,9 @@ fun VideoDetailScreen(
                             content = content,
                             isBookmark = isBookmark,
                             bookmarkCount = bookmarkCount,
-                            isMyVideo = isMine,
                             onBookmarkClick = { onBookmarkClick(id) },
-                            onDeleteClick = { onDeleteClick(id) },
                             onNicknameClick = { onNickNameClick(uploaderId, isMine) },
+                            onMoreClick = { onMoreClick(id, isMine) },
                         )
                     }
                 }
@@ -166,7 +169,7 @@ fun VideoDetailScreen(
         )
         if (state.showDeleteDialog) {
             RecordyDialog(
-                graphicAsset = R.drawable.img_trashcan,
+                graphicAsset = R.drawable.ic_alert_warning_80,
                 title = "정말로 삭제하시겠어요?",
                 subTitle = "해당 영상은 영구 삭제되며, 복구가 불가능해요.",
                 negativeButtonLabel = "취소",
@@ -175,5 +178,15 @@ fun VideoDetailScreen(
                 onPositiveButtonClick = { onDialogDeleteButtonClick() },
             )
         }
+
+        ReportBottomSheet(
+            isMine = state.selectedVideoIsMine,
+            id = state.selectedVideoId,
+            onClickLinkCopy = { /*TODO*/ },
+            onClickReport = reportVideo,
+            onClickDelete = onDeleteClick,
+            isShowBottomSheet = state.showReportBottomSheet,
+            onDismiss = onBottomSheetDismiss,
+        )
     }
 }

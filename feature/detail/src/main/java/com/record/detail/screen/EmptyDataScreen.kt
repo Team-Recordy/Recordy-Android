@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,13 +47,12 @@ fun EmptyDataScreen(
                 if (showButton) {
                     BasicButton(
                         modifier = Modifier
-                            .height(44.dp)
-                            .fillMaxWidth(0.33f),
+                            .height(44.dp),
                         text = "영상 업로드하기",
                         textStyle = RecordyTheme.typography.body2B,
                         textColor = RecordyTheme.colors.background,
                         backgroundColor = RecordyTheme.colors.viskitYellow400,
-                        padding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+                        padding = PaddingValues(horizontal = 20.dp),
                         shape = RoundedCornerShape(30.dp),
                         onClick = onButtonClick,
                     )

@@ -118,10 +118,10 @@ class VideoRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFollowingVideos(cursorId: Long, size: Int): Result<Cursor<VideoData>> = runCatching {
+    override suspend fun getFollowingVideos(cursorId: Long, size: Int): Result<List<VideoData>> = runCatching {
         remoteVideoDataSource.getFollowingVideos(cursorId, size)
     }.mapCatching {
-        it.toCore()
+        it.map { it.toDomain() }
     }.recoverCatching { exception ->
         when (exception) {
             is HttpException -> {

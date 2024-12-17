@@ -6,6 +6,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.cache.Cache
 import com.record.model.exception.ApiError
 import com.record.ui.base.BaseViewModel
+import com.record.user.repository.UserRepository
 import com.record.video.model.VideoData
 import com.record.video.repository.VideoCoreRepository
 import com.record.video.repository.VideoRepository
@@ -20,6 +21,7 @@ class VideoViewModel
 @Inject constructor(
     private val videoRepository: VideoRepository,
     private val videoCoreRepository: VideoCoreRepository,
+    private val userRepository: UserRepository,
     val simpleCache: Cache,
 ) : BaseViewModel<VideoState, VideoSideEffect>(VideoState()) {
 
@@ -55,25 +57,24 @@ class VideoViewModel
 
     fun getAllVideos() = viewModelScope.launch {
         videoRepository.getAllVideos(cursorId = 0, pageSize = 10).onSuccess { videos ->
-            intent {
-                copy(allVideos = (uiState.value.allVideos + videos).toImmutableList())
-            }
+            Log.e("됨?", "ㅇㅇ")
+            intent { copy(allVideos = (uiState.value.allVideos + videos).toImmutableList()) }
         }.onFailure {
+            Log.e("에라", it.message.toString())
             handleError(it)
         }
     }
 
     fun getFollowingVideos() = viewModelScope.launch {
-        videoRepository.getFollowingVideos(cursorId = uiState.value.followingCursor, size = 10).onSuccess { cursor ->
-            val videos = cursor.data
-            val nextCursor = cursor.nextCursor?.toLong() ?: 0
+        videoRepository.getFollowingVideos(cursorId = uiState.value.followingCursor, size = 10).onSuccess { videos ->
+            val videos = videos
             intent {
                 copy(
                     followingVideos = (uiState.value.followingVideos + videos).toImmutableList(),
-                    followingCursor = nextCursor,
                 )
             }
         }.onFailure {
+            Log.e("에라", it.message.toString())
             handleError(it)
         }
     }
@@ -108,13 +109,34 @@ class VideoViewModel
         }
     }
 
+    fun showReportBottomSheet(id: Long, isMine: Boolean) {
+        intent {
+            copy(showReportBottomSheet = true, selectedVideoIsMine = isMine, selectedVideoId = id)
+        }
+    }
+
+    fun hideReportBottomSheet() {
+        intent {
+            copy(showReportBottomSheet = false, selectedVideoIsMine = false)
+        }
+    }
+
     fun deleteVideo(id: Long) = viewModelScope.launch {
         dismissDeleteDialog()
         videoCoreRepository.deleteVideo(id).onSuccess {
             val videos = uiState.value.allVideos.filterNot { it.id == id }.toImmutableList()
             postSideEffect(VideoSideEffect.MovePage(uiState.value.allVideos.size - videos.size))
             intent { copy(allVideos = videos) }
+            hideReportBottomSheet()
         }.onFailure { handleError(it) }
+    }
+
+    fun reportVideo(id: Long, reason: String, content: String) = viewModelScope.launch {
+        videoCoreRepository.postReport(id, reason, content).onSuccess {
+            hideReportBottomSheet()
+        }.onFailure {
+            handleError(it)
+        }
     }
 
     private fun handleError(throwable: Throwable) {
@@ -131,7 +153,11 @@ class VideoViewModel
         videoCoreRepository.watchVideo(id)
     }
 
-    fun navigateToProfile(id: Long) {
-        postSideEffect(VideoSideEffect.NavigateToUserProfile(id))
+    fun navigateToProfile(id: Long) = viewModelScope.launch {
+        userRepository.getUserId().onSuccess { userId ->
+            if (userId != id) {
+                postSideEffect(VideoSideEffect.NavigateToUserProfile(id))
+            }
+        }
     }
 }

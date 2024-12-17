@@ -66,7 +66,7 @@ fun RecordyValidateTextfield(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
-                .background(color = RecordyTheme.colors.gray08, shape = shape)
+                .background(color = RecordyTheme.colors.gray10, shape = shape)
                 .border(
                     width = 1.dp,
                     color = if (isFocused) {

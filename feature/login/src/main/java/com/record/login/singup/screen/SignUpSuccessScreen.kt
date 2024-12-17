@@ -24,7 +24,7 @@ fun SignUpSuccessScreen(name: String) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(188.dp))
         Image(
-            painter = painterResource(id = R.drawable.img_bubble_checked),
+            painter = painterResource(id = R.drawable.ic_viskit_success),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth(0.3f)

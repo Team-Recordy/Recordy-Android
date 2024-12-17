@@ -13,6 +13,8 @@ data class RequestPostVideoDto(
     val fileUrl: FileUrl,
     @SerialName("placeId")
     val placeId: Long,
+    @SerialName("exhibitionName")
+    val exhibitionName: String,
 )
 
 fun VideoInfo.toData() = RequestPostVideoDto(
@@ -22,4 +24,5 @@ fun VideoInfo.toData() = RequestPostVideoDto(
         thumbnailUrl = previewUrl,
     ),
     placeId = placeId,
+    exhibitionName = exhibitionName,
 )

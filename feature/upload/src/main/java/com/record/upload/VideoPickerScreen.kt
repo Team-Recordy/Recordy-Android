@@ -72,7 +72,7 @@ import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.upload.component.bottomsheet.DefinedContentBottomSheet
 import com.record.upload.component.bottomsheet.SelectedVideoBottomSheet
-import com.record.upload.model.GalleryVideo
+import com.record.upload.model.GalleryImage
 import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -160,7 +160,7 @@ fun VideoPickerRoute(
 fun VideoPickerScreen(
     modifier: Modifier = Modifier,
     state: UploadState = UploadState(),
-    onClickVideo: (GalleryVideo) -> Unit,
+    onClickVideo: (GalleryImage) -> Unit,
     onClickUpload: () -> Unit,
     showShouldShowRationaleDialog: () -> Unit = {},
     hideExitUploadDialog: () -> Unit = {},
@@ -219,125 +219,131 @@ fun VideoPickerScreen(
         imageLoader = imageLoader,
     )
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(RecordyTheme.colors.black)
-            .verticalScroll(rememberScrollState())
-            .customClickable {
-                focusManager.clearFocus()
-            },
-    ) {
-        TopNavigationBar(modifier = Modifier, title = "내용 작성", enableGradation = true)
-        Text(
-            text = "ⓘ 주제와 무관한 기록은 무통보로 삭제될 수 있습니다",
-            color = RecordyTheme.colors.gray03,
-            style = RecordyTheme.typography.caption2R,
-            maxLines = 1,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-        )
+    Box {
         Column(
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .weight(1f)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier
+                .fillMaxSize()
+                .padding(bottom = 80.dp)
+                .background(RecordyTheme.colors.background)
+                .verticalScroll(rememberScrollState())
+                .customClickable {
+                    focusManager.clearFocus()
+                },
         ) {
-            Box(
+            TopNavigationBar(modifier = Modifier, title = "내용 작성", enableGradation = true)
+            Text(
+                text = "ⓘ 주제와 무관한 기록은 무통보로 삭제될 수 있습니다",
+                color = RecordyTheme.colors.gray03,
+                style = RecordyTheme.typography.caption2R,
+                maxLines = 1,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+            Column(
                 modifier = Modifier
-                    .background(RecordyTheme.colors.gray10, shape = RoundedCornerShape(16.dp))
-                    .customClickable(
-                        onClick = {
-                            if (cameraPermissionState.status.isGranted) {
-                                isGranted = true
-                                showIsSelectedVideoSheetOpen()
-                                return@customClickable
-                            }
-                            if (cameraPermissionState.status.shouldShowRationale) {
-                                showShouldShowRationaleDialog()
-                                return@customClickable
-                            }
-                            scope.launch {
-                                if (!permissionState.value) {
-                                    requestPermissionLauncher.launch(
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    )
-                                }
-                            }
-                        },
-                    ),
+                    .padding(top = 16.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                if (state.video == null) {
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .padding(vertical = 115.dp, horizontal = 57.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
+                Box(
+                    modifier = Modifier
+                        .background(RecordyTheme.colors.gray10, shape = RoundedCornerShape(16.dp))
+                        .customClickable(
+                            onClick = {
+                                if (cameraPermissionState.status.isGranted) {
+                                    isGranted = true
+                                    showIsSelectedVideoSheetOpen()
+                                    return@customClickable
+                                }
+                                if (cameraPermissionState.status.shouldShowRationale) {
+                                    showShouldShowRationaleDialog()
+                                    return@customClickable
+                                }
+                                scope.launch {
+                                    if (!permissionState.value) {
+                                        requestPermissionLauncher.launch(
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
+                                        )
+                                    }
+                                }
+                            },
+                        ),
+                ) {
+                    if (state.video == null) {
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .padding(vertical = 115.dp, horizontal = 57.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_plus_25),
+                                contentDescription = null,
+                                modifier = Modifier.padding(bottom = 12.dp),
+                            )
+                            Text(
+                                text = "영상 선택",
+                                color = RecordyTheme.colors.gray01,
+                                style = RecordyTheme.typography.subtitle,
+                            )
+                        }
+                    } else {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_plus_25),
+                            modifier = Modifier
+                                .width(158.dp)
+                                .height(281.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .customClickable(
+                                    onClick = showIsSelectedVideoSheetOpen,
+                                ),
+                            painter = painter,
                             contentDescription = null,
-                            modifier = Modifier.padding(bottom = 12.dp),
-                        )
-                        Text(
-                            text = "영상 선택",
-                            color = RecordyTheme.colors.gray01,
-                            style = RecordyTheme.typography.subtitle,
+                            contentScale = ContentScale.Crop,
                         )
                     }
-                } else {
-                    Image(
-                        modifier = Modifier
-                            .width(158.dp)
-                            .height(281.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                            .customClickable(
-                                onClick = showIsSelectedVideoSheetOpen,
-                            ),
-                        painter = painter,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                    )
                 }
+                RecordyBasicTextField(
+                    placeholder = "나의 생각을 자유롭게 적어주세요!",
+                    maxLines = 20,
+                    maxLength = 300,
+                    minHeight = 80.dp,
+                    value = state.contentTextValue,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 24.dp)
+                        .focusRequester(contentFocusRequester),
+                    onValueChange = updateContentTextField,
+                )
+                RecordyImgButton(
+                    modifier = Modifier.padding(16.dp),
+                    icon = R.drawable.ic_move_18,
+                    placeName = state.selectPlace.name,
+                    text = "장소",
+                    onClick = {
+                        navigateToSearchPlace()
+                    },
+                )
+                RecordyBasicTextField2(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .focusRequester(locationFocusRequester),
+                    placeholder = "전시명",
+                    placeholder2 = "전시명을 입력해 주세요.",
+                    maxLines = 1,
+                    maxLength = 20,
+                    value = state.locationTextValue,
+                    onValueChange = updateLocationTextField,
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                )
             }
-            RecordyBasicTextField(
-                placeholder = "나의 생각을 자유롭게 적어주세요!",
-                maxLines = 20,
-                maxLength = 300,
-                minHeight = 80.dp,
-                value = state.contentTextValue,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 24.dp)
-                    .focusRequester(contentFocusRequester),
-                onValueChange = updateContentTextField,
-            )
-            RecordyImgButton(
-                modifier = Modifier.padding(16.dp),
-                icon = R.drawable.ic_move_18,
-                placeName = state.selectPlace.name,
-                text = "장소",
-                onClick = {
-                    navigateToSearchPlace()
-                },
-            )
-            RecordyBasicTextField2(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .focusRequester(locationFocusRequester),
-                placeholder = "전시명",
-                placeholder2 = "전시명을 입력해 주세요.",
-                maxLines = 1,
-                maxLength = 20,
-                value = state.locationTextValue,
-                onValueChange = updateLocationTextField,
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-            )
         }
 
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomCenter),
+        ) {
             RecordyButton(
                 text = "다음",
                 enabled = state.locationTextValue.isNotEmpty() && state.video != null,

@@ -57,13 +57,13 @@ class DetailpageViewModel @Inject constructor(
                     )
                 }
             }.onFailure {
-                Log.e("이잉", it.message.toString())
+                Log.e("레코디최고", it.message.toString())
             }
         }
     }
 
-    fun navigateToVideoDetail(type: VideoType, videoId: Long) {
-        postSideEffect(DetailpageSideEffect.NavigateToVideoDetail(type, videoId))
+    fun navigateToVideoDetail(type: VideoType, videoId: Long, placeId: Long) {
+        postSideEffect(DetailpageSideEffect.NavigateToVideoDetail(type, videoId, placeId))
     }
 
     fun fetchPlaceInfo() = viewModelScope.launch {
@@ -75,6 +75,7 @@ class DetailpageViewModel @Inject constructor(
                     exhibitionCount = it.exhibitionCount,
                     reviewVideoCount = it.recordCount,
                     reviewList = it.exhibitionRecord?.toImmutableList() ?: emptyList<VideoData>().toImmutableList(),
+                    platformId = it.platformId,
                 )
             }
         }.onFailure {
@@ -115,6 +116,18 @@ class DetailpageViewModel @Inject constructor(
                     copy(reviewIsEnd = true)
                 }
             }
+        }
+    }
+
+    fun showReviewBottomSheet() {
+        intent {
+            copy(showReportBottomSheet = true)
+        }
+    }
+
+    fun hideReviewBottomSheet() {
+        intent {
+            copy(showReportBottomSheet = false)
         }
     }
 

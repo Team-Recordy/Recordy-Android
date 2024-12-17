@@ -16,7 +16,9 @@ data class DetailpageState(
     val exhibitionCount: Int = 0,
     val reviewVideoCount: Int = 0,
     val reviewCursor: Long = 0,
+    val platformId: Long = 0,
     val reviewIsEnd: Boolean = false,
+    val showReportBottomSheet: Boolean = false,
     val detailpageTab: DetailpageTab = DetailpageTab.LIST,
     val selectedChip: ChipTab = ChipTab.ALL,
     val exhibitionList: ImmutableList<Exhibition> = emptyList<Exhibition>().toImmutableList(),
@@ -24,7 +26,7 @@ data class DetailpageState(
 ) : UiState
 
 sealed interface DetailpageSideEffect : SideEffect {
-    data class NavigateToVideoDetail(val type: VideoType, val videoId: Long) : DetailpageSideEffect
+    data class NavigateToVideoDetail(val type: VideoType, val videoId: Long, val placeId: Long) : DetailpageSideEffect
     // data object NavigateToDirection : DetailpageSideEffect
     // data object NavigateToGoogleReview : DetailpageSideEffect
 }

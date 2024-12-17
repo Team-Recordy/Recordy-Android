@@ -25,12 +25,12 @@ import coil.request.ImageRequest
 import com.record.designsystem.theme.White
 import com.record.ui.extension.customClickable
 import com.record.upload.extension.formatDuration
-import com.record.upload.model.GalleryVideo
+import com.record.upload.model.GalleryImage
 
 @Composable
 fun VideoThumbnail(
-    video: GalleryVideo,
-    onVideoSelected: (GalleryVideo) -> Unit,
+    video: GalleryImage,
+    onVideoSelected: (GalleryImage) -> Unit,
 ) {
     val context = LocalContext.current
     val imageLoader = remember {

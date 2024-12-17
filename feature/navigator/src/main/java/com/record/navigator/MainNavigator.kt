@@ -26,6 +26,7 @@ import com.record.upload.navigation.UploadRouteObject
 import com.record.upload.navigation.navigateToAddPlace
 import com.record.upload.navigation.navigateToSearchPlace
 import com.record.upload.navigation.navigateToUpload
+import com.record.video.navigation.VideoRoute
 import com.record.video.navigation.navigateVideo
 import com.record.video.navigation.navigateVideoDetail
 
@@ -102,18 +103,21 @@ internal class MainNavigator(
         navController.navigateMypage(navOptions { })
     }
     fun navigateToVideo() {
-        navController.navigateVideo(null)
+        navController.navigate(VideoRoute.route) {
+            popUpTo(navController.graph.id) {
+                inclusive = true
+            }
+        }
     }
-    fun navigateVideoDetail(videoType: VideoType, videoId: Long, keyword: String? = "all", userId: Long = 0) {
+    fun navigateVideoDetail(videoType: VideoType, videoId: Long, placeId: Long = 0, userId: Long = 0) {
         navController.navigateVideoDetail(
             videoType = videoType,
             videoId = videoId,
-            keyword = keyword,
             userId = userId,
+            placeId = placeId,
         )
     }
     fun navigateToUpload() {
-//        navController.navigateToUpload()
         navController.navigate(route = UploadRouteObject.route) {
             popUpTo(HomeRoute.route) {
                 inclusive = false
@@ -121,6 +125,11 @@ internal class MainNavigator(
             }
         }
     }
+
+    fun navigateToUploadTab() {
+        navController.navigateToUpload()
+    }
+
     fun navigateToConfirmPlace(confirmPlace: UploadRoute.ConfirmPlace) {
         navController.navigateToUpload(confirmPlace)
     }

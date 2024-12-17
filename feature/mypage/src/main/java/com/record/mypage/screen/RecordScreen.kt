@@ -61,7 +61,7 @@ fun RecordScreen(
             }
 
             EmptyDataScreen(
-                imageRes = com.record.designsystem.R.drawable.img_camera,
+                imageRes = com.record.designsystem.R.drawable.img_viskit_share,
                 message = "직접 방문한 공간 영상을\n공유해 보세요!",
                 showButton = true,
                 selectedTab = MypageTab.RECORD,
@@ -101,7 +101,7 @@ fun RecordScreen(
                     onBookmarkClick = {
                         onBookmarkClick(item.id)
                     },
-                    location = item.location,
+                    location = item.exhibitionName,
                     onClick = {
                         onItemClick(VideoType.MY, item.id)
                     },

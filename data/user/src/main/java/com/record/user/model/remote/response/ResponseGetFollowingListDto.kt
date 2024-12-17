@@ -22,7 +22,7 @@ fun ResponseGetFollowingListDto.toCore() = Cursor(
         User(
             id = it.id,
             nickname = it.nickname ?: "",
-            isFollowing = true,
+            isFollowing = it.isFollowing,
             profileImageUri = it.profileImageUrl ?: "",
         )
     },

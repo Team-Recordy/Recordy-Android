@@ -13,7 +13,7 @@ class UploadTaskImpl @Inject constructor(
     private val remoteUploadDataSource: RemoteUploadDataSource,
     private val uploadBroadCaster: UploadBroadCaster,
 ) : UploadTask {
-    override suspend fun upload(videoPath: String, content: String, placeId: Long): Result<Unit> {
+    override suspend fun upload(videoPath: String, content: String, placeId: Long, exhibitionName: String): Result<Unit> {
         val result = runCatching {
             uploadBroadCaster.sendUploadStart()
             val urls = remoteUploadDataSource.getUploadUrl()
@@ -35,6 +35,7 @@ class UploadTaskImpl @Inject constructor(
                             videoUrl = videoUri,
                             previewUrl = previewUri,
                             placeId = placeId,
+                            exhibitionName = exhibitionName,
                         ).toData(),
                     )
                 }

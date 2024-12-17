@@ -34,7 +34,11 @@ fun NavGraphBuilder.settingNavGraph(
         )
     }
     composable(route = SettingRoute.editProfile) {
-        ProfileEditRoute(padding, modifier, popBackStack)
+        ProfileEditRoute(
+            padding = padding,
+            modifier = modifier,
+            popBackStack = popBackStack,
+        )
     }
 }
 

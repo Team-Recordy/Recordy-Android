@@ -6,22 +6,41 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseGetVideoDto(
-    @SerialName("isBookmark")
-    val isBookmark: Boolean,
-    @SerialName("recordInfo")
-    val recordInfo: RecordInfo,
+    @SerialName("bookmarkCount")
+    val bookmarkCount: Int,
+    @SerialName("content")
+    val content: String,
+    @SerialName("fileUrl")
+    val fileUrl: FileUrl,
+    @SerialName("id")
+    val id: Long,
+    @SerialName("exhibitionName")
+    val exhibitionName: String,
+    @SerialName("placeId")
+    val placeId: Long,
+    @SerialName("placeName")
+    val placeName: String,
+    @SerialName("uploaderId")
+    val uploaderId: Long,
+    @SerialName("uploaderNickname")
+    val uploaderNickname: String,
+    @SerialName("isMine")
+    val isMine: Boolean,
+    @SerialName("isBookmarked")
+    val isBookmarked: Boolean,
 )
 
 fun ResponseGetVideoDto.toDomain() = VideoData(
     bookmarkId = 0,
-    id = recordInfo.id,
-    isBookmark = isBookmark,
-    bookmarkCount = recordInfo.bookmarkCount,
-    content = recordInfo.content,
-    videoUrl = recordInfo.fileUrl.videoUrl,
-    previewUrl = recordInfo.fileUrl.thumbnailUrl,
-    location = recordInfo.location,
-    uploaderId = recordInfo.uploaderId,
-    nickname = recordInfo.uploaderNickname,
-    isMine = recordInfo.isMine,
+    id = id,
+    isBookmark = isBookmarked,
+    bookmarkCount = bookmarkCount,
+    content = content,
+    videoUrl = fileUrl.videoUrl,
+    previewUrl = fileUrl.thumbnailUrl,
+    location = "",
+    exhibitionName = exhibitionName,
+    uploaderId = uploaderId,
+    nickname = uploaderNickname,
+    isMine = isMine,
 )

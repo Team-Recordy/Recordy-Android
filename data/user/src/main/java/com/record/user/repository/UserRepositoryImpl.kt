@@ -137,8 +137,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun updateUser(nickname: String, filePath: String): Result<Unit> = runCatching {
         var urls = remoteUploadDataSource.getUploadUrl()
         val previewUrl = urls.thumbnailUrl
-        remoteUploadDataSource.uploadProfileImgToS3Bucket(previewUrl, File(filePath)).let { imgurl ->
-            remoteUserDataSource.updateUserProfile(nickname, imgurl)
+        if (filePath.isNullOrBlank()) {
+            remoteUserDataSource.updateUserProfile(nickname, null)
+        } else {
+            remoteUploadDataSource.uploadProfileImgToS3Bucket(previewUrl, File(filePath)).let { imgurl ->
+                remoteUserDataSource.updateUserProfile(nickname, imgurl)
+            }
         }
     }.recoverCatching { exception ->
         when (exception) {

@@ -11,4 +11,6 @@ data class SearchState(
     val filteredItems: ImmutableList<SearchResult> = emptyList<SearchResult>().toImmutableList(),
 ) : UiState
 
-sealed interface SearchSideEffect : SideEffect
+sealed interface SearchSideEffect : SideEffect {
+    data class navigateToDetail(val id: Long) : SearchSideEffect
+}

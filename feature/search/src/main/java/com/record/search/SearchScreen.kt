@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -35,20 +39,36 @@ import com.record.designsystem.component.searchcomponent.SearchBox
 import com.record.designsystem.component.searchcomponent.SearchedContainerBtn
 import com.record.designsystem.component.searchcomponent.SearchingContainerBtn
 import com.record.designsystem.theme.RecordyTheme
+import com.record.exhibition.model.ResultType
 import com.record.exhibition.model.SearchResult
+import com.record.ui.extension.customClickable
+import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SearchRoute(
+    paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
+    navigateToPlaceDetail: (Long) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffect.collectLatest { sideEffect ->
+            when (sideEffect) {
+                is SearchSideEffect.navigateToDetail -> {
+                    navigateToPlaceDetail(sideEffect.id)
+                }
+            }
+        }
+    }
     SearchScreen(
-        modifier = modifier,
+        modifier = modifier.padding(bottom = paddingValues.calculateBottomPadding()),
         query = uiState.query,
         onQueryChange = viewModel::onQueryChanged,
         items = uiState.filteredItems,
+        navigateToPlaceDetail = viewModel::navigateToDetail,
     )
 }
 
@@ -58,24 +78,29 @@ fun SearchScreen(
     query: String,
     onQueryChange: (String) -> Unit,
     items: List<SearchResult>,
+    navigateToPlaceDetail: (Long) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val focusRequester = remember { FocusRequester() }
 
     var showSearchedContainer by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.background)
             .systemBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 28.dp),
+            .padding(horizontal = 16.dp)
+            .padding(top = 28.dp),
     ) {
         SearchBox(
-            modifier = modifier
+            modifier = Modifier
+                .focusRequester(focusRequester)
                 .onFocusChanged { focusState ->
                     if (focusState.isFocused) {
                         showSearchedContainer = false
                     }
-                },
+                }
+                .focusTarget(),
             query = query,
             onQueryChange = {
                 onQueryChange(it)
@@ -83,6 +108,7 @@ fun SearchScreen(
             },
             onImageClick = {
                 showSearchedContainer = true
+                focusRequester.requestFocus()
                 keyboardController?.hide()
             },
         )
@@ -92,13 +118,20 @@ fun SearchScreen(
                 items(items) { item ->
                     Column {
                         SearchedContainerBtn(
-                            modifier = modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth()
+                                .customClickable {
+                                    navigateToPlaceDetail(item.id)
+                                },
                             exhibitionName = item.name,
                             location = item.address,
-                            venue = item.name,
+                            venue = when (item.type) {
+                                ResultType.PLACE -> "전시관"
+                                ResultType.EXHIBITION -> "전시회"
+                                ResultType.UNKNOWN -> "기타"
+                            },
                         )
                         HorizontalDivider(
-                            modifier = modifier
+                            modifier = Modifier
                                 .fillMaxWidth(),
                             color = RecordyTheme.colors.gray09,
                         )
@@ -117,10 +150,19 @@ fun SearchScreen(
                 LazyColumn {
                     items(items) { item ->
                         SearchingContainerBtn(
-                            modifier = modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .background(RecordyTheme.colors.background)
+                                .fillMaxWidth()
+                                .customClickable {
+                                    navigateToPlaceDetail(item.id)
+                                },
                             exhibitionName = item.name,
                             location = item.address,
-                            venue = item.name,
+                            venue = when (item.type) {
+                                ResultType.PLACE -> "전시관"
+                                ResultType.EXHIBITION -> "전시회"
+                                ResultType.UNKNOWN -> "기타"
+                            },
                         )
                     }
                 }
@@ -137,7 +179,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = RecordyTheme.colors.black)
+            .background(color = RecordyTheme.colors.background)
             .systemBarsPadding()
             .then(imePadding),
         contentAlignment = Alignment.Center,
@@ -146,7 +188,7 @@ fun EmptySearchResult(showSearchedContainer: Boolean) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_recordy_logo),
+                painter = painterResource(id = R.drawable.img_viskit_noresult),
                 contentDescription = "Empty Icon",
                 modifier = Modifier
                     .wrapContentSize()
@@ -180,7 +222,7 @@ fun DefaultSearchUI() {
             .padding(top = 28.dp),
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_tab_record_pressed_28),
+            painter = painterResource(id = R.drawable.ic_viskit_search),
             contentDescription = "Icon",
             modifier = Modifier
                 .wrapContentSize()
@@ -222,6 +264,5 @@ fun DefaultSearchUI() {
 @Composable
 fun SearchRoutePreview() {
     RecordyTheme {
-        SearchRoute(modifier = Modifier.fillMaxWidth())
     }
 }

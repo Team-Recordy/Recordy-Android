@@ -31,10 +31,11 @@ import kotlinx.collections.immutable.ImmutableList
 fun ReviewScreen(
     videoItems: ImmutableList<VideoData>,
     reviewCount: Int,
-    onItemClick: (VideoType, Long) -> Unit,
+    onItemClick: (VideoType, Long, Long) -> Unit,
     onLoadMore: () -> Unit,
     onBookmarkClick: (Long) -> Unit,
     navigateToUpload: () -> Unit,
+    placeId: Long,
 ) {
     val lazyGridState = rememberLazyGridState()
     lazyGridState.OnBottomReached(2) {
@@ -100,8 +101,8 @@ fun ReviewScreen(
                     isBookmarkable = true,
                     isBookmark = item.isBookmark,
                     onBookmarkClick = { onBookmarkClick(item.id) },
-                    location = item.location,
-                    onClick = { onItemClick(VideoType.MY, item.id) },
+                    location = item.exhibitionName,
+                    onClick = { onItemClick(VideoType.PLACE, item.id, placeId) },
                 )
             }
         }

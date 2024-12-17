@@ -25,6 +25,7 @@ import com.record.designsystem.component.videoplayer.RecordyVideoText
 import com.record.designsystem.component.videoplayer.VideoPlayer
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.ui.scroll.onBottomReached
+import com.record.video.component.ReportBottomSheet
 import com.record.video.component.VideoTypeToggle
 import kotlinx.coroutines.flow.collectLatest
 
@@ -92,6 +93,9 @@ fun VideoRoute(
         onPlayVideo = viewModel::watchVideo,
         onNicknameClick = viewModel::navigateToProfile,
         onDialogDeleteButtonClick = viewModel::deleteVideo,
+        onMoreClick = viewModel::showReportBottomSheet,
+        onBottomSheetDismiss = viewModel::hideReportBottomSheet,
+        reportVideo = viewModel::reportVideo,
         simpleCache = viewModel.simpleCache,
     )
 }
@@ -111,6 +115,9 @@ fun VideoScreen(
     onError: (String) -> Unit,
     onPlayVideo: (Long) -> Unit,
     onDialogDeleteButtonClick: (Long) -> Unit,
+    onMoreClick: (Long, Boolean) -> Unit,
+    onBottomSheetDismiss: () -> Unit,
+    reportVideo: (Long, String, String) -> Unit,
     simpleCache: Cache,
 ) {
     Box(
@@ -123,7 +130,7 @@ fun VideoScreen(
             key = { page ->
                 val videos = if (state.isAll) state.allVideos else state.followingVideos
                 if (page in videos.indices) {
-                    videos[page].id
+                    page
                 } else {
                     -1
                 }
@@ -134,7 +141,7 @@ fun VideoScreen(
                 if (page in videos.indices) {
                     videos[page].run {
                         VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo, simpleCache)
-                        if (location.isNotEmpty()) {
+                        if (location.isNullOrBlank()) {
                             RecordyLocationBadge(
                                 modifier = Modifier
                                     .align(Alignment.TopStart)
@@ -142,7 +149,7 @@ fun VideoScreen(
                                         top = 102.dp,
                                         start = 16.dp,
                                     ),
-                                location = location,
+                                location = exhibitionName,
                             )
                         }
                         RecordyVideoText(
@@ -150,10 +157,9 @@ fun VideoScreen(
                             content = content,
                             isBookmark = isBookmark,
                             bookmarkCount = bookmarkCount,
-                            isMyVideo = isMine,
                             onBookmarkClick = { onBookmarkClick(id) },
-                            onDeleteClick = { onDeleteClick(id) },
                             onNicknameClick = { onNicknameClick(uploaderId) },
+                            onMoreClick = { onMoreClick(id, isMine) },
                         )
                     }
                 }
@@ -168,7 +174,7 @@ fun VideoScreen(
         )
         if (state.showDeleteDialog) {
             RecordyDialog(
-                graphicAsset = R.drawable.img_trashcan,
+                graphicAsset = R.drawable.ic_alert_warning_80,
                 title = "정말로 삭제하시겠어요?",
                 subTitle = "해당 영상은 영구 삭제되며, 복구가 불가능해요.",
                 negativeButtonLabel = "취소",
@@ -177,5 +183,15 @@ fun VideoScreen(
                 onPositiveButtonClick = { onDialogDeleteButtonClick(state.deleteVideoId) },
             )
         }
+
+        ReportBottomSheet(
+            isMine = state.selectedVideoIsMine,
+            id = state.selectedVideoId,
+            onClickLinkCopy = { /*TODO*/ },
+            onClickReport = reportVideo,
+            onClickDelete = onDeleteClick,
+            isShowBottomSheet = state.showReportBottomSheet,
+            onDismiss = onBottomSheetDismiss,
+        )
     }
 }

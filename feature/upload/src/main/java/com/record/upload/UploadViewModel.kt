@@ -6,7 +6,7 @@ import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.keyword.repository.KeywordRepository
 import com.record.model.AlertInfo
 import com.record.ui.base.BaseViewModel
-import com.record.upload.model.GalleryVideo
+import com.record.upload.model.GalleryImage
 import com.record.upload.model.RecordInfo
 import com.record.upload.navigation.UploadRoute
 import com.record.upload.repository.UploadRepository
@@ -14,6 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +24,7 @@ class UploadViewModel @Inject constructor(
     private val keywordRepository: KeywordRepository,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+    private val mutex = Mutex()
     fun getKeyWordList() = viewModelScope.launch {
         keywordRepository.getKeywords().onSuccess {
             intent { copy(contentList = it.keywords) }
@@ -48,23 +51,26 @@ class UploadViewModel @Inject constructor(
             filePath,
             uiState.value.contentTextValue,
             placeId = uiState.value.selectPlace.id,
+            exhibitionName = uiState.value.locationTextValue,
         )
         uploadRepository.upload(recordInfo)
         popBackStack()
     }
 
     fun onLoadMore() = viewModelScope.launch(Dispatchers.IO) {
-        val list = uiState.value.galleryList
-        intent {
-            copy(isItemLoading = true)
-        }
-        uploadRepository.getVideosFromGallery(uiState.value.galleryPage, 20, null).onSuccess {
+        mutex.withLock {
+            val list = uiState.value.galleryList
             intent {
-                copy(galleryList = (list + it).toImmutableList(), galleryPage = uiState.value.galleryPage + 1, isItemLoading = false)
+                copy(isItemLoading = true)
             }
-        }.onFailure {
-            intent {
-                copy(isItemLoading = false)
+            uploadRepository.getVideosFromGallery(uiState.value.galleryPage, 20, null).onSuccess {
+                intent {
+                    copy(galleryList = (list + it).toImmutableList(), galleryPage = uiState.value.galleryPage + 1, isItemLoading = false)
+                }
+            }.onFailure {
+                intent {
+                    copy(isItemLoading = false)
+                }
             }
         }
     }
@@ -77,7 +83,7 @@ class UploadViewModel @Inject constructor(
         copy(contentTextValue = contentValue)
     }
 
-    fun setVideo(video: GalleryVideo) = intent {
+    fun setVideo(video: GalleryImage) = intent {
         copy(video = video)
     }
 
@@ -86,7 +92,7 @@ class UploadViewModel @Inject constructor(
             alertInfo = AlertInfo(
                 showDialog = true,
                 title = "필수 권한을 허용해주세요",
-                subTitle = "프로필 사진 업로드를 위해 \n사진 라이브러리에 접근하도록 허용해 주세요.",
+                subTitle = "영상 업로드를 위해 \n사진 라이브러리에 접근하도록 허용해 주세요.",
                 negativeButtonLabel = "닫기",
                 positiveButtonLabel = "지금 설정",
             ),

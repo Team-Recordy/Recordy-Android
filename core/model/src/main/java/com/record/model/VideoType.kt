@@ -4,6 +4,5 @@ enum class VideoType {
     PROFILE,
     BOOKMARK,
     MY,
-    POPULAR,
-    RECENT,
+    PLACE,
 }

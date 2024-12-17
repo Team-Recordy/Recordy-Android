@@ -8,5 +8,6 @@ data class Place(
     val name: String,
     val exhibitionCount: Int,
     val recordCount: Int,
+    val platformId: Long,
     val exhibitionRecord: List<VideoData>?,
 )

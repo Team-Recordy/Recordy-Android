@@ -3,6 +3,8 @@ package com.record.network.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.record.common.buildconfig.BuildConfigFieldProvider
 import com.record.network.AuthenticationIntercept
+import com.record.network.TokenRefreshService
+import com.record.network.authenticator.RecordyAuthenticator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +21,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+    @Provides
+    @Singleton
+    fun provideTokenRefreshService(@NoneAuth retrofit: Retrofit) =
+        retrofit.create(TokenRefreshService::class.java)
 
     @Provides
     @Singleton
@@ -32,11 +38,13 @@ object NetworkModule {
     fun provideAuthOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
         authInterceptor: Interceptor,
+        authenticator: RecordyAuthenticator,
     ): OkHttpClient =
         OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(authInterceptor)
+            .authenticator(authenticator)
             .build()
 
     @Provides

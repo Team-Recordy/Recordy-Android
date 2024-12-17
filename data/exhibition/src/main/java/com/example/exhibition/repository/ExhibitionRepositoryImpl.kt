@@ -35,7 +35,7 @@ class ExhibitionRepositoryImpl @Inject constructor(
     }
     override suspend fun getNearPlaceData(number: Int, size: Int, latitude: Double, longitude: Double) =
         runCatching {
-            remotePlaceDataSource.getNearPlace(number = number, size = size, latitude = latitude, longitude = -longitude, distance = 3000000.0)
+            remotePlaceDataSource.getNearPlace(number = number, size = size, latitude = if (latitude < 0) -latitude else latitude, longitude = if (longitude < 0) -longitude else longitude, distance = 3000000.0)
         }.mapCatching { it ->
             Page(
                 hasNext = it.hasNext,

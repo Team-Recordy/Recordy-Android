@@ -161,21 +161,19 @@ fun DetailpageScreen(
                                 backgroundColor = RecordyTheme.colors.gray01,
                                 shape = RoundedCornerShape(8.dp),
                                 onClick = { navigateToMapApps(context = context, placeName = state.placeName) },
-                                padding = PaddingValues(horizontal = 19.dp, vertical = 8.dp),
-                                modifier = Modifier
-                                    .width(75.dp),
+                                padding = PaddingValues(vertical = 8.dp),
+                                modifier = Modifier.width(75.dp),
                             )
                             Spacer(modifier = Modifier.width(16.dp))
                             BasicButton(
-                                text = "리뷰",
+                                text = " 리뷰 ",
                                 textStyle = RecordyTheme.typography.body2SB,
                                 textColor = RecordyTheme.colors.background,
                                 backgroundColor = RecordyTheme.colors.gray01,
                                 shape = RoundedCornerShape(8.dp),
                                 onClick = onClickReviewButton,
-                                padding = PaddingValues(horizontal = 19.dp, vertical = 8.dp),
-                                modifier = Modifier
-                                    .width(75.dp),
+                                padding = PaddingValues(vertical = 8.dp),
+                                modifier = Modifier.width(75.dp),
                             )
                         }
                     }

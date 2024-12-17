@@ -68,7 +68,6 @@ fun EmptyDataScreen(
 
                 RecordyButton(
                     modifier = Modifier
-                        .height(44.dp)
                         .fillMaxWidth(0.33f),
                     text = buttonText,
                     textStyle = RecordyTheme.typography.body2B,

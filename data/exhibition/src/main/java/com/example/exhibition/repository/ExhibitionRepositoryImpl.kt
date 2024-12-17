@@ -9,6 +9,7 @@ import com.record.exhibition.model.ExhibitionFilter
 import com.record.exhibition.model.Place
 import com.record.exhibition.model.PlaceUsingMap
 import com.record.exhibition.repository.ExhibitionRepository
+import com.record.model.Cursor
 import com.record.model.Page
 import com.record.model.exception.ApiError
 import com.record.video.model.toCore
@@ -34,14 +35,14 @@ class ExhibitionRepositoryImpl @Inject constructor(
     }
     override suspend fun getNearPlaceData(number: Int, size: Int, latitude: Double, longitude: Double) =
         runCatching {
-            remotePlaceDataSource.getNearPlace(number = number, size = size, latitude = latitude, longitude = longitude, distance = 30000.0)
+            remotePlaceDataSource.getNearPlace(number = number, size = size, latitude = latitude, longitude = -longitude, distance = 3000000.0)
         }.mapCatching { it ->
             Page(
                 hasNext = it.hasNext,
                 page = it.pageNumber,
                 data = it.content.map { placeDto ->
                     runCatching {
-                        val videoResult = videoRepository.getPlaceVideos(placeDto.id, 0, 10).getOrNull()
+                        val videoResult = if (placeDto.recordSize != 0) videoRepository.getPlaceVideos(placeDto.id, 0, placeDto.recordSize).getOrNull() else Cursor(hasNext = false, nextCursor = null, data = emptyList())
                         Place(
                             placeId = placeDto.id,
                             address = placeDto.address ?: "",

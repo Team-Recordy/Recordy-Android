@@ -52,7 +52,7 @@ fun EmptyDataScreen(
                         textStyle = RecordyTheme.typography.body2B,
                         textColor = RecordyTheme.colors.background,
                         backgroundColor = RecordyTheme.colors.viskitYellow400,
-                        padding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+                        padding = PaddingValues(horizontal = 20.dp),
                         shape = RoundedCornerShape(30.dp),
                         onClick = onButtonClick,
                     )

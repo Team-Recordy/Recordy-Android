@@ -193,6 +193,14 @@ class VideoDetailViewModel
         }.onFailure { handleError(it) }
     }
 
+    fun reportVideo(id: Long, reason: String, content: String) = viewModelScope.launch {
+        videoCoreRepository.postReport(id, reason, content).onSuccess {
+            hideReportBottomSheet()
+        }.onFailure {
+            handleError(it)
+        }
+    }
+
     fun watchVideo(id: Long) = viewModelScope.launch { videoCoreRepository.watchVideo(id) }
 
     fun showDeleteDialog(id: Long) {

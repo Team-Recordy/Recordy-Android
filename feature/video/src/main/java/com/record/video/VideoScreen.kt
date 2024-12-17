@@ -22,10 +22,10 @@ import com.record.designsystem.component.badge.RecordyLocationBadge
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.videoplayer.RecordyVideoText
-import com.record.designsystem.component.videoplayer.ReportBottomSheet
 import com.record.designsystem.component.videoplayer.VideoPlayer
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.ui.scroll.onBottomReached
+import com.record.video.component.ReportBottomSheet
 import com.record.video.component.VideoTypeToggle
 import kotlinx.coroutines.flow.collectLatest
 
@@ -95,6 +95,7 @@ fun VideoRoute(
         onDialogDeleteButtonClick = viewModel::deleteVideo,
         onMoreClick = viewModel::showReportBottomSheet,
         onBottomSheetDismiss = viewModel::hideReportBottomSheet,
+        reportVideo = viewModel::reportVideo,
         simpleCache = viewModel.simpleCache,
     )
 }
@@ -116,6 +117,7 @@ fun VideoScreen(
     onDialogDeleteButtonClick: (Long) -> Unit,
     onMoreClick: (Long, Boolean) -> Unit,
     onBottomSheetDismiss: () -> Unit,
+    reportVideo: (Long, String, String) -> Unit,
     simpleCache: Cache,
 ) {
     Box(
@@ -186,7 +188,7 @@ fun VideoScreen(
             isMine = state.selectedVideoIsMine,
             id = state.selectedVideoId,
             onClickLinkCopy = { /*TODO*/ },
-            onClickReport = { /*TODO*/ },
+            onClickReport = reportVideo,
             onClickDelete = onDeleteClick,
             isShowBottomSheet = state.showReportBottomSheet,
             onDismiss = onBottomSheetDismiss,

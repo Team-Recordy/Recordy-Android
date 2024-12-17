@@ -131,6 +131,14 @@ class VideoViewModel
         }.onFailure { handleError(it) }
     }
 
+    fun reportVideo(id: Long, reason: String, content: String) = viewModelScope.launch {
+        videoCoreRepository.postReport(id, reason, content).onSuccess {
+            hideReportBottomSheet()
+        }.onFailure {
+            handleError(it)
+        }
+    }
+
     private fun handleError(throwable: Throwable) {
         if (throwable is ApiError) {
             Log.e("Error", throwable.message)

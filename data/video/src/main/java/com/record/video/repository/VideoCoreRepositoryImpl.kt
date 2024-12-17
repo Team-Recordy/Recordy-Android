@@ -35,4 +35,18 @@ class VideoCoreRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun postReport(id: Long, reason: String, content: String): Result<Unit> = runCatching {
+        remoteVideoCoreDataSource.postReport(id, reason, content)
+    }.recoverCatching { exception ->
+        when (exception) {
+            is HttpException -> {
+                throw ApiError(exception.message())
+            }
+
+            else -> {
+                throw exception
+            }
+        }
+    }
 }

@@ -14,6 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,18 +24,22 @@ class ProfileEditViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val uploadRepository: UploadRepository,
 ) : BaseViewModel<ProfileEditState, ProfileEditSideEffect>(ProfileEditState()) {
+    private val mutex = Mutex()
+
     fun onLoadMore() = viewModelScope.launch(Dispatchers.IO) {
-        val list = uiState.value.galleryList
-        intent {
-            copy(isItemLoading = true)
-        }
-        uploadRepository.getImagesFromGallery(uiState.value.galleryPage, 20, null).onSuccess {
+        mutex.withLock {
+            val list = uiState.value.galleryList
             intent {
-                copy(galleryList = (list + it).toImmutableList(), galleryPage = uiState.value.galleryPage + 1, isItemLoading = false)
+                copy(isItemLoading = true)
             }
-        }.onFailure {
-            intent {
-                copy(isItemLoading = false)
+            uploadRepository.getImagesFromGallery(uiState.value.galleryPage, 20, null).onSuccess {
+                intent {
+                    copy(galleryList = (list + it).toImmutableList(), galleryPage = uiState.value.galleryPage + 1, isItemLoading = false)
+                }
+            }.onFailure {
+                intent {
+                    copy(isItemLoading = false)
+                }
             }
         }
     }

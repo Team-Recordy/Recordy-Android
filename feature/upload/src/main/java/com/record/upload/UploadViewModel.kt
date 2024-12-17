@@ -14,6 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +24,7 @@ class UploadViewModel @Inject constructor(
     private val keywordRepository: KeywordRepository,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+    private val mutex = Mutex()
     fun getKeyWordList() = viewModelScope.launch {
         keywordRepository.getKeywords().onSuccess {
             intent { copy(contentList = it.keywords) }
@@ -55,17 +58,19 @@ class UploadViewModel @Inject constructor(
     }
 
     fun onLoadMore() = viewModelScope.launch(Dispatchers.IO) {
-        val list = uiState.value.galleryList
-        intent {
-            copy(isItemLoading = true)
-        }
-        uploadRepository.getVideosFromGallery(uiState.value.galleryPage, 20, null).onSuccess {
+        mutex.withLock {
+            val list = uiState.value.galleryList
             intent {
-                copy(galleryList = (list + it).toImmutableList(), galleryPage = uiState.value.galleryPage + 1, isItemLoading = false)
+                copy(isItemLoading = true)
             }
-        }.onFailure {
-            intent {
-                copy(isItemLoading = false)
+            uploadRepository.getVideosFromGallery(uiState.value.galleryPage, 20, null).onSuccess {
+                intent {
+                    copy(galleryList = (list + it).toImmutableList(), galleryPage = uiState.value.galleryPage + 1, isItemLoading = false)
+                }
+            }.onFailure {
+                intent {
+                    copy(isItemLoading = false)
+                }
             }
         }
     }

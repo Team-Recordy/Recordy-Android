@@ -161,6 +161,7 @@ internal fun MainScreen(
                     popBackStack = navigator::popBackStackIfNotHome,
                     navigateToLogin = navigator::navigateLogin,
                     navigateToProfileEdit = navigator::navigateProfileEdit,
+                    navigateToProfile = navigator::navigateProfile,
                 )
 
                 searchNavGraph(
@@ -220,8 +221,8 @@ private fun MainBottomNavigationBar(
     ) {
         Column {
             HorizontalDivider(
-                thickness = 1.dp,
-                color = RecordyTheme.colors.gray05,
+                thickness = 0.5.dp,
+                color = RecordyTheme.colors.gray06,
             )
             Row(
                 modifier = Modifier

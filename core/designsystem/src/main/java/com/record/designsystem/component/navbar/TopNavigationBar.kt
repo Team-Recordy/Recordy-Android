@@ -26,6 +26,7 @@ fun TopNavigationBar(
     title: String = "",
     enableGradation: Boolean = false,
     popBackStackEnable: Boolean = false,
+    showCloseButton: Boolean = false,
     popBackStack: () -> Unit = {},
 ) {
     Box(
@@ -50,6 +51,20 @@ fun TopNavigationBar(
                     },
             )
         }
+
+        if (showCloseButton) {
+            Icon(
+                ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_cancelled_30),
+                contentDescription = "닫기",
+                tint = RecordyTheme.colors.gray01,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .customClickable {
+                        popBackStack()
+                    },
+            )
+        }
+
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = title,

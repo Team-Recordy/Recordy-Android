@@ -86,7 +86,7 @@ fun EmptyFollowerScreen() {
             Row {
                 Spacer(modifier = Modifier.weight(13f))
                 Image(
-                    painter = painterResource(com.record.designsystem.R.drawable.img_no_follower),
+                    painter = painterResource(com.record.designsystem.R.drawable.img_viskit_noresult),
                     contentDescription = null,
                     modifier = Modifier
                         .weight(10f)

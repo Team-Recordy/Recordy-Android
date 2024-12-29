@@ -38,8 +38,8 @@ fun RecordyLocationBadge(
             modifier = Modifier
                 .padding(
                     start = 8.dp,
-                    top = 8.dp,
-                    bottom = 8.dp,
+                    top = 5.dp,
+                    bottom = 5.dp,
                     end = 4.dp,
                 ),
             painter = painterResource(id = R.drawable.ic_cursor_16),
@@ -49,11 +49,14 @@ fun RecordyLocationBadge(
         if (location != null) {
             Text(
                 modifier = Modifier
-                    .padding(end = 12.dp),
+                    .padding(
+                        top = 4.dp,
+                        bottom = 4.dp,
+                        end = 12.dp),
                 text = location,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = RecordyTheme.typography.caption1R,
+                style = RecordyTheme.typography.caption2M,
                 color = RecordyTheme.colors.white,
                 textAlign = TextAlign.Center,
             )

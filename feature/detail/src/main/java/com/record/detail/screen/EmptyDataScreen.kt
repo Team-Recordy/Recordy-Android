@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,17 +38,29 @@ fun EmptyDataScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize(),
             ) {
+                val messages = message.split("\n")
                 Text(
-                    text = message,
+                    text = messages.getOrNull(0) ?: "",
                     style = RecordyTheme.typography.title3SB,
                     color = RecordyTheme.colors.gray02,
                     textAlign = TextAlign.Center,
                 )
+                if (messages.size > 1) {
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = messages[1],
+                        style = RecordyTheme.typography.title3SB,
+                        color = RecordyTheme.colors.gray02,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(24.dp))
                 if (showButton) {
                     BasicButton(
                         modifier = Modifier
-                            .height(44.dp),
+                            .height(44.dp)
+                            .wrapContentWidth(),
                         text = "영상 업로드하기",
                         textStyle = RecordyTheme.typography.body2B,
                         textColor = RecordyTheme.colors.background,

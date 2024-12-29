@@ -63,12 +63,13 @@ fun RecordyBasicTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    highlightOnFocus: Boolean = true
 ) {
     val isFocused by interactionSource.collectIsFocusedAsState()
 
     val borderLineColor = when {
         isError -> Alert01
-        isFocused -> ViskitYellow500
+        isFocused && highlightOnFocus -> Color.Transparent
         value.isEmpty() -> Color.Transparent
         else -> Color.Transparent
     }
@@ -166,12 +167,13 @@ fun RecordyBasicTextField2(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    highlightOnFocus: Boolean = true
 ) {
     val isFocused by interactionSource.collectIsFocusedAsState()
 
     val borderLineColor = when {
         isError -> Alert01
-        isFocused -> ViskitYellow500
+        isFocused && highlightOnFocus -> ViskitYellow500
         value.isEmpty() -> Color.Transparent
         else -> Color.Transparent
     }

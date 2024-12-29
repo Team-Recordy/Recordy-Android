@@ -52,7 +52,8 @@ fun RecordyLocationBadge(
                     .padding(
                         top = 4.dp,
                         bottom = 4.dp,
-                        end = 12.dp),
+                        end = 12.dp,
+                    ),
                 text = location,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

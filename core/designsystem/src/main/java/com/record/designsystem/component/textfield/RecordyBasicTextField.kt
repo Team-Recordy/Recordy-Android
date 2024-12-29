@@ -63,7 +63,7 @@ fun RecordyBasicTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    highlightOnFocus: Boolean = true
+    highlightOnFocus: Boolean = true,
 ) {
     val isFocused by interactionSource.collectIsFocusedAsState()
 
@@ -167,7 +167,7 @@ fun RecordyBasicTextField2(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    highlightOnFocus: Boolean = true
+    highlightOnFocus: Boolean = true,
 ) {
     val isFocused by interactionSource.collectIsFocusedAsState()
 

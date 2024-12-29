@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -230,7 +232,7 @@ fun VideoPickerScreen(
                     focusManager.clearFocus()
                 },
         ) {
-            TopNavigationBar(modifier = Modifier, title = "내용 작성", enableGradation = true)
+            TopNavigationBar(modifier = Modifier, title = "영상 업로드", showCloseButton = true, enableGradation = true)
             Text(
                 text = "ⓘ 주제와 무관한 기록은 무통보로 삭제될 수 있습니다",
                 color = RecordyTheme.colors.gray03,
@@ -314,6 +316,7 @@ fun VideoPickerScreen(
                         .padding(top = 24.dp)
                         .focusRequester(contentFocusRequester),
                     onValueChange = updateContentTextField,
+                    highlightOnFocus = false,
                 )
                 RecordyImgButton(
                     modifier = Modifier.padding(16.dp),
@@ -335,6 +338,7 @@ fun VideoPickerScreen(
                     value = state.locationTextValue,
                     onValueChange = updateLocationTextField,
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                    highlightOnFocus = false,
                 )
             }
         }

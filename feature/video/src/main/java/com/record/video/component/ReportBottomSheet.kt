@@ -58,6 +58,7 @@ fun ReportBottomSheet(
     var inputValidation by remember { mutableStateOf(false) }
     var textValue by remember { mutableStateOf("") }
     var selectedReason by remember { mutableStateOf("") }
+
     LaunchedEffectWithLifecycle {
         if (isShowBottomSheet) {
             coroutineScope.launch {
@@ -254,19 +255,21 @@ fun ReportBottomSheet(
                             Text(
                                 text = "완료",
                                 style = RecordyTheme.typography.subtitle,
-                                color = RecordyTheme.colors.gray01,
+                                color = if (inputValidation) RecordyTheme.colors.gray01 else RecordyTheme.colors.gray08,
                                 modifier = Modifier
                                     .align(Alignment.CenterEnd)
                                     .customClickable {
-                                        val reasonEnum = ReportReason.fromReasonText(selectedReason)
-                                        onClickReport(id, reasonEnum.name, textValue)
-                                        coroutineScope.launch {
-                                            sheetState.hide()
-                                        }.invokeOnCompletion {
-                                            onDismiss()
-                                            currentState = BottomSheetNavigation.DEFAULT
-                                            textValue = ""
-                                            selectedReason = ""
+                                        if (inputValidation) {
+                                            val reasonEnum = ReportReason.fromReasonText(selectedReason)
+                                            onClickReport(id, reasonEnum.name, textValue)
+                                            coroutineScope.launch {
+                                                sheetState.hide()
+                                            }.invokeOnCompletion {
+                                                onDismiss()
+                                                currentState = BottomSheetNavigation.DEFAULT
+                                                textValue = ""
+                                                selectedReason = ""
+                                            }
                                         }
                                     }
                                     .padding(vertical = 15.dp)
@@ -276,11 +279,7 @@ fun ReportBottomSheet(
 
                         ReportTextField(textValue = textValue, isValidate = inputValidation) {
                             textValue = it
-                            if (it.isNotEmpty()) {
-                                inputValidation = true
-                            } else {
-                                inputValidation = false
-                            }
+                            inputValidation = it.isNotEmpty()
                         }
                     }
                 }

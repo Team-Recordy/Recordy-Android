@@ -154,7 +154,8 @@ fun SplashScreen(
             painterResource(id = R.drawable.img_viskit_logo),
             null,
             modifier = Modifier
-                .fillMaxWidth(0.3f)
+                .fillMaxWidth()
+                .padding(horizontal = 80.dp)
                 .aspectRatio(1f)
                 .alpha(alpha),
 
@@ -199,7 +200,8 @@ fun LoginScreen(
                 painterResource(id = R.drawable.img_viskit_logo),
                 null,
                 modifier = Modifier
-                    .fillMaxWidth(0.28f)
+                    .fillMaxWidth()
+                    .padding(horizontal = 80.dp)
                     .aspectRatio(1f),
             )
             Spacer(modifier = Modifier.height(36.dp))

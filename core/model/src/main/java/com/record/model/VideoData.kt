@@ -8,6 +8,7 @@ data class VideoData(
     val content: String,
     val videoUrl: String,
     val previewUrl: String,
+    val placeId: Long,
     val location: String = "",
     val exhibitionName: String,
     val uploaderId: Long,

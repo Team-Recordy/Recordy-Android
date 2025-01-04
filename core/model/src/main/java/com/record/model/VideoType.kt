@@ -5,4 +5,5 @@ enum class VideoType {
     BOOKMARK,
     MY,
     PLACE,
+    DETAIL,
 }

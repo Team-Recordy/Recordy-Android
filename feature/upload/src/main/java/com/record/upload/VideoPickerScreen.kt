@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -140,6 +142,7 @@ fun VideoPickerRoute(
         updateLocationTextField = viewModel::updateLocationTextField,
         showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
         hideExitUploadDialog = viewModel::hideUploadDialog,
+        showExitUploadDialog = viewModel::showExitUploadDialog,
         updateContentTextField = viewModel::updateContentTextField,
         showIsSelectedVideoSheetOpen = viewModel::showIsSelectedVideoSheetOpen,
         hideIsSelectedVideoSheetOpen = viewModel::hideIsSelectedVideoSheetOpen,
@@ -164,6 +167,7 @@ fun VideoPickerScreen(
     onClickUpload: () -> Unit,
     showShouldShowRationaleDialog: () -> Unit = {},
     hideExitUploadDialog: () -> Unit = {},
+    showExitUploadDialog: () -> Unit = {},
     showIsSelectedVideoSheetOpen: () -> Unit = {},
     hideIsSelectedVideoSheetOpen: () -> Unit = {},
     showIsSelectedDefinedContentSheetOpen: () -> Unit = {},
@@ -185,9 +189,7 @@ fun VideoPickerScreen(
     )
 
     var isGranted by remember { mutableStateOf(false) }
-    LaunchedEffect(isGranted) {
-        onLoadMore()
-    }
+
     val permissionState = remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
@@ -195,6 +197,12 @@ fun VideoPickerScreen(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
             ) == PackageManager.PERMISSION_GRANTED,
         )
+    }
+    LaunchedEffect(cameraPermissionState.status.isGranted) {
+        if (cameraPermissionState.status.isGranted) {
+            hideExitUploadDialog()
+            onLoadMore()
+        }
     }
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -226,11 +234,13 @@ fun VideoPickerScreen(
                 .padding(bottom = 80.dp)
                 .background(RecordyTheme.colors.background)
                 .verticalScroll(rememberScrollState())
-                .customClickable {
-                    focusManager.clearFocus()
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = {
+                        focusManager.clearFocus() // 포커스 해제
+                    },)
                 },
         ) {
-            TopNavigationBar(modifier = Modifier, title = "영상 업로드", showCloseButton = true, enableGradation = true)
+            TopNavigationBar(modifier = Modifier, title = "영상 업로드", showCloseButton = true, enableGradation = true, popBackStack = showExitUploadDialog)
             Text(
                 text = "ⓘ 주제와 무관한 기록은 무통보로 삭제될 수 있습니다",
                 color = RecordyTheme.colors.gray03,
@@ -347,10 +357,10 @@ fun VideoPickerScreen(
                 .align(Alignment.BottomCenter),
         ) {
             RecordyButton(
-                text = "다음",
-                enabled = state.locationTextValue.isNotEmpty() && state.video != null,
+                text = "업로드",
+                enabled = state.selectPlace.name.isNotEmpty() && state.video != null,
                 onClick = {
-                    if (state.video != null) {
+                    if (state.selectPlace.name.isNotEmpty() && state.video != null) {
                         onClickUpload()
 //                compressVideo(context, state.video.uri,state.video.name, onSuccess = onSuccess)
                     }
@@ -368,8 +378,10 @@ fun VideoPickerScreen(
             positiveButtonLabel = state.alertInfo.positiveButtonLabel,
             onDismissRequest = hideExitUploadDialog,
             onPositiveButtonClick = {
-                if (cameraPermissionState.status.shouldShowRationale) {
-                    openAppSettings(context)
+                if (state.isSystemAlert) {
+                    if (cameraPermissionState.status.shouldShowRationale) {
+                        openAppSettings(context)
+                    }
                 } else {
                     onClickBackStack()
                 }

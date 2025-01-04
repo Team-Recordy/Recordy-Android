@@ -24,6 +24,7 @@ class UploadViewModel @Inject constructor(
     private val keywordRepository: KeywordRepository,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
+
     private val mutex = Mutex()
     fun getKeyWordList() = viewModelScope.launch {
         keywordRepository.getKeywords().onSuccess {
@@ -92,10 +93,11 @@ class UploadViewModel @Inject constructor(
             alertInfo = AlertInfo(
                 showDialog = true,
                 title = "필수 권한을 허용해주세요",
-                subTitle = "영상 업로드를 위해 \n사진 라이브러리에 접근하도록 허용해 주세요.",
+                subTitle = "영상 업로드를 위해 \n사진 라이브러리에 접근을 항상 허용해 주세요.",
                 negativeButtonLabel = "닫기",
                 positiveButtonLabel = "지금 설정",
             ),
+            isSystemAlert = true,
         )
     }
 
@@ -116,6 +118,7 @@ class UploadViewModel @Inject constructor(
                 negativeButtonLabel = "취소",
                 positiveButtonLabel = "나가기",
             ),
+            isSystemAlert = false,
         )
     }
 

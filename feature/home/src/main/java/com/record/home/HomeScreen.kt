@@ -212,12 +212,14 @@ private fun ExhibitionContatiner(
     onBookmarkClick: (Long) -> Unit = {},
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .padding(vertical = 8.dp),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp)
+                .padding(horizontal = 16.dp)
+                .padding(bottom = if (place.exhibitionRecord.isNullOrEmpty()) 0.dp else 16.dp)
                 .background(color = RecordyTheme.colors.gray10, shape = RoundedCornerShape(8.dp))
                 .customClickable {
                     onItemClick(place.placeId.toLong())

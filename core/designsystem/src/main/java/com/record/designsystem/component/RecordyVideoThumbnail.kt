@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.record.designsystem.R
-import com.record.designsystem.component.badge.RecordyLocationBadge
+import com.record.designsystem.component.badge.RecordyExhibitionBadge
 import com.record.designsystem.component.icon.ShadowIcon
 import com.record.designsystem.theme.Black
 import com.record.designsystem.theme.RecordyTheme
@@ -93,7 +93,7 @@ fun RecordyVideoThumbnail(
                 contentDescription = "bookmark",
             )
         }
-        RecordyLocationBadge(
+        RecordyExhibitionBadge(
             modifier = Modifier
                 .padding(start = 6.dp, bottom = 10.dp)
                 .align(Alignment.BottomStart),

@@ -61,7 +61,8 @@ fun TopNavigationBar(
                     .align(Alignment.CenterStart)
                     .customClickable {
                         popBackStack()
-                    },
+                    }
+                    .padding(16.dp),
             )
         }
 

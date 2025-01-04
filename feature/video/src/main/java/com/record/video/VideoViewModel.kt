@@ -128,12 +128,23 @@ class VideoViewModel
             postSideEffect(VideoSideEffect.MovePage(uiState.value.allVideos.size - videos.size))
             intent { copy(allVideos = videos) }
             hideReportBottomSheet()
+            postSideEffect(VideoSideEffect.ShowReportSnackbar("정상적으로 삭제되었습니다."))
         }.onFailure { handleError(it) }
     }
 
     fun reportVideo(id: Long, reason: String, content: String) = viewModelScope.launch {
         videoCoreRepository.postReport(id, reason, content).onSuccess {
+            if (uiState.value.isAll) {
+                val videos = uiState.value.allVideos.filterNot { it.id == id }.toImmutableList()
+                postSideEffect(VideoSideEffect.MovePage(uiState.value.allVideos.size - videos.size))
+                intent { copy(allVideos = videos) }
+            } else {
+                val videos = uiState.value.followingVideos.filterNot { it.id == id }.toImmutableList()
+                postSideEffect(VideoSideEffect.MovePage(uiState.value.followingVideos.size - videos.size))
+                intent { copy(followingVideos = videos) }
+            }
             hideReportBottomSheet()
+            postSideEffect(VideoSideEffect.ShowReportSnackbar("정상적으로 신고되었습니다."))
         }.onFailure {
             handleError(it)
         }
@@ -159,5 +170,9 @@ class VideoViewModel
                 postSideEffect(VideoSideEffect.NavigateToUserProfile(id))
             }
         }
+    }
+
+    fun navigateToPlaceDetail(id: Long) = viewModelScope.launch {
+        postSideEffect(VideoSideEffect.NavigateToPlaceDetail(id))
     }
 }

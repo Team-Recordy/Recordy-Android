@@ -202,8 +202,20 @@ fun ReportBottomSheet(
                                     .fillMaxWidth()
                                     .height(48.dp)
                                     .customClickable {
-                                        currentState = BottomSheetNavigation.ELSE
-                                        selectedReason = it.reasonText
+                                        if (ReportReason.fromReasonText(it.reasonText) == ReportReason.OTHER) {
+                                            currentState = BottomSheetNavigation.ELSE
+                                            selectedReason = it.reasonText
+                                            return@customClickable
+                                        }
+                                        onClickReport(id, ReportReason.fromReasonText(it.reasonText).name, "")
+                                        coroutineScope.launch {
+                                            sheetState.hide()
+                                        }.invokeOnCompletion {
+                                            onDismiss()
+                                            currentState = BottomSheetNavigation.DEFAULT
+                                            textValue = ""
+                                            selectedReason = ""
+                                        }
                                     },
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {

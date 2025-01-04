@@ -25,6 +25,7 @@ fun NavGraphBuilder.videoNavGraph(
     onShowSnackBar: (String, SnackBarType) -> Unit,
     navigateToMypage: () -> Unit,
     navigateToProfile: (Long) -> Unit,
+    navigateToPlaceDetail: (Long) -> Unit,
     popBackStack: () -> Unit,
 ) {
     composable(route = VideoRoute.route) {
@@ -34,6 +35,7 @@ fun NavGraphBuilder.videoNavGraph(
             onShowSnackbar = onShowSnackBar,
             navigateToMypage = navigateToMypage,
             navigateToProfile = navigateToProfile,
+            navigateToPlaceDetail = navigateToPlaceDetail,
         )
     }
     composable(
@@ -51,6 +53,7 @@ fun NavGraphBuilder.videoNavGraph(
             navigateToMypage = navigateToMypage,
             navigateToUserProfile = navigateToProfile,
             popBackStack = popBackStack,
+            navigateToPlaceDetail = navigateToPlaceDetail,
         )
     }
 }

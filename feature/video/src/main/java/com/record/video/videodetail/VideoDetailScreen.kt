@@ -14,11 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.cache.Cache
 import com.record.designsystem.R
+import com.record.designsystem.component.badge.RecordyExhibitionBadge
 import com.record.designsystem.component.badge.RecordyLocationBadge
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.snackbar.SnackBarType
@@ -40,6 +42,7 @@ fun VideoDetailRoute(
     onShowSnackbar: (String, SnackBarType) -> Unit,
     navigateToUserProfile: (Long) -> Unit,
     navigateToMypage: () -> Unit,
+    navigateToPlaceDetail: (Long) -> Unit,
     popBackStack: () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -73,6 +76,14 @@ fun VideoDetailRoute(
                 VideoDetailSideEffect.NavigateToBack -> {
                     popBackStack()
                 }
+
+                is VideoDetailSideEffect.NavigateToPlaceDetail -> {
+                    navigateToPlaceDetail(sideEffect.id)
+                }
+
+                is VideoDetailSideEffect.ShowReportSnackbar -> {
+                    onShowSnackbar(sideEffect.msg, SnackBarType.CHECK)
+                }
             }
         }
     }
@@ -93,6 +104,7 @@ fun VideoDetailRoute(
         onDialogDeleteButtonClick = viewModel::deleteVideo,
         onMoreClick = viewModel::showReportBottomSheet,
         onBottomSheetDismiss = viewModel::hideReportBottomSheet,
+        onPlaceButtonClick = viewModel::navigateToPlaceDetail,
         reportVideo = viewModel::reportVideo,
         simpleCache = viewModel.simpleCache,
     )
@@ -115,6 +127,7 @@ fun VideoDetailScreen(
     onDialogDeleteButtonClick: () -> Unit,
     onMoreClick: (Long, Boolean) -> Unit,
     onBottomSheetDismiss: () -> Unit,
+    onPlaceButtonClick: (Long) -> Unit,
     reportVideo: (Long, String, String) -> Unit,
     simpleCache: Cache,
 ) {
@@ -134,12 +147,28 @@ fun VideoDetailScreen(
                 if (page in state.videos.indices) {
                     state.videos[page].run {
                         VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo, simpleCache)
-                        if (location.isNullOrBlank()) {
+                        if (location.isNotEmpty()) {
                             RecordyLocationBadge(
                                 modifier = Modifier
+                                    .zIndex(1.0f)
                                     .align(Alignment.TopStart)
                                     .padding(
                                         top = 102.dp,
+                                        start = 16.dp,
+                                    )
+                                    .customClickable {
+                                        onPlaceButtonClick(placeId)
+                                    },
+                                location = location,
+                            )
+                        }
+                        if (exhibitionName.isNotEmpty()) {
+                            RecordyExhibitionBadge(
+                                modifier = Modifier
+                                    .zIndex(1.0f)
+                                    .align(Alignment.BottomStart)
+                                    .padding(
+                                        bottom = 16.dp,
                                         start = 16.dp,
                                     ),
                                 location = exhibitionName,

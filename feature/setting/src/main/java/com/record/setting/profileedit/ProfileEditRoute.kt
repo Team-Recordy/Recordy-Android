@@ -12,6 +12,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -39,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -140,9 +142,7 @@ fun ProfileScreen(
     )
 
     var isGranted by remember { mutableStateOf(false) }
-    LaunchedEffect(isGranted) {
-        onLoadMore()
-    }
+
     val permissionState = remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
@@ -151,6 +151,14 @@ fun ProfileScreen(
             ) == PackageManager.PERMISSION_GRANTED,
         )
     }
+
+    LaunchedEffect(key1 = cameraPermissionState.status.isGranted) {
+        if (cameraPermissionState.status.isGranted) {
+            hideExitUploadDialog()
+            onLoadMore()
+        }
+    }
+
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
@@ -169,6 +177,8 @@ fun ProfileScreen(
             .build()
     }
 
+    val defaultPainter = rememberAsyncImagePainter(model = state.defaultProfileImgUrl)
+
     val painter = rememberAsyncImagePainter(
         model = state.image?.filepath ?: R.drawable.img_profileedit,
         imageLoader = imageLoader,
@@ -185,7 +195,14 @@ fun ProfileScreen(
 
     Box(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onPress = {
+                        focusManager.clearFocus()
+                    },
+                )
+            },
     ) {
         Column(
             modifier = Modifier
@@ -265,10 +282,8 @@ fun ProfileScreen(
                             .fillMaxSize(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        val painter = painter
-
                         Image(
-                            painter = painter,
+                            painter = if (state.isSelected) painter else defaultPainter,
                             contentDescription = "프로필 사진",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
@@ -304,6 +319,7 @@ fun ProfileScreen(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 RecordyValidateTextfield(
+                    placeholder = state.placeHolder,
                     errorState = state.nicknameValidate,
                     onValueChange = {
                         updateName(it)
@@ -317,7 +333,7 @@ fun ProfileScreen(
 
             RecordyButton(
                 enabled = state.btnEnable,
-                text = "다음",
+                text = "완료",
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
                     .padding(bottom = 14.dp),
@@ -338,8 +354,6 @@ fun ProfileScreen(
                 onPositiveButtonClick = {
                     if (cameraPermissionState.status.shouldShowRationale) {
                         openAppSettings(context)
-                    } else {
-                        backToSetting()
                     }
                 },
             )

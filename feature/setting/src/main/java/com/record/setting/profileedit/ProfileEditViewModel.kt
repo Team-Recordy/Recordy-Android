@@ -26,6 +26,10 @@ class ProfileEditViewModel @Inject constructor(
 ) : BaseViewModel<ProfileEditState, ProfileEditSideEffect>(ProfileEditState()) {
     private val mutex = Mutex()
 
+    init {
+        getProfile()
+    }
+
     fun onLoadMore() = viewModelScope.launch(Dispatchers.IO) {
         mutex.withLock {
             val list = uiState.value.galleryList
@@ -49,8 +53,8 @@ class ProfileEditViewModel @Inject constructor(
             userRepository.getUserProfile(it).onSuccess { response ->
                 intent {
                     copy(
-                        username = response.nickname,
-                        profileImgUrl = response.profileImageUrl,
+                        placeHolder = response.nickname,
+                        defaultProfileImgUrl = response.profileImageUrl,
                     )
                 }
             }.onFailure {
@@ -71,7 +75,11 @@ class ProfileEditViewModel @Inject constructor(
         viewModelScope.launch {
             authRepository.checkNickname(uiState.value.username).onSuccess {
                 if (uiState.value.username.isBlank()) {
-                    intent { copy(nicknameValidate = ValidateResult.Inputting, btnEnable = false) }
+                    if (uiState.value.isSelected) {
+                        intent { copy(nicknameValidate = ValidateResult.Inputting, btnEnable = true) }
+                    } else {
+                        intent { copy(nicknameValidate = ValidateResult.Inputting, btnEnable = false) }
+                    }
                 } else if (!nickNameRegex(uiState.value.username) && !uiState.value.username.contains(" ")) {
                     intent { copy(nicknameValidate = ValidateResult.ValidationError, btnEnable = false) }
                 } else {
@@ -84,7 +92,7 @@ class ProfileEditViewModel @Inject constructor(
     }
 
     fun updateUserProfile() = viewModelScope.launch {
-        userRepository.updateUser(uiState.value.username, uiState.value.image?.filepath ?: "").onSuccess {
+        userRepository.updateUser(uiState.value.username.takeUnless { it.isBlank() } ?: uiState.value.placeHolder, uiState.value.image?.filepath ?: "").onSuccess {
             postSideEffect(ProfileEditSideEffect.BackToSetting)
         }.onFailure {
             Log.e("실패", it.message.toString())
@@ -92,10 +100,14 @@ class ProfileEditViewModel @Inject constructor(
     }
 
     fun setImage(galleryImage: GalleryImage) = intent {
-        copy(image = galleryImage)
+        if (uiState.value.nicknameValidate == ValidateResult.Inputting) {
+            copy(image = galleryImage, isSelected = true, btnEnable = true)
+        } else {
+            copy(image = galleryImage, isSelected = true, btnEnable = false)
+        }
     }
 
-    fun updateImgUrl(url: String?) = intent { copy(profileImgUrl = url) }
+    fun updateImgUrl(url: String?) = intent { copy(defaultProfileImgUrl = url) }
 
     fun updateName(name: String) = intent { copy(username = name) }
 
@@ -104,7 +116,7 @@ class ProfileEditViewModel @Inject constructor(
             alertInfo = AlertInfo(
                 showDialog = true,
                 title = "필수 권한을 허용해주세요",
-                subTitle = "영상 업로드를 위해 \n사진 라이브러리에 접근하도록 허용해 주세요.",
+                subTitle = "영상 업로드를 위해 \n사진 라이브러리에 항상 접근 허용해 주세요.",
                 negativeButtonLabel = "닫기",
                 positiveButtonLabel = "지금 설정",
             ),

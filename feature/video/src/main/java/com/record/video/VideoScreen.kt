@@ -13,16 +13,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.cache.Cache
 import com.record.designsystem.R
+import com.record.designsystem.component.badge.RecordyExhibitionBadge
 import com.record.designsystem.component.badge.RecordyLocationBadge
 import com.record.designsystem.component.dialog.RecordyDialog
 import com.record.designsystem.component.snackbar.SnackBarType
 import com.record.designsystem.component.videoplayer.RecordyVideoText
 import com.record.designsystem.component.videoplayer.VideoPlayer
+import com.record.ui.extension.customClickable
 import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
 import com.record.ui.scroll.onBottomReached
 import com.record.video.component.ReportBottomSheet
@@ -39,6 +42,7 @@ fun VideoRoute(
     onShowSnackbar: (String, SnackBarType) -> Unit,
     navigateToMypage: () -> Unit,
     navigateToProfile: (Long) -> Unit,
+    navigateToPlaceDetail: (Long) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val allPagerState = rememberPagerState(
@@ -76,6 +80,18 @@ fun VideoRoute(
                 is VideoSideEffect.MovePage -> {
                     allPagerState.scrollToPage(allPagerState.currentPage - sideEffect.index)
                 }
+
+                is VideoSideEffect.NavigateToPlaceDetail -> {
+                    navigateToPlaceDetail(sideEffect.id)
+                }
+
+                is VideoSideEffect.ShowReportSnackbar -> {
+                    onShowSnackbar(sideEffect.msg, SnackBarType.CHECK)
+                }
+
+                is VideoSideEffect.MoveFollowingPage -> {
+                    followingPagerState.scrollToPage(followingPagerState.currentPage - sideEffect.index)
+                }
             }
         }
     }
@@ -95,6 +111,7 @@ fun VideoRoute(
         onDialogDeleteButtonClick = viewModel::deleteVideo,
         onMoreClick = viewModel::showReportBottomSheet,
         onBottomSheetDismiss = viewModel::hideReportBottomSheet,
+        onPlaceButtonClick = viewModel::navigateToPlaceDetail,
         reportVideo = viewModel::reportVideo,
         simpleCache = viewModel.simpleCache,
     )
@@ -117,6 +134,7 @@ fun VideoScreen(
     onDialogDeleteButtonClick: (Long) -> Unit,
     onMoreClick: (Long, Boolean) -> Unit,
     onBottomSheetDismiss: () -> Unit,
+    onPlaceButtonClick: (Long) -> Unit,
     reportVideo: (Long, String, String) -> Unit,
     simpleCache: Cache,
 ) {
@@ -141,12 +159,28 @@ fun VideoScreen(
                 if (page in videos.indices) {
                     videos[page].run {
                         VideoPlayer(id, videoUrl, pagerState, page, onError = onError, onPlayVideo = onPlayVideo, simpleCache)
-                        if (location.isNullOrBlank()) {
+                        if (location.isNotEmpty()) {
                             RecordyLocationBadge(
                                 modifier = Modifier
+                                    .zIndex(1.0f)
                                     .align(Alignment.TopStart)
                                     .padding(
                                         top = 102.dp,
+                                        start = 16.dp,
+                                    )
+                                    .customClickable {
+                                        onPlaceButtonClick(placeId)
+                                    },
+                                location = location,
+                            )
+                        }
+                        if (exhibitionName.isNotEmpty()) {
+                            RecordyExhibitionBadge(
+                                modifier = Modifier
+                                    .zIndex(1.0f)
+                                    .align(Alignment.BottomStart)
+                                    .padding(
+                                        bottom = 16.dp,
                                         start = 16.dp,
                                     ),
                                 location = exhibitionName,

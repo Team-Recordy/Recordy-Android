@@ -142,6 +142,7 @@ internal fun MainScreen(
                     navigateToMypage = navigator::navigateMypage,
                     popBackStack = navigator::popBackStackIfNotHome,
                     navigateToProfile = navigator::navigateProfile,
+                    navigateToPlaceDetail = navigator::navigateDetail,
                 )
 
                 mypageNavGraph(

@@ -23,7 +23,10 @@ data class VideoState(
 
 sealed interface VideoSideEffect : SideEffect {
     data class ShowNetworkErrorSnackbar(val msg: String) : VideoSideEffect
+    data class ShowReportSnackbar(val msg: String) : VideoSideEffect
     data object NavigateToMypage : VideoSideEffect
     data class NavigateToUserProfile(val id: Long) : VideoSideEffect
     data class MovePage(val index: Int) : VideoSideEffect
+    data class MoveFollowingPage(val index: Int) : VideoSideEffect
+    data class NavigateToPlaceDetail(val id: Long) : VideoSideEffect
 }

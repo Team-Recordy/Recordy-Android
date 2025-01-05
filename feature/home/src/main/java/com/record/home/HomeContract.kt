@@ -15,7 +15,7 @@ data class HomeState(
     val isEnd: Boolean = false,
     val isPermissionGranted: Boolean = false,
     val dataInitialized: Boolean = false,
-    val showLocationPermissionDialog: Boolean = true,
+    val showLocationPermissionDialog: Boolean = false,
 ) : UiState
 
 sealed interface HomeSideEffect : SideEffect {

@@ -20,7 +20,7 @@ import com.record.designsystem.R
 import com.record.designsystem.theme.RecordyTheme
 
 @Composable
-fun RecordyLocationBadge(
+fun RecordyExhibitionBadge(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(8.dp),
     location: String? = null,
@@ -34,41 +34,41 @@ fun RecordyLocationBadge(
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        Icon(
+            modifier = Modifier
+                .padding(
+                    start = 8.dp,
+                    top = 5.dp,
+                    bottom = 5.dp,
+                    end = 4.dp,
+                ),
+            painter = painterResource(id = R.drawable.ic_cursor_16),
+            contentDescription = "cursor",
+            tint = RecordyTheme.colors.gray01,
+        )
         if (location != null) {
             Text(
                 modifier = Modifier
                     .padding(
-                        top = 7.dp,
-                        bottom = 7.dp,
-                        start = 12.dp,
+                        top = 4.dp,
+                        bottom = 4.dp,
+                        end = 12.dp,
                     ),
                 text = location,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = RecordyTheme.typography.caption1R,
+                style = RecordyTheme.typography.caption2M,
                 color = RecordyTheme.colors.white,
                 textAlign = TextAlign.Center,
             )
         }
-        Icon(
-            modifier = Modifier
-                .padding(
-                    start = 4.dp,
-                    top = 5.dp,
-                    bottom = 5.dp,
-                    end = 8.dp,
-                ),
-            painter = painterResource(id = R.drawable.ic_angle_16),
-            contentDescription = "cursor",
-            tint = RecordyTheme.colors.gray01,
-        )
     }
 }
 
 @Preview
 @Composable
-fun PreviewLocationBadge() {
+fun PreviewExhibitionBadge() {
     RecordyTheme {
-        RecordyLocationBadge(location = "강남구 테헤란로 123")
+        RecordyExhibitionBadge(location = "강남구 테헤란로 123")
     }
 }

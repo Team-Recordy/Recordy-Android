@@ -23,6 +23,7 @@ fun NavGraphBuilder.settingNavGraph(
     popBackStack: () -> Unit,
     navigateToLogin: () -> Unit,
     navigateToProfileEdit: () -> Unit,
+    navigateToProfile: (Long) -> Unit,
 ) {
     composable(route = SettingRoute.route) {
         SettingRoute(

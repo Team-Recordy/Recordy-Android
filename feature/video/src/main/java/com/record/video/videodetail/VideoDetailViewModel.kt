@@ -59,6 +59,7 @@ class VideoDetailViewModel
             VideoType.BOOKMARK -> fetchVideos { getBookmarkVideos() }
             VideoType.MY -> fetchVideos { getMyVideos() }
             VideoType.PLACE -> fetchVideos { getPlaceVideos() }
+            VideoType.DETAIL -> fetchVideos { getPlaceVideos() }
         }
     }
 
@@ -195,7 +196,11 @@ class VideoDetailViewModel
 
     fun reportVideo(id: Long, reason: String, content: String) = viewModelScope.launch {
         videoCoreRepository.postReport(id, reason, content).onSuccess {
+            val videos = uiState.value.videos.filterNot { it.id == id }.toImmutableList()
+            postSideEffect(VideoDetailSideEffect.MovePage(uiState.value.videos.size - videos.size))
+            intent { copy(videos = videos) }
             hideReportBottomSheet()
+            postSideEffect(VideoDetailSideEffect.ShowReportSnackbar("정상적으로 신고되었습니다."))
         }.onFailure {
             handleError(it)
         }
@@ -234,6 +239,12 @@ class VideoDetailViewModel
             if (userId != id) {
                 postSideEffect(VideoDetailSideEffect.NavigateToUserProfile(id))
             }
+        }
+    }
+
+    fun navigateToPlaceDetail(id: Long) = viewModelScope.launch {
+        if (uiState.value.videoType != VideoType.DETAIL) {
+            postSideEffect(VideoDetailSideEffect.NavigateToPlaceDetail(id))
         }
     }
 

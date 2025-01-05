@@ -102,7 +102,7 @@ fun ReviewScreen(
                     isBookmark = item.isBookmark,
                     onBookmarkClick = { onBookmarkClick(item.id) },
                     location = item.exhibitionName,
-                    onClick = { onItemClick(VideoType.PLACE, item.id, placeId) },
+                    onClick = { onItemClick(VideoType.DETAIL, item.id, placeId) },
                 )
             }
         }

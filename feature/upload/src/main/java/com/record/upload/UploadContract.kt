@@ -17,6 +17,7 @@ data class UploadState(
     val isItemLoading: Boolean = false,
     val video: GalleryImage? = null,
     val alertInfo: AlertInfo = AlertInfo(),
+    val isSystemAlert: Boolean = false,
     val isSelectedVideoSheetOpen: Boolean = false,
     val isSelectedDefinedContentSheetOpen: Boolean = false,
     val buttonEnabled: Boolean = false,

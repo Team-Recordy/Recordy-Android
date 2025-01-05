@@ -1,6 +1,7 @@
 package com.record.upload.addPlace
 
 import androidx.lifecycle.viewModelScope
+import com.record.exhibition.model.PlaceUsingMap
 import com.record.exhibition.repository.SearchRepository
 import com.record.ui.base.BaseViewModel
 import com.record.upload.navigation.UploadRoute
@@ -23,6 +24,10 @@ class AddPlaceViewModel @Inject constructor(
                 searchRepository.searchPlace(it.query).onSuccess {
                     intent {
                         copy(filteredItems = it.toImmutableList())
+                    }
+                }.onFailure {
+                    intent {
+                        copy(filteredItems = emptyList<PlaceUsingMap>().toImmutableList())
                     }
                 }
             }

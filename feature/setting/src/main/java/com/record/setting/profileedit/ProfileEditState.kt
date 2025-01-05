@@ -14,10 +14,12 @@ data class ProfileEditState(
     val galleryPage: Int = 1,
     val isItemLoading: Boolean = false,
     val image: GalleryImage? = null,
-    val profileImgUrl: String? = null,
+    val defaultProfileImgUrl: String? = null,
+    val isSelected: Boolean = false,
     val alertInfo: AlertInfo = AlertInfo(),
     val isSelectedImageSheetOpen: Boolean = false,
     val nicknameValidate: ValidateResult = ValidateResult.Inputting,
+    val placeHolder: String = "",
     val btnEnable: Boolean = false,
 ) : UiState
 

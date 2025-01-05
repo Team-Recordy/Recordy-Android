@@ -2,8 +2,10 @@ package com.record.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +30,12 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -72,6 +80,7 @@ fun SearchRoute(
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchScreen(
     modifier: Modifier,
@@ -82,15 +91,29 @@ fun SearchScreen(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
-
+    val focusManager = LocalFocusManager.current
     var showSearchedContainer by remember { mutableStateOf(false) }
+    val nestedScrollConnection = remember {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                focusManager.clearFocus()
+                return Offset.Zero
+            }
+        }
+    }
 
     Column(
         modifier = modifier
             .background(color = RecordyTheme.colors.background)
             .systemBarsPadding()
             .padding(horizontal = 16.dp)
-            .padding(top = 28.dp),
+            .padding(top = 28.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(onPress = {
+                    focusManager.clearFocus()
+                },)
+            }
+            .nestedScroll(nestedScrollConnection),
     ) {
         SearchBox(
             modifier = Modifier
@@ -114,7 +137,9 @@ fun SearchScreen(
         )
 
         if (showSearchedContainer) {
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+            ) {
                 items(items) { item ->
                     Column {
                         SearchedContainerBtn(
@@ -147,7 +172,9 @@ fun SearchScreen(
             if (items.isEmpty()) {
                 EmptySearchResult(false)
             } else {
-                LazyColumn {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
                     items(items) { item ->
                         SearchingContainerBtn(
                             modifier = Modifier
@@ -175,13 +202,12 @@ fun SearchScreen(
 
 @Composable
 fun EmptySearchResult(showSearchedContainer: Boolean) {
-    val imePadding = Modifier.imePadding()
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = RecordyTheme.colors.background)
             .systemBarsPadding()
-            .then(imePadding),
+            .imePadding(),
         contentAlignment = Alignment.Center,
     ) {
         Column(

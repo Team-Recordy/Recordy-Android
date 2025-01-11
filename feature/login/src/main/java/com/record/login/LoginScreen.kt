@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -151,14 +152,14 @@ fun SplashScreen(
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
-            painterResource(id = R.drawable.img_viskit_logo),
+            painterResource(id = R.drawable.ic_viskit_logo),
             null,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 80.dp)
                 .aspectRatio(1f)
                 .alpha(alpha),
-
+            contentScale = ContentScale.Fit
         )
         Spacer(modifier = Modifier.height(40.dp))
         Spacer(modifier = Modifier.weight(1.0f))
@@ -197,7 +198,7 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painterResource(id = R.drawable.img_viskit_logo),
+                painterResource(id = R.drawable.ic_viskit_logo),
                 null,
                 modifier = Modifier
                     .fillMaxWidth()

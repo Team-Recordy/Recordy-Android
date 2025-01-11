@@ -321,7 +321,7 @@ private fun DefaultSearchTexts() {
                 .padding(top = 4.dp),
         ) {
             Text(
-                text = "\'직접 장소를 등록\'",
+                text = "검색하고 \'직접 장소를 등록\'",
                 style = RecordyTheme.typography.subtitle,
                 color = RecordyTheme.colors.viskitYellow300,
             )

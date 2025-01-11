@@ -160,6 +160,7 @@ fun SplashScreen(
                 .padding(horizontal = 80.dp)
                 .aspectRatio(1f)
                 .alpha(alpha),
+            tint = RecordyTheme.colors.viskitYellow500,
         )
         Spacer(modifier = Modifier.height(40.dp))
         Spacer(modifier = Modifier.weight(1.0f))
@@ -204,6 +205,7 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 80.dp)
                     .aspectRatio(1f),
+                tint = RecordyTheme.colors.viskitYellow500,
             )
             Spacer(modifier = Modifier.height(36.dp))
             Text(

@@ -146,7 +146,9 @@ class ProfileEditViewModel @Inject constructor(
     fun hideImageDialog() = intent {
         copy(
             selectInfo = selectInfo.copy(showDialog = false),
-            btnEnable = true
+            btnEnable = true,
+            isSelected = true,
+            image = null,
         )
     }
 

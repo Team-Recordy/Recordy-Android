@@ -103,6 +103,8 @@ fun ProfileEditRoute(
         showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
         hideExitUploadDialog = viewModel::hideUploadDialog,
         updateUserProfile = viewModel::updateUserProfile,
+        showSelectImgDialog = viewModel:: showImageDialog,
+        hideImageDialog = viewModel:: hideImageDialog
     )
 }
 
@@ -123,6 +125,8 @@ fun ProfileScreen(
     showShouldShowRationaleDialog: () -> Unit = {},
     hideExitUploadDialog: () -> Unit = {},
     updateUserProfile: () -> Unit = {},
+    showSelectImgDialog: () -> Unit = {},
+    hideImageDialog : () -> Unit = {}
 ) {
     val context = LocalContext.current
 
@@ -256,22 +260,7 @@ fun ProfileScreen(
                         .fillMaxWidth()
                         .aspectRatio(1f)
                         .customClickable {
-                            if (cameraPermissionState.status.isGranted) {
-                                isGranted = true
-                                isSelectedImageSheetOpen()
-                                return@customClickable
-                            }
-                            if (cameraPermissionState.status.shouldShowRationale) {
-                                showShouldShowRationaleDialog()
-                                return@customClickable
-                            }
-                            scope.launch {
-                                if (!permissionState.value) {
-                                    requestPermissionLauncher.launch(
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    )
-                                }
-                            }
+                            showSelectImgDialog()
                         },
                     contentAlignment = Alignment.Center,
                 ) {
@@ -357,6 +346,41 @@ fun ProfileScreen(
                     }
                 },
             )
+        }
+        if(state.selectInfo.showDialog){
+            RecordyDialog(
+                title = state.selectInfo.title,
+                subTitle = state.selectInfo.subTitle,
+                negativeButtonLabel = state.selectInfo.negativeButtonLabel,
+                positiveButtonLabel = state.selectInfo.positiveButtonLabel,
+                onDismissRequest = {
+                    if (cameraPermissionState.status.isGranted) {
+                        isGranted = true
+                        hideImageDialog()
+                        return@RecordyDialog
+                    }
+                    if (cameraPermissionState.status.shouldShowRationale) {
+                        showShouldShowRationaleDialog()
+                        return@RecordyDialog
+                    }
+                    scope.launch {
+                        if (!permissionState.value) {
+                            requestPermissionLauncher.launch(
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_VIDEO else Manifest.permission.READ_EXTERNAL_STORAGE,
+                            )
+                        }
+                    }
+                },
+                onPositiveButtonClick = {
+                    if (cameraPermissionState.status.shouldShowRationale) {
+                        openAppSettings(context)
+                        return@RecordyDialog
+                    }
+                    hideImageDialog()
+                    isSelectedImageSheetOpen()
+                },
+            )
+
         }
 
         SelectedImageBottomSheet(

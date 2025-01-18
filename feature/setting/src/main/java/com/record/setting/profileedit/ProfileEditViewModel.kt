@@ -131,6 +131,27 @@ class ProfileEditViewModel @Inject constructor(
         )
     }
 
+    fun showImageDialog() = intent {
+        copy(
+            selectInfo = AlertInfo(
+                showDialog = true,
+                title = "",
+                subTitle = "영상 업로드를 할 사진을 골라주세요",
+                negativeButtonLabel = "기본 사진 선택",
+                positiveButtonLabel = "앨범에서 선택",
+            ),
+        )
+    }
+
+    fun hideImageDialog() = intent {
+        copy(
+            selectInfo = selectInfo.copy(showDialog = false),
+            btnEnable = true,
+            isSelected = true,
+            image = null,
+        )
+    }
+
     fun showIsSelectedImageSheetOpen() = intent {
         copy(isSelectedImageSheetOpen = true)
     }
@@ -139,7 +160,7 @@ class ProfileEditViewModel @Inject constructor(
         copy(isSelectedImageSheetOpen = false)
     }
 
-    private fun nickNameRegex(nickname: String): Boolean = NICKNAME_PATTERN.matches(nickname)
+    private fun nickNameRegex(nickname: String): Boolean = NICKNAME_PATTERN.matches(nickname);
 
     companion object {
         val NICKNAME_PATTERN = Regex("^[ㄱ-ㅎ|가-힣ㅏ-ㅣ0-9_]+$")

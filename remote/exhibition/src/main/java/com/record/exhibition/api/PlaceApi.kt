@@ -39,5 +39,5 @@ interface PlaceApi {
     suspend fun getHasInProgressExhibitionPlaces(
         @Query("number") number: Int,
         @Query("size") size: Int,
-    ): List<ResponseGetPlaceDto>
+    ): ResponseGetPagingPlaceDto
 }

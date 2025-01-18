@@ -29,5 +29,5 @@ interface RemotePlaceDataSource {
     suspend fun getHasInProgressExhibitionPlaces(
         number: Int,
         size: Int,
-    ): List<ResponseGetPlaceDto>
+    ): ResponseGetPagingPlaceDto
 }

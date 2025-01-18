@@ -28,41 +28,88 @@ class HomeViewModel @Inject constructor(
     }
 
     fun resetPlaces() = viewModelScope.launch {
-        exhibitionRepository.getNearPlaceData(0, if (uiState.value.exhibitionList.size < 10) 30 else uiState.value.exhibitionList.size, uiState.value.location.latitude, uiState.value.location.longitude)
-            .onSuccess {
-                intent {
-                    copy(exhibitionList = (it.data).toImmutableList())
+        if(uiState.value.locationSelected){
+            exhibitionRepository.getNearPlaceData(0, if (uiState.value.exhibitionList.size < 10) 30 else uiState.value.exhibitionList.size, uiState.value.location.latitude, uiState.value.location.longitude)
+                .onSuccess {
+                    intent {
+                        copy(exhibitionList = (it.data).toImmutableList())
+                    }
+                    intent {
+                        copy(isEnd = !it.hasNext, page = 1, dataInitialized = true)
+                    }
                 }
-                intent {
-                    copy(isEnd = !it.hasNext, page = 1, dataInitialized = true)
+                .onFailure { throwable ->
+                    if (throwable is ApiError) {
+                        Log.e("asdfasdf", throwable.message)
+                    } else {
+                        Log.e("asdfasdf", throwable.message.toString())
+                    }
                 }
-            }
-            .onFailure { throwable ->
-                if (throwable is ApiError) {
-                    Log.e("asdfasdf", throwable.message)
-                } else {
-                    Log.e("asdfasdf", throwable.message.toString())
+        }else{
+            exhibitionRepository.getExhibitionsFromDate(0, if (uiState.value.exhibitionList.size < 10) 30 else uiState.value.exhibitionList.size)
+                .onSuccess {
+                    intent {
+                        copy(exhibitionList = (it.data).toImmutableList())
+                    }
+                    intent {
+                        copy(isEnd = !it.hasNext, page = 1, dataInitialized = true)
+                    }
                 }
-            }
+                .onFailure { throwable ->
+                    if (throwable is ApiError) {
+                        Log.e("asdfasdf", throwable.message)
+                    } else {
+                        Log.e("asdfasdf", throwable.message.toString())
+                    }
+                }
+        }
+
     }
 
-    fun getPlaces() = viewModelScope.launch {
-        if (uiState.value.isEnd) return@launch
-        val list = uiState.value.exhibitionList
-        exhibitionRepository.getNearPlaceData(uiState.value.page, 30, uiState.value.location.latitude, uiState.value.location.longitude)
-            .onSuccess {
-                intent {
-                    copy(exhibitionList = (list + it.data).toImmutableList())
+    fun getPlaces() = if(uiState.value.locationSelected) getNearPlace() else getRandomPlace()
+
+    fun getNearPlace(){
+        viewModelScope.launch {
+            if (uiState.value.isEnd) return@launch
+            val list = uiState.value.exhibitionList
+            exhibitionRepository.getNearPlaceData(uiState.value.page, 30, uiState.value.location.latitude, uiState.value.location.longitude)
+                .onSuccess {
+                    intent {
+                        copy(exhibitionList = (list + it.data).toImmutableList())
+                    }
+                    intent {
+                        copy(isEnd = !it.hasNext, page = uiState.value.page + 1)
+                    }
                 }
-                intent {
-                    copy(isEnd = !it.hasNext, page = uiState.value.page + 1)
+                .onFailure { throwable ->
+                    if (throwable is ApiError) {
+                        Log.e("asdfasdf", throwable.message)
+                    } else {
+                        Log.e("asdfasdf", throwable.message.toString())
+                    }
                 }
-            }
-            .onFailure { throwable ->
-                if (throwable is ApiError) {
-                    Log.e("asdfasdf", throwable.message)
-                } else {
-                    Log.e("asdfasdf", throwable.message.toString())
+        }
+    }
+
+    fun getRandomPlace(){
+        viewModelScope.launch {
+            if (uiState.value.isEnd) return@launch
+            val list = uiState.value.exhibitionList
+            exhibitionRepository.getExhibitionsFromDate(uiState.value.page, 30)
+                .onSuccess {
+                    intent {
+                        copy(exhibitionList = (list + it.data).toImmutableList())
+                    }
+                    intent {
+                        copy(isEnd = !it.hasNext, page = uiState.value.page + 1)
+                    }
+                }
+                .onFailure { throwable ->
+                    if (throwable is ApiError) {
+                        Log.e("asdfasdf", throwable.message)
+                    } else {
+                        Log.e("asdfasdf", throwable.message.toString())
+                    }
                 }
             }
     }
@@ -128,6 +175,17 @@ class HomeViewModel @Inject constructor(
                 }
             }.onFailure {
             }
+        }
+    }
+
+    fun updateLocationSelected(){
+        viewModelScope.launch {
+            intent {
+                copy(
+                    locationSelected = !locationSelected
+                )
+            }
+            resetPlaces()
         }
     }
 }

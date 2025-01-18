@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -91,6 +92,7 @@ fun HomeRoute(
         onVideoClick = viewModel::navigateToVideo,
         onBookmarkClick = viewModel::bookmark,
         updatePermissionGranted = viewModel::updatePermissionGranted,
+        updateLocationSelected = viewModel::updateLocationSelected,
     )
 }
 
@@ -106,6 +108,7 @@ fun HomeScreen(
     onVideoClick: (VideoType, Long, Long) -> Unit,
     onBookmarkClick: (Long) -> Unit,
     updatePermissionGranted: (Boolean) -> Unit,
+    updateLocationSelected: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -158,16 +161,29 @@ fun HomeScreen(
                 .fillMaxSize(),
         ) {
             item {
-                Box {
-                    Icon(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 16.dp)
-                            .padding(top = 66.dp, bottom = 32.dp),
-                        painter = painterResource(id = R.drawable.ic_viskit_logo),
-                        tint = RecordyTheme.colors.viskitYellow500,
-                        contentDescription = "logo",
-                    )
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Row {
+                        Icon(
+                            modifier = Modifier
+                                .padding(start = 16.dp)
+                                .padding(top = 66.dp, bottom = 32.dp),
+                            painter = painterResource(id = R.drawable.ic_viskit_logo),
+                            tint = RecordyTheme.colors.viskitYellow500,
+                            contentDescription = "logo",
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Icon(
+                            modifier = Modifier
+                                .padding(end = 20.dp)
+                                .padding(top = 66.dp, bottom = 32.dp)
+                                .clickable {
+                                    updateLocationSelected()
+                                },
+                            painter = painterResource(id = if (state.locationSelected) R.drawable.ic_location else R.drawable.ic_location_denied),
+                            tint = RecordyTheme.colors.white,
+                            contentDescription = "location",
+                        )
+                    }
                 }
             }
             itemsIndexed(state.exhibitionList) { i, exhibition ->
@@ -304,6 +320,7 @@ fun PreviewHome() {
             onVideoClick = { i, j, k -> },
             onBookmarkClick = {},
             updatePermissionGranted = {},
+            updateLocationSelected ={},
         )
     }
 }

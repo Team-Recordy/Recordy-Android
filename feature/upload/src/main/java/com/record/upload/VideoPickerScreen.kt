@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -42,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -311,6 +313,24 @@ fun VideoPickerScreen(
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                         )
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(bottom = 9.dp)
+                                .width(90.dp)
+                                .height(24.dp)
+                                .background(
+                                    color = Color(0xB3000000),
+                                    shape = RoundedCornerShape(40.dp)
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "다른 영상 고르기",
+                                color = Color(0xFFE2E5EC),
+                                style = RecordyTheme.typography.caption2R,
+                            )
+                        }
                     }
                 }
                 RecordyBasicTextField(

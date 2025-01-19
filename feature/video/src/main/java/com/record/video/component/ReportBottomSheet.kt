@@ -87,7 +87,9 @@ fun ReportBottomSheet(
                         .background(RecordyTheme.colors.gray10),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    BottomSheetDefaults.DragHandle()
+                    BottomSheetDefaults.DragHandle(
+                        color =  RecordyTheme.colors.gray01
+                    )
                 }
             },
         ) {

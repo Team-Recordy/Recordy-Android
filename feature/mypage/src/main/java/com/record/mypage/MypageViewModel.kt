@@ -9,7 +9,6 @@ import com.record.user.repository.UserRepository
 import com.record.video.repository.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -64,42 +63,40 @@ class MypageViewModel @Inject constructor(
             }
         }
     }
-
     fun initialData() = viewModelScope.launch {
-        val myVideosResult = async { videoRepository.getMyVideos(0, 10) }
-        val bookmarkVideosResult = async { videoRepository.getBookmarkVideos(0, 10) }
-
-        myVideosResult.await()
-            .onSuccess { myVideo ->
-                bookmarkVideosResult.await()
-                    .onSuccess { bookmarkVideo ->
-                        Log.e("북마크", bookmarkVideo.data.toString())
-                        intent {
-                            copy(
-                                myRecordList = myVideo.data.toImmutableList(),
-                                myBookmarkList = bookmarkVideo.data.toImmutableList(),
-                                recordCursor = myVideo.nextCursor?.toLong() ?: 0,
-                                bookmarkCursor = bookmarkVideo.nextCursor?.toLong() ?: 0,
-                                recordIsEnd = false,
-                                bookmarkIsEnd = false,
-                            )
-                        }
-                        intent {
-                            copy(
-                                recordVideoCount = uiState.value.myRecordList.size,
-                                bookmarkVideoCount = uiState.value.myBookmarkList.size,
-                            )
-                        }
-                    }
-                    .onFailure { error ->
-                        Log.e("오류 발생ㅇㅇ", error.message.toString())
-                    }
-            }
-            .onFailure { error ->
-                Log.e("오류 발생ㅇㅇ", error.message.toString())
-            }
+        getInitialMyVideos()
+        getInitialBookMark()
     }
 
+    private suspend fun getInitialMyVideos() = videoRepository.getMyVideos(0, 10)
+        .onSuccess { myVideo ->
+            intent {
+                copy(
+                    myRecordList = myVideo.data.toImmutableList(),
+                    recordCursor = myVideo.nextCursor?.toLong() ?: 0,
+                    recordIsEnd = false,
+                    recordVideoCount = myVideo.data.size,
+                )
+            }
+        }
+        .onFailure { error ->
+            Log.e("오류 발생", error.message.toString())
+        }
+
+    private suspend fun getInitialBookMark() = videoRepository.getBookmarkVideos(0, 10)
+        .onSuccess { bookmarkVideo ->
+            intent {
+                copy(
+                    myBookmarkList = bookmarkVideo.data.toImmutableList(),
+                    bookmarkCursor = bookmarkVideo.nextCursor?.toLong() ?: 0,
+                    bookmarkIsEnd = false,
+                    bookmarkVideoCount = bookmarkVideo.data.size,
+                )
+            }
+        }
+        .onFailure { error ->
+            Log.e("오류 발생", error.message.toString())
+        }
     fun loadMoreUserVideos() = viewModelScope.launch {
         val list = uiState.value.myRecordList.toList()
         if (uiState.value.recordIsEnd) return@launch
@@ -168,7 +165,6 @@ class MypageViewModel @Inject constructor(
                         video
                     }
                 }
-
                 val updatedMyBookmarkList = uiState.value.myBookmarkList.map { video ->
                     if (video.id == id) {
                         video.copy(isBookmark = it)
@@ -176,13 +172,14 @@ class MypageViewModel @Inject constructor(
                         video
                     }
                 }
-
                 intent {
                     copy(
                         myRecordList = updatedMyRecordList.toImmutableList(),
                         myBookmarkList = updatedMyBookmarkList.toImmutableList(),
                     )
                 }
+
+                getInitialBookMark()
             }.onFailure {
             }
         }

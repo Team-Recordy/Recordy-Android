@@ -1,6 +1,5 @@
 package com.record.network
 
-import com.record.network.model.BaseResponse
 import com.record.network.model.ResponsePostAuthRefreshDto
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -15,6 +14,6 @@ interface TokenRefreshService {
 
     @POST("/$API/$VERSION/$USER/$TOKEN")
     suspend fun postAuthRefresh(
-        @Header("refreshToken") refreshToken: String,
-    ): BaseResponse<ResponsePostAuthRefreshDto>
+        @Header("Authorization") refreshToken: String,
+    ): ResponsePostAuthRefreshDto
 }

@@ -32,6 +32,8 @@ class UploadViewModel @Inject constructor(
         }
     }
     fun setSelectedPlace(id: String, name: String, address: String) {
+        if (uiState.value.selectPlace.name != name) updateLocationTextField("")
+
         if (id.isNotEmpty() && name.isNotEmpty() && address.isNotEmpty()) {
             intent {
                 copy(

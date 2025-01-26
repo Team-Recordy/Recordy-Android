@@ -113,12 +113,11 @@ fun HomeScreen(
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val context = LocalContext.current
+    val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
         if (isGranted) {
-            val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return@rememberLauncherForActivityResult
             }
@@ -129,6 +128,7 @@ fun HomeScreen(
                     updatePermissionGranted(true)
                 }
             }
+            updateLocationSelected()
             showLocationPermissionDialog(false)
         } else {
             showLocationPermissionDialog(true)
@@ -139,14 +139,18 @@ fun HomeScreen(
         getData()
     }
 
-    LaunchedEffectWithLifecycle {
-        launcher.launch(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-        )
-    }
-
     LaunchedEffectWithLifecycle(state.isPermissionGranted) {
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                updateLocation(it.latitude, it.longitude)
+                Log.e("위치", "${it.latitude} ${it.longitude}")
+                updatePermissionGranted(true)
+            }
+        }
+
         if (state.isPermissionGranted) {
+            updateLocationSelected()
+            showLocationPermissionDialog(false)
             resetData()
         }
     }
@@ -177,7 +181,12 @@ fun HomeScreen(
                                 .padding(end = 20.dp)
                                 .padding(top = 66.dp, bottom = 32.dp)
                                 .clickable {
-                                    updateLocationSelected()
+                                    if(!state.locationSelected){
+                                        launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION,)
+                                    }
+                                    else{
+                                        updateLocationSelected()
+                                    }
                                 },
                             painter = painterResource(id = if (state.locationSelected) R.drawable.ic_location else R.drawable.ic_location_denied),
                             tint = RecordyTheme.colors.white,

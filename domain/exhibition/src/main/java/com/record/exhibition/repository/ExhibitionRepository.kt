@@ -11,5 +11,5 @@ interface ExhibitionRepository {
     suspend fun getNearPlaceData(number: Int, size: Int, latitude: Double, longitude: Double): Result<Page<Place>>
     suspend fun getPlaceById(placeId: Long): Result<Place>
     suspend fun getExhibitions(placeId: Long, filter: ExhibitionFilter): Result<List<Exhibition>>
-    suspend fun getExhibitionsFromDate(number: Int, size:Int) :Result<Page<Place>>
+    suspend fun getExhibitionsFromDate(number: Int, size: Int): Result<Page<Place>>
 }

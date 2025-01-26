@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun resetPlaces() = viewModelScope.launch {
-        if(uiState.value.locationSelected){
+        if (uiState.value.locationSelected) {
             exhibitionRepository.getNearPlaceData(0, if (uiState.value.exhibitionList.size < 10) 30 else uiState.value.exhibitionList.size, uiState.value.location.latitude, uiState.value.location.longitude)
                 .onSuccess {
                     intent {
@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
                         Log.e("asdfasdf", throwable.message.toString())
                     }
                 }
-        }else{
+        } else {
             exhibitionRepository.getExhibitionsFromDate(0, if (uiState.value.exhibitionList.size < 10) 30 else uiState.value.exhibitionList.size)
                 .onSuccess {
                     intent {
@@ -63,12 +63,11 @@ class HomeViewModel @Inject constructor(
                     }
                 }
         }
-
     }
 
-    fun getPlaces() = if(uiState.value.locationSelected) getNearPlace() else getRandomPlace()
+    fun getPlaces() = if (uiState.value.locationSelected) getNearPlace() else getRandomPlace()
 
-    fun getNearPlace(){
+    fun getNearPlace() {
         viewModelScope.launch {
             if (uiState.value.isEnd) return@launch
             val list = uiState.value.exhibitionList
@@ -91,7 +90,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getRandomPlace(){
+    fun getRandomPlace() {
         viewModelScope.launch {
             if (uiState.value.isEnd) return@launch
             val list = uiState.value.exhibitionList
@@ -111,7 +110,7 @@ class HomeViewModel @Inject constructor(
                         Log.e("asdfasdf", throwable.message.toString())
                     }
                 }
-            }
+        }
     }
 
     fun showLocationPermissionDialog(isShow: Boolean) = intent {
@@ -178,11 +177,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateLocationSelected(){
+    fun updateLocationSelected() {
         viewModelScope.launch {
             intent {
                 copy(
-                    locationSelected = !locationSelected
+                    locationSelected = !locationSelected,
                 )
             }
             resetPlaces()

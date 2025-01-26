@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -321,9 +320,9 @@ fun VideoPickerScreen(
                                 .height(24.dp)
                                 .background(
                                     color = Color(0xB3000000),
-                                    shape = RoundedCornerShape(40.dp)
+                                    shape = RoundedCornerShape(40.dp),
                                 ),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(
                                 text = "다른 영상 고르기",

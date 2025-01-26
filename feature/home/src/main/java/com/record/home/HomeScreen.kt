@@ -181,10 +181,9 @@ fun HomeScreen(
                                 .padding(end = 20.dp)
                                 .padding(top = 66.dp, bottom = 32.dp)
                                 .clickable {
-                                    if(!state.locationSelected){
-                                        launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION,)
-                                    }
-                                    else{
+                                    if (!state.locationSelected) {
+                                        launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                                    } else {
                                         updateLocationSelected()
                                     }
                                 },
@@ -329,7 +328,7 @@ fun PreviewHome() {
             onVideoClick = { i, j, k -> },
             onBookmarkClick = {},
             updatePermissionGranted = {},
-            updateLocationSelected ={},
+            updateLocationSelected = {},
         )
     }
 }

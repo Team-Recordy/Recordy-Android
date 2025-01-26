@@ -160,7 +160,7 @@ class ProfileEditViewModel @Inject constructor(
         copy(isSelectedImageSheetOpen = false)
     }
 
-    private fun nickNameRegex(nickname: String): Boolean = NICKNAME_PATTERN.matches(nickname);
+    private fun nickNameRegex(nickname: String): Boolean = NICKNAME_PATTERN.matches(nickname)
 
     companion object {
         val NICKNAME_PATTERN = Regex("^[ㄱ-ㅎ|가-힣ㅏ-ㅣ0-9_]+$")

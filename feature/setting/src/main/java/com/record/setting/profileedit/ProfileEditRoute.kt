@@ -103,8 +103,8 @@ fun ProfileEditRoute(
         showShouldShowRationaleDialog = viewModel::showShouldShowRationaleDialog,
         hideExitUploadDialog = viewModel::hideUploadDialog,
         updateUserProfile = viewModel::updateUserProfile,
-        showSelectImgDialog = viewModel:: showImageDialog,
-        hideImageDialog = viewModel:: hideImageDialog
+        showSelectImgDialog = viewModel::showImageDialog,
+        hideImageDialog = viewModel::hideImageDialog,
     )
 }
 
@@ -126,7 +126,7 @@ fun ProfileScreen(
     hideExitUploadDialog: () -> Unit = {},
     updateUserProfile: () -> Unit = {},
     showSelectImgDialog: () -> Unit = {},
-    hideImageDialog : () -> Unit = {}
+    hideImageDialog: () -> Unit = {},
 ) {
     val context = LocalContext.current
 
@@ -347,7 +347,7 @@ fun ProfileScreen(
                 },
             )
         }
-        if(state.selectInfo.showDialog){
+        if (state.selectInfo.showDialog) {
             RecordyDialog(
                 title = state.selectInfo.title,
                 subTitle = state.selectInfo.subTitle,
@@ -381,7 +381,6 @@ fun ProfileScreen(
                     }
                 },
             )
-
         }
 
         SelectedImageBottomSheet(

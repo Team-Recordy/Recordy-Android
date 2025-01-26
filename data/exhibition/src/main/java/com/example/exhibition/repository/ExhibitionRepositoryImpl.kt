@@ -123,7 +123,7 @@ class ExhibitionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getExhibitionsFromDate(number: Int, size: Int): Result<Page<Place>> = runCatching {
-        remotePlaceDataSource.getHasInProgressExhibitionPlaces(number = number, size = size )
+        remotePlaceDataSource.getHasInProgressExhibitionPlaces(number = number, size = size)
     }.mapCatching { it ->
         Page(
             hasNext = it.hasNext,

@@ -46,7 +46,6 @@ import com.record.designsystem.component.bottomsheet.RecordyBottomSheet
 import com.record.designsystem.theme.Background
 import com.record.designsystem.theme.Gray03
 import com.record.designsystem.theme.RecordyTheme
-import com.record.designsystem.theme.White
 import com.record.ui.extension.customClickable
 import com.record.ui.scroll.OnBottomReached
 import com.record.upload.model.GalleryImage
@@ -187,7 +186,7 @@ fun VideoThumbnail(
                 shape = RectangleShape,
             ),
 
-        ) {
+    ) {
         AsyncImage(
             model = request,
             imageLoader = imageLoader,

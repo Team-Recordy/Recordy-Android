@@ -354,13 +354,22 @@ fun ProfileScreen(
                 negativeButtonLabel = state.selectInfo.negativeButtonLabel,
                 positiveButtonLabel = state.selectInfo.positiveButtonLabel,
                 onDismissRequest = {
+                    hideImageDialog()
+                    return@RecordyDialog
+                },
+                onPositiveButtonClick = {
+                    if (cameraPermissionState.status.shouldShowRationale) {
+                        openAppSettings(context)
+                        return@RecordyDialog
+                    }
                     if (cameraPermissionState.status.isGranted) {
                         isGranted = true
                         hideImageDialog()
+                        isSelectedImageSheetOpen()
                         return@RecordyDialog
                     }
                     if (cameraPermissionState.status.shouldShowRationale) {
-                        showShouldShowRationaleDialog()
+                        hideImageDialog()
                         return@RecordyDialog
                     }
                     scope.launch {
@@ -370,14 +379,6 @@ fun ProfileScreen(
                             )
                         }
                     }
-                },
-                onPositiveButtonClick = {
-                    if (cameraPermissionState.status.shouldShowRationale) {
-                        openAppSettings(context)
-                        return@RecordyDialog
-                    }
-                    hideImageDialog()
-                    isSelectedImageSheetOpen()
                 },
             )
 

@@ -32,10 +32,10 @@
 
 <table>
   <tr>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/8f21add5-ad0a-49b6-aace-d363fe7ab1eb" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/7587f54e-777b-4ef7-847f-83d864379a56" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/6d473eae-a7a3-4a75-b00f-c4693fab278a" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/1fe1f862-1897-4f6a-bfb6-9737ae4a418a" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/0d04e922-7eff-4ff4-b2bc-5c2fa5164e4b" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/7aff2ea7-a5b9-4d3e-abbc-df58fafe14a1" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/caa8c797-3f61-4713-9be8-5379e8201d8d" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/5154ac54-2b88-45b0-8119-72116e1582d8" width="100%" /></td>
   </tr>
   <tr>
     <td align="center"><b>스플래시</b></td>
@@ -46,58 +46,59 @@
 </table>
 <table>
   <tr>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/d355fd60-e628-4040-9605-a0e937b09de0" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/09a476e7-bd5d-495d-b735-66b7d3ba4267" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/3934a171-af2f-478c-b01b-ea7b8aa593ef" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/4464c652-f162-4a6b-9675-f2c71396416c" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/ea8ad1ce-5fb6-4162-9eaa-f5754319eaf9" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/33d6645e-e6bf-4f55-bf17-2148b91051d0" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/8d6e819d-bd42-4cc7-9177-c6edcd7c7589" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/5a16cd33-970a-4267-a82e-2c30f4c4a0dd" width="100%" /></td>
+
   </tr>
   <tr>
-    <td align="center"><b>영상 메인 +)무한 스크롤 보여주면 됩니다!!</b></td>
-    <td align="center"><b>영상 상세 +)캡션 펼치기 및 북마크 on/off 보여주면 됩니다!!</b></td>
-    <td align="center"><b>영상 신고 +)더보기 버튼 관련 보여주면 됩니다!!</b></td>
-    <td align="center"><b>타 유저 프로필 +)팔로잉 하는 거 말고 그냥 스크롤, 영상 접속 보여주면 됩니다!!</b></td>
+    <td align="center"><b>영상 메인(무한 스크롤)</b></td>
+    <td align="center"><b>영상 상세</b></td>
+    <td align="center"><b>영상 신고</b></td>
+    <td align="center"><b>타 유저 프로필</b></td>
   </tr>
 </table>
 <table>
   <tr>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/90cfa627-b459-4e23-b426-b231bf9ce5df" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/8b400de8-9cd5-4dc2-a992-84c96b25bbe7" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/66dca5fd-6bf6-4a88-88eb-1d5d46f0cbf9" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/332076f4-123a-4678-9163-b2773117a01e" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/b303bab1-6e6d-49ea-8901-2cfd6cf3347e" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/9a4cc092-9d73-485b-89e4-25ef82cd384c" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/87b819f4-0210-4266-bf8f-d1b6a709f8e2" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/545fcb15-434c-4df2-9508-bbccff48a0a7" width="100%" /></td>
   </tr>
   <tr>
     <td salign="center"><b>장소 상세 페이지</b></td>
-    <td align="center"><b>장소 길찾기 +)장소 찾아 모달 접속까지 보여주시면 됩니다!!</b></td>
+    <td align="center"><b>장소 길찾기</b></td>
     <td align="center"><b>장소 리뷰</b></td>
-    <td align="center"><b>검색 기본 +)검색 기본, 중, 완료는 피그마대로 끊어서 보여주시면 됩니다!!</b></td>
+    <td align="center"><b>검색 기본</b></td>
   </tr>
 </table>
 <table>
   <tr>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/7329a8a0-49d8-4930-8f65-b2c546ebe880" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/c35ee99b-bd4a-4f87-b42b-a3aa33c9b2c6" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/d7b57f10-3f45-48a5-a500-48565137828e" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/9b37f230-f42a-48c0-9c7e-296e1eff820b" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/2fd12027-e5b7-4899-aa65-a17a8bb479f1" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/8842d518-4e00-42ef-a209-726e34cbb4be" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/8db8c7ce-bc42-4072-bcc4-e8209293c913" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/92fcbee9-9b27-4a01-83f3-5e08d04c58ae" width="100%" /></td>
   </tr>
   <tr>
     <td align="center"><b>검색중</b></td>
     <td align="center"><b>검색 완료</b></td>
     <td align="center"><b>업로드 장소 검색 및 장소 등록</b></td>
-    <td align="center"><b>업로드 내용 입력 +)장소 등록 제외한 내용 입력하여 업로드 하는 거까지 보여주시면 됩니다!!</b></td>
+    <td align="center"><b>업로드 내용 입력(장소 등록 제외)</b></td>
   </tr>
 </table>
 <table>
   <tr>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/d355fd60-e628-4040-9605-a0e937b09de0" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/09a476e7-bd5d-495d-b735-66b7d3ba4267" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/3934a171-af2f-478c-b01b-ea7b8aa593ef" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/4464c652-f162-4a6b-9675-f2c71396416c" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/ef88c450-41ee-4983-b2a8-dcdf7d5e7ccc" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/6e31aff3-3643-4e0a-8c1b-8d1e3b24f937" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/09b285da-a0b9-4526-a70e-a6e15f8da7ee" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/78c489b7-d6ce-4c62-9d6a-bd97a4584afa" width="100%" /></td>
   </tr>
   <tr>
     <td align="center"><b>프로필</b></td>
     <td align="center"><b>프로필 수정</b></td>
     <td align="center"><b>영상 삭제</b></td>
-    <td align="center"><b>팔로잉/ 팔로워 +)취소하고 들어가서 다시 팔로우하는 거 보여주면 됩니다!!</b></td>
+    <td align="center"><b>팔로잉/ 팔로워</b></td>
   </tr>
 </table>
 </br>

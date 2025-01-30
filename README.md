@@ -32,10 +32,10 @@
 
 <table>
   <tr>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/0d04e922-7eff-4ff4-b2bc-5c2fa5164e4b" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/79761df8-42fa-4041-b19c-0e52808babcb" width="100%" /></td>
     <td width="25%"><img src="https://github.com/user-attachments/assets/7aff2ea7-a5b9-4d3e-abbc-df58fafe14a1" width="100%" /></td>
     <td width="25%"><img src="https://github.com/user-attachments/assets/caa8c797-3f61-4713-9be8-5379e8201d8d" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/5154ac54-2b88-45b0-8119-72116e1582d8" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/c3a59cb4-bebf-4424-a870-157e440c133d" width="100%" /></td>
   </tr>
   <tr>
     <td align="center"><b>스플래시</b></td>
@@ -91,7 +91,7 @@
   <tr>
     <td width="25%"><img src="https://github.com/user-attachments/assets/ef88c450-41ee-4983-b2a8-dcdf7d5e7ccc" width="100%" /></td>
     <td width="25%"><img src="https://github.com/user-attachments/assets/6e31aff3-3643-4e0a-8c1b-8d1e3b24f937" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/09b285da-a0b9-4526-a70e-a6e15f8da7ee" width="100%" /></td>
+    <td width="25%"><img src="https://github.com/user-attachments/assets/49df9718-aa34-425b-a684-1992f2b15ec2" width="100%" /></td>
     <td width="25%"><img src="https://github.com/user-attachments/assets/78c489b7-d6ce-4c62-9d6a-bd97a4584afa" width="100%" /></td>
   </tr>
   <tr>

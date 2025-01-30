@@ -49,8 +49,7 @@
     <td width="25%"><img src="https://github.com/user-attachments/assets/ea8ad1ce-5fb6-4162-9eaa-f5754319eaf9" width="100%" /></td>
     <td width="25%"><img src="https://github.com/user-attachments/assets/33d6645e-e6bf-4f55-bf17-2148b91051d0" width="100%" /></td>
     <td width="25%"><img src="https://github.com/user-attachments/assets/8d6e819d-bd42-4cc7-9177-c6edcd7c7589" width="100%" /></td>
-    <td width="25%"><img src="https://github.com/user-attachments/assets/5a16cd33-970a-4267-a82e-2c30f4c4a0dd" width="100%" /></td>
-
+    <td width="25%"><img src="https://github.com/user-attachments/assets/57fb45af-2e33-4eca-9953-17ff0b6edc5d" width="100%" /></td>
   </tr>
   <tr>
     <td align="center"><b>영상 메인(무한 스크롤)</b></td>

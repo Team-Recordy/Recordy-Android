@@ -293,7 +293,7 @@ fun DefaultSearchUI() {
     }
     Row(modifier = rowModifier) {
         Image(
-            painter = painterResource(id = R.drawable.ic_intro_search_40),
+            painter = painterResource(id = R.drawable.ic_viskit_check_40),
             contentDescription = null,
             modifier = Modifier
                 .wrapContentSize()

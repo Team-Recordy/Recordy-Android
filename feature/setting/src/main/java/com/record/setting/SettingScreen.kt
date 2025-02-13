@@ -93,7 +93,7 @@ fun SettingScreen(
 
     if (uiState.dialog != SettingDialog.NONE) {
         RecordyDialog(
-            graphicAsset = R.drawable.img_alert,
+            graphicAsset = R.drawable.ic_viskit_caution_74,
             title = uiState.dialogTitle,
             subTitle = uiState.dialogSubTitle,
             negativeButtonLabel = uiState.negativeButtonLabel,

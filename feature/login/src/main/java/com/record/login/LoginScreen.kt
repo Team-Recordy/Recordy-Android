@@ -204,7 +204,7 @@ fun LoginScreen(
                     .padding(horizontal = 80.dp)
                     .aspectRatio(1f),
             )
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(19.dp))
             Text(
                 text = "내가 찾던 공간을 먼저 만나는 곳",
                 modifier = Modifier

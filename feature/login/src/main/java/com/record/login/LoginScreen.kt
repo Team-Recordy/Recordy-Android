@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -154,11 +155,8 @@ fun SplashScreen(
             painterResource(id = R.drawable.img_viskit_logo),
             null,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 80.dp)
-                .aspectRatio(1f)
-                .alpha(alpha),
-
+                .height(61.dp)
+                .width(200.dp)
         )
         Spacer(modifier = Modifier.height(40.dp))
         Spacer(modifier = Modifier.weight(1.0f))
@@ -200,9 +198,8 @@ fun LoginScreen(
                 painterResource(id = R.drawable.img_viskit_logo),
                 null,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 80.dp)
-                    .aspectRatio(1f),
+                    .height(61.dp)
+                    .width(200.dp)
             )
             Spacer(modifier = Modifier.height(19.dp))
             Text(

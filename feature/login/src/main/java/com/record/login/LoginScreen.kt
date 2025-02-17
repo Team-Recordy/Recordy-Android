@@ -206,7 +206,7 @@ fun LoginScreen(
                     .aspectRatio(1f),
                 tint = RecordyTheme.colors.viskitYellow500,
             )
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(19.dp))
             Text(
                 text = "내가 찾던 공간을 먼저 만나는 곳",
                 modifier = Modifier

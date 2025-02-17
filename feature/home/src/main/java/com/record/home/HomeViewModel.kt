@@ -181,6 +181,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             intent {
                 copy(
+                    exhibitionList = emptyList<Place>().toImmutableList(),
                     locationSelected = !locationSelected,
                 )
             }

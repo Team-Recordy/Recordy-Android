@@ -36,7 +36,7 @@ fun FollowingRoute(
         }
     }
 
-    val sortedFollowingList = uiState.followingList.sortedByDescending { it.nickname == "유영" }
+    val sortedFollowingList = uiState.followingList.sortedByDescending { it.nickname == "비스킷" }
 
     Column(
         modifier = Modifier

@@ -12,6 +12,7 @@ import com.record.mypage.follow.FollowerRoute
 import com.record.mypage.follow.FollowingRoute
 
 fun NavController.navigateMypage(navOptions: NavOptions) {
+    popBackStack(MypageRoute.route, inclusive = true)
     navigate(MypageRoute.route, navOptions)
 }
 

@@ -23,6 +23,6 @@ class RemotePlaceDataSourceImpl @Inject constructor(
     override suspend fun getNearPlace(number: Int, size: Int, latitude: Double, longitude: Double, distance: Double): ResponseGetPagingPlaceDto =
         placeApi.getNearPlaces(number, size, latitude, longitude, distance)
 
-    override suspend fun getHasInProgressExhibitionPlaces(number: Int, size: Int): List<ResponseGetPlaceDto> =
+    override suspend fun getHasInProgressExhibitionPlaces(number: Int, size: Int): ResponseGetPagingPlaceDto =
         placeApi.getHasInProgressExhibitionPlaces(number, size)
 }

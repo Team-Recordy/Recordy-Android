@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -91,6 +92,7 @@ fun HomeRoute(
         onVideoClick = viewModel::navigateToVideo,
         onBookmarkClick = viewModel::bookmark,
         updatePermissionGranted = viewModel::updatePermissionGranted,
+        updateLocationSelected = viewModel::updateLocationSelected,
     )
 }
 
@@ -106,16 +108,16 @@ fun HomeScreen(
     onVideoClick: (VideoType, Long, Long) -> Unit,
     onBookmarkClick: (Long) -> Unit,
     updatePermissionGranted: (Boolean) -> Unit,
+    updateLocationSelected: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val context = LocalContext.current
+    val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
         if (isGranted) {
-            val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return@rememberLauncherForActivityResult
             }
@@ -126,6 +128,7 @@ fun HomeScreen(
                     updatePermissionGranted(true)
                 }
             }
+            updateLocationSelected()
             showLocationPermissionDialog(false)
         } else {
             showLocationPermissionDialog(true)
@@ -136,14 +139,18 @@ fun HomeScreen(
         getData()
     }
 
-    LaunchedEffectWithLifecycle {
-        launcher.launch(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-        )
-    }
-
     LaunchedEffectWithLifecycle(state.isPermissionGranted) {
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                updateLocation(it.latitude, it.longitude)
+                Log.e("위치", "${it.latitude} ${it.longitude}")
+                updatePermissionGranted(true)
+            }
+        }
+
         if (state.isPermissionGranted) {
+            updateLocationSelected()
+            showLocationPermissionDialog(false)
             resetData()
         }
     }
@@ -158,16 +165,33 @@ fun HomeScreen(
                 .fillMaxSize(),
         ) {
             item {
-                Box {
-                    Icon(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 16.dp)
-                            .padding(top = 66.dp, bottom = 32.dp),
-                        painter = painterResource(id = R.drawable.ic_viskit_logo),
-                        tint = RecordyTheme.colors.viskitYellow500,
-                        contentDescription = "logo",
-                    )
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Row {
+                        Icon(
+                            modifier = Modifier
+                                .padding(start = 16.dp)
+                                .padding(top = 66.dp, bottom = 32.dp),
+                            painter = painterResource(id = R.drawable.ic_viskit_logo),
+                            tint = RecordyTheme.colors.viskitYellow500,
+                            contentDescription = "logo",
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Icon(
+                            modifier = Modifier
+                                .padding(end = 20.dp)
+                                .padding(top = 66.dp, bottom = 32.dp)
+                                .clickable {
+                                    if (!state.locationSelected) {
+                                        launcher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                                    } else {
+                                        updateLocationSelected()
+                                    }
+                                },
+                            painter = painterResource(id = if (state.locationSelected) R.drawable.ic_location else R.drawable.ic_location_denied),
+                            tint = RecordyTheme.colors.white,
+                            contentDescription = "location",
+                        )
+                    }
                 }
             }
             itemsIndexed(state.exhibitionList) { i, exhibition ->
@@ -304,6 +328,7 @@ fun PreviewHome() {
             onVideoClick = { i, j, k -> },
             onBookmarkClick = {},
             updatePermissionGranted = {},
+            updateLocationSelected = {},
         )
     }
 }

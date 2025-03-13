@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -93,7 +95,7 @@ fun SettingScreen(
 
     if (uiState.dialog != SettingDialog.NONE) {
         RecordyDialog(
-            graphicAsset = R.drawable.img_alert,
+            graphicAsset = R.drawable.ic_viskit_caution_74,
             title = uiState.dialogTitle,
             subTitle = uiState.dialogSubTitle,
             negativeButtonLabel = uiState.negativeButtonLabel,
@@ -107,6 +109,7 @@ fun SettingScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(padding)
+            .verticalScroll(rememberScrollState())
             .background(color = RecordyTheme.colors.background),
     ) {
         Box(
@@ -220,6 +223,7 @@ fun SettingScreen(
             style = RecordyTheme.typography.caption2R,
             color = RecordyTheme.colors.gray06,
         )
+        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 
@@ -269,6 +273,7 @@ fun SettingButton(
             .customClickable(rippleColor = RecordyTheme.colors.white, onClick = onClickEvent)
             .height(48.dp),
         verticalAlignment = Alignment.CenterVertically,
+
     ) {
         Text(
             text = text,

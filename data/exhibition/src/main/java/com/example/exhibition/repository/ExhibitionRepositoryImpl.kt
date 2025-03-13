@@ -121,4 +121,47 @@ class ExhibitionRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun getExhibitionsFromDate(number: Int, size: Int): Result<Page<Place>> = runCatching {
+        remotePlaceDataSource.getHasInProgressExhibitionPlaces(number = number, size = size)
+    }.mapCatching { it ->
+        Page(
+            hasNext = it.hasNext,
+            page = it.pageNumber,
+            data = it.content.map { placeDto ->
+                runCatching {
+                    val videoResult = if (placeDto.recordSize != 0) videoRepository.getPlaceVideos(placeDto.id, 0, placeDto.recordSize).getOrNull() else Cursor(hasNext = false, nextCursor = null, data = emptyList())
+                    Place(
+                        placeId = placeDto.id,
+                        address = placeDto.address ?: "",
+                        name = placeDto.name,
+                        exhibitionCount = placeDto.exhibitionSize,
+                        recordCount = placeDto.recordSize,
+                        exhibitionRecord = videoResult?.data?.map { it.toCore() } ?: emptyList(),
+                        platformId = placeDto.platformId?.toLong() ?: 0,
+                    )
+                }.getOrDefault(
+                    Place(
+                        placeId = placeDto.id,
+                        address = placeDto.address ?: "",
+                        name = placeDto.name,
+                        exhibitionCount = placeDto.exhibitionSize,
+                        recordCount = placeDto.recordSize,
+                        exhibitionRecord = emptyList(),
+                        platformId = placeDto.platformId?.toLong() ?: 0,
+                    ),
+                )
+            },
+        )
+    }.recoverCatching { exception ->
+        when (exception) {
+            is HttpException -> {
+                throw ApiError(exception.message())
+            }
+
+            else -> {
+                throw exception
+            }
+        }
+    }
 }

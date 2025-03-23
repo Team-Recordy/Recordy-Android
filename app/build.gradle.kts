@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.viskit.recordy"
+    namespace = "com.viskit.viskit"
 }
 
 dependencies {

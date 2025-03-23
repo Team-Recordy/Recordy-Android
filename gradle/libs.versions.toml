@@ -106,19 +106,19 @@ android-test = { id = "com.android.test", version.ref = "android-gradle-plugin" 
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 # Custom Plugins
-recordy-android-application = { id = "viskit.android.application", version = "unspecified" }
+recordy-android-application = { id = "recordy.android.application", version = "unspecified" }
 recordy-android-application-compose = { id = "recordy.android.application.compose", version = "unspecified"}
-recordy-android-library = { id = "viskit.android.library", version = "unspecified" }
-recordy-android-compose-library = { id = "viskit.android.compose.library", version = "unspecified" }
-recordy-android-hilt = { id = "viskit.android.hilt", version = "unspecified"}
-recordy-java-library = { id = "viskit.java.library", version = "unspecified" }
-recordy-feature = { id = "viskit.feature", version = "unspecified" }
-recordy-data = { id = "viskit.data", version = "unspecified" }
-recordy-local = { id = "viskit.local", version = "unspecified" }
-recordy-remote = { id = "viskit.remote", version = "unspecified" }
-recordy-plugin-android-test = { id = "viskit.plugin.android.test", version = "unspecified" }
-recordy-plugin-test = { id = "viskit.plugin.test", version = "unspecified" }
-recordy-plugin-build-config = { id = "viskit.plugin.build.config", version = "unspecified" }
+recordy-android-library = { id = "recordy.android.library", version = "unspecified" }
+recordy-android-compose-library = { id = "recordy.android.compose.library", version = "unspecified" }
+recordy-android-hilt = { id = "recordy.android.hilt", version = "unspecified"}
+recordy-java-library = { id = "recordy.java.library", version = "unspecified" }
+recordy-feature = { id = "recordy.feature", version = "unspecified" }
+recordy-data = { id = "recordy.data", version = "unspecified" }
+recordy-local = { id = "recordy.local", version = "unspecified" }
+recordy-remote = { id = "recordy.remote", version = "unspecified" }
+recordy-plugin-android-test = { id = "recordy.plugin.android.test", version = "unspecified" }
+recordy-plugin-test = { id = "recordy.plugin.test", version = "unspecified" }
+recordy-plugin-build-config = { id = "recordy.plugin.build.config", version = "unspecified" }
 
 [libraries]
 # Android Gradle Plugin

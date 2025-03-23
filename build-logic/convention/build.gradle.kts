@@ -19,62 +19,62 @@ dependencies {
 gradlePlugin {
     plugins {
         register("androidApplication") {
-            id = "viskit.android.application"
+            id = "recordy.android.application"
             implementationClass = "AndroidApplicationPlugin"
         }
 
         register("androidLibrary") {
-            id = "viskit.android.library"
+            id = "recordy.android.library"
             implementationClass = "AndroidLibraryPlugin"
         }
 
         register("androidComposeLibrary") {
-            id = "viskit.android.compose.library"
+            id = "recordy.android.compose.library"
             implementationClass = "AndroidComposeLibraryPlugin"
         }
 
         register("androidHilt") {
-            id = "viskit.android.hilt"
+            id = "recordy.android.hilt"
             implementationClass = "HiltPlugin"
         }
 
         register("javaLibrary") {
-            id = "viskit.java.library"
+            id = "recordy.java.library"
             implementationClass = "JavaLibraryPlugin"
         }
 
         register("buildConfig") {
-            id = "viskit.plugin.build.config"
+            id = "recordy.plugin.build.config"
             implementationClass = "BuildConfigPlugin"
         }
 
         register("androidTest") {
-            id = "viskit.plugin.android.test"
+            id = "recordy.plugin.android.test"
             implementationClass = "AndroidTestPlugin"
         }
 
         register("unitTest") {
-            id = "viskit.plugin.test"
+            id = "recordy.plugin.test"
             implementationClass = "UnitTestPlugin"
         }
 
         register("recordyFeature") {
-            id = "viskit.feature"
+            id = "recordy.feature"
             implementationClass = "RecordyFeaturePlugin"
         }
 
         register("recordyData") {
-            id = "viskit.data"
+            id = "recordy.data"
             implementationClass = "RecordyDataPlugin"
         }
 
         register("recordyLocal") {
-            id = "viskit.local"
+            id = "recordy.local"
             implementationClass = "RecordyLocalPlugin"
         }
 
         register("recordyRemote") {
-            id = "viskit.remote"
+            id = "recordy.remote"
             implementationClass = "RecordyRemotePlugin"
         }
     }

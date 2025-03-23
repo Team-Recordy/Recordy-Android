@@ -6,7 +6,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.util.Utility
-import com.viskit.buildconfig.BuildConfig.KAKAO_NATIVE_KEY
+import com.record.buildconfig.BuildConfig.KAKAO_NATIVE_KEY
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn

@@ -1,7 +1,7 @@
 package com.viskit.auth.di
 
-import com.viskit.auth.source.local.AuthLocalDataSource
 import com.viskit.auth.datasource.AuthLocalDataSourceImpl
+import com.viskit.auth.source.local.AuthLocalDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

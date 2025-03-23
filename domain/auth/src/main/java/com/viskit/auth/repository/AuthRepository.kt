@@ -1,7 +1,7 @@
 package com.viskit.auth.repository
 
-import com.viskit.model.AuthEntity
 import com.viskit.auth.model.AuthAgreementEntity
+import com.viskit.model.AuthEntity
 
 interface AuthRepository {
     suspend fun signIn(): Result<AuthEntity>

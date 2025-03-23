@@ -1,7 +1,7 @@
 package com.viskit.auth.di
 
-import com.viskit.network.di.Auth
 import com.viskit.auth.api.AuthService
+import com.viskit.network.di.Auth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -2,7 +2,6 @@ package com.viskit.datastore.user
 
 import android.util.Log
 import androidx.datastore.core.DataStore
-import com.viskit.datastore.user.UserData
 import java.io.IOException
 import javax.inject.Inject
 

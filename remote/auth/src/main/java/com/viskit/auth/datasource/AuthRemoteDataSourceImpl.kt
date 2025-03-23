@@ -1,9 +1,9 @@
 package com.viskit.auth.datasource
 
+import com.viskit.auth.api.AuthService
 import com.viskit.auth.model.request.RequestSignUpDto
 import com.viskit.auth.model.response.toCoreModel
 import com.viskit.auth.source.remote.AuthRemoteDataSource
-import com.viskit.auth.api.AuthService
 import javax.inject.Inject
 
 class AuthRemoteDataSourceImpl @Inject constructor(

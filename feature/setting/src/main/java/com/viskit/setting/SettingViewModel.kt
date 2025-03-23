@@ -1,9 +1,9 @@
 package com.viskit.setting
 
 import androidx.lifecycle.viewModelScope
+import com.viskit.auth.repository.AuthRepository
 import com.viskit.model.AuthEntity
 import com.viskit.ui.base.BaseViewModel
-import com.viskit.auth.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

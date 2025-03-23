@@ -41,8 +41,8 @@ import coil.compose.AsyncImage
 import coil.decode.VideoFrameDecoder
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import com.viskit.designsystem.component.bottomsheet.RecordyBottomSheet
 import com.viskit.designsystem.R
+import com.viskit.designsystem.component.bottomsheet.RecordyBottomSheet
 import com.viskit.designsystem.theme.Background
 import com.viskit.designsystem.theme.Gray03
 import com.viskit.designsystem.theme.RecordyTheme

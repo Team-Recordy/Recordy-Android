@@ -1,6 +1,5 @@
 package com.viskit.network
 
-import com.viskit.network.model.BaseResponse
 import com.viskit.network.model.ResponsePostAuthRefreshDto
 import retrofit2.http.Header
 import retrofit2.http.POST

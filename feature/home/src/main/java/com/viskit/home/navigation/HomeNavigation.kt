@@ -6,8 +6,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.record.home.HomeRoute
-import com.record.model.VideoType
+import com.viskit.home.HomeRoute
+import com.viskit.model.VideoType
 
 fun NavController.navigateHome(navOptions: NavOptions) {
     navigate(HomeRoute.route, navOptions)

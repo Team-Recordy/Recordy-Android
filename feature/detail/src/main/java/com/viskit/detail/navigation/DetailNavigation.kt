@@ -6,9 +6,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.record.detail.DetailRoute
-import com.record.detail.navigation.DetailRoute.PLACE_ID
-import com.record.model.VideoType
+import com.viskit.detail.DetailRoute
+import com.viskit.detail.navigation.DetailRoute.PLACE_ID
+import com.viskit.model.VideoType
 
 fun NavController.navigateDetail(placeId: Long, navOptions: NavOptions) {
     navigate(DetailRoute.detailRoute(placeId.toString()), navOptions)

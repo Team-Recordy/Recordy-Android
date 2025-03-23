@@ -1,6 +1,6 @@
 package com.viskit.video.source.local
 
-import com.record.video.model.local.LocalImageInfo
+import com.viskit.video.model.local.LocalImageInfo
 
 interface LocalVideoDataSource {
     suspend fun getVideosFromGallery(

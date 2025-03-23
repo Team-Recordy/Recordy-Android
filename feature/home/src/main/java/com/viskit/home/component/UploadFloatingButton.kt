@@ -14,10 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.R
-import com.record.designsystem.theme.PretendardBold
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.extension.customClickable
+import com.viskit.designsystem.R
+import com.viskit.designsystem.theme.PretendardBold
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.extension.customClickable
 
 @Composable
 fun UploadFloatingButton(

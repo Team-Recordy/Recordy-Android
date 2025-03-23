@@ -1,8 +1,8 @@
 package com.viskit.video.source.remote
 
-import com.record.video.model.remote.response.ResponseGetPagingVideoDto
-import com.record.video.model.remote.response.ResponseGetSliceVideoDto
-import com.record.video.model.remote.response.ResponseGetVideoDto
+import com.viskit.video.model.remote.response.ResponseGetPagingVideoDto
+import com.viskit.video.model.remote.response.ResponseGetSliceVideoDto
+import com.viskit.video.model.remote.response.ResponseGetVideoDto
 
 interface RemoteVideoDataSource {
     suspend fun getAllVideos(cursorId: Long, size: Int): List<ResponseGetVideoDto>

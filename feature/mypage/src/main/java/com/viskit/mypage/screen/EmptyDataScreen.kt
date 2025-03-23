@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.component.button.RecordyButton
-import com.record.designsystem.theme.RecordyTheme
-import com.record.mypage.MypageTab
+import com.viskit.designsystem.component.button.RecordyButton
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.mypage.MypageTab
 
 @Composable
 fun EmptyDataScreen(

@@ -1,9 +1,9 @@
 package com.viskit.upload.searchplace
 
-import com.record.exhibition.model.SearchResult
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
-import com.record.upload.navigation.UploadRoute
+import com.viskit.exhibition.model.SearchResult
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
+import com.viskit.upload.navigation.UploadRoute
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

@@ -1,14 +1,14 @@
 package com.viskit.video.datasource
 
 import android.content.Context
-import com.record.common.util.ProgressListener
-import com.record.common.util.getVideoFrameAt1Sec
-import com.record.video.ProgressRequestBody
-import com.record.video.api.BucketApi
-import com.record.video.api.UploadApi
+import com.viskit.common.util.ProgressListener
+import com.viskit.common.util.getVideoFrameAt1Sec
+import com.viskit.video.ProgressRequestBody
+import com.viskit.video.api.BucketApi
+import com.viskit.video.api.UploadApi
 import com.viskit.video.model.remote.request.RequestPostVideoDto
-import com.record.video.model.remote.response.ResponseGetPresignedUrlDto
-import com.record.video.source.remote.RemoteUploadDataSource
+import com.viskit.video.model.remote.response.ResponseGetPresignedUrlDto
+import com.viskit.video.source.remote.RemoteUploadDataSource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody

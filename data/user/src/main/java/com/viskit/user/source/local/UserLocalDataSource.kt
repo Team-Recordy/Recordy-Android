@@ -1,6 +1,6 @@
 package com.viskit.user.source.local
 
-import com.record.datastore.user.UserData
+import com.viskit.datastore.user.UserData
 import kotlinx.coroutines.flow.Flow
 
 interface UserLocalDataSource {

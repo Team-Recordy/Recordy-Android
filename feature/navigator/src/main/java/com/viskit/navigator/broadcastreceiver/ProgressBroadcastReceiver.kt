@@ -37,11 +37,11 @@ class ProgressBroadcastReceiver(
     }
 
     companion object {
-        const val ACTION_UPLOAD_PROGRESS = "com.record.video.UPLOAD_PROGRESS"
-        const val ACTION_UPLOAD_START = "com.record.video.UPLOAD_START"
-        const val ACTION_UPLOAD_END = "com.record.video.UPLOAD_END"
-        const val ACTION_UPLOAD_SUCCESS = "com.record.video.UPLOAD_SUCCESS"
-        const val ACTION_UPLOAD_FAILURE = "com.record.video.UPLOAD_FAILURE"
+        const val ACTION_UPLOAD_PROGRESS = "com.viskit.video.UPLOAD_PROGRESS"
+        const val ACTION_UPLOAD_START = "com.viskit.video.UPLOAD_START"
+        const val ACTION_UPLOAD_END = "com.viskit.video.UPLOAD_END"
+        const val ACTION_UPLOAD_SUCCESS = "com.viskit.video.UPLOAD_SUCCESS"
+        const val ACTION_UPLOAD_FAILURE = "com.viskit.video.UPLOAD_FAILURE"
         const val EXTRA_PROGRESS = "progress"
 
         fun register(context: Context, receiver: ProgressBroadcastReceiver) {

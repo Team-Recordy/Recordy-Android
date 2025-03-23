@@ -1,10 +1,10 @@
 package com.viskit.network.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.record.common.buildconfig.BuildConfigFieldProvider
-import com.record.network.AuthenticationIntercept
-import com.record.network.TokenRefreshService
-import com.record.network.authenticator.RecordyAuthenticator
+import com.viskit.common.buildconfig.BuildConfigFieldProvider
+import com.viskit.network.AuthenticationIntercept
+import com.viskit.network.TokenRefreshService
+import com.viskit.network.authenticator.RecordyAuthenticator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

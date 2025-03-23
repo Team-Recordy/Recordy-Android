@@ -32,15 +32,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.theme.Alert01
-import com.record.designsystem.theme.Black
-import com.record.designsystem.theme.Gray01
-import com.record.designsystem.theme.Gray03
-import com.record.designsystem.theme.Gray05
-import com.record.designsystem.theme.Gray06
-import com.record.designsystem.theme.Gray10
-import com.record.designsystem.theme.RecordyTheme
-import com.record.designsystem.theme.ViskitYellow500
+import com.viskit.designsystem.theme.Alert01
+import com.viskit.designsystem.theme.Black
+import com.viskit.designsystem.theme.Gray01
+import com.viskit.designsystem.theme.Gray03
+import com.viskit.designsystem.theme.Gray05
+import com.viskit.designsystem.theme.Gray06
+import com.viskit.designsystem.theme.Gray10
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.designsystem.theme.ViskitYellow500
 
 /**
  * design system small text field / Large text field 2가지 타입 구현 가능

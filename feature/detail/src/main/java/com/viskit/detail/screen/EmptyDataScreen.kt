@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.component.button.BasicButton
-import com.record.designsystem.theme.RecordyTheme
+import com.viskit.designsystem.component.button.BasicButton
+import com.viskit.designsystem.theme.RecordyTheme
 
 @Composable
 fun EmptyDataScreen(

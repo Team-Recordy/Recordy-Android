@@ -1,9 +1,9 @@
 package com.viskit.user.repository
 
-import com.record.model.Cursor
-import com.record.user.model.Preference
-import com.record.user.model.Profile
-import com.record.user.model.User
+import com.viskit.model.Cursor
+import com.viskit.user.model.Preference
+import com.viskit.user.model.Profile
+import com.viskit.user.model.User
 
 interface UserRepository {
     suspend fun getFollowingList(

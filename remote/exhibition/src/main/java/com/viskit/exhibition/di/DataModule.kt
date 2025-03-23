@@ -3,9 +3,9 @@ package com.viskit.exhibition.di
 import com.example.exhibition.source.remote.RemoteExhibitionDataSource
 import com.example.exhibition.source.remote.RemotePlaceDataSource
 import com.example.exhibition.source.remote.RemoteSearchDataSource
-import com.record.exhibition.datasource.RemoteExhibitionDataSourceImpl
-import com.record.exhibition.datasource.RemotePlaceDataSourceImpl
-import com.record.exhibition.datasource.RemoteSearchDataSourceImpl
+import com.viskit.exhibition.datasource.RemoteExhibitionDataSourceImpl
+import com.viskit.exhibition.datasource.RemotePlaceDataSourceImpl
+import com.viskit.exhibition.datasource.RemoteSearchDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

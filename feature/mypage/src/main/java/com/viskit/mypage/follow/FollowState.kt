@@ -1,8 +1,8 @@
 package com.viskit.mypage.follow
 
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
-import com.record.user.model.User
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
+import com.viskit.user.model.User
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 

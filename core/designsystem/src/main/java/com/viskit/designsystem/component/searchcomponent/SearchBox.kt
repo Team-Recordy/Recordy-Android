@@ -22,8 +22,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.R
-import com.record.designsystem.theme.RecordyTheme
+import com.viskit.designsystem.R
+import com.viskit.designsystem.theme.RecordyTheme
 
 @Composable
 fun SearchBox(

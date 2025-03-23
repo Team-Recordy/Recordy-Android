@@ -12,9 +12,9 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.record.designsystem.R
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.extension.customClickable
+import com.viskit.designsystem.R
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.extension.customClickable
 
 @Composable
 fun LoadingIndicator() {

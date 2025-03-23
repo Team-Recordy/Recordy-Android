@@ -2,8 +2,8 @@ package com.viskit.network.authenticator
 
 import android.content.Context
 import com.jakewharton.processphoenix.ProcessPhoenix
-import com.record.datastore.token.TokenDataStore
-import com.record.network.TokenRefreshService
+import com.viskit.datastore.token.TokenDataStore
+import com.viskit.network.TokenRefreshService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

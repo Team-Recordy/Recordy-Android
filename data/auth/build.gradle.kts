@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.auth"
+    namespace = "com.viskit.auth"
 }
 
 dependencies {

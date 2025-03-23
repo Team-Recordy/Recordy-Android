@@ -1,8 +1,8 @@
-package com.record.datastore.token
+package com.viskit.datastore.user
 
 import android.util.Log
 import androidx.datastore.core.DataStore
-import com.record.datastore.user.UserData
+import com.viskit.datastore.user.UserData
 import java.io.IOException
 import javax.inject.Inject
 

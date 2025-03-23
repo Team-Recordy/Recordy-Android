@@ -1,8 +1,8 @@
 package com.viskit.navigator
 
-import com.record.designsystem.component.snackbar.SnackBarType
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
+import com.viskit.designsystem.component.snackbar.SnackBarType
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
 
 data class MainState(
     val snackBarVisible: Boolean = false,

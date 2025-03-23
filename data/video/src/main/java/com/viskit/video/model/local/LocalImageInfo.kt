@@ -1,6 +1,6 @@
 package com.viskit.video.model.local
 
-import com.record.upload.model.GalleryImage
+import com.viskit.upload.model.GalleryImage
 
 data class LocalImageInfo(
     val id: Long,

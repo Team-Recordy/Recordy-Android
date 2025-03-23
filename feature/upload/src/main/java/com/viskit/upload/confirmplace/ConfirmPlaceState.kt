@@ -1,9 +1,9 @@
 package com.viskit.upload.confirmplace
 
-import com.record.exhibition.model.PlaceUsingMap
-import com.record.model.AlertInfo
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
+import com.viskit.exhibition.model.PlaceUsingMap
+import com.viskit.model.AlertInfo
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
 
 data class ConfirmPlaceState(
     val place: PlaceUsingMap = PlaceUsingMap(),

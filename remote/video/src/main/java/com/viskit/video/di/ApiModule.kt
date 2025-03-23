@@ -1,11 +1,11 @@
 package com.viskit.video.di
 
-import com.record.network.di.Auth
-import com.record.network.di.S3
-import com.record.video.api.BucketApi
-import com.record.video.api.UploadApi
-import com.record.video.api.VideoApi
-import com.record.video.api.VideoCoreApi
+import com.viskit.network.di.Auth
+import com.viskit.network.di.S3
+import com.viskit.video.api.BucketApi
+import com.viskit.video.api.UploadApi
+import com.viskit.video.api.VideoApi
+import com.viskit.video.api.VideoCoreApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

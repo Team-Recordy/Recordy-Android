@@ -2,7 +2,7 @@ package com.viskit.navigator.broadcastreceiver
 
 import android.content.Context
 import android.content.Intent
-import com.record.common.intentprovider.UploadBroadCaster
+import com.viskit.common.intentprovider.UploadBroadCaster
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

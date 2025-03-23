@@ -1,12 +1,12 @@
 package com.viskit.video.repository
 
-import com.record.model.exception.ApiError
-import com.record.upload.model.GalleryImage
-import com.record.upload.model.RecordInfo
-import com.record.upload.repository.UploadRepository
-import com.record.video.model.local.toDomain
-import com.record.video.source.local.LocalVideoDataSource
-import com.record.workmanager.upload.UploadEnqueuer
+import com.viskit.model.exception.ApiError
+import com.viskit.upload.model.GalleryImage
+import com.viskit.upload.model.RecordInfo
+import com.viskit.upload.repository.UploadRepository
+import com.viskit.video.model.local.toDomain
+import com.viskit.video.source.local.LocalVideoDataSource
+import com.viskit.workmanager.upload.UploadEnqueuer
 import java.io.IOException
 import javax.inject.Inject
 

@@ -1,9 +1,9 @@
 package com.viskit.auth.source.remote
 
 
-import com.record.auth.model.request.RequestSignUpDto
-import com.record.model.AuthEntity
-import com.record.network.model.BaseResponse
+import com.viskit.auth.model.request.RequestSignUpDto
+import com.viskit.model.AuthEntity
+import com.viskit.network.model.BaseResponse
 
 interface AuthRemoteDataSource {
     suspend fun signIn(): AuthEntity

@@ -1,11 +1,11 @@
 package com.viskit.detail
 
-import com.record.detail.screen.ChipTab
-import com.record.exhibition.model.Exhibition
-import com.record.model.VideoData
-import com.record.model.VideoType
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
+import com.viskit.detail.screen.ChipTab
+import com.viskit.exhibition.model.Exhibition
+import com.viskit.model.VideoData
+import com.viskit.model.VideoType
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

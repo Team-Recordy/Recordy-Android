@@ -2,12 +2,12 @@ package com.viskit.navigator
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.record.designsystem.R
-import com.record.home.navigation.HomeRoute
-import com.record.mypage.navigation.MypageRoute
-import com.record.search.navigation.SearchRoute
-import com.record.upload.navigation.UploadRoute
-import com.record.video.navigation.VideoRoute
+import com.viskit.designsystem.R
+import com.viskit.home.navigation.HomeRoute
+import com.viskit.mypage.navigation.MypageRoute
+import com.viskit.search.navigation.SearchRoute
+import com.viskit.upload.navigation.UploadRoute
+import com.viskit.video.navigation.VideoRoute
 
 enum class MainNavTab(
     @DrawableRes val iconId: Int,

@@ -1,7 +1,7 @@
 package com.viskit.upload.repository
 
-import com.record.upload.model.GalleryImage
-import com.record.upload.model.RecordInfo
+import com.viskit.upload.model.GalleryImage
+import com.viskit.upload.model.RecordInfo
 
 interface UploadRepository {
     suspend fun upload(recordInfo: RecordInfo)

@@ -4,8 +4,8 @@ import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.record.workmanager.upload.UploadEnqueuer
-import com.record.workmanager.upload.UploadWorker
+import com.viskit.workmanager.upload.UploadEnqueuer
+import com.viskit.workmanager.upload.UploadWorker
 import javax.inject.Inject
 
 class UploadEnqueuerImpl @Inject constructor(

@@ -1,8 +1,8 @@
 package com.viskit.keyword.repository
 
-import com.record.keyword.model.PreferenceKeyword
-import com.record.keyword.source.RemoteKeywordDataSource
-import com.record.model.exception.ApiError
+import com.viskit.keyword.model.PreferenceKeyword
+import com.viskit.keyword.source.RemoteKeywordDataSource
+import com.viskit.model.exception.ApiError
 import retrofit2.HttpException
 import javax.inject.Inject
 

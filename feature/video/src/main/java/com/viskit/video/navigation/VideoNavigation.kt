@@ -6,10 +6,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.record.designsystem.component.snackbar.SnackBarType
-import com.record.model.VideoType
-import com.record.video.VideoRoute
-import com.record.video.videodetail.VideoDetailRoute
+import com.viskit.designsystem.component.snackbar.SnackBarType
+import com.viskit.model.VideoType
+import com.viskit.video.VideoRoute
+import com.viskit.video.videodetail.VideoDetailRoute
 
 fun NavController.navigateVideo(navOptions: NavOptions?) {
     navigate(VideoRoute.route, navOptions)

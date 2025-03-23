@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.record.designsystem.component.button.FollowButton
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.extension.customClickable
-import com.record.user.model.User
+import com.viskit.designsystem.component.button.FollowButton
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.extension.customClickable
+import com.viskit.user.model.User
 
 @Composable
 fun UserDataContainer(

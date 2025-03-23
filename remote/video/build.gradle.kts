@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.video"
+    namespace = "com.viskit.video"
 }
 
 dependencies {

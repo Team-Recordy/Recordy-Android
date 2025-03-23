@@ -1,9 +1,9 @@
 package com.viskit.home
 
-import com.record.exhibition.model.Place
-import com.record.model.VideoType
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
+import com.viskit.exhibition.model.Place
+import com.viskit.model.VideoType
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

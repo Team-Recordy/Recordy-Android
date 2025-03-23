@@ -1,7 +1,7 @@
 package com.viskit.keyword.di
 
-import com.record.keyword.api.KeywordApi
-import com.record.network.di.Auth
+import com.viskit.keyword.api.KeywordApi
+import com.viskit.network.di.Auth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

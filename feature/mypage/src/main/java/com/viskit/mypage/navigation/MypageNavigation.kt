@@ -6,10 +6,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.record.model.VideoType
-import com.record.mypage.MypageRoute
-import com.record.mypage.follow.FollowerRoute
-import com.record.mypage.follow.FollowingRoute
+import com.viskit.model.VideoType
+import com.viskit.mypage.MypageRoute
+import com.viskit.mypage.follow.FollowerRoute
+import com.viskit.mypage.follow.FollowingRoute
 
 fun NavController.navigateMypage(navOptions: NavOptions) {
     navigate(MypageRoute.route, navOptions)

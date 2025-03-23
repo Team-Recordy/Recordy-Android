@@ -16,9 +16,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.theme.Black
-import com.record.designsystem.theme.RecordyTheme
-import com.record.designsystem.theme.ViskitYellow500
+import com.viskit.designsystem.theme.Black
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.designsystem.theme.ViskitYellow500
 import timber.log.Timber
 
 @Composable

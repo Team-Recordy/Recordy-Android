@@ -1,7 +1,7 @@
 package com.viskit.auth.model.response
 
 
-import com.record.model.AuthEntity
+import com.viskit.model.AuthEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

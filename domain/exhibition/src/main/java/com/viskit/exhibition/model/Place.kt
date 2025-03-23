@@ -1,6 +1,6 @@
 package com.viskit.exhibition.model
 
-import com.record.model.VideoData
+import com.viskit.model.VideoData
 
 data class Place(
     val placeId: Int,

@@ -1,7 +1,7 @@
 package com.viskit.setting
 
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
 
 data class SettingState(
     val dialog: SettingDialog = SettingDialog.NONE,

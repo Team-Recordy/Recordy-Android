@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.record.model.VideoType
-import com.record.profile.ProfileRoute
+import com.viskit.model.VideoType
+import com.viskit.profile.ProfileRoute
 
 fun NavController.navigateProfile(id: Long) {
     navigate(ProfileRoute.profileRoute(id.toString()))

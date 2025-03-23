@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.security"
+    namespace = "com.viskit.security"
 }
 
 dependencies {

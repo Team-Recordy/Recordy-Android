@@ -1,13 +1,13 @@
 package com.viskit.video.di
 
-import com.record.upload.repository.UploadRepository
-import com.record.video.repository.UploadRepositoryImpl
-import com.record.video.repository.UploadTaskImpl
-import com.record.video.repository.VideoCoreRepository
-import com.record.video.repository.VideoCoreRepositoryImpl
-import com.record.video.repository.VideoRepository
-import com.record.video.repository.VideoRepositoryImpl
-import com.record.workmanager.upload.UploadTask
+import com.viskit.upload.repository.UploadRepository
+import com.viskit.video.repository.UploadRepositoryImpl
+import com.viskit.video.repository.UploadTaskImpl
+import com.viskit.video.repository.VideoCoreRepository
+import com.viskit.video.repository.VideoCoreRepositoryImpl
+import com.viskit.video.repository.VideoRepository
+import com.viskit.video.repository.VideoRepositoryImpl
+import com.viskit.workmanager.upload.UploadTask
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

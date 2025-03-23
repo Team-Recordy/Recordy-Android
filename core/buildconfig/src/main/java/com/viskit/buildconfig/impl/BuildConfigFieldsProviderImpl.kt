@@ -1,10 +1,10 @@
 package com.viskit.buildconfig.impl
 
-import com.record.buildconfig.BuildConfig.BASE_URL
-import com.record.buildconfig.BuildConfig.DEBUG
-import com.record.buildconfig.BuildConfig.KAKAO_NATIVE_KEY
-import com.record.common.buildconfig.BuildConfigFieldProvider
-import com.record.common.buildconfig.BuildConfigFields
+import com.viskit.buildconfig.BuildConfig.BASE_URL
+import com.viskit.buildconfig.BuildConfig.DEBUG
+import com.viskit.buildconfig.BuildConfig.KAKAO_NATIVE_KEY
+import com.viskit.common.buildconfig.BuildConfigFieldProvider
+import com.viskit.common.buildconfig.BuildConfigFields
 import javax.inject.Inject
 
 class BuildConfigFieldsProviderImpl @Inject constructor() : BuildConfigFieldProvider {

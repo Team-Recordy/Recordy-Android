@@ -1,8 +1,8 @@
-import com.record.convention.extension.getLibrary
-import com.record.convention.extension.implementation
-import com.record.convention.extension.ksp
-import com.record.convention.extension.kspTest
-import com.record.convention.extension.libs
+import com.viskit.convention.extension.getLibrary
+import com.viskit.convention.extension.implementation
+import com.viskit.convention.extension.ksp
+import com.viskit.convention.extension.kspTest
+import com.viskit.convention.extension.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies

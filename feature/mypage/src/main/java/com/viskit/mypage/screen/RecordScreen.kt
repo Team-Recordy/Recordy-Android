@@ -20,12 +20,12 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.component.RecordyVideoThumbnail
-import com.record.designsystem.theme.RecordyTheme
-import com.record.model.VideoType
-import com.record.mypage.MypageTab
-import com.record.ui.scroll.OnBottomReached
-import com.record.video.model.VideoData
+import com.viskit.designsystem.component.RecordyVideoThumbnail
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.model.VideoType
+import com.viskit.mypage.MypageTab
+import com.viskit.ui.scroll.OnBottomReached
+import com.viskit.video.model.VideoData
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -61,7 +61,7 @@ fun RecordScreen(
             }
 
             EmptyDataScreen(
-                imageRes = com.record.designsystem.R.drawable.img_viskit_share,
+                imageRes = com.viskit.designsystem.R.drawable.img_viskit_share,
                 message = "직접 방문한 공간 영상을\n공유해 보세요!",
                 showButton = true,
                 selectedTab = MypageTab.RECORD,

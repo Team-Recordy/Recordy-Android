@@ -15,10 +15,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.theme.Background
-import com.record.designsystem.theme.RecordyTheme
-import com.record.designsystem.theme.White
-import com.record.ui.extension.customClickable
+import com.viskit.designsystem.theme.Background
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.designsystem.theme.White
+import com.viskit.ui.extension.customClickable
 
 @Composable
 fun TopNavigationBar(
@@ -41,7 +41,7 @@ fun TopNavigationBar(
     ) {
         if (popBackStackEnable) {
             Icon(
-                ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_angle_left_24),
+                ImageVector.vectorResource(id = com.viskit.designsystem.R.drawable.ic_angle_left_24),
                 contentDescription = "뒤로가기",
                 tint = RecordyTheme.colors.gray01,
                 modifier = Modifier
@@ -54,7 +54,7 @@ fun TopNavigationBar(
 
         if (showCloseButton) {
             Icon(
-                ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_cancelled_30),
+                ImageVector.vectorResource(id = com.viskit.designsystem.R.drawable.ic_cancelled_30),
                 contentDescription = "닫기",
                 tint = RecordyTheme.colors.gray01,
                 modifier = Modifier

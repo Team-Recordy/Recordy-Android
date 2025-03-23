@@ -6,9 +6,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.record.designsystem.component.container.UserDataContainer
-import com.record.ui.scroll.OnBottomReached
-import com.record.user.model.User
+import com.viskit.designsystem.component.container.UserDataContainer
+import com.viskit.ui.scroll.OnBottomReached
+import com.viskit.user.model.User
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

@@ -10,9 +10,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.record.designsystem.component.navbar.TopNavigationBar
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.viskit.designsystem.component.navbar.TopNavigationBar
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest
 

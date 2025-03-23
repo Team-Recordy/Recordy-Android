@@ -1,7 +1,7 @@
 package com.viskit.navigator.di
 
-import com.record.common.intentprovider.UploadBroadCaster
-import com.record.navigator.broadcastreceiver.UploadBroadCasterImpl
+import com.viskit.common.intentprovider.UploadBroadCaster
+import com.viskit.navigator.broadcastreceiver.UploadBroadCasterImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

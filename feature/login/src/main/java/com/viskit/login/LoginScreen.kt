@@ -37,11 +37,11 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.record.designsystem.R
-import com.record.designsystem.component.indicator.LoadingIndicator
-import com.record.designsystem.theme.Kakaoyellow
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.viskit.designsystem.R
+import com.viskit.designsystem.component.indicator.LoadingIndicator
+import com.viskit.designsystem.theme.Kakaoyellow
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.lifecycle.LaunchedEffectWithLifecycle
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest

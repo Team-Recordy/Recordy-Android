@@ -1,11 +1,11 @@
 package com.viskit.video.repository
 
-import com.record.common.intentprovider.UploadBroadCaster
-import com.record.common.util.ProgressListener
-import com.record.upload.model.VideoInfo
+import com.viskit.common.intentprovider.UploadBroadCaster
+import com.viskit.common.util.ProgressListener
+import com.viskit.upload.model.VideoInfo
 import com.viskit.video.model.remote.request.toData
-import com.record.video.source.remote.RemoteUploadDataSource
-import com.record.workmanager.upload.UploadTask
+import com.viskit.video.source.remote.RemoteUploadDataSource
+import com.viskit.workmanager.upload.UploadTask
 import java.io.File
 import javax.inject.Inject
 

@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.search"
+    namespace = "com.viskit.search"
 }
 
 dependencies {

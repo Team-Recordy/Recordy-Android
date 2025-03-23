@@ -1,7 +1,7 @@
 package com.viskit.video.repository
 
-import com.record.model.exception.ApiError
-import com.record.video.source.remote.RemoteVideoCoreDataSource
+import com.viskit.model.exception.ApiError
+import com.viskit.video.source.remote.RemoteVideoCoreDataSource
 import retrofit2.HttpException
 import javax.inject.Inject
 

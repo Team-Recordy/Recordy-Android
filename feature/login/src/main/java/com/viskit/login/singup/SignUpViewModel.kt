@@ -1,10 +1,10 @@
 package com.viskit.login.singup
 
 import androidx.lifecycle.viewModelScope
-import com.record.model.ValidateResult
-import com.record.ui.base.BaseViewModel
-import com.recordy.auth.model.AuthAgreementEntity
-import com.recordy.auth.repository.AuthRepository
+import com.viskit.model.ValidateResult
+import com.viskit.ui.base.BaseViewModel
+import com.viskit.auth.model.AuthAgreementEntity
+import com.viskit.auth.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

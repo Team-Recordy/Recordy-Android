@@ -2,14 +2,14 @@ package com.viskit.upload
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.record.designsystem.component.snackbar.SnackBarType
-import com.record.keyword.repository.KeywordRepository
-import com.record.model.AlertInfo
-import com.record.ui.base.BaseViewModel
-import com.record.upload.model.GalleryImage
-import com.record.upload.model.RecordInfo
-import com.record.upload.navigation.UploadRoute
-import com.record.upload.repository.UploadRepository
+import com.viskit.designsystem.component.snackbar.SnackBarType
+import com.viskit.keyword.repository.KeywordRepository
+import com.viskit.model.AlertInfo
+import com.viskit.ui.base.BaseViewModel
+import com.viskit.upload.model.GalleryImage
+import com.viskit.upload.model.RecordInfo
+import com.viskit.upload.navigation.UploadRoute
+import com.viskit.upload.repository.UploadRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers

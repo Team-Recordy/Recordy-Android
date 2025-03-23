@@ -1,7 +1,7 @@
 package com.viskit.exhibition.repository
 
-import com.record.exhibition.model.PlaceUsingMap
-import com.record.exhibition.model.SearchResult
+import com.viskit.exhibition.model.PlaceUsingMap
+import com.viskit.exhibition.model.SearchResult
 
 interface SearchRepository {
     suspend fun searchExhibition(query: String): Result<List<SearchResult>>

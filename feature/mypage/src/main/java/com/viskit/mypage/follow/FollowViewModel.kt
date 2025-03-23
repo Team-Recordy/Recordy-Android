@@ -2,9 +2,9 @@ package com.viskit.mypage.follow
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.record.ui.base.BaseViewModel
-import com.record.user.model.User
-import com.record.user.repository.UserRepository
+import com.viskit.ui.base.BaseViewModel
+import com.viskit.user.model.User
+import com.viskit.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

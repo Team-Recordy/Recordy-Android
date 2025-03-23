@@ -1,8 +1,8 @@
 package com.viskit.video.api
 
-import com.record.video.model.remote.response.ResponseGetPagingVideoDto
-import com.record.video.model.remote.response.ResponseGetSliceVideoDto
-import com.record.video.model.remote.response.ResponseGetVideoDto
+import com.viskit.video.model.remote.response.ResponseGetPagingVideoDto
+import com.viskit.video.model.remote.response.ResponseGetSliceVideoDto
+import com.viskit.video.model.remote.response.ResponseGetVideoDto
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path

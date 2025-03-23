@@ -1,6 +1,6 @@
 package com.viskit.video.model.remote.response
 
-import com.record.model.Cursor
+import com.viskit.model.Cursor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

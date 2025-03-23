@@ -1,7 +1,7 @@
 package com.viskit.user.model.remote.response
 
-import com.record.model.Cursor
-import com.record.user.model.User
+import com.viskit.model.Cursor
+import com.viskit.user.model.User
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

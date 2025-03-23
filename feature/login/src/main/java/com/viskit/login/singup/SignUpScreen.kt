@@ -46,13 +46,13 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.record.designsystem.component.button.RecordyButton
-import com.record.designsystem.theme.RecordyTheme
-import com.record.login.singup.screen.NamingScreen
-import com.record.login.singup.screen.PolicyScreen
-import com.record.login.singup.screen.SignUpSuccessScreen
-import com.record.ui.extension.customClickable
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.viskit.designsystem.component.button.RecordyButton
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.login.singup.screen.NamingScreen
+import com.viskit.login.singup.screen.PolicyScreen
+import com.viskit.login.singup.screen.SignUpSuccessScreen
+import com.viskit.ui.extension.customClickable
+import com.viskit.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -126,7 +126,7 @@ fun SignUpRoute(
         ) {
             if (pagerState.currentPage != 2) {
                 Icon(
-                    ImageVector.vectorResource(id = com.record.designsystem.R.drawable.ic_angle_left_24),
+                    ImageVector.vectorResource(id = com.viskit.designsystem.R.drawable.ic_angle_left_24),
                     contentDescription = "뒤로가기",
                     tint = RecordyTheme.colors.gray01,
                     modifier = Modifier

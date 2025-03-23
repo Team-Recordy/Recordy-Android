@@ -2,14 +2,14 @@ package com.viskit.setting.profileedit
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.record.model.AlertInfo
-import com.record.model.ValidateResult
-import com.record.model.exception.ApiError
-import com.record.ui.base.BaseViewModel
-import com.record.upload.model.GalleryImage
-import com.record.upload.repository.UploadRepository
-import com.record.user.repository.UserRepository
-import com.recordy.auth.repository.AuthRepository
+import com.viskit.model.AlertInfo
+import com.viskit.model.ValidateResult
+import com.viskit.model.exception.ApiError
+import com.viskit.ui.base.BaseViewModel
+import com.viskit.upload.model.GalleryImage
+import com.viskit.upload.repository.UploadRepository
+import com.viskit.user.repository.UserRepository
+import com.viskit.auth.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers

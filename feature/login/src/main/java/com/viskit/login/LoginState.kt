@@ -1,7 +1,7 @@
 package com.viskit.login
 
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
 
 data class LoginState(
     var splash: Boolean = true,

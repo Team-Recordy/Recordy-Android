@@ -1,7 +1,7 @@
 package com.viskit.workmanager.di
 
-import com.record.workmanager.upload.UploadEnqueuer
-import com.record.workmanager.upload.impl.UploadEnqueuerImpl
+import com.viskit.workmanager.upload.UploadEnqueuer
+import com.viskit.workmanager.upload.impl.UploadEnqueuerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

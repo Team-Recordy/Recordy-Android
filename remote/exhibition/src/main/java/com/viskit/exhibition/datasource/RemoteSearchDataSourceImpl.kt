@@ -3,7 +3,7 @@ package com.viskit.exhibition.datasource
 import com.example.exhibition.model.remote.response.ResponseGetExhibitionSearchDto
 import com.example.exhibition.model.remote.response.ResponseGetPlaceUsingMapDto
 import com.example.exhibition.source.remote.RemoteSearchDataSource
-import com.record.exhibition.api.SearchApi
+import com.viskit.exhibition.api.SearchApi
 import javax.inject.Inject
 
 class RemoteSearchDataSourceImpl @Inject constructor(

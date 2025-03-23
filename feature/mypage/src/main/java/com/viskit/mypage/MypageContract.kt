@@ -1,9 +1,9 @@
 package com.viskit.mypage
 
-import com.record.model.VideoType
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
-import com.record.video.model.VideoData
+import com.viskit.model.VideoType
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
+import com.viskit.video.model.VideoData
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

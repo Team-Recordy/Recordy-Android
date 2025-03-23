@@ -1,6 +1,6 @@
 package com.viskit.video.model.remote.response
 
-import com.record.video.model.VideoData
+import com.viskit.video.model.VideoData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

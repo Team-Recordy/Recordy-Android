@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.record.designsystem.theme.RecordyTheme
-import com.record.exhibition.model.Exhibition
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.exhibition.model.Exhibition
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

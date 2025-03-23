@@ -1,9 +1,9 @@
 package com.viskit.user.datasource
 
-import com.record.datastore.token.UserDataStore
-import com.record.datastore.user.UserData
-import com.record.user.source.local.UserLocalDataSource
-import com.record.video.source.local.LocalUserInfoDataSource
+import com.viskit.datastore.user.UserData
+import com.viskit.datastore.user.UserDataStore
+import com.viskit.user.source.local.UserLocalDataSource
+import com.viskit.video.source.local.LocalUserInfoDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject

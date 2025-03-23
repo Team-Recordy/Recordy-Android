@@ -1,7 +1,7 @@
 package com.viskit.auth.model.request
 
 
-import com.recordy.auth.model.AuthAgreementEntity
+import com.viskit.auth.model.AuthAgreementEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

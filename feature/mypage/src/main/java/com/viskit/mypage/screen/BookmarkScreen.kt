@@ -16,12 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.component.RecordyVideoThumbnail
-import com.record.designsystem.theme.RecordyTheme
-import com.record.model.VideoType
-import com.record.mypage.MypageTab
-import com.record.ui.scroll.OnBottomReached
-import com.record.video.model.VideoData
+import com.viskit.designsystem.component.RecordyVideoThumbnail
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.model.VideoType
+import com.viskit.mypage.MypageTab
+import com.viskit.ui.scroll.OnBottomReached
+import com.viskit.video.model.VideoData
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -58,7 +58,7 @@ fun BookmarkScreen(
             }
 
             EmptyDataScreen(
-                imageRes = com.record.designsystem.R.drawable.img_viskit_share,
+                imageRes = com.viskit.designsystem.R.drawable.img_viskit_share,
                 message = "북마크한 영상이 없어요.\n영상을 둘러보고 저장해 보세요!",
                 showButton = true,
                 selectedTab = MypageTab.BOOKMARK,

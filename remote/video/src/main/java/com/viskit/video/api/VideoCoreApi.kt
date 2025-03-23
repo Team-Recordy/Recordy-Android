@@ -1,6 +1,6 @@
 package com.viskit.video.api
 
-import com.record.video.model.remote.request.RequestPostReportDto
+import com.viskit.video.model.remote.request.RequestPostReportDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.POST

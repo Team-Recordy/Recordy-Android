@@ -22,9 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.record.designsystem.component.navbar.TopNavigationBar
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.viskit.designsystem.component.navbar.TopNavigationBar
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -86,7 +86,7 @@ fun EmptyFollowerScreen() {
             Row {
                 Spacer(modifier = Modifier.weight(13f))
                 Image(
-                    painter = painterResource(com.record.designsystem.R.drawable.img_viskit_noresult),
+                    painter = painterResource(com.viskit.designsystem.R.drawable.img_viskit_noresult),
                     contentDescription = null,
                     modifier = Modifier
                         .weight(10f)

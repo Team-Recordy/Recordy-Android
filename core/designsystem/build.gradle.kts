@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.designsystem"
+    namespace = "com.viskit.designsystem"
 }
 
 dependencies {

@@ -1,7 +1,7 @@
 package com.viskit.video.di
 
-import com.record.video.datasource.LocalVideoDataSourceImpl
-import com.record.video.source.local.LocalVideoDataSource
+import com.viskit.video.datasource.LocalVideoDataSourceImpl
+import com.viskit.video.source.local.LocalVideoDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

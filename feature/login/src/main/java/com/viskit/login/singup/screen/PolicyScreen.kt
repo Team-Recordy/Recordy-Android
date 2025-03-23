@@ -27,9 +27,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.R
-import com.record.designsystem.theme.RecordyTheme
-import com.record.login.singup.SignUpState
+import com.viskit.designsystem.R
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.login.singup.SignUpState
 
 @Composable
 fun PolicyScreen(

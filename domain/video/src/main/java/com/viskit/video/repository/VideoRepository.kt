@@ -1,8 +1,8 @@
 package com.viskit.video.repository
 
-import com.record.model.Cursor
-import com.record.model.Page
-import com.record.video.model.VideoData
+import com.viskit.model.Cursor
+import com.viskit.model.Page
+import com.viskit.video.model.VideoData
 
 interface VideoRepository {
     suspend fun getAllVideos(cursorId: Long, pageSize: Int): Result<List<VideoData>>

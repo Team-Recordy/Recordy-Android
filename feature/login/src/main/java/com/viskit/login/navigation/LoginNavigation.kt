@@ -6,8 +6,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.record.login.LoginRoute
-import com.record.login.singup.SignUpRoute
+import com.viskit.login.LoginRoute
+import com.viskit.login.singup.SignUpRoute
 
 fun NavController.navigateLogin(navOptions: NavOptions) {
     navigate(LoginRoute.route, navOptions)

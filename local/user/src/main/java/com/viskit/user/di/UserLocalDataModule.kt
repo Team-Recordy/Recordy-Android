@@ -1,8 +1,8 @@
 package com.viskit.user.di
 
-import com.record.user.datasource.UserLocalDataSourceImpl
-import com.record.user.source.local.UserLocalDataSource
-import com.record.video.source.local.LocalUserInfoDataSource
+import com.viskit.user.datasource.UserLocalDataSourceImpl
+import com.viskit.user.source.local.UserLocalDataSource
+import com.viskit.video.source.local.LocalUserInfoDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

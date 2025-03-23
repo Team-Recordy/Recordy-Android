@@ -1,7 +1,7 @@
 package com.viskit.auth.di
 
-import com.record.auth.repository.AuthRepositoryImpl
-import com.recordy.auth.repository.AuthRepository
+import com.viskit.auth.repository.AuthRepositoryImpl
+import com.viskit.auth.repository.AuthRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

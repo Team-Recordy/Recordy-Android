@@ -30,9 +30,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.R
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.extension.customClickable
+import com.viskit.designsystem.R
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.extension.customClickable
 
 @Composable
 fun RecordyVideoText(

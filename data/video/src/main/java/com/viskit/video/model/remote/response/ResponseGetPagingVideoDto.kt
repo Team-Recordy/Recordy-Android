@@ -1,6 +1,6 @@
 package com.viskit.video.model.remote.response
 
-import com.record.model.Page
+import com.viskit.model.Page
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

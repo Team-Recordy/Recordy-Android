@@ -4,16 +4,16 @@ import com.example.exhibition.model.remote.request.RequestPostPlaceDto
 import com.example.exhibition.model.remote.response.toDomain
 import com.example.exhibition.source.remote.RemoteExhibitionDataSource
 import com.example.exhibition.source.remote.RemotePlaceDataSource
-import com.record.exhibition.model.Exhibition
-import com.record.exhibition.model.ExhibitionFilter
-import com.record.exhibition.model.Place
-import com.record.exhibition.model.PlaceUsingMap
-import com.record.exhibition.repository.ExhibitionRepository
-import com.record.model.Cursor
-import com.record.model.Page
-import com.record.model.exception.ApiError
-import com.record.video.model.toCore
-import com.record.video.repository.VideoRepository
+import com.viskit.exhibition.model.Exhibition
+import com.viskit.exhibition.model.ExhibitionFilter
+import com.viskit.exhibition.model.Place
+import com.viskit.exhibition.model.PlaceUsingMap
+import com.viskit.exhibition.repository.ExhibitionRepository
+import com.viskit.model.Cursor
+import com.viskit.model.Page
+import com.viskit.model.exception.ApiError
+import com.viskit.video.model.toCore
+import com.viskit.video.repository.VideoRepository
 import retrofit2.HttpException
 import javax.inject.Inject
 

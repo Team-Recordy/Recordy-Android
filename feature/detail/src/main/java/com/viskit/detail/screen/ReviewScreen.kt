@@ -20,11 +20,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.component.RecordyVideoThumbnail
-import com.record.designsystem.theme.RecordyTheme
-import com.record.model.VideoData
-import com.record.model.VideoType
-import com.record.ui.scroll.OnBottomReached
+import com.viskit.designsystem.component.RecordyVideoThumbnail
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.model.VideoData
+import com.viskit.model.VideoType
+import com.viskit.ui.scroll.OnBottomReached
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

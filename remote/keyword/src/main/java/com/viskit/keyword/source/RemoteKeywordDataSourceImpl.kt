@@ -1,6 +1,6 @@
 package com.viskit.keyword.source
 
-import com.record.keyword.api.KeywordApi
+import com.viskit.keyword.api.KeywordApi
 import javax.inject.Inject
 
 class RemoteKeywordDataSourceImpl @Inject constructor(

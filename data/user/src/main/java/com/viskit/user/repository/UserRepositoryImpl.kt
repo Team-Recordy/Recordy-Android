@@ -1,16 +1,16 @@
 package com.viskit.user.repository
 
-import com.record.datastore.user.UserData
-import com.record.model.Cursor
-import com.record.model.exception.ApiError
-import com.record.user.model.Preference
-import com.record.user.model.Profile
-import com.record.user.model.User
-import com.record.user.model.remote.response.toCore
-import com.record.user.model.remote.response.toDomain
-import com.record.user.source.local.UserLocalDataSource
-import com.record.user.source.remote.RemoteUserDataSource
-import com.record.video.source.remote.RemoteUploadDataSource
+import com.viskit.datastore.user.UserData
+import com.viskit.model.Cursor
+import com.viskit.model.exception.ApiError
+import com.viskit.user.model.Preference
+import com.viskit.user.model.Profile
+import com.viskit.user.model.User
+import com.viskit.user.model.remote.response.toCore
+import com.viskit.user.model.remote.response.toDomain
+import com.viskit.user.source.local.UserLocalDataSource
+import com.viskit.user.source.remote.RemoteUserDataSource
+import com.viskit.video.source.remote.RemoteUploadDataSource
 import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 import java.io.File

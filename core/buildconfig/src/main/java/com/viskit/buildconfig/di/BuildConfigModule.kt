@@ -1,7 +1,7 @@
 package com.viskit.buildconfig.di
 
-import com.record.buildconfig.impl.BuildConfigFieldsProviderImpl
-import com.record.common.buildconfig.BuildConfigFieldProvider
+import com.viskit.buildconfig.impl.BuildConfigFieldsProviderImpl
+import com.viskit.common.buildconfig.BuildConfigFieldProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

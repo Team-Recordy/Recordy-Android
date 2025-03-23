@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.cache"
+    namespace = "com.viskit.cache"
 }
 
 dependencies {

@@ -1,7 +1,7 @@
 package com.viskit.security.di
 
-import com.record.common.security.CryptoManager
-import com.record.security.CryptoManagerImpl
+import com.viskit.common.security.CryptoManager
+import com.viskit.security.CryptoManagerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

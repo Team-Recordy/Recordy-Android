@@ -1,13 +1,12 @@
 package com.viskit.auth.repository
 
-import com.record.auth.model.request.toData
-import com.record.auth.source.local.AuthLocalDataSource
-import com.record.auth.source.remote.AuthRemoteDataSource
-import com.record.datastore.token.AuthToken
-import com.record.model.AuthEntity
-import com.record.model.exception.ApiError
-import com.recordy.auth.model.AuthAgreementEntity
-import com.recordy.auth.repository.AuthRepository
+import com.viskit.auth.model.request.toData
+import com.viskit.auth.source.local.AuthLocalDataSource
+import com.viskit.auth.source.remote.AuthRemoteDataSource
+import com.viskit.datastore.token.AuthToken
+import com.viskit.model.AuthEntity
+import com.viskit.model.exception.ApiError
+import com.viskit.auth.model.AuthAgreementEntity
 import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 import javax.inject.Inject

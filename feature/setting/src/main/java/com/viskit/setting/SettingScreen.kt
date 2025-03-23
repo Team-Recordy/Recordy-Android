@@ -31,11 +31,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.record.designsystem.R
-import com.record.designsystem.component.dialog.RecordyDialog
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.extension.customClickable
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.viskit.designsystem.R
+import com.viskit.designsystem.component.dialog.RecordyDialog
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.extension.customClickable
+import com.viskit.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

@@ -31,18 +31,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.record.designsystem.R
-import com.record.designsystem.component.button.BasicButton
-import com.record.designsystem.component.navbar.TopNavigationBar
-import com.record.designsystem.component.searchcomponent.SearchBox
-import com.record.designsystem.component.searchcomponent.SearchedContainerBtn
-import com.record.designsystem.component.searchcomponent.SearchingContainerBtn
-import com.record.designsystem.theme.RecordyTheme
-import com.record.exhibition.model.ResultType
-import com.record.exhibition.model.SearchResult
-import com.record.ui.extension.customClickable
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
-import com.record.upload.navigation.UploadRoute
+import com.viskit.designsystem.R
+import com.viskit.designsystem.component.button.BasicButton
+import com.viskit.designsystem.component.navbar.TopNavigationBar
+import com.viskit.designsystem.component.searchcomponent.SearchBox
+import com.viskit.designsystem.component.searchcomponent.SearchedContainerBtn
+import com.viskit.designsystem.component.searchcomponent.SearchingContainerBtn
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.exhibition.model.ResultType
+import com.viskit.exhibition.model.SearchResult
+import com.viskit.ui.extension.customClickable
+import com.viskit.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.viskit.upload.navigation.UploadRoute
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

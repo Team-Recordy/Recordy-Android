@@ -1,8 +1,8 @@
 package com.viskit.convention
 
 import com.android.build.api.dsl.CommonExtension
-import com.record.convention.extension.getVersion
-import com.record.convention.extension.libs
+import com.viskit.convention.extension.getVersion
+import com.viskit.convention.extension.libs
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget

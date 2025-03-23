@@ -3,8 +3,8 @@ package com.viskit.network
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.record.common.buildconfig.BuildConfigFieldProvider
-import com.record.datastore.token.TokenDataStore
+import com.viskit.common.buildconfig.BuildConfigFieldProvider
+import com.viskit.datastore.token.TokenDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

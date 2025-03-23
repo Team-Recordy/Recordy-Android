@@ -1,6 +1,6 @@
 package com.viskit.home
 
-import com.record.video.model.VideoData
+import com.viskit.video.model.VideoData
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

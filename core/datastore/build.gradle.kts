@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.datastore"
+    namespace = "com.viskit.datastore"
 }
 
 dependencies {

@@ -1,8 +1,8 @@
 package com.viskit.navigator
 
-import com.record.mypage.navigation.MypageRoute
-import com.record.profile.navigation.ProfileRoute
-import com.record.video.navigation.VideoRoute
+import com.viskit.mypage.navigation.MypageRoute
+import com.viskit.profile.navigation.ProfileRoute
+import com.viskit.video.navigation.VideoRoute
 
 enum class InMainNavTab(
     val route: String,

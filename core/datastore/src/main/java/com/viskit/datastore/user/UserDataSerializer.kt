@@ -1,7 +1,7 @@
 package com.viskit.datastore.user
 
 import androidx.datastore.core.Serializer
-import com.record.common.security.CryptoManager
+import com.viskit.common.security.CryptoManager
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream

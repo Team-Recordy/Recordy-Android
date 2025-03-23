@@ -1,14 +1,14 @@
 package com.viskit.video.repository
 
-import com.record.common.util.toUTF8
-import com.record.model.Cursor
-import com.record.model.Page
-import com.record.model.exception.ApiError
-import com.record.video.model.VideoData
-import com.record.video.model.remote.response.toCore
-import com.record.video.model.remote.response.toDomain
-import com.record.video.source.local.LocalUserInfoDataSource
-import com.record.video.source.remote.RemoteVideoDataSource
+import com.viskit.common.util.toUTF8
+import com.viskit.model.Cursor
+import com.viskit.model.Page
+import com.viskit.model.exception.ApiError
+import com.viskit.video.model.VideoData
+import com.viskit.video.model.remote.response.toCore
+import com.viskit.video.model.remote.response.toDomain
+import com.viskit.video.source.local.LocalUserInfoDataSource
+import com.viskit.video.source.remote.RemoteVideoDataSource
 import retrofit2.HttpException
 import javax.inject.Inject
 

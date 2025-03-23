@@ -1,6 +1,6 @@
 package com.viskit.video
 
-import com.record.common.util.ProgressListener
+import com.viskit.common.util.ProgressListener
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.BufferedSink

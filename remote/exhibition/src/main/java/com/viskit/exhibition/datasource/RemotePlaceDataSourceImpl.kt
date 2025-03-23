@@ -5,7 +5,7 @@ import com.example.exhibition.model.remote.response.ResponseGetPagingPlaceDto
 import com.example.exhibition.model.remote.response.ResponseGetPlaceDto
 import com.example.exhibition.model.remote.response.ResponseGetReviewsDto
 import com.example.exhibition.source.remote.RemotePlaceDataSource
-import com.record.exhibition.api.PlaceApi
+import com.viskit.exhibition.api.PlaceApi
 import javax.inject.Inject
 
 class RemotePlaceDataSourceImpl @Inject constructor(

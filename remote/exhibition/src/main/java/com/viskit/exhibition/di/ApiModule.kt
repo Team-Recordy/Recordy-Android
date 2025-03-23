@@ -1,9 +1,9 @@
 package com.viskit.exhibition.di
 
-import com.record.exhibition.api.ExhibitionApi
-import com.record.exhibition.api.PlaceApi
-import com.record.exhibition.api.SearchApi
-import com.record.network.di.Auth
+import com.viskit.exhibition.api.ExhibitionApi
+import com.viskit.exhibition.api.PlaceApi
+import com.viskit.exhibition.api.SearchApi
+import com.viskit.network.di.Auth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

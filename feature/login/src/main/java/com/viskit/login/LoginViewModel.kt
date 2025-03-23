@@ -2,11 +2,11 @@ package com.viskit.login
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.record.model.AuthEntity
-import com.record.model.exception.ApiError
-import com.record.ui.base.BaseViewModel
-import com.record.user.repository.UserRepository
-import com.recordy.auth.repository.AuthRepository
+import com.viskit.model.AuthEntity
+import com.viskit.model.exception.ApiError
+import com.viskit.ui.base.BaseViewModel
+import com.viskit.user.repository.UserRepository
+import com.viskit.auth.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

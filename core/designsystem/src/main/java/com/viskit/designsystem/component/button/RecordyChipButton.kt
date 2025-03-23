@@ -17,14 +17,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.theme.Black
-import com.record.designsystem.theme.Gray01
-import com.record.designsystem.theme.Gray03
-import com.record.designsystem.theme.Gray08
-import com.record.designsystem.theme.Gray09
-import com.record.designsystem.theme.RecordyTheme
-import com.record.designsystem.theme.ViskitYellow500
-import com.record.ui.extension.customClickable
+import com.viskit.designsystem.theme.Black
+import com.viskit.designsystem.theme.Gray01
+import com.viskit.designsystem.theme.Gray03
+import com.viskit.designsystem.theme.Gray08
+import com.viskit.designsystem.theme.Gray09
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.designsystem.theme.ViskitYellow500
+import com.viskit.ui.extension.customClickable
 import timber.log.Timber
 
 /**

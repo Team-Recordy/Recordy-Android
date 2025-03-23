@@ -2,11 +2,11 @@ package com.viskit.mypage
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.record.model.VideoType
-import com.record.model.exception.ApiError
-import com.record.ui.base.BaseViewModel
-import com.record.user.repository.UserRepository
-import com.record.video.repository.VideoRepository
+import com.viskit.model.VideoType
+import com.viskit.model.exception.ApiError
+import com.viskit.ui.base.BaseViewModel
+import com.viskit.user.repository.UserRepository
+import com.viskit.video.repository.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.async

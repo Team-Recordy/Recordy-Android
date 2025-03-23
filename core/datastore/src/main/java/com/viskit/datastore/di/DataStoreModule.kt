@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import com.record.datastore.token.AuthToken
-import com.record.datastore.token.TokenDataSerializer
-import com.record.datastore.user.UserData
-import com.record.datastore.user.UserDataSerializer
+import com.viskit.datastore.token.AuthToken
+import com.viskit.datastore.token.TokenDataSerializer
+import com.viskit.datastore.user.UserData
+import com.viskit.datastore.user.UserDataSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

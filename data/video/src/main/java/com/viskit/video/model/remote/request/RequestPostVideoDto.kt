@@ -1,7 +1,7 @@
 package com.viskit.video.model.remote.request
 
-import com.record.upload.model.VideoInfo
-import com.record.video.model.remote.response.FileUrl
+import com.viskit.upload.model.VideoInfo
+import com.viskit.video.model.remote.response.FileUrl
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

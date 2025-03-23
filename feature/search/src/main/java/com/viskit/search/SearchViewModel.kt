@@ -1,8 +1,8 @@
 package com.viskit.search
 
 import androidx.lifecycle.viewModelScope
-import com.record.exhibition.repository.SearchRepository
-import com.record.ui.base.BaseViewModel
+import com.viskit.exhibition.repository.SearchRepository
+import com.viskit.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest

@@ -42,15 +42,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.record.designsystem.R
-import com.record.designsystem.component.searchcomponent.SearchBox
-import com.record.designsystem.component.searchcomponent.SearchedContainerBtn
-import com.record.designsystem.component.searchcomponent.SearchingContainerBtn
-import com.record.designsystem.theme.RecordyTheme
-import com.record.exhibition.model.ResultType
-import com.record.exhibition.model.SearchResult
-import com.record.ui.extension.customClickable
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.viskit.designsystem.R
+import com.viskit.designsystem.component.searchcomponent.SearchBox
+import com.viskit.designsystem.component.searchcomponent.SearchedContainerBtn
+import com.viskit.designsystem.component.searchcomponent.SearchingContainerBtn
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.exhibition.model.ResultType
+import com.viskit.exhibition.model.SearchResult
+import com.viskit.ui.extension.customClickable
+import com.viskit.ui.lifecycle.LaunchedEffectWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

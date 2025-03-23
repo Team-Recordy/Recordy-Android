@@ -1,7 +1,7 @@
 package com.viskit.user.di
 
-import com.record.user.datasource.RemoteUserDataSourceImpl
-import com.record.user.source.remote.RemoteUserDataSource
+import com.viskit.user.datasource.RemoteUserDataSourceImpl
+import com.viskit.user.source.remote.RemoteUserDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

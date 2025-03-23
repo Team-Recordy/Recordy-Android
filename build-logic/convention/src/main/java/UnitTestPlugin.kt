@@ -1,7 +1,7 @@
 import com.android.build.api.dsl.LibraryExtension
-import com.record.convention.extension.getLibrary
-import com.record.convention.extension.libs
-import com.record.convention.extension.testImplementation
+import com.viskit.convention.extension.getLibrary
+import com.viskit.convention.extension.libs
+import com.viskit.convention.extension.testImplementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

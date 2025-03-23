@@ -1,7 +1,7 @@
 package com.viskit.user.di
 
-import com.record.network.di.Auth
-import com.record.user.api.UserApi
+import com.viskit.network.di.Auth
+import com.viskit.user.api.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

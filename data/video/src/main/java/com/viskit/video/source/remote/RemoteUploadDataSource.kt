@@ -1,8 +1,8 @@
 package com.viskit.video.source.remote
 
-import com.record.common.util.ProgressListener
+import com.viskit.common.util.ProgressListener
 import com.viskit.video.model.remote.request.RequestPostVideoDto
-import com.record.video.model.remote.response.ResponseGetPresignedUrlDto
+import com.viskit.video.model.remote.response.ResponseGetPresignedUrlDto
 import java.io.File
 
 interface RemoteUploadDataSource {

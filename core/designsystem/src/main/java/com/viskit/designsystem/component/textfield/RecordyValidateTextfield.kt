@@ -31,8 +31,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.theme.RecordyTheme
-import com.record.model.ValidateResult
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.model.ValidateResult
 
 @Composable
 fun RecordyValidateTextfield(

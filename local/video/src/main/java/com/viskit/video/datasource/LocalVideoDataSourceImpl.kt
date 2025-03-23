@@ -9,8 +9,8 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import androidx.core.os.bundleOf
-import com.record.video.model.local.LocalImageInfo
-import com.record.video.source.local.LocalVideoDataSource
+import com.viskit.video.model.local.LocalImageInfo
+import com.viskit.video.source.local.LocalVideoDataSource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers

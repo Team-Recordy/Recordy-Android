@@ -32,12 +32,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.R
-import com.record.designsystem.component.videoplayer.BottomSheetNavigation
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.extension.customClickable
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
-import com.record.video.model.ReportReason
+import com.viskit.designsystem.R
+import com.viskit.designsystem.component.videoplayer.BottomSheetNavigation
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.extension.customClickable
+import com.viskit.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.viskit.video.model.ReportReason
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

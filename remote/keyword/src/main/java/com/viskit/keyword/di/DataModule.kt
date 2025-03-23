@@ -1,7 +1,7 @@
 package com.viskit.keyword.di
 
-import com.record.keyword.source.RemoteKeywordDataSource
-import com.record.keyword.source.RemoteKeywordDataSourceImpl
+import com.viskit.keyword.source.RemoteKeywordDataSource
+import com.viskit.keyword.source.RemoteKeywordDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

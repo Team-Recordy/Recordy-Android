@@ -16,7 +16,7 @@ data class VideoData(
     val isMine: Boolean,
 )
 
-fun VideoData.toCore() = com.record.model.VideoData(
+fun VideoData.toCore() = com.viskit.model.VideoData(
     bookmarkCount = this.bookmarkCount,
     id = this.id,
     isBookmark = this.isBookmark,

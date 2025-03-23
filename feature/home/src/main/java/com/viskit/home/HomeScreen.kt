@@ -42,15 +42,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.record.designsystem.R
-import com.record.designsystem.component.RecordyVideoThumbnail
-import com.record.designsystem.component.dialog.RecordyDialog
-import com.record.designsystem.theme.RecordyTheme
-import com.record.exhibition.model.Place
-import com.record.model.VideoType
-import com.record.ui.extension.customClickable
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
-import com.record.ui.scroll.OnBottomReached
+import com.viskit.designsystem.R
+import com.viskit.designsystem.component.RecordyVideoThumbnail
+import com.viskit.designsystem.component.dialog.RecordyDialog
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.exhibition.model.Place
+import com.viskit.model.VideoType
+import com.viskit.ui.extension.customClickable
+import com.viskit.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.viskit.ui.scroll.OnBottomReached
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collectLatest
 

@@ -1,10 +1,10 @@
 package com.viskit.video.datasource
 
-import com.record.video.api.VideoApi
-import com.record.video.model.remote.response.ResponseGetPagingVideoDto
-import com.record.video.model.remote.response.ResponseGetSliceVideoDto
-import com.record.video.model.remote.response.ResponseGetVideoDto
-import com.record.video.source.remote.RemoteVideoDataSource
+import com.viskit.video.api.VideoApi
+import com.viskit.video.model.remote.response.ResponseGetPagingVideoDto
+import com.viskit.video.model.remote.response.ResponseGetSliceVideoDto
+import com.viskit.video.model.remote.response.ResponseGetVideoDto
+import com.viskit.video.source.remote.RemoteVideoDataSource
 import javax.inject.Inject
 
 class RemoteVideoDataSourceImpl @Inject constructor(

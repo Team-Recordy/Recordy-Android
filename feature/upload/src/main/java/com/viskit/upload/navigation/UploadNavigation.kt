@@ -9,11 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.record.designsystem.component.snackbar.SnackBarType
-import com.record.upload.VideoPickerRoute
-import com.record.upload.addPlace.AddPlaceScreenRoute
-import com.record.upload.confirmplace.ConfirmAddPlaceScreenRoute
-import com.record.upload.searchplace.SearchPlaceScreenRoute
+import com.viskit.designsystem.component.snackbar.SnackBarType
+import com.viskit.upload.VideoPickerRoute
+import com.viskit.upload.addPlace.AddPlaceScreenRoute
+import com.viskit.upload.confirmplace.ConfirmAddPlaceScreenRoute
+import com.viskit.upload.searchplace.SearchPlaceScreenRoute
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 

@@ -1,12 +1,12 @@
 package com.viskit.user.datasource
 
-import com.record.user.api.UserApi
-import com.record.user.model.remote.request.RequestUpdateProfileDto
-import com.record.user.model.remote.response.ResponseGetFollowerListDto
-import com.record.user.model.remote.response.ResponseGetFollowingListDto
-import com.record.user.model.remote.response.ResponseGetUserPreferenceDto
-import com.record.user.model.remote.response.ResponseGetUserProfileDto
-import com.record.user.source.remote.RemoteUserDataSource
+import com.viskit.user.api.UserApi
+import com.viskit.user.model.remote.request.RequestUpdateProfileDto
+import com.viskit.user.model.remote.response.ResponseGetFollowerListDto
+import com.viskit.user.model.remote.response.ResponseGetFollowingListDto
+import com.viskit.user.model.remote.response.ResponseGetUserPreferenceDto
+import com.viskit.user.model.remote.response.ResponseGetUserProfileDto
+import com.viskit.user.source.remote.RemoteUserDataSource
 import javax.inject.Inject
 
 class RemoteUserDataSourceImpl @Inject constructor(

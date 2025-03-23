@@ -1,9 +1,9 @@
 package com.viskit.user.source.remote
 
-import com.record.user.model.remote.response.ResponseGetFollowerListDto
-import com.record.user.model.remote.response.ResponseGetFollowingListDto
-import com.record.user.model.remote.response.ResponseGetUserPreferenceDto
-import com.record.user.model.remote.response.ResponseGetUserProfileDto
+import com.viskit.user.model.remote.response.ResponseGetFollowerListDto
+import com.viskit.user.model.remote.response.ResponseGetFollowingListDto
+import com.viskit.user.model.remote.response.ResponseGetUserPreferenceDto
+import com.viskit.user.model.remote.response.ResponseGetUserProfileDto
 
 interface RemoteUserDataSource {
     suspend fun getFollowingList(

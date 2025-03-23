@@ -28,7 +28,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import com.record.ui.lifecycle.ComposableLifecycle
+import com.viskit.ui.lifecycle.ComposableLifecycle
 
 @UnstableApi
 @Composable

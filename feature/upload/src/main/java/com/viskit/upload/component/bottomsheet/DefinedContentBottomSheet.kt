@@ -21,11 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.R
-import com.record.designsystem.component.bottomsheet.RecordyBottomSheet
-import com.record.designsystem.component.button.RecordyChipButton
-import com.record.designsystem.component.button.RecordyMiddleButton
-import com.record.designsystem.theme.RecordyTheme
+import com.viskit.designsystem.R
+import com.viskit.designsystem.component.bottomsheet.RecordyBottomSheet
+import com.viskit.designsystem.component.button.RecordyChipButton
+import com.viskit.designsystem.component.button.RecordyMiddleButton
+import com.viskit.designsystem.theme.RecordyTheme
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun DefinedContentBottomSheet(

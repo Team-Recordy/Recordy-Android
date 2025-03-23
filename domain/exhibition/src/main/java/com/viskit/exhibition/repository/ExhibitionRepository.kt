@@ -1,10 +1,10 @@
 package com.viskit.exhibition.repository
 
-import com.record.exhibition.model.Exhibition
-import com.record.exhibition.model.ExhibitionFilter
-import com.record.exhibition.model.Place
-import com.record.exhibition.model.PlaceUsingMap
-import com.record.model.Page
+import com.viskit.exhibition.model.Exhibition
+import com.viskit.exhibition.model.ExhibitionFilter
+import com.viskit.exhibition.model.Place
+import com.viskit.exhibition.model.PlaceUsingMap
+import com.viskit.model.Page
 
 interface ExhibitionRepository {
     suspend fun postPlace(usingMap: PlaceUsingMap): Result<Unit>

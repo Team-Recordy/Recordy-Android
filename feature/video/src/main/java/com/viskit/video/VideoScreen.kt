@@ -18,18 +18,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.cache.Cache
-import com.record.designsystem.R
-import com.record.designsystem.component.badge.RecordyExhibitionBadge
-import com.record.designsystem.component.badge.RecordyLocationBadge
-import com.record.designsystem.component.dialog.RecordyDialog
-import com.record.designsystem.component.snackbar.SnackBarType
-import com.record.designsystem.component.videoplayer.RecordyVideoText
-import com.record.designsystem.component.videoplayer.VideoPlayer
-import com.record.ui.extension.customClickable
-import com.record.ui.lifecycle.LaunchedEffectWithLifecycle
-import com.record.ui.scroll.onBottomReached
-import com.record.video.component.ReportBottomSheet
-import com.record.video.component.VideoTypeToggle
+import com.viskit.designsystem.R
+import com.viskit.designsystem.component.badge.RecordyExhibitionBadge
+import com.viskit.designsystem.component.badge.RecordyLocationBadge
+import com.viskit.designsystem.component.dialog.RecordyDialog
+import com.viskit.designsystem.component.snackbar.SnackBarType
+import com.viskit.designsystem.component.videoplayer.RecordyVideoText
+import com.viskit.designsystem.component.videoplayer.VideoPlayer
+import com.viskit.ui.extension.customClickable
+import com.viskit.ui.lifecycle.LaunchedEffectWithLifecycle
+import com.viskit.ui.scroll.onBottomReached
+import com.viskit.video.component.ReportBottomSheet
+import com.viskit.video.component.VideoTypeToggle
 import kotlinx.coroutines.flow.collectLatest
 
 @androidx.annotation.OptIn(UnstableApi::class)

@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.record.designsystem.theme.RecordyTheme
+import com.viskit.designsystem.theme.RecordyTheme
 
 @Composable
 fun RecordyProgressBar(

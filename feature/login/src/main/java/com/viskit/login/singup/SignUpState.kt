@@ -1,8 +1,8 @@
 package com.viskit.login.singup
 
-import com.record.model.ValidateResult
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
+import com.viskit.model.ValidateResult
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
 
 data class SignUpState(
     val allChecked: Boolean = false,

@@ -1,6 +1,6 @@
 package com.viskit.user.model.remote.response
 
-import com.record.user.model.Profile
+import com.viskit.user.model.Profile
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

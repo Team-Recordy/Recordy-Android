@@ -28,16 +28,16 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.record.designsystem.R
-import com.record.designsystem.component.bottomsheet.RecordyBottomSheet
-import com.record.designsystem.component.navbar.TopNavigationBar
-import com.record.designsystem.theme.Background
-import com.record.designsystem.theme.Gray03
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.extension.customClickable
-import com.record.ui.scroll.OnBottomReached
-import com.record.upload.component.VideoThumbnail
-import com.record.upload.model.GalleryImage
+import com.viskit.designsystem.R
+import com.viskit.designsystem.component.bottomsheet.RecordyBottomSheet
+import com.viskit.designsystem.component.navbar.TopNavigationBar
+import com.viskit.designsystem.theme.Background
+import com.viskit.designsystem.theme.Gray03
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.extension.customClickable
+import com.viskit.ui.scroll.OnBottomReached
+import com.viskit.upload.component.VideoThumbnail
+import com.viskit.upload.model.GalleryImage
 import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)

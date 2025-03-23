@@ -1,10 +1,10 @@
 package com.viskit.setting.profileedit
 
-import com.record.model.AlertInfo
-import com.record.model.ValidateResult
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
-import com.record.upload.model.GalleryImage
+import com.viskit.model.AlertInfo
+import com.viskit.model.ValidateResult
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
+import com.viskit.upload.model.GalleryImage
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

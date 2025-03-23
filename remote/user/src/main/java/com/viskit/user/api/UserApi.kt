@@ -1,10 +1,10 @@
 package com.viskit.user.api
 
-import com.record.user.model.remote.request.RequestUpdateProfileDto
-import com.record.user.model.remote.response.ResponseGetFollowerListDto
-import com.record.user.model.remote.response.ResponseGetFollowingListDto
-import com.record.user.model.remote.response.ResponseGetUserPreferenceDto
-import com.record.user.model.remote.response.ResponseGetUserProfileDto
+import com.viskit.user.model.remote.request.RequestUpdateProfileDto
+import com.viskit.user.model.remote.response.ResponseGetFollowerListDto
+import com.viskit.user.model.remote.response.ResponseGetFollowingListDto
+import com.viskit.user.model.remote.response.ResponseGetUserPreferenceDto
+import com.viskit.user.model.remote.response.ResponseGetUserProfileDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH

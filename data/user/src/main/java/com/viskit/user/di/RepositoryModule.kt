@@ -1,7 +1,7 @@
 package com.viskit.user.di
 
-import com.record.user.repository.UserRepository
-import com.record.user.repository.UserRepositoryImpl
+import com.viskit.user.repository.UserRepository
+import com.viskit.user.repository.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,11 +1,11 @@
 package com.viskit.video.di
 
-import com.record.video.datasource.RemoteUploadDataSourceImpl
-import com.record.video.datasource.RemoteVideoCoreDataSourceImpl
-import com.record.video.datasource.RemoteVideoDataSourceImpl
-import com.record.video.source.remote.RemoteUploadDataSource
-import com.record.video.source.remote.RemoteVideoCoreDataSource
-import com.record.video.source.remote.RemoteVideoDataSource
+import com.viskit.video.datasource.RemoteUploadDataSourceImpl
+import com.viskit.video.datasource.RemoteVideoCoreDataSourceImpl
+import com.viskit.video.datasource.RemoteVideoDataSourceImpl
+import com.viskit.video.source.remote.RemoteUploadDataSource
+import com.viskit.video.source.remote.RemoteVideoCoreDataSource
+import com.viskit.video.source.remote.RemoteVideoDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

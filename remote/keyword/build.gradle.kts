@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.keyword"
+    namespace = "com.viskit.keyword"
 }
 
 dependencies {

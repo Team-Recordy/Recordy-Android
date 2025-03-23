@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.record.designsystem.R
-import com.record.designsystem.component.badge.RecordyExhibitionBadge
-import com.record.designsystem.component.icon.ShadowIcon
-import com.record.designsystem.theme.Black
-import com.record.designsystem.theme.RecordyTheme
-import com.record.ui.extension.customClickable
+import com.viskit.designsystem.R
+import com.viskit.designsystem.component.badge.RecordyExhibitionBadge
+import com.viskit.designsystem.component.icon.ShadowIcon
+import com.viskit.designsystem.theme.Black
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.ui.extension.customClickable
 
 @Composable
 fun RecordyVideoThumbnail(

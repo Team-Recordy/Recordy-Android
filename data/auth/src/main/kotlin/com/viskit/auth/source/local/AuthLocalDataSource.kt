@@ -1,6 +1,6 @@
 package com.viskit.auth.source.local
 
-import com.record.datastore.token.AuthToken
+import com.viskit.datastore.token.AuthToken
 import kotlinx.coroutines.flow.Flow
 
 interface AuthLocalDataSource {

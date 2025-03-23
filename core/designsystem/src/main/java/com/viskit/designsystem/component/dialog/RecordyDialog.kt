@@ -20,8 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.record.designsystem.component.button.RecordyButton
-import com.record.designsystem.theme.RecordyTheme
+import com.viskit.designsystem.component.button.RecordyButton
+import com.viskit.designsystem.theme.RecordyTheme
 
 @Composable
 fun RecordyDialog(

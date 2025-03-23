@@ -3,7 +3,7 @@ package com.viskit.exhibition.datasource
 import com.example.exhibition.model.remote.request.RequestPatchExhibitionDto
 import com.example.exhibition.model.remote.request.RequestPostExhibitionDto
 import com.example.exhibition.source.remote.RemoteExhibitionDataSource
-import com.record.exhibition.api.ExhibitionApi
+import com.viskit.exhibition.api.ExhibitionApi
 import javax.inject.Inject
 
 class RemoteExhibitionDataSourceImpl @Inject constructor(

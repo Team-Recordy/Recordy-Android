@@ -1,6 +1,6 @@
 package com.viskit.keyword.repository
 
-import com.record.keyword.model.PreferenceKeyword
+import com.viskit.keyword.model.PreferenceKeyword
 
 interface KeywordRepository {
     suspend fun getKeywords(): Result<PreferenceKeyword>

@@ -1,8 +1,8 @@
 package com.viskit.video.datasource
 
-import com.record.video.api.VideoCoreApi
-import com.record.video.model.remote.request.RequestPostReportDto
-import com.record.video.source.remote.RemoteVideoCoreDataSource
+import com.viskit.video.api.VideoCoreApi
+import com.viskit.video.model.remote.request.RequestPostReportDto
+import com.viskit.video.source.remote.RemoteVideoCoreDataSource
 import javax.inject.Inject
 
 class RemoteVideoCoreDataSourceImpl @Inject constructor(

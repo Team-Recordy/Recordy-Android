@@ -1,11 +1,11 @@
 package com.viskit.upload
 
-import com.record.designsystem.component.snackbar.SnackBarType
-import com.record.model.AlertInfo
-import com.record.ui.base.SideEffect
-import com.record.ui.base.UiState
-import com.record.upload.model.GalleryImage
-import com.record.upload.navigation.UploadRoute
+import com.viskit.designsystem.component.snackbar.SnackBarType
+import com.viskit.model.AlertInfo
+import com.viskit.ui.base.SideEffect
+import com.viskit.ui.base.UiState
+import com.viskit.upload.model.GalleryImage
+import com.viskit.upload.navigation.UploadRoute
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList

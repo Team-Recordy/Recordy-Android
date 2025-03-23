@@ -87,7 +87,9 @@ fun ReportBottomSheet(
                         .background(RecordyTheme.colors.gray10),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    BottomSheetDefaults.DragHandle()
+                    BottomSheetDefaults.DragHandle(
+                        color = RecordyTheme.colors.gray01,
+                    )
                 }
             },
         ) {
@@ -306,7 +308,7 @@ fun ReportTextField(
     modifier: Modifier = Modifier,
     maxCharCount: Int = 30,
     isValidate: Boolean = false,
-    placeholder: String = "신고 사유를 작성해 주세요. (선택)",
+    placeholder: String = "신고 사유를 작성해 주세요.",
     onValueChange: (String) -> Unit,
 ) {
     Column(modifier = modifier.padding(20.dp)) {

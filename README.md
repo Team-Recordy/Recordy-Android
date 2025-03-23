@@ -119,7 +119,7 @@
 **깃 컨벤션:**  [Git Convention](https://bohyunnkim.notion.site/Git-Convention-d384b7b4b6c149009a88ec5409a9c694?pvs=74) </br>
 **코드 컨벤션:**  [Code Convention](https://bohyunnkim.notion.site/Code-Convention-bc2e0e1601554f2792131c3942984dec) </br>
 **브랜치 전략:**  [Branch Strategy](https://bohyunnkim.notion.site/Branch-Strategy-9d989f5c36ca44ffaae40e436056f966) </br></br>
-
+<!--
 ## 👨‍👩‍👧‍👦 파트원 사진
 <img src="https://github.com/user-attachments/assets/8767fb92-248e-4648-804d-2597c3b93d13" alt="img_yoo0_android" width="100%"/></br>
 
@@ -129,7 +129,7 @@
 |:---------:|:---------:|:---------:|:---------:|:---------:|
 |[우상욱](https://github.com/Sangwook123)|[김명석](https://github.com/cacaocoffee)|[이삭](https://github.com/lsakee)|[이나경](https://github.com/nagaeng)|[윤서희](https://github.com/seohee0925)|
 |`홈, 영상`|`로그인, 프로필 수정`|`업로드`|`프로필 기본, 상세`|`팔로우, 검색`|
-
+-->
 
 ## 🪽 의존성 그래프
 <img src="" alt="img_module_graph" width="100%"/></br>

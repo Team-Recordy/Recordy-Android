@@ -92,18 +92,20 @@ fun BookmarkScreen(
                 }
             }
             items(videoItems) { item ->
-                RecordyVideoThumbnail(
-                    imageUri = item.previewUrl,
-                    isBookmarkable = true,
-                    isBookmark = item.isBookmark,
-                    onBookmarkClick = {
-                        onBookmarkClick(item.id)
-                    },
-                    location = item.exhibitionName,
-                    onClick = {
-                        onItemClick(VideoType.BOOKMARK, item.id)
-                    },
-                )
+                if (item.isBookmark) {
+                    RecordyVideoThumbnail(
+                        imageUri = item.previewUrl,
+                        isBookmarkable = true,
+                        isBookmark = item.isBookmark,
+                        onBookmarkClick = {
+                            onBookmarkClick(item.id)
+                        },
+                        location = item.exhibitionName,
+                        onClick = {
+                            onItemClick(VideoType.BOOKMARK, item.id)
+                        },
+                    )
+                }
             }
         }
     }

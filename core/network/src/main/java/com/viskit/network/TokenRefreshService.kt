@@ -15,6 +15,6 @@ interface TokenRefreshService {
 
     @POST("/$API/$VERSION/$USER/$TOKEN")
     suspend fun postAuthRefresh(
-        @Header("refreshToken") refreshToken: String,
-    ): BaseResponse<ResponsePostAuthRefreshDto>
+        @Header("Authorization") refreshToken: String,
+    ): ResponsePostAuthRefreshDto
 }

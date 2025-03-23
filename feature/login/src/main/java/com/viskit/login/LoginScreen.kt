@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -150,15 +151,15 @@ fun SplashScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.weight(1f))
-        Image(
-            painterResource(id = R.drawable.img_viskit_logo),
+        Icon(
+            painter = painterResource(id = R.drawable.ic_viskit_logo),
             null,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 80.dp)
                 .aspectRatio(1f)
                 .alpha(alpha),
-
+            tint = RecordyTheme.colors.viskitYellow500,
         )
         Spacer(modifier = Modifier.height(40.dp))
         Spacer(modifier = Modifier.weight(1.0f))
@@ -196,15 +197,16 @@ fun LoginScreen(
             modifier = Modifier.wrapContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Image(
-                painterResource(id = R.drawable.img_viskit_logo),
+            Icon(
+                painterResource(id = R.drawable.ic_viskit_logo),
                 null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 80.dp)
                     .aspectRatio(1f),
+                tint = RecordyTheme.colors.viskitYellow500,
             )
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(19.dp))
             Text(
                 text = "내가 찾던 공간을 먼저 만나는 곳",
                 modifier = Modifier

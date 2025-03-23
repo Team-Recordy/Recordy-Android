@@ -12,6 +12,7 @@ import com.viskit.mypage.follow.FollowerRoute
 import com.viskit.mypage.follow.FollowingRoute
 
 fun NavController.navigateMypage(navOptions: NavOptions) {
+    popBackStack(MypageRoute.route, inclusive = true)
     navigate(MypageRoute.route, navOptions)
 }
 

@@ -47,7 +47,7 @@ fun UserDataContainer(
         )
         Spacer(modifier = Modifier.weight(1f))
 
-        if (user.nickname != "건우") {
+        if (user.nickname != "비스킷") {
             FollowButton(
                 isFollowing = user.isFollowing,
                 onClick = { onClick(user) },

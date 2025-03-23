@@ -21,6 +21,7 @@ data class ProfileEditState(
     val nicknameValidate: ValidateResult = ValidateResult.Inputting,
     val placeHolder: String = "",
     val btnEnable: Boolean = false,
+    val selectInfo: AlertInfo = AlertInfo(),
 ) : UiState
 
 sealed interface ProfileEditSideEffect : SideEffect {

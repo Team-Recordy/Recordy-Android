@@ -136,7 +136,7 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            if (state.nickname != "유영") {
+            if (state.nickname != "비스킷") {
                 FollowButton(
                     isFollowing = state.isFollowing,
                     onClick = { onFollowClick() },

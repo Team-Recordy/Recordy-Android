@@ -2,6 +2,7 @@ package com.viskit.upload.addPlace
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,6 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -79,6 +82,7 @@ fun AddPlaceScreen(
     popBackStack: () -> Unit,
     navigateToConfirmPlace: (UploadRoute.ConfirmPlace) -> Unit,
 ) {
+    val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     var showSearchedContainer by remember { mutableStateOf(false) }
 
@@ -93,7 +97,11 @@ fun AddPlaceScreen(
     Column(
         modifier = Modifier
             .background(color = RecordyTheme.colors.background)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp).pointerInput(Unit) {
+                detectTapGestures(onPress = {
+                    focusManager.clearFocus()
+                },)
+            },
     ) {
         TopNavigationBar(
             title = "장소 등록",
@@ -293,7 +301,7 @@ fun DefaultSearchUI() {
     }
     Row(modifier = rowModifier) {
         Image(
-            painter = painterResource(id = R.drawable.ic_intro_search_40),
+            painter = painterResource(id = R.drawable.ic_viskit_check_40),
             contentDescription = null,
             modifier = Modifier
                 .wrapContentSize()
@@ -321,7 +329,7 @@ private fun DefaultSearchTexts() {
                 .padding(top = 4.dp),
         ) {
             Text(
-                text = "\'직접 장소를 등록\'",
+                text = "검색하고 \'직접 장소를 등록\'",
                 style = RecordyTheme.typography.subtitle,
                 color = RecordyTheme.colors.viskitYellow300,
             )

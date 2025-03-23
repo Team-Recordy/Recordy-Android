@@ -34,7 +34,10 @@ fun ConfirmAddPlaceScreenRoute(
             when (sideEffect) {
                 is ConfirmPlaceSideEffect.PopBackStack -> popBackStack()
 
-                is ConfirmPlaceSideEffect.NavigateToUpload -> navigateToUpload()
+                is ConfirmPlaceSideEffect.NavigateToUpload -> {
+                    popBackStack()
+                    popBackStack()
+                }
             }
         }
     }

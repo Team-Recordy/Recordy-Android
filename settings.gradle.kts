@@ -23,7 +23,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Recordy"
+rootProject.name = "Viskit"
 include(":app")
 include(":core:common")
 include(":core:buildconfig")

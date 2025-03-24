@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.record.ui"
+    namespace = "com.viskit.ui"
 }

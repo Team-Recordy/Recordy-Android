@@ -1,8 +1,8 @@
-import com.record.convention.Const
-import com.record.convention.extension.getLibrary
-import com.record.convention.extension.getVersion
-import com.record.convention.extension.implementation
-import com.record.convention.extension.libs
+import com.viskit.convention.Const
+import com.viskit.convention.extension.getLibrary
+import com.viskit.convention.extension.getVersion
+import com.viskit.convention.extension.implementation
+import com.viskit.convention.extension.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension

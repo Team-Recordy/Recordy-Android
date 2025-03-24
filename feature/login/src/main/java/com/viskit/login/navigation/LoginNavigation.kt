@@ -1,0 +1,47 @@
+package com.viskit.login.navigation
+
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
+import androidx.navigation.compose.composable
+import com.viskit.login.LoginRoute
+import com.viskit.login.singup.SignUpRoute
+
+fun NavController.navigateLogin(navOptions: NavOptions) {
+    navigate(LoginRoute.route, navOptions)
+}
+
+fun NavGraphBuilder.loginNavGraph(
+    padding: PaddingValues,
+    modifier: Modifier = Modifier,
+    navigateToHome: () -> Unit,
+    navigateToSignUp: () -> Unit,
+    navigateToLogin: () -> Unit,
+) {
+    composable(route = LoginRoute.route) {
+        LoginRoute(
+            padding = padding,
+            modifier = modifier,
+            navigateToHome = navigateToHome,
+            navigateToSignUp = navigateToSignUp,
+        )
+    }
+
+    composable(route = SignupRoute.route) {
+        SignUpRoute(
+            padding = padding,
+            navigateToHome = navigateToHome,
+            navigateLogin = navigateToLogin,
+        )
+    }
+}
+
+object LoginRoute {
+    const val route = "Login"
+}
+
+object SignupRoute {
+    const val route = "Signup"
+}

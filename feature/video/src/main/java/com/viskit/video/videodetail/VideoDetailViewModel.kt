@@ -1,0 +1,254 @@
+package com.viskit.video.videodetail
+
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.cache.Cache
+import com.viskit.model.Cursor
+import com.viskit.model.Page
+import com.viskit.model.VideoType
+import com.viskit.model.exception.ApiError
+import com.viskit.ui.base.BaseViewModel
+import com.viskit.user.repository.UserRepository
+import com.viskit.video.model.VideoData
+import com.viskit.video.navigation.VideoRoute
+import com.viskit.video.repository.VideoCoreRepository
+import com.viskit.video.repository.VideoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+@UnstableApi
+class VideoDetailViewModel
+@Inject constructor(
+    private val videoRepository: VideoRepository,
+    private val videoCoreRepository: VideoCoreRepository,
+    private val userRepository: UserRepository,
+    val simpleCache: Cache,
+    savedStateHandle: SavedStateHandle,
+) : BaseViewModel<VideoDetailState, VideoDetailSideEffect>(VideoDetailState()) {
+    private val videoTypeString = savedStateHandle.get<String>(VideoRoute.VIDEO_TYPE_ARG_NAME)
+    private val videoIdString = savedStateHandle.get<String>(VideoRoute.VIDEO_INDEX)
+    private val userIdString = savedStateHandle.get<String>(VideoRoute.VIDEO_USER_ID)
+    private val placeIdString = savedStateHandle.get<String>(VideoRoute.VIDEO_PLACE_ID)
+    private val videoTypeEnum = videoTypeString?.let { VideoType.valueOf(videoTypeString) }
+    private val videoId = videoIdString?.toLong()
+    private val otherUserId = userIdString?.toLong()
+
+    init {
+        intent {
+            copy(
+                videoType = videoTypeEnum ?: VideoType.MY,
+                observingId = videoId ?: 0,
+                page = 0,
+                cursor = videoId?.plus(1) ?: 0,
+                userId = otherUserId ?: 0,
+                placeId = placeIdString?.toLong() ?: 0L,
+            )
+        }
+        getVideos()
+    }
+
+    fun getVideos() {
+        if (uiState.value.isEnd) return
+        when (uiState.value.videoType) {
+            VideoType.PROFILE -> fetchVideos { getUserVideos() }
+            VideoType.BOOKMARK -> fetchVideos { getBookmarkVideos() }
+            VideoType.MY -> fetchVideos { getMyVideos() }
+            VideoType.PLACE -> fetchVideos { getPlaceVideos() }
+            VideoType.DETAIL -> fetchVideos { getPlaceVideos() }
+        }
+    }
+
+    private inline fun fetchVideos(crossinline fetch: suspend () -> Unit) = viewModelScope.launch {
+        runCatching { fetch() }.onFailure { handleError(it) }
+    }
+
+    private suspend fun getMyVideos() {
+        val videos = uiState.value.videos.toList()
+        videoRepository.getMyVideos(uiState.value.cursor, 10).handleCursorResponse(videos)
+    }
+
+    private suspend fun getUserVideos() {
+        val videos = uiState.value.videos.toList()
+        videoRepository.getUserVideos(uiState.value.userId, uiState.value.cursor, 10).handleCursorResponse(videos)
+    }
+
+    private suspend fun getBookmarkVideos() {
+        val videos = uiState.value.videos.toList()
+        videoRepository.getBookmarkVideos(uiState.value.cursor, 10).handleCursorResponse(videos)
+    }
+
+    private suspend fun getPlaceVideos() {
+        val videos = uiState.value.videos.toList()
+        videoRepository.getPlaceVideos(uiState.value.placeId.toInt(), uiState.value.cursor, 10).handleCursorResponse(videos)
+    }
+
+    private fun Result<Cursor<VideoData>>.handleCursorResponse(existingVideos: List<VideoData>) {
+        onSuccess { response ->
+            val newVideos = (existingVideos + response.data).toImmutableList()
+            intent {
+                copy(videos = newVideos, cursor = response.nextCursor?.toLong() ?: 0)
+            }
+            intent {
+                copy(isEnd = !response.hasNext)
+            }
+        }
+    }
+
+    private fun Result<Page<VideoData>>.handlePageResponse(existingVideos: List<VideoData>) {
+        onSuccess { response ->
+            val newVideos = (existingVideos + response.data).toImmutableList()
+            val observingIndex = newVideos.indexOfFirst { it.id == uiState.value.observingId }
+            intent {
+                copy(videos = newVideos)
+            }
+            intent {
+                copy(isEnd = !response.hasNext)
+            }
+            if (!uiState.value.isInit) {
+                postSideEffect(VideoDetailSideEffect.InitialPagerState(observingIndex))
+                intent {
+                    copy(isInit = true)
+                }
+            }
+        }
+    }
+
+    private fun handleError(throwable: Throwable) {
+        if (throwable is ApiError) {
+            Log.e("에러", throwable.message)
+        }
+    }
+
+    fun bookmark(id: Long) {
+        var originalBookmarkCount = 0
+        var originalIsBookmark = false
+        val videos = uiState.value.videos.toList().map { video ->
+            if (video.id == id) {
+                originalBookmarkCount = video.bookmarkCount
+                originalIsBookmark = video.isBookmark
+                video.copy(
+                    isBookmark = !video.isBookmark,
+                    bookmarkCount = if (originalIsBookmark) originalBookmarkCount - 1 else originalBookmarkCount + 1,
+                )
+            } else {
+                video
+            }
+        }
+        intent {
+            copy(videos = videos.toImmutableList())
+        }
+        viewModelScope.launch {
+            videoRepository.bookmark(id).onSuccess { response ->
+                updateBookmarkStatus(id, response, originalBookmarkCount)
+            }.onFailure {
+                revertBookmarkStatus(id, originalBookmarkCount, originalIsBookmark)
+            }
+        }
+    }
+
+    private fun updateBookmarkStatus(id: Long, response: Boolean, originalBookmarkCount: Int) {
+        val videos = uiState.value.videos.toList().map { video ->
+            if (video.id == id) {
+                video.copy(
+                    isBookmark = response,
+                    bookmarkCount = if (response) originalBookmarkCount + 1 else originalBookmarkCount - 1,
+                )
+            } else {
+                video
+            }
+        }
+        intent {
+            copy(videos = videos.toImmutableList())
+        }
+    }
+
+    private fun revertBookmarkStatus(id: Long, originalBookmarkCount: Int, originalIsBookmark: Boolean) {
+        val videos = uiState.value.videos.toList().map { video ->
+            if (video.id == id) {
+                video.copy(
+                    isBookmark = originalIsBookmark,
+                    bookmarkCount = originalBookmarkCount,
+                )
+            } else {
+                video
+            }
+        }
+        intent {
+            copy(videos = videos.toImmutableList())
+        }
+    }
+
+    fun deleteVideo() = viewModelScope.launch {
+        val id = uiState.value.deleteVideoId
+        dismissDeleteDialog()
+        videoCoreRepository.deleteVideo(id).onSuccess {
+            val videos = uiState.value.videos.filter { it.id != id }.toImmutableList()
+            postSideEffect(VideoDetailSideEffect.MovePage(uiState.value.videos.size - videos.size))
+            intent { copy(videos = videos) }
+            navigateToBack()
+        }.onFailure { handleError(it) }
+    }
+
+    fun reportVideo(id: Long, reason: String, content: String) = viewModelScope.launch {
+        videoCoreRepository.postReport(id, reason, content).onSuccess {
+            val videos = uiState.value.videos.filterNot { it.id == id }.toImmutableList()
+            postSideEffect(VideoDetailSideEffect.MovePage(uiState.value.videos.size - videos.size))
+            intent { copy(videos = videos) }
+            hideReportBottomSheet()
+            postSideEffect(VideoDetailSideEffect.ShowReportSnackbar("정상적으로 신고되었습니다."))
+        }.onFailure {
+            handleError(it)
+        }
+    }
+
+    fun watchVideo(id: Long) = viewModelScope.launch { videoCoreRepository.watchVideo(id) }
+
+    fun showDeleteDialog(id: Long) {
+        intent { copy(showDeleteDialog = true, deleteVideoId = id) }
+    }
+
+    fun dismissDeleteDialog() {
+        intent { copy(showDeleteDialog = false, deleteVideoId = 0) }
+    }
+
+    fun showReportBottomSheet(id: Long, isMine: Boolean) {
+        intent {
+            copy(showReportBottomSheet = true, selectedVideoIsMine = isMine, selectedVideoId = id)
+        }
+    }
+
+    fun hideReportBottomSheet() {
+        intent {
+            copy(showReportBottomSheet = false, selectedVideoIsMine = false)
+        }
+    }
+
+    fun showNetworkErrorSnackbar(msg: String) {
+        postSideEffect(VideoDetailSideEffect.ShowNetworkErrorSnackbar(msg))
+    }
+
+    fun navigateToProfile(id: Long, isMine: Boolean) = viewModelScope.launch {
+        if (isMine && uiState.value.videoType == VideoType.MY) return@launch
+        if (uiState.value.videoType == VideoType.PROFILE) return@launch
+        userRepository.getUserId().onSuccess { userId ->
+            if (userId != id) {
+                postSideEffect(VideoDetailSideEffect.NavigateToUserProfile(id))
+            }
+        }
+    }
+
+    fun navigateToPlaceDetail(id: Long) = viewModelScope.launch {
+        if (uiState.value.videoType != VideoType.DETAIL) {
+            postSideEffect(VideoDetailSideEffect.NavigateToPlaceDetail(id))
+        }
+    }
+
+    fun navigateToBack() {
+        postSideEffect(VideoDetailSideEffect.NavigateToBack)
+    }
+}

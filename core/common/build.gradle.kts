@@ -5,5 +5,5 @@ plugins {
 }
 
 android {
-    namespace = "com.record.common"
+    namespace = "com.viskit.common"
 }

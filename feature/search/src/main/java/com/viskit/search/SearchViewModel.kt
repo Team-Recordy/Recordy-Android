@@ -1,0 +1,40 @@
+package com.viskit.search
+
+import androidx.lifecycle.viewModelScope
+import com.viskit.exhibition.repository.SearchRepository
+import com.viskit.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val searchRepository: SearchRepository,
+) : BaseViewModel<SearchState, SearchSideEffect>(
+    initialState = SearchState(),
+) {
+    init {
+        viewModelScope.launch {
+            uiState.debounce(200).collectLatest {
+                searchRepository.searchExhibition(it.query).onSuccess {
+                    intent {
+                        copy(filteredItems = it.toImmutableList())
+                    }
+                }
+            }
+        }
+    }
+
+    fun navigateToDetail(placeId: Long) {
+        postSideEffect(SearchSideEffect.navigateToDetail(placeId))
+    }
+
+    fun onQueryChanged(newQuery: String) {
+        intent {
+            copy(query = newQuery)
+        }
+    }
+}

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.upload"
+    namespace = "com.viskit.upload"
 }
 
 dependencies {

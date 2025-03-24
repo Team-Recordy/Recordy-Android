@@ -2,10 +2,10 @@ package com.example.exhibition.repository
 
 import com.example.exhibition.model.remote.response.toDomain
 import com.example.exhibition.source.remote.RemoteSearchDataSource
-import com.record.exhibition.model.PlaceUsingMap
-import com.record.exhibition.model.SearchResult
-import com.record.exhibition.repository.SearchRepository
-import com.record.model.exception.ApiError
+import com.viskit.exhibition.model.PlaceUsingMap
+import com.viskit.exhibition.model.SearchResult
+import com.viskit.exhibition.repository.SearchRepository
+import com.viskit.model.exception.ApiError
 import retrofit2.HttpException
 import javax.inject.Inject
 

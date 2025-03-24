@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.detail"
+    namespace = "com.viskit.detail"
 }
 dependencies {
     implementation(projects.domain.video)

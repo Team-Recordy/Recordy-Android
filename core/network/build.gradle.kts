@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.network"
+    namespace = "com.viskit.network"
 }
 
 dependencies {

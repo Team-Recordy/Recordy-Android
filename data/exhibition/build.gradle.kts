@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.exhibition"
+    namespace = "com.viskit.exhibition"
 }
 
 dependencies {

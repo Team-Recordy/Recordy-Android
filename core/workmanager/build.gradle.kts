@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.workmanager"
+    namespace = "com.viskit.workmanager"
 }
 
 dependencies {

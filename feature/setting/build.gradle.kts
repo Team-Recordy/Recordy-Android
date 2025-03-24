@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.setting"
+    namespace = "com.viskit.setting"
 }
 
 dependencies {

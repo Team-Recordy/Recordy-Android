@@ -1,8 +1,8 @@
 package com.example.exhibition.model.remote.response
 
-import com.record.common.util.decodeHtmlEntities
-import com.record.exhibition.model.ResultType
-import com.record.exhibition.model.SearchResult
+import com.viskit.common.util.decodeHtmlEntities
+import com.viskit.exhibition.model.ResultType
+import com.viskit.exhibition.model.SearchResult
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

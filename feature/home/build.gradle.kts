@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.home"
+    namespace = "com.viskit.home"
 }
 
 dependencies {

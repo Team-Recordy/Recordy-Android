@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.profile"
+    namespace = "com.viskit.profile"
 }
 
 dependencies {

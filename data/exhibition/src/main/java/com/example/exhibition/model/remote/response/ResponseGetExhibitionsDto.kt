@@ -1,8 +1,8 @@
 package com.example.exhibition.model.remote.response
 
-import com.record.common.util.decodeHtmlEntities
-import com.record.exhibition.model.Exhibition
-import com.record.exhibition.model.PlaceUsingMap
+import com.viskit.common.util.decodeHtmlEntities
+import com.viskit.exhibition.model.Exhibition
+import com.viskit.exhibition.model.PlaceUsingMap
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

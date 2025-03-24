@@ -1,11 +1,11 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import com.record.convention.configureAndroidCompose
-import com.record.convention.configureKotlinAndroid
-import com.record.convention.extension.getLibrary
-import com.record.convention.extension.getVersion
-import com.record.convention.extension.implementation
-import com.record.convention.extension.libs
+import com.viskit.convention.configureAndroidCompose
+import com.viskit.convention.configureKotlinAndroid
+import com.viskit.convention.extension.getLibrary
+import com.viskit.convention.extension.getVersion
+import com.viskit.convention.extension.implementation
+import com.viskit.convention.extension.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

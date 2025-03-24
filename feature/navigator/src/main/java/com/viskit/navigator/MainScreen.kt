@@ -1,0 +1,285 @@
+package com.viskit.navigator
+
+import android.app.Activity
+import android.os.Build
+import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.viskit.designsystem.component.snackbar.RecordySnackBar
+import com.viskit.designsystem.theme.RecordyTheme
+import com.viskit.detail.navigation.detailNavGraph
+import com.viskit.home.navigation.homeNavGraph
+import com.viskit.login.navigation.loginNavGraph
+import com.viskit.mypage.navigation.mypageNavGraph
+import com.viskit.profile.navigation.profileNavGraph
+import com.viskit.search.navigation.searchNavGraph
+import com.viskit.setting.navigate.settingNavGraph
+import com.viskit.upload.navigation.UploadRouteObject
+import com.viskit.upload.navigation.uploadNavGraph
+import com.viskit.video.navigation.videoNavGraph
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@Composable
+internal fun MainScreen(
+    modifier: Modifier = Modifier,
+    navigator: MainNavigator = rememberMainNavigator(),
+    viewModel: MainViewModel = hiltViewModel(),
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val navBackStackEntry by navigator.navController.currentBackStackEntryAsState()
+    val currentDestination by remember(navBackStackEntry) {
+        derivedStateOf { navBackStackEntry?.destination }
+    }
+
+    LaunchedEffect(Unit) {
+        val intent = (context as Activity).intent
+        val test = intent.getStringExtra("message")
+    }
+
+    Scaffold(
+        modifier = modifier,
+        content = { innerPadding ->
+            NavHost(
+                modifier = modifier
+                    .background(color = RecordyTheme.colors.background)
+                    .fillMaxSize(),
+                navController = navigator.navController,
+                startDestination = navigator.startDestination,
+                enterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
+            ) {
+                loginNavGraph(
+                    padding = innerPadding,
+                    navigateToHome = navigator::navigateHome,
+                    navigateToSignUp = navigator::navigateSignUp,
+                    navigateToLogin = navigator::navigateLogin,
+                )
+
+                homeNavGraph(
+                    padding = innerPadding,
+                    navigateToVideoDetail = navigator::navigateVideoDetail,
+                    navigateToUpload = { navigator.navigateToUpload() },
+                    navigateToPlaceDetail = navigator::navigateDetail,
+                )
+
+                profileNavGraph(
+                    padding = innerPadding,
+                    navigateToVideoDetail = { type, videoId, userId ->
+                        navigator.navigateVideoDetail(
+                            videoType = type,
+                            videoId = videoId,
+                            userId = userId,
+                        )
+                    },
+                )
+
+                uploadNavGraph(
+                    padding = innerPadding,
+                    popBackStack = {
+                        navigator.popBackStackIfNotHome()
+                    },
+                    popBackStackArgument = {
+                        navigator.navController.previousBackStackEntry?.savedStateHandle?.set(
+                            "{${UploadRouteObject.PLACE_ID}}",
+                            it.id.toString(),
+                        )
+                        navigator.navController.previousBackStackEntry?.savedStateHandle?.set(
+                            "{${UploadRouteObject.PLACE_NAME}}",
+                            it.name,
+                        )
+                        navigator.navController.previousBackStackEntry?.savedStateHandle?.set(
+                            "{${UploadRouteObject.PLACE_ADDRESS}}",
+                            it.address,
+                        )
+                        navigator.popBackStackArgument()
+                    },
+                    onShowSnackBar = viewModel::onShowSnackbar,
+                    navigateToSearchPlace = navigator::navigateToSearchPlace,
+                    navigateToUpload = navigator::navigateToUpload,
+                    navigateToAddPlace = navigator::navigateToAddPlace,
+                    navigateToConfirmPlace = navigator::navigateToConfirmPlace,
+                )
+
+                videoNavGraph(
+                    padding = innerPadding,
+                    onShowSnackBar = viewModel::onShowSnackbar,
+                    navigateToMypage = navigator::navigateMypage,
+                    popBackStack = navigator::popBackStackIfNotHome,
+                    navigateToProfile = navigator::navigateProfile,
+                    navigateToPlaceDetail = navigator::navigateDetail,
+                )
+
+                mypageNavGraph(
+                    padding = innerPadding,
+                    navigateToSetting = { navigator.navigateSetting() },
+                    navigateToFollowing = { navigator.navigateToFollowing() },
+                    navigateToFollower = { navigator.navigateToFollower() },
+                    navigateToVideo = navigator::navigateVideoDetail,
+                    navigateToProfile = navigator::navigateProfile,
+                    navigateToUpload = { navigator.navigateToUploadTab() },
+                    navigateToHome = navigator::navigateHome,
+                    navigateVideoHome = navigator::navigateToVideo,
+                )
+
+                settingNavGraph(
+                    padding = innerPadding,
+                    popBackStack = navigator::popBackStackIfNotHome,
+                    navigateToLogin = navigator::navigateLogin,
+                    navigateToProfileEdit = navigator::navigateProfileEdit,
+                    navigateToProfile = navigator::navigateProfile,
+                )
+
+                searchNavGraph(
+                    padding = innerPadding,
+                    navigateToPlaceDetail = navigator::navigateDetail,
+                )
+
+                detailNavGraph(
+                    padding = innerPadding,
+                    navigateToUpload = { navigator.navigateToUploadTab() },
+                    navigateToVideo = navigator::navigateVideoDetail,
+                )
+            }
+            RecordySnackBar(
+                modifier = Modifier.padding(innerPadding),
+                visible = state.snackBarVisible,
+                message = state.snackBarMessage,
+                snackBarType = state.snackBarType,
+                onClick = viewModel::dismissSnackbar,
+            )
+            if (state.isUploading) {
+                /*Text(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(40.dp),
+                    text = state.uploadProgress.toString(),
+                    color = RecordyTheme.colors.white,
+                    style = RecordyTheme.typography.title1,
+                    textAlign = TextAlign.End,
+                )*/
+            }
+        },
+        bottomBar = {
+            MainBottomNavigationBar(
+                visible = navigator.shouldShowBottomBar(),
+                currentTab = navigator.currentTab,
+                entries = MainNavTab.entries.toImmutableList(),
+                onClickItem = navigator::navigate,
+                onClickUpload = navigator::navigateToUploadTab,
+            )
+        },
+    )
+}
+
+@Composable
+private fun MainBottomNavigationBar(
+    visible: Boolean,
+    currentTab: MainNavTab?,
+    entries: ImmutableList<MainNavTab>,
+    onClickItem: (MainNavTab) -> Unit?,
+    onClickUpload: () -> Unit,
+) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(),
+        exit = fadeOut(),
+    ) {
+        Column {
+            HorizontalDivider(
+                thickness = 0.5.dp,
+                color = RecordyTheme.colors.gray06,
+            )
+            Row(
+                modifier = Modifier
+                    .height(72.dp)
+                    .background(color = RecordyTheme.colors.background),
+            ) {
+                entries.forEach { tab ->
+                    tab.run {
+                        if (this == MainNavTab.UPLOAD) {
+                            NavItem(
+                                selected = false,
+                                label = stringResource(id = titleId),
+                                iconId = iconId,
+                                onClick = onClickUpload,
+                            )
+                        } else {
+                            NavItem(
+                                selected = tab == currentTab,
+                                label = stringResource(id = titleId),
+                                iconId = iconId,
+                                onClick = { onClickItem(tab) },
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RowScope.NavItem(
+    modifier: Modifier = Modifier,
+    selected: Boolean,
+    label: String,
+    @DrawableRes iconId: Int,
+    onClick: () -> Unit,
+) {
+    Column(
+        modifier = modifier
+            .weight(1f)
+            .fillMaxHeight()
+            .clickable(enabled = true, onClick = onClick),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Icon(
+            modifier = modifier.padding(bottom = 2.dp),
+            painter = painterResource(id = iconId),
+            contentDescription = label,
+            tint = if (selected) RecordyTheme.colors.viskitYellow500 else RecordyTheme.colors.gray06,
+        )
+        Text(
+            text = label,
+            color = if (selected) RecordyTheme.colors.viskitYellow500 else RecordyTheme.colors.gray06,
+            style = RecordyTheme.typography.caption1R,
+        )
+    }
+}

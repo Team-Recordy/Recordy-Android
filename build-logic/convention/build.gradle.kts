@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "org.record.convention"
+group = "org.viskit.convention"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

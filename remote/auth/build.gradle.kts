@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.recordy.auth"
+    namespace = "com.viskit.auth"
 }
 
 dependencies {

@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.record.navigator"
+    namespace = "com.viskit.navigator"
 }
 
 dependencies {

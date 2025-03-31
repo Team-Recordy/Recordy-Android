@@ -34,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.amplitude.android.Amplitude
 import com.viskit.designsystem.R
 import com.viskit.designsystem.component.button.BasicButton
 import com.viskit.designsystem.component.navbar.TopNavigationBar
@@ -76,6 +77,7 @@ fun SearchPlaceScreenRoute(
         popBackStackArgument = viewModel::popBackStackArgument,
         navigateToAddPlace = viewModel::navigateToAddPlaceScreen,
         popBackStack = viewModel::popBackStack,
+        amplitude = viewModel::amplitudeTrack,
     )
 }
 
@@ -87,6 +89,7 @@ fun SearchPlaceScreen(
     popBackStackArgument: (UploadRoute.Upload) -> Unit,
     navigateToAddPlace: () -> Unit,
     popBackStack: () -> Unit,
+    amplitude: (String, Any?) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -97,9 +100,11 @@ fun SearchPlaceScreen(
             .background(color = RecordyTheme.colors.background)
             .padding(horizontal = 16.dp)
             .pointerInput(Unit) {
-                detectTapGestures(onPress = {
-                    focusManager.clearFocus()
-                },)
+                detectTapGestures(
+                    onPress = {
+                        focusManager.clearFocus()
+                    },
+                )
             },
     ) {
         TopNavigationBar(
@@ -107,7 +112,10 @@ fun SearchPlaceScreen(
             title = "장소",
             enableGradation = true,
             popBackStackEnable = true,
-            popBackStack = popBackStack,
+            popBackStack = {
+                amplitude("cancel_place?", true)
+                popBackStack()
+            },
         )
 
         SearchBoxSection(
@@ -130,7 +138,10 @@ fun SearchPlaceScreen(
             query = uiState.query,
             items = uiState.filteredItems,
             modifier = modifier,
-            navigateToAddPlace = navigateToAddPlace,
+            navigateToAddPlace = {
+                amplitude("register_place?", true)
+                navigateToAddPlace()
+            },
             popBackStackArgument = popBackStackArgument,
         )
     }
@@ -171,6 +182,7 @@ fun SearchResultSection(
                 navigateToAddPlace = navigateToAddPlace,
             )
         }
+
         query.isNotEmpty() -> {
             if (items.isEmpty()) {
                 EmptySearchResult(onButtonClick = navigateToAddPlace)

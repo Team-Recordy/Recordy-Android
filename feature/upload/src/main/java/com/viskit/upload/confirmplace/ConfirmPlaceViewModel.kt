@@ -3,6 +3,7 @@ package com.viskit.upload.confirmplace
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.amplitude.android.Amplitude
 import com.viskit.exhibition.model.PlaceUsingMap
 import com.viskit.exhibition.repository.ExhibitionRepository
 import com.viskit.model.AlertInfo
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ConfirmPlaceViewModel @Inject constructor(
     private val exhibitionRepository: ExhibitionRepository,
+    private val amplitude: Amplitude,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<ConfirmPlaceState, ConfirmPlaceSideEffect>(
     initialState = ConfirmPlaceState(),
@@ -28,6 +30,7 @@ class ConfirmPlaceViewModel @Inject constructor(
     fun upload() = viewModelScope.launch {
         exhibitionRepository.postPlace(uiState.value.place)
     }
+
     fun setPlace() {
         intent {
             copy(
@@ -41,6 +44,7 @@ class ConfirmPlaceViewModel @Inject constructor(
             )
         }
     }
+
     fun showUploadPlaceDialog() = intent {
         copy(
             alertInfo = AlertInfo(
@@ -52,6 +56,7 @@ class ConfirmPlaceViewModel @Inject constructor(
             ),
         )
     }
+
     fun hideUploadDialog() = intent {
         copy(
             alertInfo = AlertInfo(
@@ -59,10 +64,16 @@ class ConfirmPlaceViewModel @Inject constructor(
             ),
         )
     }
+
     fun popBackStack() {
         postSideEffect(ConfirmPlaceSideEffect.PopBackStack)
     }
+
     fun navigateToUpload() {
         postSideEffect(ConfirmPlaceSideEffect.NavigateToUpload)
+    }
+
+    fun amplitudeTrack(name: String, value: Any?) {
+        amplitude.track("Upload", mutableMapOf(name to value))
     }
 }

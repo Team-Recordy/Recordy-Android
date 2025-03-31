@@ -91,6 +91,7 @@ fun DetailRoute(
             onChipSelected = viewModel::selectChip,
             onBottomSheetDismiss = viewModel::hideReviewBottomSheet,
             onClickReviewButton = viewModel::showReviewBottomSheet,
+            amplitudeTrack = viewModel::amplitude,
         )
     }
 }
@@ -107,6 +108,7 @@ fun DetailpageScreen(
     onChipSelected: (ChipTab) -> Unit,
     onBottomSheetDismiss: () -> Unit,
     onClickReviewButton: () -> Unit,
+    amplitudeTrack: (String, String, Any?) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.detailpageTab.ordinal,
@@ -160,7 +162,10 @@ fun DetailpageScreen(
                                 textColor = RecordyTheme.colors.background,
                                 backgroundColor = RecordyTheme.colors.gray01,
                                 shape = RoundedCornerShape(8.dp),
-                                onClick = { navigateToMapApps(context = context, placeName = state.placeName) },
+                                onClick = {
+                                    amplitudeTrack("Main_menu", "click_detail_navigation?", true)
+                                    navigateToMapApps(context = context, placeName = state.placeName)
+                                },
                                 padding = PaddingValues(vertical = 8.dp),
                                 modifier = Modifier.width(75.dp),
                             )
@@ -205,6 +210,7 @@ fun DetailpageScreen(
                         }
 
                         DetailpageTab.REVIEW.ordinal -> {
+                            amplitudeTrack("Main_menu", "click_detail_video?", true)
                             ReviewScreen(
                                 videoItems = state.reviewList,
                                 reviewCount = state.reviewVideoCount,
@@ -314,6 +320,7 @@ fun CustomTabRow(
 }
 
 fun navigateToMapApps(context: Context, placeName: String) {
+
     val packageNameMap = mapOf(
         "kakaoMap" to "net.daum.android.map",
         "naverMap" to "com.nhn.android.nmap",

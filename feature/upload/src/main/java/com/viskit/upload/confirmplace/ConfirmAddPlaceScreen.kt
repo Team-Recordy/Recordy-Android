@@ -14,7 +14,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.amplitude.android.Amplitude
 import com.viskit.designsystem.component.button.RecordyButton
 import com.viskit.designsystem.component.dialog.RecordyDialog
 import com.viskit.designsystem.component.navbar.TopNavigationBar

@@ -164,7 +164,7 @@ class MypageViewModel @Inject constructor(
                 myBookmarkList = updatedMyBookmarkList.toImmutableList(),
             )
         }
-        amplitudeTrack("cancel_bookmark_button?",true)
+        amplitudeTrack("cancel_bookmark_button?", true)
         viewModelScope.launch {
             videoRepository.bookmark(id).onSuccess {
                 val updatedMyRecordList = uiState.value.myRecordList.map { video ->

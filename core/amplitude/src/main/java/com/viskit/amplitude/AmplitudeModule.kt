@@ -18,7 +18,7 @@ object AmplitudeModule {
     fun provideAmplitude(application: Application): Amplitude {
         val configuration = com.amplitude.android.Configuration(
             apiKey = BuildConfig.AMPLITUDE_KEY,
-            context = application.applicationContext
+            context = application.applicationContext,
         )
         return Amplitude(configuration)
     }

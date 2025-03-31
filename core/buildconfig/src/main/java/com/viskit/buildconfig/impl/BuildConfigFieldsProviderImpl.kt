@@ -14,6 +14,6 @@ class BuildConfigFieldsProviderImpl @Inject constructor() : BuildConfigFieldProv
             baseUrl = BASE_URL,
             kakaoNativeKey = KAKAO_NATIVE_KEY,
             isDebug = DEBUG,
-            amplitudeKey = AMPLITUDE_KEY
+            amplitudeKey = AMPLITUDE_KEY,
         )
 }

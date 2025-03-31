@@ -34,7 +34,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.amplitude.android.Amplitude
 import com.viskit.designsystem.R
 import com.viskit.designsystem.component.button.BasicButton
 import com.viskit.designsystem.component.navbar.TopNavigationBar

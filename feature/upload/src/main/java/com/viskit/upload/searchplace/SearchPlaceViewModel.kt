@@ -47,7 +47,7 @@ class SearchPlaceViewModel @Inject constructor(
         postSideEffect(SearchSideEffect.PopBackStackArgument(place))
     }
 
-    fun amplitudeTrack(name:String, value: Any?){
+    fun amplitudeTrack(name: String, value: Any?) {
         amplitude.track("Upload", mutableMapOf(name to value))
     }
 }

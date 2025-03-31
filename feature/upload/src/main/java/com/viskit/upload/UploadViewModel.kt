@@ -153,7 +153,7 @@ class UploadViewModel @Inject constructor(
         postSideEffect(UploadSideEffect.ShowSnackBar("기준에 맞는 영상을 선택해 주세요.", SnackBarType.WARNING))
     }
 
-    fun amplitudeTrack(name:String , value:Any?){
+    fun amplitudeTrack(name: String, value: Any?) {
         amplitude.track("Upload", mutableMapOf(name to value))
     }
 }

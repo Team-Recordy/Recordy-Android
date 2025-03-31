@@ -320,7 +320,6 @@ fun CustomTabRow(
 }
 
 fun navigateToMapApps(context: Context, placeName: String) {
-
     val packageNameMap = mapOf(
         "kakaoMap" to "net.daum.android.map",
         "naverMap" to "com.nhn.android.nmap",

@@ -277,7 +277,7 @@ fun SettingButton(
             .height(48.dp),
         verticalAlignment = Alignment.CenterVertically,
 
-        ) {
+    ) {
         Text(
             text = text,
             modifier = modifier

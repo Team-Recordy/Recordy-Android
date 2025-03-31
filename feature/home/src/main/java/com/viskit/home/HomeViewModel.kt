@@ -2,6 +2,7 @@ package com.viskit.home
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.amplitude.android.Amplitude
 import com.viskit.exhibition.model.Place
 import com.viskit.exhibition.repository.ExhibitionRepository
 import com.viskit.model.VideoType
@@ -11,19 +12,23 @@ import com.viskit.video.repository.VideoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import java.lang.Boolean.TRUE
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val videoRepository: VideoRepository,
     private val exhibitionRepository: ExhibitionRepository,
+    private val amplitude: Amplitude,
 ) : BaseViewModel<HomeState, HomeSideEffect>(HomeState()) {
 
     fun navigateToVideo(videoType: VideoType, id: Long, videoId: Long) {
+        amplitude.track("Main_menu", mutableMapOf<String, Any?>("click_home_video?" to TRUE))
         postSideEffect(HomeSideEffect.navigateToVideo(videoType, id, videoId))
     }
 
     fun navigateToDetail(placeId: Long) {
+        amplitude.track("Main_menu", mutableMapOf<String, Any?>("click_home_more?" to TRUE))
         postSideEffect(HomeSideEffect.navigateToDetail(placeId))
     }
 
@@ -178,6 +183,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateLocationSelected() {
+        amplitude.track("Main_menu", mutableMapOf<String, Any?>("click_home_place_update?" to TRUE))
         viewModelScope.launch {
             intent {
                 copy(

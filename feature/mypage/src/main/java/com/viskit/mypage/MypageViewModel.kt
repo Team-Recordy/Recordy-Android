@@ -2,6 +2,7 @@ package com.viskit.mypage
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.amplitude.android.Amplitude
 import com.viskit.model.VideoType
 import com.viskit.model.exception.ApiError
 import com.viskit.ui.base.BaseViewModel
@@ -16,9 +17,11 @@ import javax.inject.Inject
 class MypageViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val videoRepository: VideoRepository,
+    private val amplitude: Amplitude,
 ) : BaseViewModel<MypageState, MypageSideEffect>(MypageState()) {
 
     fun selectTab(tab: MypageTab) {
+        if (tab == MypageTab.BOOKMARK) amplitudeTrack("click_bookmark_tab?", true)
         intent {
             copy(mypageTab = tab)
         }
@@ -29,10 +32,12 @@ class MypageViewModel @Inject constructor(
     }
 
     fun navigateToFollowing() {
+        amplitudeTrack("click_following_button?", true)
         postSideEffect(MypageSideEffect.NavigateToFollowing)
     }
 
     fun navigateToFollower() {
+        amplitudeTrack("click_follower_button?", true)
         postSideEffect(MypageSideEffect.NavigateToFollower)
     }
 
@@ -63,6 +68,7 @@ class MypageViewModel @Inject constructor(
             }
         }
     }
+
     fun initialData() = viewModelScope.launch {
         getInitialMyVideos()
         getInitialBookMark()
@@ -97,6 +103,7 @@ class MypageViewModel @Inject constructor(
         .onFailure { error ->
             Log.e("오류 발생", error.message.toString())
         }
+
     fun loadMoreUserVideos() = viewModelScope.launch {
         val list = uiState.value.myRecordList.toList()
         if (uiState.value.recordIsEnd) return@launch
@@ -156,6 +163,7 @@ class MypageViewModel @Inject constructor(
                 myBookmarkList = updatedMyBookmarkList.toImmutableList(),
             )
         }
+        amplitudeTrack("cancel_bookmark_button?",true)
         viewModelScope.launch {
             videoRepository.bookmark(id).onSuccess {
                 val updatedMyRecordList = uiState.value.myRecordList.map { video ->
@@ -183,5 +191,9 @@ class MypageViewModel @Inject constructor(
             }.onFailure {
             }
         }
+    }
+
+    fun amplitudeTrack(name: String, value: Any?) {
+        amplitude.track("Profile", mutableMapOf(name to value))
     }
 }

@@ -183,7 +183,7 @@ class VideoViewModel
         postSideEffect(VideoSideEffect.NavigateToPlaceDetail(id))
     }
 
-    fun amplitudeTrack(name: String, value: Any?) {
+    private fun amplitudeTrack(name: String, value: Any?) {
         amplitude.track("Video", mutableMapOf(name to value))
     }
 }

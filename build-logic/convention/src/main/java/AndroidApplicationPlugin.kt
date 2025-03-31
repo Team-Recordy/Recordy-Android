@@ -26,6 +26,7 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
                     versionCode = libs.getVersion("versionCode").requiredVersion.toInt()
                     versionName = libs.getVersion("versionName").requiredVersion
                     manifestPlaceholders["KAKAO_NATIVE_KEY"] = gradleLocalProperties(rootDir, providers).getProperty("kakaoNativeKey")
+                    manifestPlaceholders["AMPLITUDE_KEY"] = gradleLocalProperties(rootDir,providers).getProperty("amplitudeKey")
                 }
             }
 

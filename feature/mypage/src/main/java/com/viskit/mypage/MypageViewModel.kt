@@ -42,6 +42,7 @@ class MypageViewModel @Inject constructor(
     }
 
     fun navigateToVideoDetail(type: VideoType, videoId: Long) {
+        amplitudeTrack("click_bookmark_tab_video?", true)
         postSideEffect(MypageSideEffect.NavigateToVideoDetail(type, videoId))
     }
 

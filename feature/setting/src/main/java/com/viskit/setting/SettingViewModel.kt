@@ -1,6 +1,7 @@
 package com.viskit.setting
 
 import androidx.lifecycle.viewModelScope
+import com.amplitude.android.Amplitude
 import com.viskit.auth.repository.AuthRepository
 import com.viskit.model.AuthEntity
 import com.viskit.ui.base.BaseViewModel
@@ -11,6 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val amplitude: Amplitude,
 ) : BaseViewModel<SettingState, SettingSideEffect>(SettingState()) {
 
     private fun showDialog() {
@@ -45,6 +47,7 @@ class SettingViewModel @Inject constructor(
     }
 
     fun logout() {
+        amplitudeTrack("click_popup_logout_button?", true)
         intent {
             copy(dialog = SettingDialog.LOGOUT)
         }
@@ -58,6 +61,7 @@ class SettingViewModel @Inject constructor(
     }
 
     fun delete() {
+        amplitudeTrack("click_popup_withdraw_button?", true)
         intent {
             copy(dialog = SettingDialog.DELETE)
         }
@@ -78,5 +82,9 @@ class SettingViewModel @Inject constructor(
             postSideEffect(SettingSideEffect.Restart)
         }
         dismissDialog()
+    }
+
+    fun amplitudeTrack(name: String, value: Any?) {
+        amplitude.track("Setting", mutableMapOf(name to value))
     }
 }

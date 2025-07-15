@@ -26,10 +26,12 @@ jobs:
                 env:
                     BASE_URL: ${{ secrets.BASE_URL }}
                     KAKAO_NATIVE_KEY: ${{ secrets.KAKAO_NATIVE_KEY }}
+                    AMPLITUDE_KEY: ${{ secrets.AMPLITUDE_KEY }}
                 run: |
                     echo base.url=\"$BASE_URL\" >> ./local.properties
                     echo kakao.native.key=\"KAKAO_NATIVE_KEY\" >> ./local.properties
                     echo kakaoNativeKey=\"$KAKAO_NATIVE_KEY\" >> ./local.properties
+                    echo amplitudeKey=\"AMPLITUDE_KEY\" >> ./local.properties
 
             -   name: Run ktlint
                 run: ./gradlew ktlintCheck

@@ -111,6 +111,7 @@ fun MypageRoute(
             onBookmarkClick = viewModel::bookmark,
             navigateToUpload = navigateToUplaod,
             navigateVideoHome = navigateVideoHome,
+            amplitudeTrack = viewModel::amplitudeTrack,
         )
     }
 }
@@ -128,6 +129,7 @@ fun MypageScreen(
     onLoadMoreBookmarks: () -> Unit,
     navigateVideoHome: () -> Unit,
     onBookmarkClick: (Long) -> Unit,
+    amplitudeTrack: (String, Any?) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = state.mypageTab.ordinal,
@@ -159,7 +161,8 @@ fun MypageScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(
-            modifier = Modifier.fillMaxHeight()
+            modifier = Modifier
+                .fillMaxHeight()
                 .background(RecordyTheme.colors.background),
         ) {
             Box(
@@ -219,7 +222,10 @@ fun MypageScreen(
                             onItemClick = navigateToVideo,
                             onLoadMore = onLoadMoreRecords,
                             onBookmarkClick = onBookmarkClick,
-                            navigateToUpload = navigateToUpload,
+                            navigateToUpload = {
+                                amplitudeTrack("click_record_tab_upload?", true)
+                                navigateToUpload()
+                            },
                         )
                     }
 

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.cache.Cache
+import com.amplitude.android.Amplitude
 import com.viskit.model.exception.ApiError
 import com.viskit.ui.base.BaseViewModel
 import com.viskit.user.repository.UserRepository
@@ -23,6 +24,7 @@ class VideoViewModel
     private val videoCoreRepository: VideoCoreRepository,
     private val userRepository: UserRepository,
     val simpleCache: Cache,
+    val amplitude: Amplitude,
 ) : BaseViewModel<VideoState, VideoSideEffect>(VideoState()) {
 
     init {
@@ -38,6 +40,7 @@ class VideoViewModel
         intent {
             copy(isAll = !isAll)
         }
+        amplitudeTrack("click_following_toggle?", true)
     }
 
     private fun List<VideoData>.updateVideo(id: Long, update: (VideoData) -> VideoData): List<VideoData> {
@@ -80,6 +83,7 @@ class VideoViewModel
     }
 
     fun bookmark(id: Long) {
+        amplitudeTrack("click_bookmark_button?", true)
         val toggleBookmark: (VideoData) -> VideoData = { video ->
             video.copy(
                 isBookmark = !video.isBookmark,
@@ -165,7 +169,9 @@ class VideoViewModel
     }
 
     fun navigateToProfile(id: Long) = viewModelScope.launch {
+        amplitudeTrack("click_user_nickname?", true)
         userRepository.getUserId().onSuccess { userId ->
+
             if (userId != id) {
                 postSideEffect(VideoSideEffect.NavigateToUserProfile(id))
             }
@@ -173,6 +179,11 @@ class VideoViewModel
     }
 
     fun navigateToPlaceDetail(id: Long) = viewModelScope.launch {
+        amplitudeTrack("click_exhibition_name_button?", true)
         postSideEffect(VideoSideEffect.NavigateToPlaceDetail(id))
+    }
+
+    private fun amplitudeTrack(name: String, value: Any?) {
+        amplitude.track("Video", mutableMapOf(name to value))
     }
 }

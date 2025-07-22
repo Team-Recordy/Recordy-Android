@@ -1,6 +1,7 @@
 package com.viskit.upload.searchplace
 
 import androidx.lifecycle.viewModelScope
+import com.amplitude.android.Amplitude
 import com.viskit.exhibition.repository.SearchRepository
 import com.viskit.ui.base.BaseViewModel
 import com.viskit.upload.navigation.UploadRoute
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchPlaceViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
+    private val amplitude: Amplitude,
 ) : BaseViewModel<SearchState, SearchSideEffect>(
     initialState = SearchState(),
 ) {
@@ -43,5 +45,9 @@ class SearchPlaceViewModel @Inject constructor(
     }
     fun popBackStackArgument(place: UploadRoute.Upload) {
         postSideEffect(SearchSideEffect.PopBackStackArgument(place))
+    }
+
+    fun amplitudeTrack(name: String, value: Any?) {
+        amplitude.track("Upload", mutableMapOf(name to value))
     }
 }

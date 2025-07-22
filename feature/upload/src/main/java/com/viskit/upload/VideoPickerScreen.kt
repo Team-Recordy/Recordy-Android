@@ -153,6 +153,7 @@ fun VideoPickerRoute(
         onClickBackStack = viewModel::popBackStack,
         onLoadMore = viewModel::onLoadMore,
         navigateToSearchPlace = viewModel::navigateToSearchPlace,
+        amplitude = viewModel::amplitudeTrack,
     )
 }
 
@@ -181,6 +182,7 @@ fun VideoPickerScreen(
     onClickBackStack: () -> Unit = {},
     onLoadMore: () -> Unit = {},
     navigateToSearchPlace: () -> Unit,
+    amplitude: (String, Any?) -> Unit,
 ) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -236,9 +238,11 @@ fun VideoPickerScreen(
                 .background(RecordyTheme.colors.background)
                 .verticalScroll(rememberScrollState())
                 .pointerInput(Unit) {
-                    detectTapGestures(onTap = {
-                        focusManager.clearFocus() // 포커스 해제
-                    },)
+                    detectTapGestures(
+                        onTap = {
+                            focusManager.clearFocus() // 포커스 해제
+                        },
+                    )
                 },
         ) {
             TopNavigationBar(modifier = Modifier, title = "영상 업로드", showCloseButton = true, enableGradation = true, popBackStack = showExitUploadDialog)
@@ -395,13 +399,19 @@ fun VideoPickerScreen(
             subTitle = state.alertInfo.subTitle,
             negativeButtonLabel = state.alertInfo.negativeButtonLabel,
             positiveButtonLabel = state.alertInfo.positiveButtonLabel,
-            onDismissRequest = hideExitUploadDialog,
+            onDismissRequest = {
+                hideExitUploadDialog()
+                if (!state.isSystemAlert) {
+                    amplitude("cancel_upload?", true)
+                }
+            },
             onPositiveButtonClick = {
                 if (state.isSystemAlert) {
                     if (cameraPermissionState.status.shouldShowRationale) {
                         openAppSettings(context)
                     }
                 } else {
+                    amplitude("complete_upload?", true)
                     onClickBackStack()
                 }
             },
@@ -431,11 +441,12 @@ fun VideoPickerScreen(
 @Composable
 fun VideoPickerScreenPreview() {
     RecordyTheme {
-        VideoPickerScreen(
-            onClickVideo = {},
-            onClickUpload = {},
-            navigateToSearchPlace = {},
-        )
+//        VideoPickerScreen(
+//            onClickVideo = {},
+//            onClickUpload = {},
+//            navigateToSearchPlace = {},
+//            amplitude = { }
+//        )
     }
 }
 

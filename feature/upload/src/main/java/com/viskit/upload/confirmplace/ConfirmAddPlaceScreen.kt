@@ -51,6 +51,7 @@ fun ConfirmAddPlaceScreenRoute(
         popBackStack = viewModel::popBackStack,
         hideExitUploadDialog = viewModel::hideUploadDialog,
         shoeUploadPlaceDialog = viewModel::showUploadPlaceDialog,
+        amplitude = viewModel::amplitudeTrack,
     )
 }
 
@@ -62,6 +63,7 @@ fun ConfirmAddPlaceScreen(
     hideExitUploadDialog: () -> Unit,
     shoeUploadPlaceDialog: () -> Unit,
     state: ConfirmPlaceState = ConfirmPlaceState(),
+    amplitude: (String, Any?) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -115,6 +117,7 @@ fun ConfirmAddPlaceScreen(
             positiveButtonLabel = state.alertInfo.positiveButtonLabel,
             onDismissRequest = hideExitUploadDialog,
             onPositiveButtonClick = {
+                amplitude("complete_place_register?", true)
                 onClickConfirm()
             },
         )

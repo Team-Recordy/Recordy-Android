@@ -2,6 +2,7 @@ package com.viskit.setting
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -75,6 +75,7 @@ fun SettingRoute(
         viewModel::dismissDialog,
         viewModel::eventDialog,
         viewModel::navigateProfileEdit,
+        viewModel::amplitudeTrack,
     )
 }
 
@@ -90,6 +91,7 @@ fun SettingScreen(
     dismissDialog: () -> Unit,
     eventDialog: () -> Unit,
     navigateToProfileEdit: () -> Unit,
+    amplitudeTrack: (String, Any?) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -194,6 +196,7 @@ fun SettingScreen(
         SettingButtonWithIcon(
             text = "문의",
             onClickEvent = {
+                amplitudeTrack("click_inquiry_Button", true)
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://bohyunnkim.notion.site/46bdd724bf734cf79d34142a03ad52bc?pvs=4"))
                 context.startActivity(intent)
             },
@@ -310,6 +313,9 @@ fun PreviewSettingScreen() {
             dismissDialog = {},
             eventDialog = {},
             navigateToProfileEdit = {},
+            amplitudeTrack = { event, data ->
+                Log.d("AmplitudeTrack", "Event: $event, Data: $data")
+            },
         )
     }
 }

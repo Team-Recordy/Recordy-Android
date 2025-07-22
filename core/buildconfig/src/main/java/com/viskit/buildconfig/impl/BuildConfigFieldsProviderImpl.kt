@@ -1,5 +1,6 @@
 package com.viskit.buildconfig.impl
 
+import com.record.buildconfig.BuildConfig.AMPLITUDE_KEY
 import com.record.buildconfig.BuildConfig.BASE_URL
 import com.record.buildconfig.BuildConfig.DEBUG
 import com.record.buildconfig.BuildConfig.KAKAO_NATIVE_KEY
@@ -13,5 +14,6 @@ class BuildConfigFieldsProviderImpl @Inject constructor() : BuildConfigFieldProv
             baseUrl = BASE_URL,
             kakaoNativeKey = KAKAO_NATIVE_KEY,
             isDebug = DEBUG,
+            amplitudeKey = AMPLITUDE_KEY,
         )
 }

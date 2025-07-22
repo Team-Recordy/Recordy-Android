@@ -3,6 +3,7 @@ package com.viskit.detail
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.amplitude.android.Amplitude
 import com.viskit.detail.navigation.DetailRoute
 import com.viskit.detail.screen.ChipTab
 import com.viskit.exhibition.model.ExhibitionFilter
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class DetailpageViewModel @Inject constructor(
     private val videoRepository: VideoRepository,
     private val exhibitionRepository: ExhibitionRepository,
+    private val amplitude: Amplitude,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<DetailpageState, DetailpageSideEffect>(DetailpageState()) {
     private val placeIdString = savedStateHandle.get<String>(DetailRoute.PLACE_ID)
@@ -32,6 +34,7 @@ class DetailpageViewModel @Inject constructor(
         }
         selectChip(uiState.value.selectedChip)
     }
+
     fun selectTab(tab: DetailpageTab) {
         intent {
             copy(detailpageTab = tab)
@@ -120,9 +123,14 @@ class DetailpageViewModel @Inject constructor(
     }
 
     fun showReviewBottomSheet() {
+        amplitude(name = "click_detail_review", value = true)
         intent {
             copy(showReportBottomSheet = true)
         }
+    }
+
+    fun amplitude(track: String = "Main_menu", name: String, value: Any?) {
+        amplitude.track(track, mutableMapOf(name to value))
     }
 
     fun hideReviewBottomSheet() {

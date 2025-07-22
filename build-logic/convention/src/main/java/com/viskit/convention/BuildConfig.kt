@@ -19,6 +19,11 @@ internal fun Project.configureBuildConfig(
                 "KAKAO_NATIVE_KEY",
                 gradleLocalProperties(rootDir, providers).getProperty("kakao.native.key")
             )
+            buildConfigField(
+                "String",
+                "AMPLITUDE_KEY",
+                gradleLocalProperties(rootDir, providers).getProperty("amplitudeKey")
+            )
         }
 
         buildFeatures {

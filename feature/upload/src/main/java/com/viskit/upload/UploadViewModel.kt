@@ -2,6 +2,7 @@ package com.viskit.upload
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.amplitude.android.Amplitude
 import com.viskit.designsystem.component.snackbar.SnackBarType
 import com.viskit.keyword.repository.KeywordRepository
 import com.viskit.model.AlertInfo
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class UploadViewModel @Inject constructor(
     private val uploadRepository: UploadRepository,
     private val keywordRepository: KeywordRepository,
+    private val amplitude: Amplitude,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<UploadState, UploadSideEffect>(UploadState()) {
 
@@ -149,5 +151,9 @@ class UploadViewModel @Inject constructor(
 
     fun makeSnackBar() = viewModelScope.launch {
         postSideEffect(UploadSideEffect.ShowSnackBar("기준에 맞는 영상을 선택해 주세요.", SnackBarType.WARNING))
+    }
+
+    fun amplitudeTrack(name: String, value: Any?) {
+        amplitude.track("Upload", mutableMapOf(name to value))
     }
 }

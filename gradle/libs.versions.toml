@@ -88,6 +88,7 @@ kakao-login = "2.19.0"
 process-pheonix = "3.0.0"
 preference = "1.2.1"
 collapsing-toolbar = "2.3.5"
+amplitude = "1.20.4"
 
 [plugins]
 # Gradle Plugins
@@ -229,6 +230,9 @@ aws-android-sdk-s3 = { module = "com.amazonaws:aws-android-sdk-s3", version.ref 
 
 # Timber
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
+#Amplitute
+amplitude = { group = "com.amplitude", name = "analytics-android", version.ref = "amplitude" }
 
 # formatting
 detekt-plugin-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }

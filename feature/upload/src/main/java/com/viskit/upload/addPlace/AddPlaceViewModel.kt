@@ -7,11 +7,13 @@ import com.viskit.ui.base.BaseViewModel
 import com.viskit.upload.navigation.UploadRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 @HiltViewModel
 class AddPlaceViewModel @Inject constructor(
     private val searchRepository: SearchRepository,

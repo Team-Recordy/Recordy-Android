@@ -2,6 +2,8 @@ package com.viskit.login
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.amplitude.android.Amplitude
+import com.amplitude.android.events.Identify
 import com.viskit.auth.repository.AuthRepository
 import com.viskit.model.AuthEntity
 import com.viskit.model.exception.ApiError
@@ -15,11 +17,13 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
+    private val amplitude: Amplitude,
 ) : BaseViewModel<LoginState, LoginSideEffect>(LoginState()) {
 
     fun splashScreen() {
         intent { copy(splash = false) }
     }
+
     fun startKakaoLogin() {
         postSideEffect(LoginSideEffect.StartLogin)
     }
@@ -27,6 +31,7 @@ class LoginViewModel @Inject constructor(
     fun autoLoginCheck() {
         viewModelScope.launch {
             authRepository.getLocalData().onSuccess {
+                updateAmplitudeUserId(it.userid)
                 if (it.accessToken.isNotBlank() && it.isSignedUp) postSideEffect(LoginSideEffect.LoginSuccess)
             }
         }
@@ -44,6 +49,7 @@ class LoginViewModel @Inject constructor(
             authRepository.signIn()
                 .onSuccess {
                     userRepository.saveUserId(it.userid)
+                    updateAmplitudeUserId(it.userid)
                     authRepository.saveLocalData(AuthEntity(it.accessToken, it.refreshToken, it.isSignedUp))
                     if (it.isSignedUp) {
                         postSideEffect(LoginSideEffect.LoginSuccess)
@@ -64,5 +70,13 @@ class LoginViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    private fun updateAmplitudeUserId(userId: Long) {
+        if (userId == 0L) return
+        amplitude.setUserId(String.format("%05d", userId))
+        val identify = Identify()
+        identify.set("user_name", String.format("%05d", userId))
+        amplitude.identify(identify)
     }
 }

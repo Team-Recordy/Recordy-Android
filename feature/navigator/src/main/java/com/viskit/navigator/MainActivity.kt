@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         uploadResultReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {

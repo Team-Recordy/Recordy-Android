@@ -26,7 +26,6 @@ class RecordyApplication : Application(), Configuration.Provider {
         setKakaoSdk()
         val keyHash = Utility.getKeyHash(this)
         Log.d("키해시", " $keyHash")
-        amplitude.track("test123", mutableMapOf<String, Any?>("title" to "Happy Birthday"))
     }
 
     private fun setKakaoSdk() {

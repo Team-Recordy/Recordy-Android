@@ -11,7 +11,7 @@ jdkVersion = "17"
 
 # App Versioning
 versionName = "1.0.1"
-versionCode = "4"
+versionCode = "5"
 
 # Android Plugin Versions
 android-gradle-plugin = "8.6.0"

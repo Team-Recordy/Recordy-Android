@@ -59,7 +59,7 @@ androidx-workmanager = "2.10.2"
 # Google Libraries Versions
 google-service = "4.4.2"
 material = "1.12.0"
-firebase-bom = "33.1.1"
+firebase-bom = "34.19.0"
 crashlytics = "3.0.2"
 google-location = "21.3.0"
 

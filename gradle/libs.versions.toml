@@ -65,7 +65,7 @@ google-location = "21.3.0"
 
 # Compose Versions
 compose-compiler = "1.5.1"
-compose-bom = "2024.06.00"
+compose-bom = "2026.09.00"
 compose-material3 = "1.2.0-alpha07"
 activity-compose = "1.8.2"
 compose-stable-marker = "1.0.3"
